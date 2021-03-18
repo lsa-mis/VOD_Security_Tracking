@@ -102,12 +102,14 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ====================================
 ====================================
-* clone repo
+* clone repo ```git clone git@github.com:lsa-mis/VOD_Security_Tracking.git```
+* run ```cd VOD_Security_Tracking```
 * run ```docker-compose build app```
 * run ```docker-compose run --rm --service-ports app bash```
 * in shell run ```bundle```
 * in shell run ```bin/rails db:setup```
 * in shell run ```bin/rails s -b 0.0.0.0``` to test
+* Ctrl-C to stop
 * then exit shell
 * run ```docker-compose down```
 * run ```docker-compose up```
