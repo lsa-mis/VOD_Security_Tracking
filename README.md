@@ -102,7 +102,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ====================================
 ====================================
-* clone repo
+* clone repo ```git clone git@github.com:lsa-mis/VOD_Security_Tracking.git```
 * run ```cd VOD_Security_Tracking```
 * run ```docker-compose build app```
 * run ```docker-compose run --rm --service-ports app bash```
