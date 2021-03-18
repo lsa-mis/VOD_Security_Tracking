@@ -106,7 +106,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * run ```docker-compose build app```
 * run ```docker-compose run --rm --service-ports app bash```
 * in shell run ```bundle```
-* in shell run ```bin/rails db:migrate```
+* in shell run ```bin/rails db:setup```
 * in shell run ```bin/rails s -b 0.0.0.0``` to test
 * then exit shell
 * run ```docker-compose down```
