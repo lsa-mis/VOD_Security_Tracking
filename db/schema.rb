@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_19_170733) do
+ActiveRecord::Schema.define(version: 2021_03_19_165016) do
 
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "namespace"
@@ -118,29 +118,6 @@ ActiveRecord::Schema.define(version: 2021_03_19_170733) do
     t.index ["device_id"], name: "index_legacy_os_records_on_device_id"
   end
 
-  create_table "sensitive_data_systems", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "owner_username"
-    t.string "owner_full_name"
-    t.string "dept"
-    t.string "phone"
-    t.string "additional_dept_contact"
-    t.string "additional_dept_contact_phone"
-    t.string "support_poc"
-    t.text "expected_duration_of_data_retention"
-    t.string "agreements_related_to_data_types"
-    t.datetime "review_date"
-    t.string "review_contact"
-    t.string "notes"
-    t.bigint "storage_location_id", null: false
-    t.bigint "data_type_id", null: false
-    t.bigint "device_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["data_type_id"], name: "index_sensitive_data_systems_on_data_type_id"
-    t.index ["device_id"], name: "index_sensitive_data_systems_on_device_id"
-    t.index ["storage_location_id"], name: "index_sensitive_data_systems_on_storage_location_id"
-  end
-
   create_table "storage_locations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -153,7 +130,4 @@ ActiveRecord::Schema.define(version: 2021_03_19_170733) do
   add_foreign_key "dpa_exceptions", "data_types"
   add_foreign_key "legacy_os_records", "data_types"
   add_foreign_key "legacy_os_records", "devices"
-  add_foreign_key "sensitive_data_systems", "data_types"
-  add_foreign_key "sensitive_data_systems", "devices"
-  add_foreign_key "sensitive_data_systems", "storage_locations"
 end
