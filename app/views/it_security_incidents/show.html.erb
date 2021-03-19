@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @it_security_incident.date %>
+</p>
+
+<p>
+  <strong>People involved:</strong>
+  <%= @it_security_incident.people_involved %>
+</p>
+
+<p>
+  <strong>Equipment involved:</strong>
+  <%= @it_security_incident.equipment_involved %>
+</p>
+
+<p>
+  <strong>Remediation steps:</strong>
+  <%= @it_security_incident.remediation_steps %>
+</p>
+
+<p>
+  <strong>Estimated finacial cost:</strong>
+  <%= @it_security_incident.estimated_finacial_cost %>
+</p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @it_security_incident.notes %>
+</p>
+
+<p>
+  <strong>It security incident status:</strong>
+  <%= @it_security_incident.it_security_incident_status_id %>
+</p>
+
+<p>
+  <strong>Data type:</strong>
+  <%= @it_security_incident.data_type_id %>
+</p>
+
+<%= link_to 'Edit', edit_it_security_incident_path(@it_security_incident) %> |
+<%= link_to 'Back', it_security_incidents_path %>

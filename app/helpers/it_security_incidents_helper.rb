@@ -1,0 +1,2 @@
+module ItSecurityIncidentsHelper
+end

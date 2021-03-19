@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :it_security_incidents
   resources :sensitive_data_systems
   resources :legacy_os_records
   resources :dpa_exceptions
