@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_19_154647) do
+ActiveRecord::Schema.define(version: 2021_03_19_161206) do
 
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "namespace"
@@ -58,6 +58,16 @@ ActiveRecord::Schema.define(version: 2021_03_19_154647) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["data_classification_level_id"], name: "index_data_types_on_data_classification_level_id"
+  end
+
+  create_table "devices", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "serial"
+    t.string "hostname"
+    t.string "mac"
+    t.string "building"
+    t.string "room"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "storage_locations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
