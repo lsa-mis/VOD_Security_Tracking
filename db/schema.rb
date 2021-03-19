@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_19_174248) do
+ActiveRecord::Schema.define(version: 2021_03_19_192421) do
 
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "namespace"
@@ -83,7 +83,6 @@ ActiveRecord::Schema.define(version: 2021_03_19_174248) do
     t.string "lsa_technology_services_approval"
     t.datetime "exception_approval_date"
     t.string "notes"
-    t.string "tdx_ticket"
     t.string "sla_agreement"
     t.bigint "data_type_id", null: false
     t.datetime "created_at", precision: 6, null: false

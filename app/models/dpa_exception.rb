@@ -15,7 +15,6 @@
 #  lsa_technology_services_approval :string(255)
 #  exception_approval_date          :datetime
 #  notes                            :string(255)
-#  tdx_ticket                       :string(255)
 #  sla_agreement                    :string(255)
 #  data_type_id                     :bigint           not null
 #  created_at                       :datetime         not null
