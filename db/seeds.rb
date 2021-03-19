@@ -5,7 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+# AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
 
 
 DataClassificationLevel.create!(name: 'Restricted', description: 'Disclosure could cause severe harm to individuals and/or the university, including exposure to criminal and civil liability.  Has the most stringent legal or regulatory requirements and requires the most prescriptive security controls.  Legal and/or compliance regime may require assessment or certification by an external, third party.')
