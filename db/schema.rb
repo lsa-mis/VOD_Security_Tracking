@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_19_161206) do
+ActiveRecord::Schema.define(version: 2021_03_19_164717) do
 
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "namespace"
@@ -70,6 +70,27 @@ ActiveRecord::Schema.define(version: 2021_03_19_161206) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "dpa_exceptions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.datetime "review_date"
+    t.text "third_party_product_service"
+    t.string "used_by"
+    t.string "point_of_contact"
+    t.text "review_findings"
+    t.text "review_summary"
+    t.text "lsa_security_recommendation"
+    t.text "lsa_security_determination"
+    t.string "lsa_security_approval"
+    t.string "lsa_technology_services_approval"
+    t.datetime "exception_approval_date"
+    t.string "notes"
+    t.string "tdx_ticket"
+    t.string "sla_agreement"
+    t.bigint "data_type_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["data_type_id"], name: "index_dpa_exceptions_on_data_type_id"
+  end
+
   create_table "storage_locations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -79,4 +100,5 @@ ActiveRecord::Schema.define(version: 2021_03_19_161206) do
   end
 
   add_foreign_key "data_types", "data_classification_levels"
+  add_foreign_key "dpa_exceptions", "data_types"
 end

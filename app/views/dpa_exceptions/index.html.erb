@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Dpa Exceptions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Review date</th>
+      <th>Third party product service</th>
+      <th>Used by</th>
+      <th>Point of contact</th>
+      <th>Review findings</th>
+      <th>Review summary</th>
+      <th>Lsa security recommendation</th>
+      <th>Lsa security determination</th>
+      <th>Lsa security approval</th>
+      <th>Lsa technology services approval</th>
+      <th>Exception approval date</th>
+      <th>Notes</th>
+      <th>Tdx ticket</th>
+      <th>Sla agreement</th>
+      <th>Data type</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @dpa_exceptions.each do |dpa_exception| %>
+      <tr>
+        <td><%= dpa_exception.review_date %></td>
+        <td><%= dpa_exception.third_party_product_service %></td>
+        <td><%= dpa_exception.used_by %></td>
+        <td><%= dpa_exception.point_of_contact %></td>
+        <td><%= dpa_exception.review_findings %></td>
+        <td><%= dpa_exception.review_summary %></td>
+        <td><%= dpa_exception.lsa_security_recommendation %></td>
+        <td><%= dpa_exception.lsa_security_determination %></td>
+        <td><%= dpa_exception.lsa_security_approval %></td>
+        <td><%= dpa_exception.lsa_technology_services_approval %></td>
+        <td><%= dpa_exception.exception_approval_date %></td>
+        <td><%= dpa_exception.notes %></td>
+        <td><%= dpa_exception.tdx_ticket %></td>
+        <td><%= dpa_exception.sla_agreement %></td>
+        <td><%= dpa_exception.data_type_id %></td>
+        <td><%= link_to 'Show', dpa_exception %></td>
+        <td><%= link_to 'Edit', edit_dpa_exception_path(dpa_exception) %></td>
+        <td><%= link_to 'Destroy', dpa_exception, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Dpa Exception', new_dpa_exception_path %>

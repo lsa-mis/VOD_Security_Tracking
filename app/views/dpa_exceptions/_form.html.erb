@@ -1,0 +1,92 @@
+<%= form_with(model: dpa_exception) do |form| %>
+  <% if dpa_exception.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(dpa_exception.errors.count, "error") %> prohibited this dpa_exception from being saved:</h2>
+
+      <ul>
+        <% dpa_exception.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :review_date %>
+    <%= form.datetime_select :review_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :third_party_product_service %>
+    <%= form.text_area :third_party_product_service %>
+  </div>
+
+  <div class="field">
+    <%= form.label :used_by %>
+    <%= form.text_field :used_by %>
+  </div>
+
+  <div class="field">
+    <%= form.label :point_of_contact %>
+    <%= form.text_field :point_of_contact %>
+  </div>
+
+  <div class="field">
+    <%= form.label :review_findings %>
+    <%= form.text_area :review_findings %>
+  </div>
+
+  <div class="field">
+    <%= form.label :review_summary %>
+    <%= form.text_area :review_summary %>
+  </div>
+
+  <div class="field">
+    <%= form.label :lsa_security_recommendation %>
+    <%= form.text_area :lsa_security_recommendation %>
+  </div>
+
+  <div class="field">
+    <%= form.label :lsa_security_determination %>
+    <%= form.text_area :lsa_security_determination %>
+  </div>
+
+  <div class="field">
+    <%= form.label :lsa_security_approval %>
+    <%= form.text_field :lsa_security_approval %>
+  </div>
+
+  <div class="field">
+    <%= form.label :lsa_technology_services_approval %>
+    <%= form.text_field :lsa_technology_services_approval %>
+  </div>
+
+  <div class="field">
+    <%= form.label :exception_approval_date %>
+    <%= form.datetime_select :exception_approval_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :notes %>
+    <%= form.text_field :notes %>
+  </div>
+
+  <div class="field">
+    <%= form.label :tdx_ticket %>
+    <%= form.text_field :tdx_ticket %>
+  </div>
+
+  <div class="field">
+    <%= form.label :sla_agreement %>
+    <%= form.text_field :sla_agreement %>
+  </div>
+
+  <div class="field">
+    <%= form.label :data_type_id %>
+    <%= form.text_field :data_type_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
