@@ -55,7 +55,7 @@ services:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=app_development
     ports:
-      - "3301:3306"
+      - "3306:3306"
     volumes:
       - mysql:/var/lib/mysql
 
