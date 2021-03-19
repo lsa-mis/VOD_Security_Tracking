@@ -22,4 +22,5 @@
 #
 class DpaException < ApplicationRecord
   belongs_to :data_type
+  has_many :tdx_tickets, as: :records_to_tdx
 end
