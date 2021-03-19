@@ -12,4 +12,6 @@
 #  updated_at :datetime         not null
 #
 class Device < ApplicationRecord
+    has_many :sensitive_data_systems
+    has_many :legacy_os_records
 end

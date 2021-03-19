@@ -10,4 +10,5 @@
 #  updated_at       :datetime         not null
 #
 class StorageLocation < ApplicationRecord
+    has_many :sensitive_data_systems
 end

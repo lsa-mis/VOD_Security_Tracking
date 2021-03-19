@@ -12,4 +12,8 @@
 #
 class DataType < ApplicationRecord
   belongs_to :data_classification_level
+  has_many :dpa_exceptions
+  has_many :it_security_incidents
+  has_many :legacy_os_records
+  has_many :sensitive_data_systems
 end

@@ -9,5 +9,5 @@
 #  updated_at  :datetime         not null
 #
 class DataClassificationLevel < ApplicationRecord
-    has_many :data_type
+    has_many :data_types
 end
