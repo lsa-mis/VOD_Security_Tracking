@@ -1,0 +1,79 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Owner username:</strong>
+  <%= @sensitive_data_system.owner_username %>
+</p>
+
+<p>
+  <strong>Owner full name:</strong>
+  <%= @sensitive_data_system.owner_full_name %>
+</p>
+
+<p>
+  <strong>Dept:</strong>
+  <%= @sensitive_data_system.dept %>
+</p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @sensitive_data_system.phone %>
+</p>
+
+<p>
+  <strong>Additional dept contact:</strong>
+  <%= @sensitive_data_system.additional_dept_contact %>
+</p>
+
+<p>
+  <strong>Additional dept contact phone:</strong>
+  <%= @sensitive_data_system.additional_dept_contact_phone %>
+</p>
+
+<p>
+  <strong>Support poc:</strong>
+  <%= @sensitive_data_system.support_poc %>
+</p>
+
+<p>
+  <strong>Expected duration of data retention:</strong>
+  <%= @sensitive_data_system.expected_duration_of_data_retention %>
+</p>
+
+<p>
+  <strong>Agreements related to data types:</strong>
+  <%= @sensitive_data_system.agreements_related_to_data_types %>
+</p>
+
+<p>
+  <strong>Review date:</strong>
+  <%= @sensitive_data_system.review_date %>
+</p>
+
+<p>
+  <strong>Review contact:</strong>
+  <%= @sensitive_data_system.review_contact %>
+</p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @sensitive_data_system.notes %>
+</p>
+
+<p>
+  <strong>Storage location:</strong>
+  <%= @sensitive_data_system.storage_location_id %>
+</p>
+
+<p>
+  <strong>Data type:</strong>
+  <%= @sensitive_data_system.data_type_id %>
+</p>
+
+<p>
+  <strong>Device:</strong>
+  <%= @sensitive_data_system.device_id %>
+</p>
+
+<%= link_to 'Edit', edit_sensitive_data_system_path(@sensitive_data_system) %> |
+<%= link_to 'Back', sensitive_data_systems_path %>

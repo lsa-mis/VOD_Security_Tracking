@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :sensitive_data_systems
+  resources :legacy_os_records
   resources :dpa_exceptions
   resources :devices
   devise_for :admin_users, ActiveAdmin::Devise.config
