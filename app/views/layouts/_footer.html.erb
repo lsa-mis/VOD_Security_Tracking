@@ -18,7 +18,7 @@
         <% if admin_user_signed_in? %>
           <ul>
             <li>
-              <%= link_to 'Admin Dashboard', root_path, class: "mt-2 pr-4" %>
+              <%= link_to 'Admin Dashboard', admin_root_path, class: "mt-2 pr-4" %>
             </li>
             <li>
               <%= link_to destroy_admin_user_session_path, method: :delete do  %>
