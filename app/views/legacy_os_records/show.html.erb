@@ -100,5 +100,7 @@
   <%= @legacy_os_record.device_id %>
 </p>
 
+<%= render partial: "partials/show_attachments", locals: {attached_files: @legacy_os_record} %>
+
 <%= link_to 'Edit', edit_legacy_os_record_path(@legacy_os_record) %> |
 <%= link_to 'Back', legacy_os_records_path %>

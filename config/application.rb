@@ -34,5 +34,8 @@ module App
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # Need this setting so Active Storage doesn't overwrite files.
+    config.active_storage.replace_on_assign_to_many = false
   end
 end

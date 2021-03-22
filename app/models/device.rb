@@ -14,4 +14,8 @@
 class Device < ApplicationRecord
     has_many :sensitive_data_systems
     has_many :legacy_os_records
+
+    def display_name
+        "#{self.serial} - #{self.hostname}" # or whatever column you want
+      end
 end

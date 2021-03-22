@@ -103,12 +103,17 @@
 
   <div class="field">
     <%= form.label :data_type_id %>
-    <%= form.text_field :data_type_id %>
+    <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"} %>
   </div>
 
   <div class="field">
     <%= form.label :device_id %>
-    <%= form.text_field :device_id %>
+    <%= form.collection_select :device_id, Device.all, :id, :display_name, {include_blank: "Select"} %>
+  </div>
+
+  <div class="field">
+    <%= form.label :attachments %>
+    <%= form.file_field :attachments, multiple: true %>
   </div>
 
   <div class="actions">

@@ -23,6 +23,6 @@
 class DpaException < ApplicationRecord
   belongs_to :data_type
   has_many :tdx_tickets, as: :records_to_tdx
-  has_one_attached :attachment
+  has_many_attached :attachments
   has_one_attached :sla_attachment
 end

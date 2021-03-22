@@ -40,5 +40,7 @@
   <%= @it_security_incident.data_type_id %>
 </p>
 
+<%= render partial: "partials/show_attachments", locals: {attached_files: @it_security_incident} %>
+
 <%= link_to 'Edit', edit_it_security_incident_path(@it_security_incident) %> |
 <%= link_to 'Back', it_security_incidents_path %>

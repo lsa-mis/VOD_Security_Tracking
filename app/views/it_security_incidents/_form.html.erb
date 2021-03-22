@@ -43,12 +43,17 @@
 
   <div class="field">
     <%= form.label :it_security_incident_status_id %>
-    <%= form.text_field :it_security_incident_status_id %>
+    <%= form.collection_select :it_security_incident_status_id, ItSecurityIncidentStatus.all, :id, :name, {include_blank: "Select"} %>
   </div>
 
   <div class="field">
     <%= form.label :data_type_id %>
-    <%= form.text_field :data_type_id %>
+    <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"} %>
+  </div>
+
+  <div class="field">
+    <%= form.label :attachments %>
+    <%= form.file_field :attachments, multiple: true %>
   </div>
 
   <div class="actions">

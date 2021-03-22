@@ -81,15 +81,7 @@
   <%= @dpa_exception.data_type_id %>
 </p>
 
-<% if @dpa_exception.attachment.attached? %>
-  <p class="current-uploaded-docs">
-    <strong>Sla Attachment:</strong> <%= link_to @dpa_exception.attachment.filename, url_for(@dpa_exception.attachment) %>
-  </p>
-<% else %>
-  <p class="text-lg text-orange-500">
-    Use the <%= link_to 'Edit', edit_dpa_exception_path(@dpa_exception) %> button to add a attachment!
-  </p>
-<% end %>
+<%= render partial: "partials/show_attachments", locals: {attached_files: @dpa_exception} %>
 
 <%= link_to 'Edit', edit_dpa_exception_path(@dpa_exception) %> |
 <%= link_to 'Back', dpa_exceptions_path %>
