@@ -72,18 +72,23 @@
   </div>
 
   <div class="field">
-    <%= form.label :tdx_ticket %>
-    <%= form.text_field :tdx_ticket %>
-  </div>
-
-  <div class="field">
     <%= form.label :sla_agreement %>
     <%= form.text_field :sla_agreement %>
   </div>
 
   <div class="field">
+    <%= form.label :sla_attachment %>
+    <%= form.file_field :sla_attachment %>
+  </div>
+
+  <div class="field">
     <%= form.label :data_type_id %>
-    <%= form.text_field :data_type_id %>
+    <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"} %>
+  </div>
+
+  <div class="field">
+    <%= form.label :attachment %>
+    <%= form.file_field :attachment %>
   </div>
 
   <div class="actions">
