@@ -11,4 +11,5 @@
 #
 class TdxTicket < ApplicationRecord
     belongs_to :records_to_tdx, polymorphic: true
+    audited
 end

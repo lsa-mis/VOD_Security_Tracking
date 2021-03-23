@@ -16,4 +16,5 @@ class DataType < ApplicationRecord
   has_many :it_security_incidents
   has_many :legacy_os_records
   has_many :sensitive_data_systems
+  audited
 end

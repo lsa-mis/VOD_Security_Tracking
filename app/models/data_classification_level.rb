@@ -10,4 +10,5 @@
 #
 class DataClassificationLevel < ApplicationRecord
     has_many :data_types
+    audited
 end

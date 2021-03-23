@@ -32,4 +32,5 @@ class LegacyOsRecord < ApplicationRecord
   has_many :tdx_tickets, as: :records_to_tdx
 
   has_many_attached :attachments
+  audited
 end
