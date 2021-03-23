@@ -11,4 +11,5 @@
 #
 class StorageLocation < ApplicationRecord
     has_many :sensitive_data_systems
+    audited
 end

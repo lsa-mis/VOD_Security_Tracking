@@ -77,6 +77,8 @@ GEM
     arbre (1.4.0)
       activesupport (>= 3.0.0, < 6.2)
       ruby2_keywords (>= 0.0.2, < 1.0)
+    audited (4.10.0)
+      activerecord (>= 4.2, < 6.2)
     bcrypt (3.1.16)
     bindex (0.8.1)
     bootsnap (1.7.2)
@@ -244,6 +246,9 @@ GEM
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
     semantic_range (3.0.0)
+    simple_form (5.1.0)
+      actionpack (>= 5.2)
+      activemodel (>= 5.2)
     spring (2.1.1)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
@@ -282,12 +287,13 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  activeadmin
+  activeadmin (~> 2.9)
   annotate
+  audited (~> 4.10)
   bootsnap (>= 1.4.4)
   byebug
   capybara (>= 3.26)
-  devise
+  devise (~> 4.7, >= 4.7.3)
   factory_bot_rails
   faker
   jbuilder (~> 2.7)
@@ -299,6 +305,7 @@ DEPENDENCIES
   rspec-rails (~> 5.0.0)
   sass-rails (>= 6)
   selenium-webdriver
+  simple_form (~> 5.1)
   spring
   turbolinks (~> 5)
   tzinfo-data

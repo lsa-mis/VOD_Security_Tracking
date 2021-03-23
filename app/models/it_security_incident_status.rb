@@ -9,4 +9,5 @@
 #  updated_at  :datetime         not null
 #
 class ItSecurityIncidentStatus < ApplicationRecord
+  audited
 end
