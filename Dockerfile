@@ -24,6 +24,7 @@ RUN curl -sL https://deb.nodesource.com/setup_${NODE_MAJOR_VERSION}.x | bash - \
   nodejs \
   openssh-client \
   unzip \
+  vim \
   zlib1g-dev \
   && rm -rf /var/lib/apt/lists/* \
   && apt-get clean
