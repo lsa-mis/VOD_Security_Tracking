@@ -1,0 +1,62 @@
+<%= form_with(model: it_security_incident) do |form| %>
+  <% if it_security_incident.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(it_security_incident.errors.count, "error") %> prohibited this it_security_incident from being saved:</h2>
+
+      <ul>
+        <% it_security_incident.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :date %>
+    <%= form.datetime_select :date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :people_involved %>
+    <%= form.text_area :people_involved %>
+  </div>
+
+  <div class="field">
+    <%= form.label :equipment_involved %>
+    <%= form.text_area :equipment_involved %>
+  </div>
+
+  <div class="field">
+    <%= form.label :remediation_steps %>
+    <%= form.text_area :remediation_steps %>
+  </div>
+
+  <div class="field">
+    <%= form.label :estimated_finacial_cost %>
+    <%= form.number_field :estimated_finacial_cost %>
+  </div>
+
+  <div class="field">
+    <%= form.label :notes %>
+    <%= form.text_area :notes %>
+  </div>
+
+  <div class="field">
+    <%= form.label :it_security_incident_status_id %>
+    <%= form.collection_select :it_security_incident_status_id, ItSecurityIncidentStatus.all, :id, :name, {include_blank: "Select"} %>
+  </div>
+
+  <div class="field">
+    <%= form.label :data_type_id %>
+    <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"} %>
+  </div>
+
+  <div class="field">
+    <%= form.label :attachments %>
+    <%= form.file_field :attachments, multiple: true %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

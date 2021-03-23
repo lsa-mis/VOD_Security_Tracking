@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Sensitive Data Systems</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Owner username</th>
+      <th>Owner full name</th>
+      <th>Dept</th>
+      <th>Phone</th>
+      <th>Additional dept contact</th>
+      <th>Additional dept contact phone</th>
+      <th>Support poc</th>
+      <th>Expected duration of data retention</th>
+      <th>Agreements related to data types</th>
+      <th>Review date</th>
+      <th>Review contact</th>
+      <th>Notes</th>
+      <th>Storage location</th>
+      <th>Data type</th>
+      <th>Device</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @sensitive_data_systems.each do |sensitive_data_system| %>
+      <tr>
+        <td><%= sensitive_data_system.owner_username %></td>
+        <td><%= sensitive_data_system.owner_full_name %></td>
+        <td><%= sensitive_data_system.dept %></td>
+        <td><%= sensitive_data_system.phone %></td>
+        <td><%= sensitive_data_system.additional_dept_contact %></td>
+        <td><%= sensitive_data_system.additional_dept_contact_phone %></td>
+        <td><%= sensitive_data_system.support_poc %></td>
+        <td><%= sensitive_data_system.expected_duration_of_data_retention %></td>
+        <td><%= sensitive_data_system.agreements_related_to_data_types %></td>
+        <td><%= sensitive_data_system.review_date %></td>
+        <td><%= sensitive_data_system.review_contact %></td>
+        <td><%= sensitive_data_system.notes %></td>
+        <td><%= sensitive_data_system.storage_location_id %></td>
+        <td><%= sensitive_data_system.data_type_id %></td>
+        <td><%= sensitive_data_system.device_id %></td>
+        <td><%= link_to 'Show', sensitive_data_system %></td>
+        <td><%= link_to 'Edit', edit_sensitive_data_system_path(sensitive_data_system) %></td>
+        <td><%= link_to 'Destroy', sensitive_data_system, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Sensitive Data System', new_sensitive_data_system_path %>

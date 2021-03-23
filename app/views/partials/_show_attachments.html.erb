@@ -1,0 +1,13 @@
+<% if attached_files.attachments.attached? %>
+<ul>
+  <% attached_files.attachments.each do |file| %>
+    <li>
+        <strong>Attachment:</strong> <%= link_to file.filename, url_for(file) %>
+    </li>
+  <% end %>
+</ul>
+<% else %>
+  <p class="text-lg text-orange-500">
+    Use the <%= link_to 'Edit', edit_dpa_exception_path(attached_files) %> button to add a sla_attachment!
+  </p>
+<% end %>

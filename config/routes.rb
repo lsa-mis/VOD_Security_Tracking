@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :it_security_incidents
+  resources :sensitive_data_systems
+  resources :legacy_os_records
+  resources :dpa_exceptions
+  resources :devices
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

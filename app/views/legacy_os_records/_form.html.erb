@@ -1,0 +1,122 @@
+<%= form_with(model: legacy_os_record) do |form| %>
+  <% if legacy_os_record.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(legacy_os_record.errors.count, "error") %> prohibited this legacy_os_record from being saved:</h2>
+
+      <ul>
+        <% legacy_os_record.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :owner_username %>
+    <%= form.text_field :owner_username %>
+  </div>
+
+  <div class="field">
+    <%= form.label :owner_full_name %>
+    <%= form.text_field :owner_full_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :dept %>
+    <%= form.text_field :dept %>
+  </div>
+
+  <div class="field">
+    <%= form.label :phone %>
+    <%= form.text_field :phone %>
+  </div>
+
+  <div class="field">
+    <%= form.label :additional_dept_contact %>
+    <%= form.text_field :additional_dept_contact %>
+  </div>
+
+  <div class="field">
+    <%= form.label :additional_dept_contact_phone %>
+    <%= form.text_field :additional_dept_contact_phone %>
+  </div>
+
+  <div class="field">
+    <%= form.label :support_poc %>
+    <%= form.text_field :support_poc %>
+  </div>
+
+  <div class="field">
+    <%= form.label :legacy_os %>
+    <%= form.text_field :legacy_os %>
+  </div>
+
+  <div class="field">
+    <%= form.label :unique_app %>
+    <%= form.text_field :unique_app %>
+  </div>
+
+  <div class="field">
+    <%= form.label :unique_hardware %>
+    <%= form.text_field :unique_hardware %>
+  </div>
+
+  <div class="field">
+    <%= form.label :unique_date %>
+    <%= form.datetime_select :unique_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :remediation %>
+    <%= form.text_field :remediation %>
+  </div>
+
+  <div class="field">
+    <%= form.label :exception_approval_date %>
+    <%= form.datetime_select :exception_approval_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :review_date %>
+    <%= form.datetime_select :review_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :review_contact %>
+    <%= form.text_field :review_contact %>
+  </div>
+
+  <div class="field">
+    <%= form.label :justification %>
+    <%= form.text_field :justification %>
+  </div>
+
+  <div class="field">
+    <%= form.label :local_it_support_group %>
+    <%= form.text_field :local_it_support_group %>
+  </div>
+
+  <div class="field">
+    <%= form.label :notes %>
+    <%= form.text_area :notes %>
+  </div>
+
+  <div class="field">
+    <%= form.label :data_type_id %>
+    <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"} %>
+  </div>
+
+  <div class="field">
+    <%= form.label :device_id %>
+    <%= form.collection_select :device_id, Device.all, :id, :display_name, {include_blank: "Select"} %>
+  </div>
+
+  <div class="field">
+    <%= form.label :attachments %>
+    <%= form.file_field :attachments, multiple: true %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
