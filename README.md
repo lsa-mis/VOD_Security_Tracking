@@ -28,25 +28,23 @@ What things you need to run this containerized application.
 * clone the repo 
 
 ```
-git clone git@github.com:lsa-mis/VOD_Security_Tracking.git
+$ git clone git@github.com:lsa-mis/VOD_Security_Tracking.git
 ```
 
-* navigate to the local instance
+* navigate to the local instance and build the application initially
 
 ```
-cd VOD_Security_Tracking
-```
-
-* run 
+$ cd VOD_Security_Tracking
+``` 
 
 ```
 $ docker-compose build app
 ```
 
-* run
+* To start the container's bash shell
 
 ```
-docker-compose run --rm --service-ports app bash
+$ docker-compose run --rm --service-ports app bash
 ```
 
 * in the shell run 
@@ -64,7 +62,7 @@ docker-compose run --rm --service-ports app bash
 
 * Ctrl-C to stop the application execution then type exit to exit the shell
 
-* stop the container and associated container with their network 
+* stop the container and associated containers with their networks 
 
 ```
 $ docker-compose down
@@ -76,19 +74,20 @@ $ docker-compose down
 $ docker-compose up
 ```
 
-Open the application by pointing your browser to localhost:3000
-if you want to log into the _Admin Dashboard_ use can use the credentials Userid: admin@example.com Pwd: password _(this should be changed immediately)_
+* Open the application by pointing your browser to localhost:3000
+* if you want to log into the _Admin Dashboard_ use the credentials 
+    * Userid: *admin@example.com* Pwd: *password* _(this should be changed immediately)_
 
 ## Running the tests
 
 This application uses RSpec to manage and run the automated test. to run the fullsuite:
 
 ```
-docker-compose run --rm --service-ports app bash
+$ docker-compose run --rm --service-ports app bash
 ```
 
 ```sh
-bundle exec rspec 
+/home/app# bundle exec rspec 
 ```
 
 ## Deployment
@@ -104,14 +103,12 @@ Add additional notes about how to deploy this on a live system
 
 Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us. 
 
-## Authors
+## Developers/Designers/JIRA Managers: 
+[eMail address](security-track-devs@umich.edu)
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-### Developers/Designers/JIRA Managers: 
 Rick Smoke - project’s lead & developer, Rita Barvinok - developer, Ananta Saple - developer,  Dave Chmura - developer,
 Maria Laitin - UI designer, Jessica Santos Kowalewski - JIRA manager, QA testing 
-[eMail address](security-track-devs@umich.edu)
+
 
 
 See also the list of [contributors](https://github.com/lsa-mis/VOD_Security_Tracking/graphs/contributors) who participated in this project.
