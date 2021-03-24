@@ -15,7 +15,7 @@ A way to track resources or systems involving sensitive data. The ability to mon
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 ### Prerequisites
 
@@ -77,7 +77,7 @@ $ docker-compose up
 ```
 
 Open the application by pointing your browser to localhost:3000
-if you want to log into the _Admin Dashboard_ use can use the credentials Userid: admin@example.com Pwd: password _(this should be changed imeediately)_
+if you want to log into the _Admin Dashboard_ use can use the credentials Userid: admin@example.com Pwd: password _(this should be changed immediately)_
 
 ## Running the tests
 
@@ -108,17 +108,17 @@ Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c6
 
 * **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+### Developers/Designers/JIRA Managers: 
+Rick Smoke - project’s lead & developer, Rita Barvinok - developer, Ananta Saple - developer,  Dave Chmura - developer,
+Maria Laitin - UI designer, Jessica Santos Kowalewski - JIRA manager, QA testing 
+[eMail address](security-track-devs@umich.edu)
+
+
+See also the list of [contributors](https://github.com/lsa-mis/VOD_Security_Tracking/graphs/contributors) who participated in this project.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
 
 ---------------
 ## configurations
