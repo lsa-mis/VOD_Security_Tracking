@@ -1,5 +1,4 @@
 # VOD_Security_Tracking
-VOD_Security_Tracking
 
 <!-- <p align="center"><img width=12.5% src="https://github.com/anfederico/Clairvoyant/blob/master/media/Logo.png"></p>
 <p align="center"><img width=60% src="https://github.com/anfederico/Clairvoyant/blob/master/media/Clairvoyant.png"></p> -->
@@ -8,11 +7,11 @@ VOD_Security_Tracking
 ![Ruby](https://img.shields.io/badge/ruby-3.0.0-red)
 [![Build Status](https://travis-ci.org/anfederico/Clairvoyant.svg?branch=master)](https://travis-ci.org/anfederico/Clairvoyant)
 ![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)
-<!--[![GitHub Issues](https://img.shields.io/github/issues/anfederico/Clairvoyant.svg)](https://github.com/anfederico/Clairvoyant/issues)
-![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg) -->
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-One Paragraph of project description goes here
+A way to track resources or systems involving sensitive data. The ability to monitor, track and act on items that are in the scope of this project. System reports will be available to support the goal of providing a secure computing environment. 
+
+
 
 ## Getting Started
 
@@ -20,48 +19,76 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
+What things you need to run this containerized application.
+* [Docker Desktop](https://www.docker.com/products/docker-desktop)
+* [Git](https://github.com/git-guides/install-git)
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+* clone the repo 
 
 ```
-Give the example
+git clone git@github.com:lsa-mis/VOD_Security_Tracking.git
 ```
 
-And repeat
+* navigate to the local instance
 
 ```
-until finished
+cd VOD_Security_Tracking
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+* run 
+
+```
+$ docker-compose build app
+```
+
+* run
+
+```
+docker-compose run --rm --service-ports app bash
+```
+
+* in the shell run 
+
+```sh
+/home/app# bundle
+/home/app# bin/rails db:setup
+```
+
+* to test the application initially
+
+```sh
+/home/app# bin/rails s -b 0.0.0.0
+```
+
+* Ctrl-C to stop the application execution then type exit to exit the shell
+
+* stop the container and associated container with their network 
+
+```
+$ docker-compose down
+```
+
+* to run the full application with all the containers the application depends on
+
+```
+$ docker-compose up
+```
+
+Open the application by pointing your browser to localhost:3000
+if you want to log into the _Admin Dashboard_ use can use the credentials Userid: admin@example.com Pwd: password _(this should be changed imeediately)_
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+This application uses RSpec to manage and run the automated test. to run the fullsuite:
 
 ```
-Give an example
+docker-compose run --rm --service-ports app bash
 ```
 
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
+```sh
+bundle exec rspec 
 ```
 
 ## Deployment
@@ -70,17 +97,12 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [Ruby](http://www.ruby.org) - The web framework used
+* [Rails](https://www.rails.org/) - Dependency Management
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us. 
 
 ## Authors
 
@@ -97,25 +119,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * Hat tip to anyone whose code was used
 * Inspiration
 * etc
-
-
-
-====================================
-====================================
-* clone repo ```git clone git@github.com:lsa-mis/VOD_Security_Tracking.git```
-* run ```cd VOD_Security_Tracking```
-* run ```docker-compose build app```
-* run ```docker-compose run --rm --service-ports app bash```
-* in shell run ```bundle```
-* in shell run ```bin/rails db:setup```
-* in shell run ```bin/rails s -b 0.0.0.0``` to test
-* Ctrl-C to stop
-* then exit shell
-* run ```docker-compose down```
-* run ```docker-compose up```
-
-====================================
-
 
 ---------------
 ## configurations
