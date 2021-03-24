@@ -73,7 +73,8 @@
 
   <div class="field">
     <%= form.label :storage_location_id %>
-    <%= form.text_field :storage_location_id %>
+    <%= form.collection_select :storage_location_id, StorageLocation.all, :id, :name, {include_blank: "Select"} %>
+
   </div>
 
   <div class="field">
