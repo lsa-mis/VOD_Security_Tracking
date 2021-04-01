@@ -13,7 +13,7 @@
 #  role                   :integer
 #
 class User < ApplicationRecord
-  enum role: [:user, :visitor]
+  enum role: [:user, :visitor, :can_delete]
   after_initialize :set_default_role, :if => :new_record?
 
   def set_default_role
