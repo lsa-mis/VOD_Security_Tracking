@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   resources :it_security_incidents
   resources :sensitive_data_systems
   resources :legacy_os_records
