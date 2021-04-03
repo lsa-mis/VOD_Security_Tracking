@@ -1,5 +1,9 @@
 class DpaExceptionsController < InheritedResources::Base
 
+  def audit_log
+    @dpa_exceptions = DpaException.all
+  end
+
   private
 
     def dpa_exception_params
