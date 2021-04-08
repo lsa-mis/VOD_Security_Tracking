@@ -50,7 +50,6 @@ $ docker-compose run --rm --service-ports app bash
 * in the shell run 
 
 ```sh
-/home/app# bundle
 /home/app# bin/rails db:setup
 ```
 
