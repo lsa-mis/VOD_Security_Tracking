@@ -46,7 +46,7 @@ FactoryBot.define do
     justification { "MyString" }
     local_it_support_group { "MyString" }
     notes { "MyText" }
-    data_type { nil }
-    device { nil }
+    data_type 
+    device 
   end
 end
