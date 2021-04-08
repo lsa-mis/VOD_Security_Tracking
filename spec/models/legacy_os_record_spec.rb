@@ -29,5 +29,20 @@
 require 'rails_helper'
 
 RSpec.describe LegacyOsRecord, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let!(:device) { FactoryBot.create(:device) }
+  let!(:data_classification_level) { FactoryBot.create(:data_classification_level) }
+  # let!(:data_type) { FactoryBot.create(:data_type, { data_classification_level: data_classification_level }) }
+  let!(:data_type) { FactoryBot.create(:data_type )}
+
+  it "is valid with valid attributes" do
+    expect(LegacyOsRecord.new(device: device, data_type: data_type)).to be_valid
+  end
+  
+  it "is not valid without a device" do
+    expect(LegacyOsRecord.new(data_type: data_type)).to_not be_valid
+  end
+
+  it "is not valid without a data_type" do
+    expect(LegacyOsRecord.new(device: device)).to_not be_valid
+  end
 end
