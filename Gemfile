@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.0'
+ruby '3.0.1'
 gem 'rails', '~> 6.1.3'
 
 gem 'activeadmin', '~> 2.9'
@@ -9,6 +9,7 @@ gem 'audited', '~> 4.10'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'devise', '~> 4.7', '>= 4.7.3'
 gem 'jbuilder', '~> 2.7'
+# gem install mysql2 -v '0.5.3' -- --with-ldflags=-L/usr/local/opt/openssl/lib --with-cppflags=-I/usr/local/opt/openssl/include
 gem 'mysql2', '~> 0.5'
 gem 'puma', '~> 5.0'
 gem 'redis', '~> 4.0'
