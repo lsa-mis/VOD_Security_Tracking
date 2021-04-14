@@ -7,7 +7,6 @@ set :rbenv_ruby, '3.0.1'
 server 'vodsecurityproduction.miserver.it.umich.edu', roles: [:web, :app, :db], primary: true
 
 set :repo_url,        'git@github.com:lsa-mis/VOD_Security_Tracking.git'
-set :branch,          'un_docker'
 set :application,     'vodsecurityproduction'
 set :user,            'deployer'
 set :puma_threads,    [4, 16]
