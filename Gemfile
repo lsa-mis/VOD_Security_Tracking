@@ -11,9 +11,11 @@ gem 'devise', '~> 4.7', '>= 4.7.3'
 gem 'jbuilder', '~> 2.7'
 # gem install mysql2 -v '0.5.3' -- --with-ldflags=-L/usr/local/opt/openssl/lib --with-cppflags=-I/usr/local/opt/openssl/include
 gem 'mysql2', '~> 0.5'
-gem 'puma', '~> 5.0'
+gem 'puma', '~> 5.2', '>= 5.2.2'
 gem 'redis', '~> 4.0'
 gem 'sass-rails', '>= 6'
+# Allows puma to use notify in systemd
+gem 'sd_notify', '~> 0.1.1'
 gem 'simple_form', '~> 5.1'
 gem 'turbolinks', '~> 5'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
@@ -29,6 +31,10 @@ end
 
 group :development do
   gem 'annotate'
+  gem 'capistrano', '~> 3.16',         require: false
+  gem 'capistrano3-puma', '~> 5.0', '>= 5.0.4'
+  gem 'capistrano-rails', '~> 1.6', '>= 1.6.1',   require: false
+  gem 'capistrano-rbenv', '~> 2.2',   require: false
   gem 'listen', '~> 3.3'
   #gem 'rack-mini-profiler', '~> 2.0'
   gem 'spring'
