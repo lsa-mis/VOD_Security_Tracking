@@ -87,6 +87,7 @@ namespace :deploy do
      upload! "config/master.key",  "#{shared_path}/config/master.key"
      upload! "config/puma_prod.rb",  "#{shared_path}/config/puma.rb"
      upload! "config/nginx_prod.conf",  "#{shared_path}/config/nginx.conf"
+     upload! "config/puma_prod.service",  "#{shared_path}/config/puma.service"
     end
   end
 
@@ -124,7 +125,7 @@ end
 # kill -s SIGUSR2 pid   # Restart puma
 # kill -s SIGTERM pid   # Stop puma
 
-set :linked_files, %w{config/puma.rb config/nginx.conf config/master.key}
+set :linked_files, %w{config/puma.rb config/nginx.conf config/master.key config/puma.service}
 set :linked_dirs,  %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 set :linked_dirs, fetch(:linked_dirs, []).push('public/packs', 'node_modules')
 
