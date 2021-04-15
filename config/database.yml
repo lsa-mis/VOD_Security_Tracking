@@ -52,5 +52,5 @@ test:
 production:
   <<: *default
   database: vodst_production
-  username: app
-  password: <%= ENV['APP_DATABASE_PASSWORD'] %>
+  username: <%= Rails.application.credentials.mysql[:prod_user] %>
+  password: <%= Rails.application.credentials.mysql[:prod_password] %>
