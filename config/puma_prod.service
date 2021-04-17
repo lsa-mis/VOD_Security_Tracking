@@ -29,7 +29,7 @@ User=deployer
 # The path to the your application code root directory.
 # Also replace the "<YOUR_APP_PATH>" place holders below with this path.
 # Example /home/username/myapp
-WorkingDirectory=/home/deployer/apps/bearriver_application/current
+WorkingDirectory=/home/deployer/apps/vodsecurityproduction/current
 
 # Helpful for debugging socket activation, etc.
 # Environment=PUMA_DEBUG=1
@@ -37,10 +37,10 @@ WorkingDirectory=/home/deployer/apps/bearriver_application/current
 # SystemD will not run puma even if it is in your path. You must specify
 # an absolute URL to puma. For example /usr/local/bin/puma
 # Alternatively, create a binstub with `bundle binstubs puma --path ./sbin` in the WorkingDirectory
-# ExecStart=/home/deployer/apps/bearriver_application/shared/bundle/ruby/2.7.0/bin/puma -C /home/deployer/apps/bearriver_application/current/config/puma.rb
+# ExecStart=/home/deployer/apps/vodsecurityproduction/shared/bundle/ruby/2.7.0/bin/puma -C /home/deployer/apps/vodsecurityproduction/current/config/puma.rb
 
 ExecStart=/home/deployer/.rbenv/shims/bundle exec puma -e production -C ./config/puma.rb config.ru
-PIDFile=/home/deployer/apps/bearriver_application/shared/tmp/pids/puma.pid
+PIDFile=/home/deployer/apps/vodsecurityproduction/shared/tmp/pids/puma.pid
 
 # ExecStart=/home/myapp51/.rbenv/bin/rbenv exec bundle exec puma -C /home/myapp51/app/current/config/puma.rb
 # ExecStart=/home/deployer/.rbenv/shims/bundle exec puma -e production -C ./config/puma.rb config.ru
