@@ -11,6 +11,10 @@ class DpaExceptionsController < InheritedResources::Base
       flash.now[:alert] = "There was an error deleting the dpa_exception."
       render :show
     end
+  end 
+  
+  def audit_log
+    @dpa_exceptions = DpaException.all
   end
 
   private
