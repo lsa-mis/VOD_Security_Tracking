@@ -52,6 +52,7 @@ RUN bundle install --without=${BUNDLE_WITHOUT}
 # install node modules
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
+RUN yarn upgrade
 
 # copy code
 COPY . .
