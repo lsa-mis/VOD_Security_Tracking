@@ -1,5 +1,18 @@
 class DpaExceptionsController < InheritedResources::Base
 
+  def destroy
+    @dpa_exception = DpaException.find(params[:id])
+    authorize @dpa_exception
+    
+    if @dpa_exception.destroy
+      flash[:notice] = "\"#{@dpa_exception.id}\" was successfully deleted."
+      redirect_to @dpa_exception
+    else
+      flash.now[:alert] = "There was an error deleting the dpa_exception."
+      render :show
+    end
+  end
+
   private
 
     def dpa_exception_params

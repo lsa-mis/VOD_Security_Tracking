@@ -15,6 +15,6 @@ FactoryBot.define do
     name { "MyString" }
     description { "MyString" }
     description_link { "MyString" }
-    data_classification_level { nil }
+    data_classification_level 
   end
 end
