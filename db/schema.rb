@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_31_233130) do
+ActiveRecord::Schema.define(version: 2021_04_19_135849) do
 
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "namespace"
@@ -210,15 +210,6 @@ ActiveRecord::Schema.define(version: 2021_03_31_233130) do
     t.index ["data_type_id"], name: "index_sensitive_data_systems_on_data_type_id"
     t.index ["device_id"], name: "index_sensitive_data_systems_on_device_id"
     t.index ["storage_location_id"], name: "index_sensitive_data_systems_on_storage_location_id"
-  end
-
-  create_table "sessions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "session_id", null: false
-    t.text "data"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
-    t.index ["updated_at"], name: "index_sessions_on_updated_at"
   end
 
   create_table "storage_locations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

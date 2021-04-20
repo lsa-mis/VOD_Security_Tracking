@@ -9,7 +9,6 @@ gem 'audited', '~> 4.10'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'devise', '~> 4.7', '>= 4.7.3'
 gem 'jbuilder', '~> 2.7'
-gem 'mimemagic', '~> 0.3.2'
 gem 'mysql2', '~> 0.5'
 gem 'puma', '~> 5.0'
 gem 'pundit', '~> 2.1'
