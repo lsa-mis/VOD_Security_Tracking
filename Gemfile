@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.0'
+ruby '3.0.1'
 gem 'rails', '~> 6.1.3'
 
 gem 'activeadmin', '~> 2.9'
@@ -15,6 +15,8 @@ gem 'puma', '~> 5.0'
 gem 'pundit', '~> 2.1'
 gem 'redis', '~> 4.0'
 gem 'sass-rails', '>= 6'
+# Allows puma to use notify in systemd
+gem 'sd_notify', '~> 0.1.1'
 gem 'simple_form', '~> 5.1'
 gem 'turbolinks', '~> 5'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
@@ -30,6 +32,10 @@ end
 
 group :development do
   gem 'annotate'
+  gem 'capistrano', '~> 3.16',         require: false
+  gem 'capistrano3-puma', '~> 5.0', '>= 5.0.4'
+  gem 'capistrano-rails', '~> 1.6', '>= 1.6.1',   require: false
+  gem 'capistrano-rbenv', '~> 2.2',   require: false
   gem 'listen', '~> 3.3'
   #gem 'rack-mini-profiler', '~> 2.0'
   gem 'spring'
