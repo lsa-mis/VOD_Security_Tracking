@@ -25,6 +25,7 @@ WatchdogSec=10
 
 # Preferably configure a non-privileged user
 User=deployer
+Group=www-data
 
 # The path to the your application code root directory.
 # Also replace the "<YOUR_APP_PATH>" place holders below with this path.
