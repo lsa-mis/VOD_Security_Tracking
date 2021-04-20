@@ -45,13 +45,13 @@ ARG BUNDLER_VERSION=2.2.14
 RUN gem install bundler -v "${BUNDLER_VERSION}"
 
 # install gems
-ARG BUNDLE_WITHOUT="development test"
+ARG BUNDLE_WITHOUT="test"
 COPY Gemfile ./
 RUN bundle install --without=${BUNDLE_WITHOUT}
 
 # install node modules
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+RUN yarn install
 RUN yarn upgrade
 
 # copy code

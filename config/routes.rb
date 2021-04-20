@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
+  devise_for :users
   resources :it_security_incidents
   resources :sensitive_data_systems
   resources :legacy_os_records
+  get 'dpa_exceptions/audit_log', to: 'dpa_exceptions#audit_log'
   resources :dpa_exceptions
   resources :devices
   devise_for :admin_users, ActiveAdmin::Devise.config
