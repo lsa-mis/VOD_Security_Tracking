@@ -28,7 +28,7 @@ set :puma_user, fetch(:user)
 set :puma_preload_app, true
 set :puma_worker_timeout, nil
 set :puma_init_active_record, true  # Change to false when not using ActiveRecord
-set :puma_systemctl_user, :user
+set :puma_systemctl_user, :system
 # Avoid permissions issues with using /tmp
 set :tmp_dir, '/home/deployer/tmp'
 
