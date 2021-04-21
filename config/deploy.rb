@@ -71,15 +71,19 @@ namespace :deploy do
   desc 'Initial Deploy'
   task :initial do
     on roles(:app) do
-      before 'deploy:restart', 'puma:start'
-      invoke 'deploy'
+      # before 'deploy:restart', 'puma:start'
+      # invoke 'deploy'
+      puts "You must intially start the puma service using sudo on the server"
     end
   end
 
   desc 'Restart application'
   task :restart do
-    on roles(:app), in: :sequence, wait: 5 do
-      invoke 'puma:restart'
+    # on roles(:app), in: :sequence, wait: 5 do
+    #   invoke 'puma:restart'
+    # end
+    on roles(:app) do
+      execute "#{fetch(:rbenv_prefix)} pumactl -P ~/apps/#{fetch(:application)}/current/tmp/pids/puma.pid phased-restart"
     end
   end
 
@@ -122,10 +126,6 @@ namespace :maintenance do
     end
   end
 end
-
-# ps aux | grep puma    # Get puma pid
-# kill -s SIGUSR2 pid   # Restart puma
-# kill -s SIGTERM pid   # Stop puma
 
 set :linked_files, %w{config/puma.rb config/nginx.conf config/master.key config/puma.service}
 set :linked_dirs,  %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
