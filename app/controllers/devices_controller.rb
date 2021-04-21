@@ -44,30 +44,36 @@ class DevicesController < InheritedResources::Base
 
     response = http.request(request)
     asset_info = JSON.parse(response.read_body)
-    asset_id = asset_info[0]['ID']
 
-    url = URI("https://apigw.it.umich.edu/um/it/48/assets/#{asset_id}")
+    # check if response is not empty
+    if asset_info.present?
+      asset_id = asset_info[0]['ID']
 
-    request = Net::HTTP::Get.new(url)
-    request["x-ibm-client-id"] = 'b0cbe658-add1-4106-afd7-3c8b008c64bf'
-    request["authorization"] = "Bearer #{access_token}"
-    request["accept"] = 'application/json'
+      url = URI("https://apigw.it.umich.edu/um/it/48/assets/#{asset_id}")
 
-    response = http.request(request)
-    asset_info = JSON.parse(response.read_body)
+      request = Net::HTTP::Get.new(url)
+      request["x-ibm-client-id"] = 'b0cbe658-add1-4106-afd7-3c8b008c64bf'
+      request["authorization"] = "Bearer #{access_token}"
+      request["accept"] = 'application/json'
 
-    @device.building = asset_info['LocationName']
-    @device.room = asset_info['LocationRoomName']
-    @device.hostname = asset_info['Name']
-    @device.department = asset_info['OwningDepartmentName']
-    @device.manufacturer = asset_info['ManufacturerName']
-    @device.model = asset_info['ProductModelName']
+      response = http.request(request)
+      asset_info = JSON.parse(response.read_body)
 
+      @device.building = asset_info['LocationName']
+      @device.room = asset_info['LocationRoomName']
+      @device.hostname = asset_info['Name']
+      @device.owner = asset_info['OwningCustomerName']
+      @device.department = asset_info['OwningDepartmentName']
+      @device.manufacturer = asset_info['ManufacturerName']
+      @device.model = asset_info['ProductModelName']
 
-    asset_info['Attributes'].each do |att|
-      if att['Name'] == "MAC Address(es)"
-        @device.mac = att['Value']
+      asset_info['Attributes'].each do |att|
+        if att['Name'] == "MAC Address(es)"
+          @device.mac = att['Value']
+        end
       end
+    else
+      redirect_to devices_path, alert: "#{serial} is not in the assets database. Please add this computer to the inventory first." and return
     end
 
     respond_to do |format|
