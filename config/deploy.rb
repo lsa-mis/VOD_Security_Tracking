@@ -15,6 +15,7 @@ set :pty,             true
 set :stage,           :production
 set :deploy_via,      :remote_cache
 set :deploy_to,       "/home/#{fetch(:user)}/apps/#{fetch(:application)}"
+set :shared_path,     "#{fetch(:deploy_to)}/shared"
 set :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ssh/id_rsa.pub) }
 set :tmp_dir, '/home/deployer/tmp'
 
@@ -34,14 +35,14 @@ namespace :puma do
   desc 'Stop the PUMA service'
   task :stop do
     on roles(:app) do
-      execute "cd #{fetch(:deploy_to)}/current; #{:rbenv_prefix} bundle exec pumactl -P ~/apps/#{fetch(:application)}/current/tmp/pids/puma.pid stop"
+      execute "cd #{fetch(:deploy_to)}/current; #{fetch(:rbenv_prefix)} bundle exec pumactl -P ~/apps/#{fetch(:application)}/current/tmp/pids/puma.pid stop"
     end
   end
 
   desc 'Restart the PUMA service'
   task :restart do
     on roles(:app) do
-      execute "cd #{fetch(:deploy_to)}/current; #{:rbenv_prefix} bundle exec pumactl -P ~/apps/#{fetch(:application)}/current/tmp/pids/puma.pid phased-restart"
+      execute "cd #{fetch(:deploy_to)}/current; #{fetch(:rbenv_prefix)} bundle exec pumactl -P ~/apps/#{fetch(:application)}/current/tmp/pids/puma.pid phased-restart"
     end
   end
 
@@ -68,10 +69,10 @@ namespace :deploy do
   desc 'Upload to shared/config'
   task :upload do
     on roles (:app) do
-     upload! "config/master.key",  "#{shared_path}/config/master.key"
-     upload! "config/puma_prod.rb",  "#{shared_path}/config/puma.rb"
-     upload! "config/nginx_prod.conf",  "#{shared_path}/config/nginx.conf"
-     upload! "config/puma_prod.service",  "#{shared_path}/config/puma.service"
+     upload! "config/master.key",  "#{fetch(:shared_path)}/config/master.key"
+     upload! "config/puma_prod.rb",  "#{fetch(:shared_path)}/config/puma.rb"
+     upload! "config/nginx_prod.conf",  "#{fetch(:shared_path)}/config/nginx.conf"
+     upload! "config/puma_prod.service",  "#{fetch(:shared_path)}/config/puma.service"
     end
   end
 
