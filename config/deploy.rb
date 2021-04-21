@@ -79,12 +79,8 @@ namespace :deploy do
 
   desc 'Restart application'
   task :restart do
-    # on roles(:app), in: :sequence, wait: 5 do
-    #   invoke 'puma:restart'
-    # end
     on roles(:app) do
-      #execute "#{fetch(:rbenv_prefix)} pumactl -P ~/apps/#{fetch(:application)}/current/tmp/pids/puma.pid phased-restart"
-      execute "/home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl  -P ~/apps/#{fetch(:application)}/current/tmp/pids/puma.pid phased-restart"
+        execute "cd #{fetch(:deploy_to)}/current; /home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl -P ~/apps/#{fetch(:application)}/current/tmp/pids/puma.pid phased-restart"
     end
   end
 
