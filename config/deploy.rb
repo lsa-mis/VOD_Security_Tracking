@@ -3,14 +3,17 @@ lock "~> 3.16.0"
 
 set :rbenv_type, :user # or :system, depends on your rbenv setup
 set :rbenv_ruby, '3.0.1'
+# set :rbenv_map_bins, %w{rake gem bundle ruby rails}
+# set :rbenv_custom_path, "/home/deployer/.rbenv"
+# set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
 
 server 'vodsecurityproduction.miserver.it.umich.edu', roles: [:web, :app, :db], primary: true
 
 set :repo_url,        'git@github.com:lsa-mis/VOD_Security_Tracking.git'
 set :application,     'vodsecurityproduction'
 set :user,            'deployer'
-set :puma_threads,    [4, 16]
-set :puma_workers,    0
+# set :puma_threads,    [4, 16]
+# set :puma_workers,    0
 
 # Don't change these unless you know what you're doing
 set :pty,             true
@@ -18,17 +21,17 @@ set :pty,             true
 set :stage,           :production
 set :deploy_via,      :remote_cache
 set :deploy_to,       "/home/#{fetch(:user)}/apps/#{fetch(:application)}"
-set :puma_bind,       "unix://#{shared_path}/tmp/sockets/#{fetch(:application)}-puma.sock"
-set :puma_state,      "#{shared_path}/tmp/pids/puma.state"
-set :puma_pid,        "#{shared_path}/tmp/pids/puma.pid"
-set :puma_access_log, "#{release_path}/log/puma.error.log"
-set :puma_error_log,  "#{release_path}/log/puma.access.log"
+# set :puma_bind,       "unix://#{shared_path}/tmp/sockets/#{fetch(:application)}-puma.sock"
+# set :puma_state,      "#{shared_path}/tmp/pids/puma.state"
+# set :puma_pid,        "#{shared_path}/tmp/pids/puma.pid"
+# set :puma_access_log, "#{release_path}/log/puma.error.log"
+# set :puma_error_log,  "#{release_path}/log/puma.access.log"
 set :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ssh/id_rsa.pub) }
-set :puma_user, fetch(:user)
-set :puma_preload_app, true
-set :puma_worker_timeout, nil
-set :puma_init_active_record, true  # Change to false when not using ActiveRecord
-set :puma_systemctl_user, :system
+# set :puma_user, fetch(:user)
+# set :puma_preload_app, true
+# set :puma_worker_timeout, nil
+# set :puma_init_active_record, true  # Change to false when not using ActiveRecord
+# set :puma_systemctl_user, :system
 # Avoid permissions issues with using /tmp
 set :tmp_dir, '/home/deployer/tmp'
 
@@ -44,17 +47,17 @@ set :keep_releases, 3
 # set :linked_files, %w{config/database.yml}
 # set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
-namespace :puma do
-  desc 'Create Directories for Puma Pids and Socket'
-  task :make_dirs do
-    on roles(:app) do
-      execute "mkdir #{shared_path}/tmp/sockets -p"
-      execute "mkdir #{shared_path}/tmp/pids -p"
-    end
-  end
+# namespace :puma do
+#   desc 'Create Directories for Puma Pids and Socket'
+#   task :make_dirs do
+#     on roles(:app) do
+#       execute "mkdir #{shared_path}/tmp/sockets -p"
+#       execute "mkdir #{shared_path}/tmp/pids -p"
+#     end
+#   end
 
-  before :start, :make_dirs
-end
+#   before :start, :make_dirs
+# end
 
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
@@ -100,7 +103,6 @@ namespace :deploy do
     puts "Seeding db with seed file located at db/seeds.rb"
     run "cd #{current_path}; bin/rails db:seed RAILS_ENV=production"
   end
-
 
   before :starting,     :check_revision
   after  :finishing,    :compile_assets
