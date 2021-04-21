@@ -59,6 +59,10 @@ class DevicesController < InheritedResources::Base
     @device.building = asset_info['LocationName']
     @device.room = asset_info['LocationRoomName']
     @device.hostname = asset_info['Name']
+    @device.department = asset_info['OwningDepartmentName']
+    @device.manufacturer = asset_info['ManufacturerName']
+    @device.model = asset_info['ProductModelName']
+
 
     asset_info['Attributes'].each do |att|
       if att['Name'] == "MAC Address(es)"
