@@ -16,8 +16,6 @@ After=network.target
 # Puma supports systemd's `Type=notify` and watchdog service
 # monitoring, if the [sd_notify](https://github.com/agis/ruby-sdnotify) gem is installed,
 # as of Puma 5.1 or later.
-# On earlier versions of Puma or JRuby, change this to `Type=simple` and remove
-# the `WatchdogSec` line.
 Type=notify
 
 # If your Puma process locks up, systemd's watchdog will restart it within seconds.
@@ -29,38 +27,17 @@ Group=www-data
 
 # The path to the your application code root directory.
 # Also replace the "<YOUR_APP_PATH>" place holders below with this path.
-# Example /home/username/myapp
 WorkingDirectory=/home/deployer/apps/vodsecurityproduction/current
-
-# Helpful for debugging socket activation, etc.
-# Environment=PUMA_DEBUG=1
 
 # SystemD will not run puma even if it is in your path. You must specify
 # an absolute URL to puma. For example /usr/local/bin/puma
-# Alternatively, create a binstub with `bundle binstubs puma --path ./sbin` in the WorkingDirectory
-# ExecStart=/home/deployer/apps/vodsecurityproduction/shared/bundle/ruby/2.7.0/bin/puma -C /home/deployer/apps/vodsecurityproduction/current/config/puma.rb
 
 ExecStart=/home/deployer/.rbenv/shims/bundle exec puma -e production -C ./config/puma.rb config.ru
 PIDFile=/home/deployer/apps/vodsecurityproduction/shared/tmp/pids/puma.pid
 
-# ExecStart=/home/myapp51/.rbenv/bin/rbenv exec bundle exec puma -C /home/myapp51/app/current/config/puma.rb
-# ExecStart=/home/deployer/.rbenv/shims/bundle exec puma -e production -C ./config/puma.rb config.ru
+ExecStop=/home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl -F /home/deployer/apps/vodsecurityproduction/current/config/puma.rb stop
 
-
-# ExecStop=/home/myapp51/.rbenv/bin/rbenv exec bundle exec pumactl -F /home/myapp51/app/current/config/puma.rb stop
-ExecStop=/home/deployer/.rbenv/shims/bundle exec puma -e production -C ./config/puma.rb stop
-
-
-# ExecReload=/home/myapp51/.rbenv/bin/rbenv exec bundle exec pumactl -F /home/myapp51/app/current/config/puma.rb phased-restart
-ExecReload=/home/deployer/.rbenv/shims/bundle exec puma -e production -C ./config/puma.rb phased-restart
-
-# Variant: Rails start.
-# ExecStart=/<FULLPATH>/bin/puma -C <YOUR_APP_PATH>/config/puma.rb ../config.ru
-
-# Variant: Use `bundle exec --keep-file-descriptors puma` instead of binstub
-# Variant: Specify directives inline.
-# ExecStart=/<FULLPATH>/puma -b tcp://0.0.0.0:9292 -b ssl://0.0.0.0:9293?key=key.pem&cert=cert.pem
-
+ExecReload=/home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl -F /home/deployer/apps/vodsecurityproduction/current/config/puma.rb phased-restart
 
 Restart=always
 
