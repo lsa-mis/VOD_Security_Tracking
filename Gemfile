@@ -32,11 +32,9 @@ end
 group :development do
   gem 'annotate'
   gem 'capistrano', '~> 3.16',         require: false
-  gem 'capistrano3-puma', '~> 5.0', '>= 5.0.4'
   gem 'capistrano-rails', '~> 1.6', '>= 1.6.1',   require: false
   gem 'capistrano-rbenv', '~> 2.2',   require: false
   gem 'listen', '~> 3.3'
-  #gem 'rack-mini-profiler', '~> 2.0'
   gem 'spring'
   gem 'web-console', '>= 4.1.0'
 end
