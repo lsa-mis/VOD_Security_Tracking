@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_31_233130) do
+ActiveRecord::Schema.define(version: 2021_04_21_183243) do
 
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "namespace"
@@ -118,6 +118,10 @@ ActiveRecord::Schema.define(version: 2021_03_31_233130) do
     t.string "room"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "owner"
+    t.string "department"
+    t.string "manufacturer"
+    t.string "model"
   end
 
   create_table "dpa_exceptions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
