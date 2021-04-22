@@ -47,7 +47,7 @@ $ docker-compose build app
 $ docker-compose run --rm --service-ports app bash
 ```
 
-* If you have not previously created and migrated the database || if you docker system prune -a || if you docker volume prune then in the shell run 
+* If you have not previously created and migrated the database || if you ```docker system prune -a``` || if you ```docker volume prune``` then in the shell run 
 
 ```sh
 /home/app# bin/rails db:setup
