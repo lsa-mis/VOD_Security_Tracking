@@ -11,15 +11,18 @@
 #
 default: &default
   adapter: mysql2
-  # host: localhost
-  username: root
-  password: <%= Rails.application.credentials.mysql[:local_password] %>
   encoding: utf8mb4
   collation: utf8mb4_unicode_ci
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
   <<: *default
+  # uncomment next two lines if running with docker
+  host: mysql
+  password: <%= Rails.application.credentials.mysql[:docker_password] %>
+  username: root
+  # make sure your local MySQL password is in credentials and comment this line if running docker
+  # password: <%= Rails.application.credentials.mysql[:local_password] %>
   database: vodst_development
 
 # Warning: The database defined as "test" will be erased and
