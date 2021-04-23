@@ -21,4 +21,16 @@ class ItSecurityIncident < ApplicationRecord
   has_many :tdx_tickets, as: :records_to_tdx
   has_many_attached :attachments
   audited
+
+  scope :active, -> { where(deleted_at: nil) }
+  scope :archived, -> { where("#{self.table_name}.deleted_at IS NOT NULL") }
+
+  def archive
+    self.update(deleted_at: DateTime.current)
+  end
+
+  def archived?
+    self.deleted_at.present?
+  end
+  
 end
