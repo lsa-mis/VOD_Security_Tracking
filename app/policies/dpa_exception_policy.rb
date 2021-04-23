@@ -10,7 +10,7 @@ class DpaExceptionPolicy
     #   user.user? 
     # end
 
-    def destroy?
+    def archive?
         user.role == 'can_delete'
       end
   end
