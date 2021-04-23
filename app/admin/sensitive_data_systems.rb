@@ -16,4 +16,7 @@ ActiveAdmin.register SensitiveDataSystem do
   #   permitted
   # end
   
+  scope :archived
+  scope :active, :default => true
+  
 end

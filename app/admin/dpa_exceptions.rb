@@ -15,5 +15,8 @@ ActiveAdmin.register DpaException do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
+
+  scope :archived
+  scope :active, :default => true
   
 end

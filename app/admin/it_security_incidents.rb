@@ -16,4 +16,7 @@ ActiveAdmin.register ItSecurityIncident do
   #   permitted
   # end
   
+  scope :archived
+  scope :active, :default => true
+  
 end
