@@ -13,6 +13,7 @@
 #  data_type_id                   :bigint           not null
 #  created_at                     :datetime         not null
 #  updated_at                     :datetime         not null
+#  deleted_at                     :datetime
 #
 class ItSecurityIncident < ApplicationRecord
   belongs_to :it_security_incident_status
