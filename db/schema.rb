@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_21_183243) do
+ActiveRecord::Schema.define(version: 2021_04_23_171045) do
 
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "namespace"
@@ -141,6 +141,7 @@ ActiveRecord::Schema.define(version: 2021_04_21_183243) do
     t.bigint "data_type_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
     t.index ["data_type_id"], name: "index_dpa_exceptions_on_data_type_id"
   end
 
@@ -162,6 +163,7 @@ ActiveRecord::Schema.define(version: 2021_04_21_183243) do
     t.bigint "data_type_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
     t.index ["data_type_id"], name: "index_it_security_incidents_on_data_type_id"
     t.index ["it_security_incident_status_id"], name: "index_it_security_incidents_on_it_security_incident_status_id"
   end
@@ -189,6 +191,7 @@ ActiveRecord::Schema.define(version: 2021_04_21_183243) do
     t.bigint "device_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
     t.index ["data_type_id"], name: "index_legacy_os_records_on_data_type_id"
     t.index ["device_id"], name: "index_legacy_os_records_on_device_id"
   end
@@ -211,6 +214,7 @@ ActiveRecord::Schema.define(version: 2021_04_21_183243) do
     t.bigint "device_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
     t.index ["data_type_id"], name: "index_sensitive_data_systems_on_data_type_id"
     t.index ["device_id"], name: "index_sensitive_data_systems_on_device_id"
     t.index ["storage_location_id"], name: "index_sensitive_data_systems_on_storage_location_id"
@@ -225,11 +229,11 @@ ActiveRecord::Schema.define(version: 2021_04_21_183243) do
   end
 
   create_table "tdx_tickets", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.integer "ticket_number"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "records_to_tdx_type", null: false
     t.bigint "records_to_tdx_id", null: false
+    t.string "ticket_link"
     t.index ["records_to_tdx_type", "records_to_tdx_id"], name: "index_tdx_tickets_on_records_to_tdx"
   end
 

@@ -20,6 +20,7 @@
 #  device_id                           :bigint           not null
 #  created_at                          :datetime         not null
 #  updated_at                          :datetime         not null
+#  deleted_at                          :datetime
 #
 class SensitiveDataSystem < ApplicationRecord
   belongs_to :storage_location
