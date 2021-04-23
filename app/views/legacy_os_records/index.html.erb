@@ -52,7 +52,6 @@
         <td><%= legacy_os_record.device_id %></td>
         <td><%= link_to 'Show', legacy_os_record %></td>
         <td><%= link_to 'Edit', edit_legacy_os_record_path(legacy_os_record) %></td>
-        <td><%= link_to 'Destroy', legacy_os_record, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <td><%= link_to 'Archive', archive_legacy_os_record_path(legacy_os_record), method: :post, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

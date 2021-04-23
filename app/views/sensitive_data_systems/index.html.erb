@@ -42,7 +42,6 @@
         <td><%= sensitive_data_system.device_id %></td>
         <td><%= link_to 'Show', sensitive_data_system %></td>
         <td><%= link_to 'Edit', edit_sensitive_data_system_path(sensitive_data_system) %></td>
-        <td><%= link_to 'Destroy', sensitive_data_system, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <td><%= link_to 'Archive', archive_sensitive_data_system_path(sensitive_data_system), method: :post, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
