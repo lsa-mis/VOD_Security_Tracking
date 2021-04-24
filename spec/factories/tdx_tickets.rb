@@ -11,6 +11,6 @@
 #
 FactoryBot.define do
   factory :tdx_ticket do
-    ticket_number { 1 }
+    ticket_link { "MyString" }
   end
 end

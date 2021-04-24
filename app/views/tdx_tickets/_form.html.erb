@@ -1,0 +1,9 @@
+<%= form_for [records_to_tdx, TdxTicket.new] do |f| %>
+    <div class="field">
+        <%= f.label :ticket_link, "Add a ticket link" %>
+        <%= f.text_field :ticket_link %>
+    </div>
+    <div class="actions">
+        <%= f.submit %>
+    </div>
+<% end %>

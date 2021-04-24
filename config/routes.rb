@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   resources :sensitive_data_systems
   resources :legacy_os_records
   get 'dpa_exceptions/audit_log', to: 'dpa_exceptions#audit_log'
-  resources :dpa_exceptions
+  resources :dpa_exceptions do
+    resources :tdx_tickets, module: :dpa_exceptions
+  end
   resources :devices
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)

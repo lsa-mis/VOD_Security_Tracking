@@ -1,0 +1,12 @@
+<p>
+<strong>TDX tickets:</strong>
+<table>
+<tbody>
+  <% records_to_tdx.tdx_tickets.each do |tdx| %>
+    <tr><td><%= tdx.ticket_link %></td>
+    <td><%= link_to 'Destroy', dpa_exception_tdx_ticket_path(params[:id],tdx.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+</p>
