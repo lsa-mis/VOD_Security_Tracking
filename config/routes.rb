@@ -1,8 +1,14 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :it_security_incidents
-  resources :sensitive_data_systems
-  resources :legacy_os_records
+  resources :it_security_incidents do
+    resources :tdx_tickets, module: :it_security_incidents
+  end
+  resources :sensitive_data_systems do
+    resources :tdx_tickets, module: :sensitive_data_systems
+  end
+  resources :legacy_os_records do
+    resources :tdx_tickets, module: :legacy_os_records
+  end
   get 'dpa_exceptions/audit_log', to: 'dpa_exceptions#audit_log'
   resources :dpa_exceptions do
     resources :tdx_tickets, module: :dpa_exceptions

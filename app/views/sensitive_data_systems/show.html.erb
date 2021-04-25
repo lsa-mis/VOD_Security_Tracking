@@ -75,5 +75,8 @@
 
 <%= render partial: "partials/show_attachments", locals: {attached_files: @sensitive_data_system} %>
 
+<%= render partial: "tdx_tickets/tdx_tickets", locals: {records_to_tdx: @sensitive_data_system} %>
+<%= render partial: "tdx_tickets/form", locals: {records_to_tdx: @sensitive_data_system} %>
+
 <%= link_to 'Edit', edit_sensitive_data_system_path(@sensitive_data_system) %> |
 <%= link_to 'Back', sensitive_data_systems_path %>

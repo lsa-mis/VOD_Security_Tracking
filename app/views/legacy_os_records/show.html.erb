@@ -100,5 +100,8 @@
 
 <%= render partial: "partials/show_attachments", locals: {attached_files: @legacy_os_record} %>
 
+<%= render partial: "tdx_tickets/tdx_tickets", locals: {records_to_tdx: @legacy_os_record} %>
+<%= render partial: "tdx_tickets/form", locals: {records_to_tdx: @legacy_os_record} %>
+
 <%= link_to 'Edit', edit_legacy_os_record_path(@legacy_os_record) %> |
 <%= link_to 'Back', legacy_os_records_path %>

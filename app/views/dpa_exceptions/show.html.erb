@@ -80,7 +80,7 @@
 
 <%= render partial: "partials/show_attachments", locals: {attached_files: @dpa_exception} %>
 
-<%= render partial: "tdx_tickets/tdx_tickets", locals: {records_to_tdx: @dpa_exception} %>
+<%= render partial: "tdx_tickets/tdx_tickets", locals: {records_to_tdx: @dpa_exception, destroy_path: @tickets_destroy_path} %>
 <%= render partial: "tdx_tickets/form", locals: {records_to_tdx: @dpa_exception} %>
 
 <%= link_to 'Edit', edit_dpa_exception_path(@dpa_exception) %> |

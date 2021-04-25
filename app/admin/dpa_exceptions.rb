@@ -46,11 +46,11 @@ ActiveAdmin.register DpaException do
         end
       end
       row "TDX Tickets" do |dpa|
-        # if dpa.tdx_tickets.count > 0
-        #   "there are tickets "
-          dpa.tdx_tickets.each do |tdx|
-
-          # end
+        if dpa.tdx_tickets.count > 0
+          dpa.tdx_tickets.count
+          dpa.tdx_tickets.each do |t|
+            t.ticket_link
+          end
         end
       end
     end
