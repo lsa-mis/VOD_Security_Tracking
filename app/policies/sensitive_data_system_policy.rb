@@ -6,10 +6,6 @@ class SensitiveDataSystemPolicy
       @sensitive_data_system = sensitive_data_system
     end
   
-    # def update?
-    #   user.user? 
-    # end
-
     def archive?
         user.role == 'can_delete'
       end

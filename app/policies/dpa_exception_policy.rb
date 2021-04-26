@@ -5,10 +5,6 @@ class DpaExceptionPolicy
       @user = user
       @dpa_exception = dpa_exception
     end
-  
-    # def update?
-    #   user.user? 
-    # end
 
     def archive?
         user.role == 'can_delete'
