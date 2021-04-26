@@ -25,6 +25,7 @@
 #  device_id                     :bigint           not null
 #  created_at                    :datetime         not null
 #  updated_at                    :datetime         not null
+#  deleted_at                    :datetime
 #
 class LegacyOsRecord < ApplicationRecord
   belongs_to :data_type
@@ -33,4 +34,16 @@ class LegacyOsRecord < ApplicationRecord
 
   has_many_attached :attachments
   audited
+
+  scope :active, -> { where(deleted_at: nil) }
+  scope :archived, -> { where("#{self.table_name}.deleted_at IS NOT NULL") }
+
+  def archive
+    self.update(deleted_at: DateTime.current)
+  end
+
+  def archived?
+    self.deleted_at.present?
+  end
+  
 end

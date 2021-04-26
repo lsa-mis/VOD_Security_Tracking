@@ -13,6 +13,7 @@
 #  data_type_id                   :bigint           not null
 #  created_at                     :datetime         not null
 #  updated_at                     :datetime         not null
+#  deleted_at                     :datetime
 #
 class ItSecurityIncident < ApplicationRecord
   belongs_to :it_security_incident_status
@@ -20,4 +21,16 @@ class ItSecurityIncident < ApplicationRecord
   has_many :tdx_tickets, as: :records_to_tdx
   has_many_attached :attachments
   audited
+
+  scope :active, -> { where(deleted_at: nil) }
+  scope :archived, -> { where("#{self.table_name}.deleted_at IS NOT NULL") }
+
+  def archive
+    self.update(deleted_at: DateTime.current)
+  end
+
+  def archived?
+    self.deleted_at.present?
+  end
+  
 end
