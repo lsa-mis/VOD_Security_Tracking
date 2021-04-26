@@ -1,5 +1,5 @@
 class ItSecurityIncidentsController < InheritedResources::Base
-  devise_group :logged_in, contains: [:user, :admin]
+  devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
 
   def index
@@ -9,9 +9,13 @@ class ItSecurityIncidentsController < InheritedResources::Base
   def archive
     @it_security_incident = ItSecurityIncident.find(params[:id])
     authorize @it_security_incident
-    @it_security_incident.archive
-    respond_to do |format|
-      format.html { redirect_to it_security_incidents_path, notice: 'it security incident record was successfully archived.' }
+    if @it_security_incident.archive
+      respond_to do |format|
+        format.html { redirect_to it_security_incidents_path, notice: 'it security incident record was successfully archived.' }
+        format.json { head :no_content }
+      end
+    else
+      format.html { redirect_to it_security_incidents_path, alert: 'error archiving it security incident record.' }
       format.json { head :no_content }
     end
   end

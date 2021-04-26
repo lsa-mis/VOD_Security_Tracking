@@ -1,5 +1,5 @@
 class SensitiveDataSystemsController < InheritedResources::Base
-  devise_group :logged_in, contains: [:user, :admin]
+  devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
 
   def index
@@ -9,9 +9,13 @@ class SensitiveDataSystemsController < InheritedResources::Base
   def archive
     @sensitive_data_system = SensitiveDataSystem.find(params[:id])
     authorize @sensitive_data_system
-    @sensitive_data_system.archive
-    respond_to do |format|
-      format.html { redirect_to sensitive_data_systems_path, notice: 'sensitive data system record was successfully archived.' }
+    if @sensitive_data_system.archive
+      respond_to do |format|
+        format.html { redirect_to sensitive_data_systems_path, notice: 'sensitive data system record was successfully archived.' }
+        format.json { head :no_content }
+      end
+    else
+      format.html { redirect_to sensitive_data_systems_path, alert: 'error archiving sensitive data system record.' }
       format.json { head :no_content }
     end
   end

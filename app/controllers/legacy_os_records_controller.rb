@@ -1,5 +1,5 @@
 class LegacyOsRecordsController < InheritedResources::Base
-  devise_group :logged_in, contains: [:user, :admin]
+  devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
 
   def index
@@ -9,9 +9,13 @@ class LegacyOsRecordsController < InheritedResources::Base
   def archive
     @legacy_os_record = LegacyOsRecord.find(params[:id])
     authorize @legacy_os_record
-    @legacy_os_record.archive
-    respond_to do |format|
-      format.html { redirect_to legacy_os_records_path, notice: 'legacy os record record was successfully archived.' }
+    if @legacy_os_record.archive
+      respond_to do |format|
+        format.html { redirect_to legacy_os_records_path, notice: 'legacy os record was successfully archived.' }
+        format.json { head :no_content }
+      end
+    else
+      format.html { redirect_to legacy_os_records_path, alert: 'error archiving legacy os record.' }
       format.json { head :no_content }
     end
   end

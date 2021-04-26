@@ -1,5 +1,5 @@
 class DpaExceptionsController < InheritedResources::Base
-  devise_group :logged_in, contains: [:user, :admin]
+  devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
 
   def index
@@ -9,9 +9,13 @@ class DpaExceptionsController < InheritedResources::Base
   def archive
     @dpa_exception = DpaException.find(params[:id])
     authorize @dpa_exception
-    @dpa_exception.archive
-    respond_to do |format|
-      format.html { redirect_to dpa_exceptions_path, notice: 'dpa exception record was successfully archived.' }
+    if @dpa_exception.archive
+      respond_to do |format|
+        format.html { redirect_to dpa_exceptions_path, notice: 'dpa exception record was successfully archived.' }
+        format.json { head :no_content }
+      end
+    else
+      format.html { redirect_to dpa_exceptions_path, alert: 'error archiving dpa exception record.' }
       format.json { head :no_content }
     end
   end
