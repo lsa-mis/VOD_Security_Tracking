@@ -59,17 +59,9 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  # mysql -u vodsecurityproduction -h vodprod-db.miserver.it.umich.edu --ssl-ca=/home/deployer/apps/vodsecurityproduction/shared/mysql/InCommon.CA.crt -p
   <<: *default
   database: vodsecurityproduction
   username: <%= Rails.application.credentials.mysql[:prod_user] %>
   password: <%= Rails.application.credentials.mysql[:prod_password] %>
   host: <%= Rails.application.credentials.mysql[:prod_servername] %>
   sslca: <%= Rails.application.credentials.mysql[:prod_sslca] %>
-  
-  # sslkey: /path/to/client-key.pem
-  # sslcert: /path/to/client-cert.pem
-  # sslcapath: /home/deployer/apps/vodsecurityproduction/shared/mysql
-
-  # port: [mysql_port]
-  # socket: [path_to_mysql_socket_file]
