@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_23_123300) do
+ActiveRecord::Schema.define(version: 2021_04_23_171045) do
+
 
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "namespace"
@@ -229,11 +230,11 @@ ActiveRecord::Schema.define(version: 2021_04_23_123300) do
   end
 
   create_table "tdx_tickets", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.integer "ticket_number"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "records_to_tdx_type", null: false
     t.bigint "records_to_tdx_id", null: false
+    t.string "ticket_link"
     t.index ["records_to_tdx_type", "records_to_tdx_id"], name: "index_tdx_tickets_on_records_to_tdx"
   end
 

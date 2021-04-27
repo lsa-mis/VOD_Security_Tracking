@@ -1,4 +1,5 @@
 class DpaExceptionsController < InheritedResources::Base
+
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
 
@@ -7,6 +8,7 @@ class DpaExceptionsController < InheritedResources::Base
   end
 
   def archive
+
     @dpa_exception = DpaException.find(params[:id])
     authorize @dpa_exception
     if @dpa_exception.archive
