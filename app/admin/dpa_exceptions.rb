@@ -36,22 +36,18 @@ ActiveAdmin.register DpaException do
             link_to sla.sla_attachment.filename, url_for(sla.sla_attachment)
         end
       end
-      row :data_type_id
-      row :attachments do |att|
-        if att.attachments.attached?
-          att.attachments.each do |at|
-             at.filename
-             link_to at.filename, url_for(at)
-          end
+      row :data_type.name
+    end
+    panel "Attachments" do 
+      if dpa_exception.attachments.attached?
+         table_for dpa_exception.attachments do 
+          column(:filename) { |item| link_to item.filename, url_for(item)}
         end
       end
-      row "TDX Tickets" do |dpa|
-        if dpa.tdx_tickets.count > 0
-          dpa.tdx_tickets.count
-          dpa.tdx_tickets.each do |t|
-            t.ticket_link
-          end
-        end
+    end
+    panel "TDX Tickets" do
+      table_for dpa_exception.tdx_tickets do
+        column(:ticket_link) { |item| link_to item.ticket_link, url_for(item.ticket_link) }
       end
     end
   end
