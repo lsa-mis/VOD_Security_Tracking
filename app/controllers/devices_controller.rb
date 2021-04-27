@@ -1,4 +1,6 @@
 class DevicesController < InheritedResources::Base
+  devise_group :logged_in, contains: [:user, :admin_user]
+  before_action :authenticate_logged_in!
 
   require 'uri'
   require 'net/http'

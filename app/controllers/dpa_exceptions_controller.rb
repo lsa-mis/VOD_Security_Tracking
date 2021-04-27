@@ -1,17 +1,26 @@
 class DpaExceptionsController < InheritedResources::Base
-  
-  def destroy
+
+  devise_group :logged_in, contains: [:user, :admin_user]
+  before_action :authenticate_logged_in!
+
+  def index
+    @dpa_exceptions = DpaException.active
+  end
+
+  def archive
+
     @dpa_exception = DpaException.find(params[:id])
     authorize @dpa_exception
-    
-    if @dpa_exception.destroy
-      flash[:notice] = "\"#{@dpa_exception.id}\" was successfully deleted."
-      redirect_to @dpa_exception
+    if @dpa_exception.archive
+      respond_to do |format|
+        format.html { redirect_to dpa_exceptions_path, notice: 'dpa exception record was successfully archived.' }
+        format.json { head :no_content }
+      end
     else
-      flash.now[:alert] = "There was an error deleting the dpa_exception."
-      render :show
+      format.html { redirect_to dpa_exceptions_path, alert: 'error archiving dpa exception record.' }
+      format.json { head :no_content }
     end
-  end 
+  end
   
   def audit_log
     @dpa_exceptions = DpaException.all

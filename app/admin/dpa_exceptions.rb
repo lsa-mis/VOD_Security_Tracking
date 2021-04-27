@@ -1,4 +1,5 @@
 ActiveAdmin.register DpaException do
+  menu parent: 'Main Tables', priority: 1
 
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
@@ -14,6 +15,9 @@ ActiveAdmin.register DpaException do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
+
+  scope :archived
+  scope :active, :default => true
   
   show do
     attributes_table do
