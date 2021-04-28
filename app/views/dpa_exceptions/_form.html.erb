@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= form.label :review_date %>
-    <%= form.datetime_select :review_date %>
+    <%= form.date_select :review_date, include_blank: true %>
   </div>
 
   <div class="field">
@@ -63,7 +63,7 @@
 
   <div class="field">
     <%= form.label :exception_approval_date %>
-    <%= form.datetime_select :exception_approval_date %>
+    <%= form.date_select :exception_approval_date, include_blank: true %>
   </div>
 
   <div class="field">
