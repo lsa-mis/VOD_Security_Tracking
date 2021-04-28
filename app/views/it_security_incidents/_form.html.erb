@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= form.label :date %>
-    <%= form.datetime_select :date %>
+    <%= form.date_select :date, include_blank: true, start_year: Date.current.year %>
   </div>
 
   <div class="field">

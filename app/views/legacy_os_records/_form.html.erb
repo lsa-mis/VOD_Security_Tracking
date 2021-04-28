@@ -63,7 +63,7 @@
 
   <div class="field">
     <%= form.label :unique_date %>
-    <%= form.date_select :unique_date, include_blank: true %>
+    <%= form.date_select :unique_date, include_blank: true, start_year: Date.current.year %>
   </div>
 
   <div class="field">
@@ -73,12 +73,12 @@
 
   <div class="field">
     <%= form.label :exception_approval_date %>
-    <%= form.date_select :exception_approval_date, include_blank: true %>
+    <%= form.date_select :exception_approval_date, include_blank: true, start_year: Date.current.year %>
   </div>
 
   <div class="field">
     <%= form.label :review_date %>
-    <%= form.date_select :review_date, include_blank: true %>
+    <%= form.date_select :review_date, include_blank: true, start_year: Date.current.year %>
   </div>
 
   <div class="field">
