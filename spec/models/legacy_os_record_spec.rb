@@ -3,21 +3,21 @@
 # Table name: legacy_os_records
 #
 #  id                            :bigint           not null, primary key
-#  owner_username                :string(255)
-#  owner_full_name               :string(255)
-#  dept                          :string(255)
+#  owner_username                :string(255)      not null
+#  owner_full_name               :string(255)      not null
+#  dept                          :string(255)      not null
 #  phone                         :string(255)
 #  additional_dept_contact       :string(255)
 #  additional_dept_contact_phone :string(255)
-#  support_poc                   :string(255)
-#  legacy_os                     :string(255)
+#  support_poc                   :string(255)      not null
+#  legacy_os                     :string(255)      not null
 #  unique_app                    :string(255)
 #  unique_hardware               :string(255)
-#  unique_date                   :datetime
-#  remediation                   :string(255)
+#  unique_date                   :datetime         not null
+#  remediation                   :string(255)      not null
 #  exception_approval_date       :datetime
 #  review_date                   :datetime
-#  review_contact                :string(255)
+#  review_contact                :string(255)      not null
 #  justification                 :string(255)
 #  local_it_support_group        :string(255)
 #  notes                         :text(65535)
