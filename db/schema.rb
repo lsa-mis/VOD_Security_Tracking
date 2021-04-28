@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_28_171245) do
+ActiveRecord::Schema.define(version: 2021_04_28_174026) do
 
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "namespace"
@@ -197,17 +197,17 @@ ActiveRecord::Schema.define(version: 2021_04_28_171245) do
   end
 
   create_table "sensitive_data_systems", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "owner_username"
+    t.string "owner_username", null: false
     t.string "owner_full_name"
     t.string "dept"
     t.string "phone"
     t.string "additional_dept_contact"
     t.string "additional_dept_contact_phone"
-    t.string "support_poc"
+    t.string "support_poc", null: false
     t.text "expected_duration_of_data_retention"
     t.string "agreements_related_to_data_types"
-    t.datetime "review_date"
-    t.string "review_contact"
+    t.datetime "review_date", null: false
+    t.string "review_contact", null: false
     t.string "notes"
     t.bigint "storage_location_id", null: false
     t.bigint "data_type_id", null: false
