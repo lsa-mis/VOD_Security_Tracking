@@ -31,9 +31,12 @@ class LegacyOsRecord < ApplicationRecord
   belongs_to :data_type
   belongs_to :device
   has_many :tdx_tickets, as: :records_to_tdx
+  accepts_nested_attributes_for :device
 
   has_many_attached :attachments
   audited
+  validates :device_id, presence: true
+  # validate :need_device
 
   scope :active, -> { where(deleted_at: nil) }
   scope :archived, -> { where("#{self.table_name}.deleted_at IS NOT NULL") }
@@ -45,5 +48,9 @@ class LegacyOsRecord < ApplicationRecord
   def archived?
     self.deleted_at.present?
   end
+
+  # def need_device
+  #   errors.add(:device_id, "Choose or create a device") unless device_id.present? || device.present?
+  # end
   
 end

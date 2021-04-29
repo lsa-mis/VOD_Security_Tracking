@@ -110,6 +110,12 @@
     <%= form.label :device_id %>
     <%= form.collection_select :device_id, Device.all, :id, :display_name, {include_blank: "Select"} %>
   </div>
+  <div>
+  <%= form.label "Or create a new device:" %>
+    <%= form.fields_for :device, Device.new do |d| %>
+      <%= d.text_field :serial %>
+    <% end %>
+  </div>
 
   <div class="field">
     <%= form.label :attachments %>
