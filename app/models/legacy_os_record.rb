@@ -35,8 +35,10 @@ class LegacyOsRecord < ApplicationRecord
 
   has_many_attached :attachments
   audited
-  validates :device_id, presence: true
+  validates :owner_username, presence: true
+
   # validate :need_device
+  validates_associated :device
 
   scope :active, -> { where(deleted_at: nil) }
   scope :archived, -> { where("#{self.table_name}.deleted_at IS NOT NULL") }
@@ -50,7 +52,12 @@ class LegacyOsRecord < ApplicationRecord
   end
 
   # def need_device
-  #   errors.add(:device_id, "Choose or create a device") unless device_id.present? || device.present?
+  #   serial = legacy_os_record_params[:device_attributes][:serial]
+  #   logger.debug "******************************legacy_os_record_params: #{legacy_os_record_params}"
+
+  #   logger.debug "******************************params: #{serial}"
+  #   fail
+  #   errors.add(:base, "Enter a device serial number") if self.device_attributes.serial.blank? 
   # end
   
 end
