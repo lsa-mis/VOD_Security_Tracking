@@ -38,7 +38,7 @@ class LegacyOsRecord < ApplicationRecord
   validates :owner_username, presence: true
 
   # validate :need_device
-  validates_associated :device
+  # validates_associated :device
 
   scope :active, -> { where(deleted_at: nil) }
   scope :archived, -> { where("#{self.table_name}.deleted_at IS NOT NULL") }
