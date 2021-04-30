@@ -8,6 +8,15 @@
 </ul>
 <% else %>
   <p class="text-lg text-orange-500">
-    Use the <%= link_to 'Edit', edit_dpa_exception_path(attached_files) %> button to add a sla_attachment!
+  <% case show_p %>
+      <% when "dpa_exception" %>
+        Use the <%= link_to 'Edit', edit_dpa_exception_path(attached_files) %> button to add an attachment!
+      <% when "it_security_incident" %>
+        Use the <%= link_to 'Edit', edit_it_security_incident_path(attached_files) %> button to add an attachment!
+      <% when "sensitive_data_system" %>
+        Use the <%= link_to 'Edit', edit_sensitive_data_system_path(attached_files) %> button to add an attachment!
+      <% when "legacy_os_record" %>
+        Use the <%= link_to 'Edit', edit_legacy_os_record_path(attached_files) %> button to add an attachment!
+      <% end %>
   </p>
 <% end %>
