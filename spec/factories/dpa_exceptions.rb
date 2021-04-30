@@ -20,6 +20,7 @@
 #  created_at                       :datetime         not null
 #  updated_at                       :datetime         not null
 #  deleted_at                       :datetime
+#  incomplete                       :boolean          default(FALSE)
 #
 FactoryBot.define do
   factory :dpa_exception do
