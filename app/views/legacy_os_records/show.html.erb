@@ -99,6 +99,8 @@
 </p>
 
 <%= render partial: "partials/show_attachments", locals: {attached_files: @legacy_os_record} %>
+<%= render partial: "partials/add_attachments", locals: {record: @legacy_os_record} %>
+
 
 <%= render partial: "tdx_tickets/tdx_tickets", locals: {record_to_tdx: @legacy_os_record, destroy_p: "legacy_os_record"} %>
 <%= render partial: "tdx_tickets/form", locals: {record_to_tdx: @legacy_os_record} %>
