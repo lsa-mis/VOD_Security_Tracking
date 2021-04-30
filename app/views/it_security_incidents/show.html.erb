@@ -1,4 +1,10 @@
 <p>
+<% if @it_security_incident.incomplete %>
+  <strong>This record is incomplete!!!!!</strong>
+  <% end %>
+</p>
+
+<p>
   <strong>Date:</strong>
   <%= @it_security_incident.date %>
 </p>
@@ -38,7 +44,9 @@
   <%= @it_security_incident.data_type_id %>
 </p>
 
-<%= render partial: "partials/show_attachments", locals: {attached_files: @it_security_incident} %>
+<%= render partial: "partials/show_attachments", locals: {attached_files: @it_security_incident, show_p: "it_security_incident"} %>
+<%= render partial: "partials/add_attachments", locals: {attached_files: @it_security_incident, show_p: "it_security_incident"} %>
+
 
 <%= render partial: "tdx_tickets/tdx_tickets", locals: {record_to_tdx: @it_security_incident, destroy_p: "it_security_incident"} %>
 <%= render partial: "tdx_tickets/form", locals: {record_to_tdx: @it_security_incident} %>
