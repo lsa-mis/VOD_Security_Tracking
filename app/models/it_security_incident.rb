@@ -23,11 +23,10 @@ class ItSecurityIncident < ApplicationRecord
   has_many_attached :attachments
   audited
 
-  validates :date, presence: true
+  validate :validate_if_complete
   validates :people_involved, presence: true
   validates :equipment_involved, presence: true
   validates :remediation_steps, presence: true
-  validates :it_security_incident_status_id, presence: true
   validates :data_type_id, presence: true
 
 
@@ -40,6 +39,15 @@ class ItSecurityIncident < ApplicationRecord
 
   def archived?
     self.deleted_at.present?
+  end
+
+  def validate_if_complete
+    if self.it_security_incident_status_id.blank?
+      errors.add(:it_security_incident_status_id, "can't be blank") unless self.incomplete 
+    end
+    if self.date.blank?
+      errors.add(:date, "can't be blank") unless self.incomplete
+    end
   end
   
 end
