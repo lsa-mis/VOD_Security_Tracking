@@ -11,18 +11,23 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :review_date %>
-    <%= form.date_select :review_date, include_blank: true, start_year: Date.current.year %>
+  <div>
+  <font color="red">**</font> - mandatory fields<br>
+  <font color="red">*</font> - requered fields; to save without these fields check the [incomplete] checkbox
   </div>
 
   <div class="field">
-    <%= form.label :third_party_product_service %>
-    <%= form.text_area :third_party_product_service %>
+    <%= form.label :review_date_exception_first_approval_date %><font color="red">*</font>
+    <%= form.date_select :review_date_exception_first_approval_date, include_blank: true, start_year: Date.current.year %>
   </div>
 
   <div class="field">
-    <%= form.label :used_by %>
+    <%= form.label :third_party_product_service %><font color="red">**</font>
+    <%= form.text_area :third_party_product_service, required: true  %>
+  </div>
+
+  <div class="field">
+    <%= form.label :used_by %><font color="red">*</font>
     <%= form.text_field :used_by %>
   </div>
 
@@ -52,18 +57,23 @@
   </div>
 
   <div class="field">
-    <%= form.label :lsa_security_approval %>
+    <%= form.label :lsa_security_approval %><font color="red">*</font>
     <%= form.text_field :lsa_security_approval %>
   </div>
 
   <div class="field">
-    <%= form.label :lsa_technology_services_approval %>
+    <%= form.label :lsa_technology_services_approval %><font color="red">*</font>
     <%= form.text_field :lsa_technology_services_approval %>
   </div>
 
   <div class="field">
-    <%= form.label :exception_approval_date %>
-    <%= form.date_select :exception_approval_date, include_blank: true, start_year: Date.current.year %>
+    <%= form.label :exception_approval_date_exception_renewal_date_due %><font color="red">*</font>
+    <%= form.date_select :exception_approval_date_exception_renewal_date_due, include_blank: true, start_year: Date.current.year %>
+  </div>
+
+  <div class="field">
+    <%= form.label :review_date_exception_review_date %><font color="red">*</font>
+    <%= form.date_select :review_date_exception_review_date, include_blank: true, start_year: Date.current.year %>
   </div>
 
   <div class="field">
@@ -82,8 +92,8 @@
   </div>
 
   <div class="field">
-    <%= form.label :data_type_id %>
-    <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"} %>
+    <%= form.label :data_type_id %><font color="red">**</font>
+    <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}, required: true   %>
   </div>
 
   <div class="field">

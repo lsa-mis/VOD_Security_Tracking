@@ -3,7 +3,7 @@
 <table>
   <thead>
     <tr>
-      <th>Review date</th>
+      <th>Review date exception first approval date</th>
       <th>Third party product service</th>
       <th>Used by</th>
       <th>Point of contact</th>
@@ -13,7 +13,8 @@
       <th>Lsa security determination</th>
       <th>Lsa security approval</th>
       <th>Lsa technology services approval</th>
-      <th>Exception approval date</th>
+      <th>Exception approval date exception renewal date due</th>
+      <th>Review date exception review date</th>
       <th>Notes</th>
       <th>Sla agreement</th>
       <th>Data type</th>
@@ -24,7 +25,7 @@
   <tbody>
     <% @dpa_exceptions.each do |dpa_exception| %>
       <tr>
-        <td><%= dpa_exception.review_date %></td>
+        <td><%= dpa_exception.review_date_exception_first_approval_date %></td>
         <td><%= dpa_exception.third_party_product_service %></td>
         <td><%= dpa_exception.used_by %></td>
         <td><%= dpa_exception.point_of_contact %></td>
@@ -34,7 +35,8 @@
         <td><%= dpa_exception.lsa_security_determination %></td>
         <td><%= dpa_exception.lsa_security_approval %></td>
         <td><%= dpa_exception.lsa_technology_services_approval %></td>
-        <td><%= dpa_exception.exception_approval_date %></td>
+        <td><%= dpa_exception.exception_approval_date_exception_renewal_date_due %></td>
+        <td><%= dpa_exception.review_date_exception_review_date %></td>
         <td><%= dpa_exception.notes %></td>
         <td><%= dpa_exception.sla_agreement %></td>
         <td><%= dpa_exception.data_type_id %></td>

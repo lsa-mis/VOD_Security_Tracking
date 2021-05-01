@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_01_205006) do
+ActiveRecord::Schema.define(version: 2021_05_01_214323) do
 
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "namespace"
@@ -125,17 +125,17 @@ ActiveRecord::Schema.define(version: 2021_05_01_205006) do
   end
 
   create_table "dpa_exceptions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.datetime "review_date", null: false
+    t.datetime "review_date_exception_first_approval_date"
     t.text "third_party_product_service", null: false
-    t.string "used_by", null: false
+    t.string "used_by"
     t.string "point_of_contact"
     t.text "review_findings"
     t.text "review_summary"
     t.text "lsa_security_recommendation"
     t.text "lsa_security_determination"
-    t.string "lsa_security_approval", null: false
-    t.string "lsa_technology_services_approval", null: false
-    t.datetime "exception_approval_date", null: false
+    t.string "lsa_security_approval"
+    t.string "lsa_technology_services_approval"
+    t.datetime "exception_approval_date_exception_renewal_date_due"
     t.string "notes"
     t.string "sla_agreement"
     t.bigint "data_type_id", null: false
@@ -143,6 +143,7 @@ ActiveRecord::Schema.define(version: 2021_05_01_205006) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "deleted_at"
     t.boolean "incomplete", default: false
+    t.datetime "review_date_exception_review_date"
     t.index ["data_type_id"], name: "index_dpa_exceptions_on_data_type_id"
   end
 

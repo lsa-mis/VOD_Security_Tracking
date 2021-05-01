@@ -7,26 +7,6 @@ class DpaExceptionsController < InheritedResources::Base
     @dpa_exceptions = DpaException.active
   end
 
-  def create
-    @dpa_exception = DpaException.new(dpa_exception_params)
-    logger.debug "************************************************incomplete: #{@dpa_exception.incomplete}"
-
-    respond_to do |format|
-      if @dpa_exception.incomplete
-        save = @dpa_exception.save(validate: false)
-      else
-        save = @dpa_exception.save
-      end
-      if save
-        format.html { redirect_to root_path, notice: 'Application was successfully created.' }
-        format.json { render :show, status: :created, location: @dpa_exception }
-      else
-        format.html { render :new }
-        format.json { render json: @dpa_exception.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
   def archive
 
     @dpa_exception = DpaException.find(params[:id])
@@ -49,7 +29,7 @@ class DpaExceptionsController < InheritedResources::Base
   private
 
     def dpa_exception_params
-      params.require(:dpa_exception).permit(:review_date, :third_party_product_service, :used_by, :point_of_contact, :review_findings, :review_summary, :lsa_security_recommendation, :lsa_security_determination, :lsa_security_approval, :lsa_technology_services_approval, :exception_approval_date, :notes, :sla_agreement, :sla_attachment, :data_type_id, :incomplete, attachments: [])
+      params.require(:dpa_exception).permit(:review_date_exception_first_approval_date, :third_party_product_service, :used_by, :point_of_contact, :review_findings, :review_summary, :lsa_security_recommendation, :lsa_security_determination, :lsa_security_approval, :lsa_technology_services_approval, :exception_approval_date_exception_renewal_date_due, :review_date_exception_review_date, :notes, :sla_agreement, :sla_attachment, :data_type_id, :incomplete, attachments: [])
     end
 
 end
