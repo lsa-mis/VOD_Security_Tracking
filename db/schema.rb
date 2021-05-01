@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_30_194904) do
+ActiveRecord::Schema.define(version: 2021_05_01_205006) do
 
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "namespace"
@@ -173,15 +173,15 @@ ActiveRecord::Schema.define(version: 2021_04_30_194904) do
   create_table "legacy_os_records", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "owner_username", null: false
     t.string "owner_full_name", null: false
-    t.string "dept", null: false
+    t.string "dept"
     t.string "phone"
     t.string "additional_dept_contact"
     t.string "additional_dept_contact_phone"
-    t.string "support_poc", null: false
+    t.string "support_poc"
     t.string "legacy_os", null: false
     t.string "unique_app"
     t.string "unique_hardware"
-    t.datetime "unique_date", null: false
+    t.datetime "unique_date"
     t.string "remediation", null: false
     t.datetime "exception_approval_date"
     t.datetime "review_date"
@@ -190,10 +190,11 @@ ActiveRecord::Schema.define(version: 2021_04_30_194904) do
     t.string "local_it_support_group"
     t.text "notes"
     t.bigint "data_type_id", null: false
-    t.bigint "device_id", null: false
+    t.bigint "device_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "deleted_at"
+    t.boolean "incomplete", default: false
     t.index ["data_type_id"], name: "index_legacy_os_records_on_data_type_id"
     t.index ["device_id"], name: "index_legacy_os_records_on_device_id"
   end
