@@ -11,18 +11,23 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :owner_username %>
-    <%= form.text_field :owner_username %>
+  <div>
+  <font color="red">**</font> - mandatory fields<br>
+  <font color="red">*</font> - requered fields; to save without these fields check the [incomplete] checkbox
   </div>
 
   <div class="field">
-    <%= form.label :owner_full_name %>
-    <%= form.text_field :owner_full_name %>
+    <%= form.label :owner_username %><font color="red">**</font>
+    <%= form.text_field :owner_username, required: true  %>
   </div>
 
   <div class="field">
-    <%= form.label :dept %>
+    <%= form.label :owner_full_name %><font color="red">**</font>
+    <%= form.text_field :owner_full_name, required: true  %>
+  </div>
+
+  <div class="field">
+    <%= form.label :dept %><font color="red">*</font>
     <%= form.text_field :dept %>
   </div>
 
@@ -42,7 +47,7 @@
   </div>
 
   <div class="field">
-    <%= form.label :support_poc %>
+    <%= form.label :support_poc %><font color="red">*</font>
     <%= form.text_field :support_poc %>
   </div>
 
@@ -57,13 +62,13 @@
   </div>
 
   <div class="field">
-    <%= form.label :review_date %>
-    <%= form.date_select :review_date, include_blank: true, start_year: Date.current.year %>
+    <%= form.label :review_date %><font color="red">**</font>
+    <%= form.date_select :review_date, include_blank: true, start_year: Date.current.year, required: true %>
   </div>
 
   <div class="field">
-    <%= form.label :review_contact %>
-    <%= form.text_field :review_contact %>
+    <%= form.label :review_contact %><font color="red">**</font>
+    <%= form.text_field :review_contact, required: true  %>
   </div>
 
   <div class="field">
@@ -72,24 +77,29 @@
   </div>
 
   <div class="field">
-    <%= form.label :storage_location_id %>
-    <%= form.collection_select :storage_location_id, StorageLocation.all, :id, :name, {include_blank: "Select"} %>
+    <%= form.label :storage_location_id %><font color="red">**</font>
+    <%= form.collection_select :storage_location_id, StorageLocation.all, :id, :name, {include_blank: "Select"}, required: true %>
 
   </div>
 
   <div class="field">
-    <%= form.label :data_type_id %>
-    <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"} %>
+    <%= form.label :data_type_id %><font color="red">**</font>
+    <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}, required: true %>
   </div>
 
   <div class="field">
-    <%= form.label :device_id %>
-    <%= form.collection_select :device_id, Device.all, :id, :display_name, {include_blank: "Select"} %>
+    <%= form.label :device_id %><font color="red">**</font>
+    <%= form.collection_select :device_id, Device.all, :id, :display_name, {include_blank: "Select"}, required: true %>
   </div>
 
   <div class="field">
     <%= form.label :attachments %>
     <%= form.file_field :attachments, multiple: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :incomplete %>
+    <%= form.check_box :incomplete %>
   </div>
 
   <div class="actions">

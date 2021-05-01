@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_01_214323) do
+ActiveRecord::Schema.define(version: 2021_05_01_222708) do
 
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "namespace"
@@ -202,12 +202,12 @@ ActiveRecord::Schema.define(version: 2021_05_01_214323) do
 
   create_table "sensitive_data_systems", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "owner_username", null: false
-    t.string "owner_full_name"
+    t.string "owner_full_name", null: false
     t.string "dept"
     t.string "phone"
     t.string "additional_dept_contact"
     t.string "additional_dept_contact_phone"
-    t.string "support_poc", null: false
+    t.string "support_poc"
     t.text "expected_duration_of_data_retention"
     t.string "agreements_related_to_data_types"
     t.datetime "review_date", null: false
@@ -219,6 +219,7 @@ ActiveRecord::Schema.define(version: 2021_05_01_214323) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "deleted_at"
+    t.boolean "incomplete", default: false
     t.index ["data_type_id"], name: "index_sensitive_data_systems_on_data_type_id"
     t.index ["device_id"], name: "index_sensitive_data_systems_on_device_id"
     t.index ["storage_location_id"], name: "index_sensitive_data_systems_on_storage_location_id"
