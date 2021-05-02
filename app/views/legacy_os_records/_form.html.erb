@@ -114,7 +114,7 @@
   </div>
 
   <div>
-  <%= form.label "Add a device:" %>
+  <%= form.label "Add a device (enter serial or hostname):" %>
     <%= form.fields_for :device, Device.new do |d| %>
       <%= d.text_field :serial, required: true %>
     <% end %>
