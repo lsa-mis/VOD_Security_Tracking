@@ -45,6 +45,8 @@
 </p>
 
 <%= render partial: "partials/show_attachments", locals: {attached_files: @it_security_incident} %>
+<%= render partial: "partials/add_attachments", locals: {record: @it_security_incident} %>
+
 
 <%= render partial: "tdx_tickets/tdx_tickets", locals: {record_to_tdx: @it_security_incident, destroy_p: "it_security_incident"} %>
 <%= render partial: "tdx_tickets/form", locals: {record_to_tdx: @it_security_incident} %>

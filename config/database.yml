@@ -60,6 +60,8 @@ test:
 #
 production:
   <<: *default
-  database: vodst_production
+  database: vodsecurityproduction
   username: <%= Rails.application.credentials.mysql[:prod_user] %>
   password: <%= Rails.application.credentials.mysql[:prod_password] %>
+  host: <%= Rails.application.credentials.mysql[:prod_servername] %>
+  sslca: <%= Rails.application.credentials.mysql[:prod_sslca] %>

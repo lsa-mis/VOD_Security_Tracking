@@ -83,7 +83,9 @@
   <%= @dpa_exception.data_type_id %>
 </p>
 
-<%= render partial: "partials/show_attachments", locals: {attached_files: @dpa_exception, show_p: "dpa_exception"} %>
+<%= render partial: "partials/show_attachments", locals: {attached_files: @dpa_exception} %>
+<%= render partial: "partials/add_attachments", locals: {record: @dpa_exception} %>
+
 
 <%= render partial: "tdx_tickets/tdx_tickets", locals: {record_to_tdx: @dpa_exception, destroy_p: "dpa_exception"} %>
 <%= render partial: "tdx_tickets/form", locals: {record_to_tdx: @dpa_exception} %>

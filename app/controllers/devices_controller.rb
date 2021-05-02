@@ -91,7 +91,7 @@ class DevicesController < InheritedResources::Base
   private
 
     def device_params
-      params.require(:device).permit(:serial, :hostname, :mac, :building, :room)
+      params.require(:device).permit(:serial, :hostname, :mac, :building, :room, :manufacturer, :model, :owner, :department)
     end
 
 end

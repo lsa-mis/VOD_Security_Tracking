@@ -1,4 +1,9 @@
-<div class="field">
+<%= form_with(model: [record], local: true) do |form| %>
+  <div class="field">
     <%= form.label :attachments %>
     <%= form.file_field :attachments, multiple: true %>
   </div>
+  <div class="actions">
+      <%= form.submit "Add attachment"%>
+  </div>
+<% end %>
