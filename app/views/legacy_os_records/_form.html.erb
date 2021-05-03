@@ -114,9 +114,11 @@
   </div>
 
   <div>
-  <%= form.label "Add a device (enter serial or hostname):" %>
+  <%= form.label "Add a device" %><font color="red">**</font> - enter serial:
     <%= form.fields_for :device, Device.new do |d| %>
-      <%= d.text_field :serial, required: true %>
+      <%= d.text_field :serial %>
+      or hostname:
+      <%= d.text_field :hostname %>
     <% end %>
   </div>
 
@@ -134,3 +136,6 @@
     <%= form.submit %>
   </div>
 <% end %>
+
+<%= javascript_pack_tag 'check_device_presence' %>
+

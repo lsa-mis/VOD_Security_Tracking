@@ -13,11 +13,18 @@ class LegacyOsRecordsController < InheritedResources::Base
   def create
     @legacy_os_record = LegacyOsRecord.new(legacy_os_record_params)
     serial = legacy_os_record_params[:device_attributes][:serial]
+    hostname = legacy_os_record_params[:device_attributes][:hostname]
+    if serial.present? 
+      search_field = serial
+    else 
+      search_field = hostname
+    end
+  
     # check if serial (or hostname) exists in devices table 
-    if Device.find_by(serial: serial).present?
+    if serial.present? && Device.find_by(serial: serial).present?
       @legacy_os_record.device_id = Device.find_by(serial: serial).id
-    elsif Device.find_by(hostname: serial).present?
-      @legacy_os_record.device_id = Device.find_by(hostname: serial).id
+    elsif hostname.present? && Device.find_by(hostname: hostname).present?
+      @legacy_os_record.device_id = Device.find_by(hostname: hostname).id
     else
       #  get auth token
       url = URI("https://apigw.it.umich.edu/um/it/oauth2/token")
@@ -48,19 +55,18 @@ class LegacyOsRecordsController < InheritedResources::Base
       request["authorization"] = "Bearer #{access_token}"
       request["content-type"] = 'application/json'
       request["accept"] = 'application/json'
-      request.body = "{\"SerialLike\":\"#{serial}\"}"
+      request.body = "{\"SerialLike\":\"#{search_field}\"}"
 
       response = http.request(request)
       asset_info = JSON.parse(response.read_body)
 
       # check if response is not empty and returns only one result
       if asset_info.present? && asset_info.count == 1
-          # serial or hostname = :serial
-          if asset_info[0]['SerialNumber'] == serial
+          # serial or hostname 
+          if serial && asset_info[0]['SerialNumber'] == search_field
             dev = @legacy_os_record.build_device(serial: legacy_os_record_params[:device_attributes][:serial])
             dev.hostname = asset_info[0]['Name']
-          end
-          if asset_info[0]['Name'] == serial
+          elsif hostname && asset_info[0]['Name'] == search_field
             dev = @legacy_os_record.build_device(hostname: legacy_os_record_params[:device_attributes][:serial])
             dev.serial = asset_info[0]['SerialNumber']
           end
@@ -89,7 +95,7 @@ class LegacyOsRecordsController < InheritedResources::Base
             end
           end
       elsif asset_info.present? && asset_info.count > 1
-        error_device = "More then one result returned for serial or hostname [#{serial}]"
+        error_device = "More then one result returned for serial [#{serial}] or hostname [#{hostname}]"
       else 
         device_note = "This device is not present in the TDX Assets database"
       end
@@ -107,7 +113,6 @@ class LegacyOsRecordsController < InheritedResources::Base
           format.json { render json: @legacy_os_record.errors, status: :unprocessable_entity }
         end
       else
-        logger.debug "***************************************error_device: #{error_device}"
         flash.now[:alert] = error_device
         format.html { render :new }
         format.json { render json: @legacy_os_record.errors, status: :unprocessable_entity }
@@ -137,7 +142,7 @@ class LegacyOsRecordsController < InheritedResources::Base
 
     def legacy_os_record_params
       # params.require(:legacy_os_record).permit(:owner_username, :owner_full_name, :dept, :phone, :additional_dept_contact, :additional_dept_contact_phone, :support_poc, :legacy_os, :unique_app, :unique_hardware, :unique_date, :remediation, :exception_approval_date, :review_date, :review_contact, :justification, :local_it_support_group, :notes, :data_type_id, :device_id, attachments: [], device_attributes: [:serial, :hostname, :mac, :building, :room, :manufacturer, :model, :owner, :department])
-     params.require(:legacy_os_record).permit(:owner_username, :owner_full_name, :dept, :phone, :additional_dept_contact, :additional_dept_contact_phone, :support_poc, :legacy_os, :unique_app, :unique_hardware, :unique_date, :remediation, :exception_approval_date, :review_date, :review_contact, :justification, :local_it_support_group, :notes, :data_type_id, :device_id, :incomplete, attachments: [], device_attributes: [:serial])
+     params.require(:legacy_os_record).permit(:owner_username, :owner_full_name, :dept, :phone, :additional_dept_contact, :additional_dept_contact_phone, :support_poc, :legacy_os, :unique_app, :unique_hardware, :unique_date, :remediation, :exception_approval_date, :review_date, :review_contact, :justification, :local_it_support_group, :notes, :data_type_id, :device_id, :incomplete, attachments: [], device_attributes: [:serial, :hostname])
     end
 
 end
