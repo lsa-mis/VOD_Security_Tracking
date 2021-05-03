@@ -1,4 +1,4 @@
-<%= form_with(model: legacy_os_record) do |form| %>
+<%= form_with(model: legacy_os_record, html: {id: "form"}) do |form| %>
   <% if legacy_os_record.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(legacy_os_record.errors.count, "error") %> prohibited this legacy_os_record from being saved:</h2>
@@ -113,7 +113,7 @@
     <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}, required: true  %>
   </div>
 
-  <div>
+  <div id="device_input">
   <%= form.label "Add a device" %><font color="red">**</font> - enter serial:
     <%= form.fields_for :device, Device.new do |d| %>
       <%= d.text_field :serial %>
@@ -137,5 +137,5 @@
   </div>
 <% end %>
 
-<%= javascript_pack_tag 'check_device_presence' %>
+<%= javascript_pack_tag 'device_presence' %>
 
