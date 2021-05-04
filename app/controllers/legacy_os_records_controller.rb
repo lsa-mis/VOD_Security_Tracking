@@ -13,8 +13,10 @@ class LegacyOsRecordsController < InheritedResources::Base
 
   def create
     @legacy_os_record = LegacyOsRecord.new(legacy_os_record_params)
+    @device = @legacy_os_record.build_device
     @serial = legacy_os_record_params[:device_attributes][:serial]
     @hostname = legacy_os_record_params[:device_attributes][:hostname]
+
     if @serial.present? 
       @search_field = @serial
     else 
