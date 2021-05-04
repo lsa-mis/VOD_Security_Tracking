@@ -37,18 +37,18 @@ module DeviceTdxApi
         if asset_info.present? && asset_info.count == 1
             # serial or hostname 
             if @serial && asset_info[0]['SerialNumber'] == @search_field
-                dev = @legacy_os_record.build_device(serial: @serial)
-                dev.hostname = asset_info[0]['Name']
+                @device.serial = @serial
+                @device.hostname = asset_info[0]['Name']
             elsif @hostname && asset_info[0]['Name'] == @search_field
-                dev = @legacy_os_record.build_device(hostname: @hostname)
-                dev.serial = asset_info[0]['SerialNumber']
+                @device.hostname = @hostname
+                @device.serial = asset_info[0]['SerialNumber']
             end
-            dev.building = asset_info[0]['LocationName']
-            dev.room = asset_info[0]['LocationRoomName']
-            dev.owner = asset_info[0]['OwningCustomerName']
-            dev.department = asset_info[0]['OwningDepartmentName']
-            dev.manufacturer = asset_info[0]['ManufacturerName']
-            dev.model = asset_info[0]['ProductModelName']
+            @device.building = asset_info[0]['LocationName']
+            @device.room = asset_info[0]['LocationRoomName']
+            @device.owner = asset_info[0]['OwningCustomerName']
+            @device.department = asset_info[0]['OwningDepartmentName']
+            @device.manufacturer = asset_info[0]['ManufacturerName']
+            @device.model = asset_info[0]['ProductModelName']
             asset_id = asset_info[0]['ID']
 
             # get attributes by asset_id
@@ -62,16 +62,10 @@ module DeviceTdxApi
             response = http.request(request)
             asset_info = JSON.parse(response.read_body)
 
-            # dev.building = asset_info['LocationName']
-            # dev.room = asset_info['LocationRoomName']
-            # dev.owner = asset_info['OwningCustomerName']
-            # dev.department = asset_info['OwningDepartmentName']
-            # dev.manufacturer = asset_info['ManufacturerName']
-            # dev.model = asset_info['ProductModelName']
             if asset_info.count == 1 
                 asset_info['Attributes'].each do |att|
                     if att['Name'] == "MAC Address(es)"
-                        dev.mac = att['Value']
+                        @device.mac = att['Value']
                     end
                 end
             end
