@@ -20,6 +20,8 @@ class Device < ApplicationRecord
     has_many :legacy_os_records
     audited
 
+    scope :incomplete, -> { Device.where("(serial = '' or serial IS NULL)  AND (mac is null or owner is null)").or(Device.where("(hostname = '' or hostname IS NULL)  AND (mac is null or owner is null)")) }
+
     validate :serial_or_hostname
 
     def display_name
