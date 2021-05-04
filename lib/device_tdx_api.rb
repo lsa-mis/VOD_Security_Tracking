@@ -32,17 +32,13 @@ module DeviceTdxApi
 
         response = http.request(request)
         asset_info = JSON.parse(response.read_body)
-
         # check if response is not empty and returns only one result
+
         if asset_info.present? && asset_info.count == 1
             # serial or hostname 
-            if @serial && asset_info[0]['SerialNumber'] == @search_field
-                @device.serial = @serial
-                @device.hostname = asset_info[0]['Name']
-            elsif @hostname && asset_info[0]['Name'] == @search_field
-                @device.hostname = @hostname
-                @device.serial = asset_info[0]['SerialNumber']
-            end
+            @device.serial = asset_info[0]['SerialNumber']
+            @device.hostname = asset_info[0]['Name']
+
             @device.building = asset_info[0]['LocationName']
             @device.room = asset_info[0]['LocationRoomName']
             @device.owner = asset_info[0]['OwningCustomerName']
