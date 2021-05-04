@@ -7,6 +7,32 @@ class LegacyOsRecordsController < InheritedResources::Base
     @legacy_os_records = LegacyOsRecord.active
   end
 
+  def show
+    @legacy_os_record = LegacyOsRecord.find(params[:id])
+    @device = @legacy_os_record.device
+    if @device.incomplete?
+      if @device.serial.present?
+        @search_field = @device.serial
+      elsif @device.hostname.present?
+        @search_field = @device.hostname
+      else
+        #something is wrong !!!???
+      end
+      # call TDX API and save device data if any
+      get_device_data
+      # should check successful save
+      if @device.save
+        flash.now[:notice] = "Device was saved"
+      else
+        @error_device = "errrorr!"
+      end
+      @device_note = "" if @device_note.nil?
+      @error_device = "" if @error_device.nil?
+      flash.now[:alert] = @error_device
+      flash.now[:alert] = @device_note
+    end
+  end
+
   def new
     @legacy_os_record = LegacyOsRecord.new
   end
