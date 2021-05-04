@@ -20,8 +20,14 @@ class Device < ApplicationRecord
     has_many :legacy_os_records
     audited
 
+    validate :serial_or_hostname
+
     def display_name
       "#{self.serial} - #{self.hostname}" # or whatever column you want
+    end
+
+    def serial_or_hostname
+      errors.add(:base, "Serial or Unique Hardware needs a value") unless serial.present? || hostname.present?
     end
 
 end
