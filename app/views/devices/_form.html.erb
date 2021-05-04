@@ -1,4 +1,4 @@
-<%= form_with(model: device) do |form| %>
+<%= form_with(model: device, html: {id: "form"}) do |form| %>
   <% if device.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(device.errors.count, "error") %> prohibited this device from being saved:</h2>
@@ -10,53 +10,23 @@
       </ul>
     </div>
   <% end %>
+  <p>
+  Enter a serial number or a hostname
+  </p>
+  <div id="device_input">
+    <div class="field">
+      <%= form.label :serial %>
+      <%= form.text_field :serial %>
+    </div>
 
-  <div class="field">
-    <%= form.label :serial %>
-    <%= form.text_field :serial %>
+    <div class="field">
+      <%= form.label :hostname %>
+      <%= form.text_field :hostname %>
+    </div>
   </div>
-
-  <div class="field">
-    <%= form.label :hostname %>
-    <%= form.text_field :hostname %>
-  </div>
-
-  <div class="field">
-    <%= form.label :mac %>
-    <%= form.text_field :mac %>
-  </div>
-
-  <div class="field">
-    <%= form.label :manufacturer %>
-    <%= form.text_field :manufacturer %>
-  </div>
-
-  <div class="field">
-    <%= form.label :model %>
-    <%= form.text_field :model %>
-  </div>
-
-  <div class="field">
-    <%= form.label :owner %>
-    <%= form.text_field :owner %>
-  </div>
-
-  <div class="field">
-    <%= form.label :department %>
-    <%= form.text_field :department %>
-  </div>
-
-  <div class="field">
-    <%= form.label :building %>
-    <%= form.text_field :building %>
-  </div>
-
-  <div class="field">
-    <%= form.label :room %>
-    <%= form.text_field :room %>
-  </div>
-
   <div class="actions">
     <%= form.submit %>
   </div>
 <% end %>
+
+<%= javascript_pack_tag 'device_presence' %>
