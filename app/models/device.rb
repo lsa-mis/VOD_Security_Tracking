@@ -32,4 +32,12 @@ class Device < ApplicationRecord
       errors.add(:base, "Serial or Unique Hardware needs a value") unless serial.present? || hostname.present?
     end
 
+    def incomplete?
+      if ((self.serial.blank? && (self.mac.blank? || self.owner.blank?)) || (self.hostname.blank? && (self.mac.blank? || self.owner.blank?)))
+        true
+      else 
+        false
+      end
+    end
+
 end
