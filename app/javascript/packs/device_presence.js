@@ -1,7 +1,8 @@
 $(document).ready(function () {
     $('#form').submit(function () {
-        serial = $('#legacy_os_record_device_attributes_serial').val();
-        hostname = $('#legacy_os_record_device_attributes_hostname').val()
+        serial = $("input[id$=serial").val();
+        hostname = $("input[id$=hostname").val();
+
         if ((serial == "" && hostname != "") || (serial != "" && hostname == "")) {
             var errors = 0;
         }
