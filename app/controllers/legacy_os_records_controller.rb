@@ -1,6 +1,8 @@
 class LegacyOsRecordsController < InheritedResources::Base
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
+  before_action :set_legacy_os_record, only: [:show, :edit, :update, :archive]
+
 
   def index
     @legacy_os_records = LegacyOsRecord.active
@@ -25,6 +27,10 @@ class LegacyOsRecordsController < InheritedResources::Base
   end
 
   private
+
+  def set_legacy_os_record
+    @legacy_os_record = LegacyOsRecord.find(params[:id])
+  end
 
     def legacy_os_record_params
       params.require(:legacy_os_record).permit(:owner_username, :owner_full_name, :dept, :phone, :additional_dept_contact, :additional_dept_contact_phone, :support_poc, :legacy_os, :unique_app, :unique_hardware, :unique_date, :remediation, :exception_approval_date, :review_date, :review_contact, :justification, :local_it_support_group, :notes, :data_type_id, :device_id, :incomplete, attachments: [])

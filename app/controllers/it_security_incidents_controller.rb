@@ -7,25 +7,6 @@ class ItSecurityIncidentsController < InheritedResources::Base
     @it_security_incidents = ItSecurityIncident.active
   end
 
-  def create
-    @it_security_incident = ItSecurityIncident.new(it_security_incident_params)
-
-    respond_to do |format|
-      if @it_security_incident.incomplete
-        save = @it_security_incident.save(validate: false)
-      else
-        save = @it_security_incident.save
-      end
-      if save
-        format.html { redirect_to it_security_incident_path(@it_security_incident), notice: 'it security incident record was successfully created.' }
-        format.json { render :show, status: :created, location: @it_security_incident }
-      else
-        format.html { render :new }
-        format.json { render json: @it_security_incident.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
   def show
   end
 

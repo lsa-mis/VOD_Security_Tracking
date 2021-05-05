@@ -1,4 +1,10 @@
 <p>
+<% if @dpa_exception.incomplete %>
+  <strong>This record is incomplete!!!!!</strong>
+  <% end %>
+</p>
+
+<p>
   <strong>Review date exception first approval date:</strong>
   <%= @dpa_exception.review_date_exception_first_approval_date %>
 </p>
