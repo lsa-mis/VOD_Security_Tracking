@@ -22,15 +22,15 @@ class Device < ApplicationRecord
 
     scope :incomplete, -> { Device.where("(serial = '' or serial IS NULL)  AND (mac is null or owner is null)").or(Device.where("(hostname = '' or hostname IS NULL)  AND (mac is null or owner is null)")) }
 
-    validate :serial_or_hostname
+    # validate :serial_or_hostname
 
     def display_name
       "#{self.serial} - #{self.hostname}" # or whatever column you want
     end
 
-    def serial_or_hostname
-      errors.add(:base, "Serial or Unique Hardware needs a value") unless serial.present? || hostname.present?
-    end
+    # def serial_or_hostname
+    #   errors.add(:base, "Serial or Unique Hardware needs a value") unless serial.present? || hostname.present?
+    # end
 
     def incomplete?
       if ((self.serial.blank? && (self.mac.blank? || self.owner.blank?)) || (self.hostname.blank? && (self.mac.blank? || self.owner.blank?)))
