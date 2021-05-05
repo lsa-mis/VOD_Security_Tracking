@@ -26,5 +26,33 @@
 require 'rails_helper'
 
 RSpec.describe DpaException, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let!(:device) { FactoryBot.create(:device) }
+  let!(:data_classification_level) { FactoryBot.create(:data_classification_level) }
+  let!(:data_type) { FactoryBot.create(:data_type, { data_classification_level: data_classification_level }) }
+
+  it "is valid with valid attributes" do
+    expect(DpaException.new(third_party_product_service: "third_party_product_service", review_date_exception_first_approval_date: "2021-03-19 16:50:16", used_by: "used_by",
+                              lsa_security_approval: "lsa_security_approval", lsa_technology_services_approval: "lsa_technology_services_approval",
+                              exception_approval_date_exception_renewal_date_due: "2021-03-19 16:50:16",
+                              review_date_exception_review_date: "2021-03-19 16:50:16", data_type: data_type)).to be_valid
+  end
+
+  it "is not valid without a data_type" do
+    expect(DpaException.new(third_party_product_service: "third_party_product_service", review_date_exception_first_approval_date: "2021-03-19 16:50:16", used_by: "used_by",
+                              lsa_security_approval: "lsa_security_approval", lsa_technology_services_approval: "lsa_technology_services_approval",
+                              exception_approval_date_exception_renewal_date_due: "2021-03-19 16:50:16",
+                              review_date_exception_review_date: "2021-03-19 16:50:16")).to_not be_valid
+  end
+
+  it "is valid without required fileds but with incomplete is true" do
+    expect(DpaException.new(third_party_product_service: "third_party_product_service", incomplete: true,
+                            data_type: data_type)).to be_valid
+  end
+
+  it "is not valid without required fileds when incomplete is false" do
+    expect(DpaException.new(third_party_product_service: "third_party_product_service",
+                            data_type: data_type)).to_not be_valid
+  end
+
+
 end
