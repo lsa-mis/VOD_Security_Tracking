@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_27_191838) do
+
+ActiveRecord::Schema.define(version: 2021_05_01_222708) do
 
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "namespace"
@@ -125,8 +126,8 @@ ActiveRecord::Schema.define(version: 2021_04_27_191838) do
   end
 
   create_table "dpa_exceptions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.datetime "review_date"
-    t.text "third_party_product_service"
+    t.datetime "review_date_exception_first_approval_date"
+    t.text "third_party_product_service", null: false
     t.string "used_by"
     t.string "point_of_contact"
     t.text "review_findings"
@@ -135,13 +136,15 @@ ActiveRecord::Schema.define(version: 2021_04_27_191838) do
     t.text "lsa_security_determination"
     t.string "lsa_security_approval"
     t.string "lsa_technology_services_approval"
-    t.datetime "exception_approval_date"
+    t.datetime "exception_approval_date_exception_renewal_date_due"
     t.string "notes"
     t.string "sla_agreement"
     t.bigint "data_type_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "deleted_at"
+    t.boolean "incomplete", default: false
+    t.datetime "review_date_exception_review_date"
     t.index ["data_type_id"], name: "index_dpa_exceptions_on_data_type_id"
   end
 
@@ -154,51 +157,53 @@ ActiveRecord::Schema.define(version: 2021_04_27_191838) do
 
   create_table "it_security_incidents", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.datetime "date"
-    t.text "people_involved"
-    t.text "equipment_involved"
-    t.text "remediation_steps"
+    t.text "people_involved", null: false
+    t.text "equipment_involved", null: false
+    t.text "remediation_steps", null: false
     t.integer "estimated_finacial_cost"
     t.text "notes"
-    t.bigint "it_security_incident_status_id", null: false
+    t.bigint "it_security_incident_status_id"
     t.bigint "data_type_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "deleted_at"
+    t.boolean "incomplete", default: false
     t.index ["data_type_id"], name: "index_it_security_incidents_on_data_type_id"
     t.index ["it_security_incident_status_id"], name: "index_it_security_incidents_on_it_security_incident_status_id"
   end
 
   create_table "legacy_os_records", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "owner_username"
-    t.string "owner_full_name"
+    t.string "owner_username", null: false
+    t.string "owner_full_name", null: false
     t.string "dept"
     t.string "phone"
     t.string "additional_dept_contact"
     t.string "additional_dept_contact_phone"
     t.string "support_poc"
-    t.string "legacy_os"
+    t.string "legacy_os", null: false
     t.string "unique_app"
     t.string "unique_hardware"
     t.datetime "unique_date"
-    t.string "remediation"
+    t.string "remediation", null: false
     t.datetime "exception_approval_date"
     t.datetime "review_date"
-    t.string "review_contact"
+    t.string "review_contact", null: false
     t.string "justification"
     t.string "local_it_support_group"
     t.text "notes"
     t.bigint "data_type_id", null: false
-    t.bigint "device_id", null: false
+    t.bigint "device_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "deleted_at"
+    t.boolean "incomplete", default: false
     t.index ["data_type_id"], name: "index_legacy_os_records_on_data_type_id"
     t.index ["device_id"], name: "index_legacy_os_records_on_device_id"
   end
 
   create_table "sensitive_data_systems", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "owner_username"
-    t.string "owner_full_name"
+    t.string "owner_username", null: false
+    t.string "owner_full_name", null: false
     t.string "dept"
     t.string "phone"
     t.string "additional_dept_contact"
@@ -206,8 +211,8 @@ ActiveRecord::Schema.define(version: 2021_04_27_191838) do
     t.string "support_poc"
     t.text "expected_duration_of_data_retention"
     t.string "agreements_related_to_data_types"
-    t.datetime "review_date"
-    t.string "review_contact"
+    t.datetime "review_date", null: false
+    t.string "review_contact", null: false
     t.string "notes"
     t.bigint "storage_location_id", null: false
     t.bigint "data_type_id", null: false
@@ -215,6 +220,7 @@ ActiveRecord::Schema.define(version: 2021_04_27_191838) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "deleted_at"
+    t.boolean "incomplete", default: false
     t.index ["data_type_id"], name: "index_sensitive_data_systems_on_data_type_id"
     t.index ["device_id"], name: "index_sensitive_data_systems_on_device_id"
     t.index ["storage_location_id"], name: "index_sensitive_data_systems_on_storage_location_id"

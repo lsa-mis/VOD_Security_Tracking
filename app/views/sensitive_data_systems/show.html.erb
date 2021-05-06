@@ -1,4 +1,10 @@
 <p>
+<% if @sensitive_data_system.incomplete %>
+  <strong>This record is incomplete!!!!!</strong>
+  <% end %>
+</p>
+
+<p>
   <strong>Owner username:</strong>
   <%= @sensitive_data_system.owner_username %>
 </p>
