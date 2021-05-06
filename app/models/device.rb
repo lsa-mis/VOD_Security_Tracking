@@ -20,6 +20,8 @@ class Device < ApplicationRecord
     has_many :legacy_os_records
     audited
 
+    # validates :serial, :hostname, uniqueness: true
+
     def display_name
         "#{self.serial} - #{self.hostname}" # or whatever column you want
       end
