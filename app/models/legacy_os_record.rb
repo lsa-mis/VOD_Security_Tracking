@@ -75,9 +75,7 @@ class LegacyOsRecord < ApplicationRecord
     if self.unique_date.blank?
       errors.add(:unique_date, "can't be blank") unless self.incomplete
     end
-    # if self.device_id.blank?
-    #   errors.add(:device_id, "can't be blank") unless self.incomplete
-    # end
+
   end
 
 end
