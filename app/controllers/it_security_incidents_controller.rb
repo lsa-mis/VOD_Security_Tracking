@@ -23,7 +23,6 @@ class ItSecurityIncidentsController < InheritedResources::Base
   end
 
   def archive
-    # @it_security_incident = ItSecurityIncident.find(params[:id])
     authorize @it_security_incident
     if @it_security_incident.archive
       respond_to do |format|
