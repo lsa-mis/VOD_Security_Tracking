@@ -1,4 +1,4 @@
-class DeviceTdxApi
+class DeviceTdxApi 
 
     def initialize(search_field)
         @search_field = search_field
@@ -21,15 +21,13 @@ class DeviceTdxApi
 
             response = http.request(request)
             @access_token = JSON.parse(response.read_body)['access_token']
-        rescue => error
-            puts error.inspect
+        rescue => @error
+           puts @error.inspect
         end
     end
 
     def get_device_data
-
         if get_auth_token
-            
             # get device data from API
             url = URI("https://apigw.it.umich.edu/um/it/48/assets/search")
 
@@ -48,6 +46,7 @@ class DeviceTdxApi
             asset_info = JSON.parse(response.read_body)
             # check if response is not empty and returns only one result
             if asset_info.present? && asset_info.count == 1
+                @device_tdx['device_tdx'] = 'yes'
                 # serial or hostname 
                 @device_tdx['serial'] = asset_info[0]['SerialNumber']
                 @device_tdx['hostname'] = asset_info[0]['Name']
@@ -83,10 +82,8 @@ class DeviceTdxApi
             else 
                 @device_tdx['device_note'] = "This device is not present in the TDX Assets database"
             end
-        # end of AP
         else
-            puts "No auth token"
-            false
+            @device_tdx['error_device'] =  "No authentication token" + @error.inspect
         end
         @device_tdx
     end
