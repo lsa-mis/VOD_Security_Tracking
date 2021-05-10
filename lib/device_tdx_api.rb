@@ -3,6 +3,7 @@ class DeviceTdxApi
     def initialize(search_field)
         @search_field = search_field
         @device_tdx = {}
+        Rails.logger.info "[#{self.class}] - initialize"
     end
 
     def get_auth_token
@@ -45,6 +46,8 @@ class DeviceTdxApi
             response = http.request(request)
             asset_info = JSON.parse(response.read_body)
             # check if response is not empty and returns only one result
+            Rails.logger.info "[#{self.class}] - **********************asset_info.count #{asset_info.count}"
+
             if asset_info.present? && asset_info.count == 1
                 @device_tdx['device_tdx'] = 'yes'
                 # serial or hostname 
@@ -78,6 +81,7 @@ class DeviceTdxApi
                     end
                 end
             elsif asset_info.present? && asset_info.count > 1
+                Rails.logger.debug "[#{self.class}] - ***************************************@search_field: #{@search_field}"
                 @device_tdx['error_device'] = "More then one result returned for serial or hostname [#{@search_field}]"
             else 
                 @device_tdx['device_note'] = "This device is not present in the TDX Assets database"
