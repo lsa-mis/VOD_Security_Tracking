@@ -117,6 +117,9 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise_ldap_authenticatable (0.8.7)
+      devise (>= 3.4.1)
+      net-ldap (>= 0.16.0)
     diff-lcs (1.4.4)
     erubi (1.10.0)
     factory_bot (6.1.0)
@@ -174,6 +177,7 @@ GEM
     minitest (5.14.4)
     msgpack (1.4.2)
     mysql2 (0.5.3)
+    net-ldap (0.17.0)
     net-scp (3.0.0)
       net-ssh (>= 2.6.5, < 7.0.0)
     net-ssh (6.1.0)
@@ -323,6 +327,7 @@ DEPENDENCIES
   capistrano-rbenv (~> 2.2)
   capybara (>= 3.26)
   devise (~> 4.7, >= 4.7.3)
+  devise_ldap_authenticatable
   factory_bot_rails
   faker
   jbuilder (~> 2.7)
