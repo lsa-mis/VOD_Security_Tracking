@@ -15,6 +15,25 @@
           <%= link_to "Home", root_path %>
         </a>
       </div>
+      <% if user_signed_in? or admin_user_signed_in? %>
+        <div>
+          <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white">
+            <%= link_to "| DPA Exceptions | ", dpa_exceptions_path %>
+          </a>
+          <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white">
+            <%= link_to "It Security Incidents | ", it_security_incidents_path %>
+          </a>
+          <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white">
+            <%= link_to "Legacy Os Record | ", legacy_os_records_path %>
+          </a>
+          <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white">
+            <%= link_to "Sensitive Data System | ", sensitive_data_systems_path %>
+          </a>
+        </div>
+      <% end %>
+      <div>
+        &nbsp;&nbsp;
+      </div>
       <div class="w-full block flex sm:items-center sm:w-auto">
       <div class= "flex justify-end">
         <% if user_signed_in? %>

@@ -1,4 +1,10 @@
 <p>
+<% if @legacy_os_record.incomplete %>
+  <strong>This record is incomplete!!!!!</strong>
+  <% end %>
+</p>
+
+<p>
   <strong>Owner username:</strong>
   <%= @legacy_os_record.owner_username %>
 </p>
@@ -98,7 +104,10 @@
   <%= @legacy_os_record.device_id %>
 </p>
 
-<%= render partial: "partials/show_attachments", locals: {attached_files: @legacy_os_record} %>
+<%= render partial: "partials/show_attachments", locals: {attached_files: @legacy_os_record}, show_p: "legacy_os_record" %>
+
+<%= render partial: "tdx_tickets/tdx_tickets", locals: {record_to_tdx: @legacy_os_record, destroy_p: "legacy_os_record"} %>
+<%= render partial: "tdx_tickets/form", locals: {record_to_tdx: @legacy_os_record} %>
 
 <%= link_to 'Edit', edit_legacy_os_record_path(@legacy_os_record) %> |
 <%= link_to 'Back', legacy_os_records_path %>

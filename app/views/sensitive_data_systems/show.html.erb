@@ -1,4 +1,10 @@
 <p>
+<% if @sensitive_data_system.incomplete %>
+  <strong>This record is incomplete!!!!!</strong>
+  <% end %>
+</p>
+
+<p>
   <strong>Owner username:</strong>
   <%= @sensitive_data_system.owner_username %>
 </p>
@@ -74,6 +80,9 @@
 </p>
 
 <%= render partial: "partials/show_attachments", locals: {attached_files: @sensitive_data_system} %>
+
+<%= render partial: "tdx_tickets/tdx_tickets", locals: {record_to_tdx: @sensitive_data_system, destroy_p: "sensitive_data_system"} %>
+<%= render partial: "tdx_tickets/form", locals: {record_to_tdx: @sensitive_data_system} %>
 
 <%= link_to 'Edit', edit_sensitive_data_system_path(@sensitive_data_system) %> |
 <%= link_to 'Back', sensitive_data_systems_path %>
