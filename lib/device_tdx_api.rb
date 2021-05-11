@@ -73,7 +73,7 @@ class DeviceTdxApi
                 response = http.request(request)
                 asset_info = JSON.parse(response.read_body)
 
-                if asset_info.count == 1 
+                if asset_info.present? 
                     asset_info['Attributes'].each do |att|
                         if att['Name'] == "MAC Address(es)"
                             @device_tdx['mac'] = att['Value']
