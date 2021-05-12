@@ -17,16 +17,18 @@
 #  notes                               :string(255)
 #  storage_location_id                 :bigint           not null
 #  data_type_id                        :bigint           not null
-#  device_id                           :bigint           not null
+#  device_id                           :bigint
 #  created_at                          :datetime         not null
 #  updated_at                          :datetime         not null
 #  deleted_at                          :datetime
 #  incomplete                          :boolean          default(FALSE)
+#  sensitive_data_system_type_id       :bigint           not null
 #
 class SensitiveDataSystem < ApplicationRecord
   belongs_to :storage_location
   belongs_to :data_type
-  belongs_to :device
+  # belongs_to :device
+  belongs_to :sensitive_data_system_type
   has_many :tdx_tickets, as: :records_to_tdx
 
   has_many_attached :attachments
@@ -37,6 +39,7 @@ class SensitiveDataSystem < ApplicationRecord
   validates :review_date, presence: true
   validates :review_contact, presence: true
 
+  validate :device_is_needed
   validate :validate_if_complete
 
   scope :active, -> { where(deleted_at: nil) }
@@ -48,6 +51,14 @@ class SensitiveDataSystem < ApplicationRecord
 
   def archived?
     self.deleted_at.present?
+  end
+
+  def device_is_needed
+    if self.sensitive_data_system_type == "computer"
+      true
+    else 
+      false
+    end
   end
 
   def validate_if_complete

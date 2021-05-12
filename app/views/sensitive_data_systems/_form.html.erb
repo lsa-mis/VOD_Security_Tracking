@@ -88,8 +88,13 @@
   </div>
 
   <div class="field">
+    <%= form.label :sensitive_data_system_type_id %><font color="red">**</font>
+    <%= form.collection_select :sensitive_data_system_type_id, SensitiveDataSystemType.all, :id, :name, {include_blank: "Select"}, required: true %>
+  </div>
+
+  <div class="field">
     <%= form.label :device_id %><font color="red">**</font>
-    <%= form.collection_select :device_id, Device.all, :id, :display_name, {include_blank: "Select"}, required: true %>
+    <%= form.collection_select :device_id, Device.all, :id, :display_name, {include_blank: "Select"} %>
   </div>
 
   <div class="field">

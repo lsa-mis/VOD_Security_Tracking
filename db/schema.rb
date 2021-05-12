@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_10_203955) do
+ActiveRecord::Schema.define(version: 2021_05_12_190406) do
 
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "namespace"
@@ -201,6 +201,13 @@ ActiveRecord::Schema.define(version: 2021_05_10_203955) do
     t.index ["device_id"], name: "index_legacy_os_records_on_device_id"
   end
 
+  create_table "sensitive_data_system_types", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "sensitive_data_systems", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "owner_username", null: false
     t.string "owner_full_name", null: false
@@ -216,13 +223,15 @@ ActiveRecord::Schema.define(version: 2021_05_10_203955) do
     t.string "notes"
     t.bigint "storage_location_id", null: false
     t.bigint "data_type_id", null: false
-    t.bigint "device_id", null: false
+    t.bigint "device_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "deleted_at"
     t.boolean "incomplete", default: false
+    t.bigint "sensitive_data_system_type_id", null: false
     t.index ["data_type_id"], name: "index_sensitive_data_systems_on_data_type_id"
     t.index ["device_id"], name: "index_sensitive_data_systems_on_device_id"
+    t.index ["sensitive_data_system_type_id"], name: "index_sensitive_data_systems_on_sensitive_data_system_type_id"
     t.index ["storage_location_id"], name: "index_sensitive_data_systems_on_storage_location_id"
   end
 
@@ -275,5 +284,6 @@ ActiveRecord::Schema.define(version: 2021_05_10_203955) do
   add_foreign_key "legacy_os_records", "devices"
   add_foreign_key "sensitive_data_systems", "data_types"
   add_foreign_key "sensitive_data_systems", "devices"
+  add_foreign_key "sensitive_data_systems", "sensitive_data_system_types"
   add_foreign_key "sensitive_data_systems", "storage_locations"
 end
