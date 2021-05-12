@@ -78,6 +78,38 @@ class DevicesController < InheritedResources::Base
       end
     end
   end
+
+  def update
+    @device = Device.find(params[:id])
+    if @device.serial.present? 
+      search_field = @device.serial
+    else 
+      search_field = @device.hostname
+    end
+    auth_token = AuthTokenApi.new
+    access_token = auth_token.get_auth_token
+    if access_token
+      # auth_token exists - call TDX
+      @device_tdx = DeviceTdxApi.new(search_field, access_token)
+      @device_tdx_info = @device_tdx.get_device_data
+      respond_to do |format|
+        if @device.update(@device_tdx_info['data'])
+          format.html { redirect_to @device, notice: "device was successfully updated. "}
+          format.json { render :show, status: :created, location: @device }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @device.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      # flash.now[:alert] = "No access to TDX API"
+      respond_to do |format|
+        format.html { redirect_to devices_url, notice: 'No access to TDX API.' }
+        format.json { head :no_content }
+      end
+    end
+
+  end
   private
 
     def device_params
