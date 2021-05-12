@@ -33,7 +33,7 @@ class DevicesController < InheritedResources::Base
       end
     end
     if device_exist.blank?
-      # create device
+      # check TDX API result
       if @device_tdx_info['result']['more-then_one_result'].present?
         # api returns more then one result or no auth token
         @device = Device.new(device_params)
@@ -102,7 +102,7 @@ class DevicesController < InheritedResources::Base
         end
       end
     else
-      # flash.now[:alert] = "No access to TDX API"
+      # no auth token
       respond_to do |format|
         format.html { redirect_to devices_url, notice: 'No access to TDX API.' }
         format.json { head :no_content }
