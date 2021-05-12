@@ -22,6 +22,16 @@ class Device < ApplicationRecord
 
     # validates :serial, :hostname, uniqueness: true
 
+    scope :incomplete, -> { Device.where("(serial = '' or serial IS NULL)  AND (mac is null or owner is null)").or(Device.where("(hostname = '' or hostname IS NULL)  AND (mac is null or owner is null)")) }
+
+    def complete?
+      if ((self.serial.blank? && (self.mac.blank? || self.owner.blank?)) || (self.hostname.blank? && (self.mac.blank? || self.owner.blank?)))
+        false
+      else 
+        true
+      end
+    end
+
     def display_name
         "#{self.serial} - #{self.hostname}" # or whatever column you want
       end
