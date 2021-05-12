@@ -34,12 +34,24 @@ RSpec.describe "Device Controller", type: :system do
         expect(page).to have_content('device was successfully created.')
     end
 
-    scenario 'goo many results from TDX API' do
+    scenario 'get many results from TDX API' do
         visit new_device_path
         fill_in 'Hostname', with: "nick"
         click_on 'Create Device'
         sleep(inspection_time=5)
 
         expect(page).to have_content('More then one result returned for serial or hostname [nick]')
+    end
+
+    scenario 'get no auth token from AuthTokenApi class' do
+        # mock false return from get_auth_token method
+        allow_any_instance_of(AuthTokenApi).to receive(:get_auth_token).and_return(false)
+
+        visit new_device_path
+        fill_in 'Hostname', with: "nick"
+        click_on 'Create Device'
+        sleep(inspection_time=5)
+
+        expect(page).to have_content('No access to TDX API')
     end
 end
