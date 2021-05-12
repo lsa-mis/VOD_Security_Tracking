@@ -21,22 +21,30 @@ class DevicesController < InheritedResources::Base
       else 
         search_field = hostname
       end
-      @device_tdx = DeviceTdxApi.new(search_field)
-      @device_tdx_info = @device_tdx.get_device_data
+      auth_token = AuthTokenApi.new
+      access_token = auth_token.get_auth_token
+      if access_token
+        # auth_token exists - call TDX
+        @device_tdx = DeviceTdxApi.new(search_field, access_token)
+        @device_tdx_info = @device_tdx.get_device_data
+      else
+        # no token - create a device without calling TDX
+        @device_tdx_info = {'result' => {'device_not_in_tdx' => "No access to TDX API" }}
+      end
     end
     if device_exist.blank?
-      if @device_tdx_info['error_device'].present?
-        # api retutns more then one result or no auth token
+      # create device
+      if @device_tdx_info['result']['more-then_one_result'].present?
+        # api returns more then one result or no auth token
         @device = Device.new(device_params)
         respond_to do |format|
-          flash.now[:alert] = @device_tdx_info['error_device'] 
+          flash.now[:alert] = @device_tdx_info['result']['more-then_one_result'] 
           format.html { render :new }
           format.json { render json: @device.errors, status: :unprocessable_entity }
         end
-      elsif @device_tdx_info['device_tdx'].present?
+      elsif @device_tdx_info['result']['success']
         # create device with tdx data
-        @device_tdx_info.delete("device_tdx")
-        @device = Device.new(@device_tdx_info)
+        @device = Device.new(@device_tdx_info['data'])
         respond_to do |format|
           if @device.save
             format.html { redirect_to @device, notice: "device was successfully created. " }
@@ -46,13 +54,13 @@ class DevicesController < InheritedResources::Base
             format.json { render json: @device.errors, status: :unprocessable_entity }
           end
         end
-      elsif @device_tdx_info['device_note'].present?
-        # device doesn't exist in TDX database, should be created with device_params
-        device_note = @device_tdx_info['device_note']
+      elsif @device_tdx_info['result']['device_not_in_tdx'].present?
+        # device doesn't exist in TDX database (or no access to TDX), create device with device_params
+        device_not_in_tdx = @device_tdx_info['result']['device_not_in_tdx']
         @device = Device.new(device_params)
         respond_to do |format|
           if @device.save
-            format.html { redirect_to @device, notice: "device was successfully created. " + device_note }
+            format.html { redirect_to @device, notice: "device was successfully created. " + device_not_in_tdx }
             format.json { render :show, status: :created, location: @device }
           else
             format.html { render :new, status: :unprocessable_entity }
