@@ -92,13 +92,26 @@ class DevicesController < InheritedResources::Base
       # auth_token exists - call TDX
       @device_tdx = DeviceTdxApi.new(search_field, access_token)
       @device_tdx_info = @device_tdx.get_device_data
-      respond_to do |format|
-        if @device.update(@device_tdx_info['data'])
-          format.html { redirect_to @device, notice: "device was successfully updated. "}
+      # check TDX API return
+      if @device_tdx_info['result']['more-then_one_result'].present?
+        respond_to do |format|
+          format.html { redirect_to @device, notice: "#{@device_tdx_info['result']['more-then_one_result']}"}
           format.json { render :show, status: :created, location: @device }
-        else
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @device.errors, status: :unprocessable_entity }
+        end
+      elsif @device_tdx_info['result']['device_not_in_tdx'].present?
+        respond_to do |format|
+          format.html { redirect_to @device, notice: "#{@device_tdx_info['result']['device_not_in_tdx']}"}
+          format.json { render :show, status: :created, location: @device }
+        end
+      elsif @device_tdx_info['result']['success']
+        respond_to do |format|
+          if @device.update(@device_tdx_info['data'])
+            format.html { redirect_to @device, notice: "device was successfully updated. "}
+            format.json { render :show, status: :created, location: @device }
+          else
+            format.html { render :new, status: :unprocessable_entity }
+            format.json { render json: @device.errors, status: :unprocessable_entity }
+          end
         end
       end
     else
