@@ -8,6 +8,7 @@ module.exports = {
       colors: {
         'um_yellow': '#ffcf01',
         'laitan_blue': '#2b73b6',
+        'um_blue': '#00274C',
       },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
