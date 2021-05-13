@@ -1,6 +1,7 @@
 class DevicesController < InheritedResources::Base
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
+  before_action :get_access_token, only: [:create, :update]
 
   def new
     @device = Device.new
@@ -21,12 +22,10 @@ class DevicesController < InheritedResources::Base
       else 
         search_field = hostname
       end
-      auth_token = AuthTokenApi.new
-      access_token = auth_token.get_auth_token
-      if access_token
+      @access_token = get_access_token
+      if @access_token
         # auth_token exists - call TDX
-        @device_tdx = DeviceTdxApi.new(search_field, access_token)
-        @device_tdx_info = @device_tdx.get_device_data
+        @device_tdx_info = get_device_tdx_info(search_field, @access_token)
       else
         # no token - create a device without calling TDX
         @device_tdx_info = {'result' => {'device_not_in_tdx' => "No access to TDX API" }}
@@ -69,7 +68,7 @@ class DevicesController < InheritedResources::Base
         end
       end
     else
-      # devise exists in the database
+      # device exists in the database
       @device = Device.new(device_params)
       respond_to do |format|
         flash.now[:alert] = device_exist
@@ -86,12 +85,10 @@ class DevicesController < InheritedResources::Base
     else 
       search_field = @device.hostname
     end
-    auth_token = AuthTokenApi.new
-    access_token = auth_token.get_auth_token
-    if access_token
+    @access_token = get_access_token
+    if @access_token
       # auth_token exists - call TDX
-      @device_tdx = DeviceTdxApi.new(search_field, access_token)
-      @device_tdx_info = @device_tdx.get_device_data
+      @device_tdx_info = get_device_tdx_info(search_field, @access_token)
       # check TDX API return
       if @device_tdx_info['result']['more-then_one_result'].present?
         respond_to do |format|
@@ -124,6 +121,16 @@ class DevicesController < InheritedResources::Base
 
   end
   private
+
+    def get_access_token
+      auth_token = AuthTokenApi.new
+      @access_token = auth_token.get_auth_token
+    end
+
+    def get_device_tdx_info(search_field, access_token)
+      device_tdx = DeviceTdxApi.new(search_field, access_token)
+      @device_tdx_info = device_tdx.get_device_data
+    end
 
     def device_params
       params.require(:device).permit(:serial, :hostname, :mac, :building, :room, :manufacturer, :model, :owner, :department).each { |key, value| value.strip! }
