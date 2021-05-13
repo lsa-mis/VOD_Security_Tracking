@@ -22,7 +22,7 @@ class DevicesController < InheritedResources::Base
       else 
         search_field = hostname
       end
-      @access_token = get_access_token
+
       if @access_token
         # auth_token exists - call TDX
         @device_tdx_info = get_device_tdx_info(search_field, @access_token)
