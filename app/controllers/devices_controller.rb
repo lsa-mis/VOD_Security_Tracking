@@ -12,9 +12,9 @@ class DevicesController < InheritedResources::Base
     hostname = device_params[:hostname]
     # check the devices table first
     if serial.present? && Device.find_by(serial: serial).present?
-      device_exist =  "The device with serial number [#{serial}] already exist"
+      device_exist =  "The device with serial number [#{serial}] already exists."
     elsif hostname.present? && Device.find_by(hostname: hostname).present?
-      device_exist = "The device with hostname [#{hostname}] already exist"
+      device_exist = "The device with hostname [#{hostname}] already exists."
     else
       # device doesn't exist in devices table, have to create search_field and call API
       if serial.present? 
@@ -28,7 +28,7 @@ class DevicesController < InheritedResources::Base
         @device_tdx_info = get_device_tdx_info(search_field, @access_token)
       else
         # no token - create a device without calling TDX
-        @device_tdx_info = {'result' => {'device_not_in_tdx' => "No access to TDX API" }}
+        @device_tdx_info = {'result' => {'device_not_in_tdx' => "No access to TDX API." }}
       end
     end
     if device_exist.blank?
@@ -46,7 +46,7 @@ class DevicesController < InheritedResources::Base
         @device = Device.new(@device_tdx_info['data'])
         respond_to do |format|
           if @device.save
-            format.html { redirect_to @device, notice: "device was successfully created. " }
+            format.html { redirect_to @device, notice: "Device was successfully created. " }
             format.json { render :show, status: :created, location: @device }
           else
             format.html { render :new, status: :unprocessable_entity }
@@ -59,7 +59,7 @@ class DevicesController < InheritedResources::Base
         @device = Device.new(device_params)
         respond_to do |format|
           if @device.save
-            format.html { redirect_to @device, notice: "device was successfully created. " + device_not_in_tdx }
+            format.html { redirect_to @device, notice: "Device was successfully created. " + device_not_in_tdx }
             format.json { render :show, status: :created, location: @device }
           else
             format.html { render :new, status: :unprocessable_entity }
@@ -103,7 +103,7 @@ class DevicesController < InheritedResources::Base
       elsif @device_tdx_info['result']['success']
         respond_to do |format|
           if @device.update(@device_tdx_info['data'])
-            format.html { redirect_to @device, notice: "device was successfully updated. "}
+            format.html { redirect_to @device, notice: "Device was successfully updated. "}
             format.json { render :show, status: :created, location: @device }
           else
             format.html { render :new, status: :unprocessable_entity }

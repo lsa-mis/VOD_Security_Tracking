@@ -78,9 +78,9 @@ class DeviceTdxApi
         @device_tdx['data']['mac'] = mac_info[0]["Value"]
       end
     elsif asset_info.present? && asset_info.count > 1
-        @device_tdx['result']['more-then_one_result'] = "More then one result returned for serial or hostname [#{@search_field}]"
+        @device_tdx['result']['more-then_one_result'] = "More then one result returned for serial or hostname [#{@search_field}]."
     else 
-        @device_tdx['result']['device_not_in_tdx'] = "This device is not present in the TDX Assets database"
+        @device_tdx['result']['device_not_in_tdx'] = "This device is not present in the TDX Assets database."
     end
     @device_tdx
   end
