@@ -12,7 +12,7 @@ RSpec.describe "Device Controller", type: :system do
         click_on 'Create Device'
         sleep(inspection_time=5)
 
-        expect(page).to have_content('device was successfully created. This device is not present in the TDX Assets database')
+        expect(page).to have_content('Device was successfully created. This device is not present in the TDX Assets database')
     end
 
     scenario 'device already exists in the table' do
@@ -22,7 +22,7 @@ RSpec.describe "Device Controller", type: :system do
         click_on 'Create Device'
         sleep(inspection_time=5)
 
-        expect(page).to have_content('The device with serial number [1q2w3e4r5t] already exist')
+        expect(page).to have_content('The device with serial number [1q2w3e4r5t] already exists.')
     end
 
     scenario 'get device from TDX' do
@@ -31,7 +31,7 @@ RSpec.describe "Device Controller", type: :system do
         click_on 'Create Device'
         sleep(inspection_time=5)
 
-        expect(page).to have_content('device was successfully created.')
+        expect(page).to have_content('Device was successfully created.')
     end
 
     scenario 'get many results from TDX API' do
@@ -40,7 +40,7 @@ RSpec.describe "Device Controller", type: :system do
         click_on 'Create Device'
         sleep(inspection_time=5)
 
-        expect(page).to have_content('More then one result returned for serial or hostname [nick]')
+        expect(page).to have_content('More then one result returned for serial or hostname [nick].')
     end
 
     scenario 'get no auth token from AuthTokenApi class' do
@@ -52,6 +52,6 @@ RSpec.describe "Device Controller", type: :system do
         click_on 'Create Device'
         sleep(inspection_time=5)
 
-        expect(page).to have_content('No access to TDX API')
+        expect(page).to have_content('No access to TDX API.')
     end
 end
