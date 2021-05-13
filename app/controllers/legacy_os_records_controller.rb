@@ -2,7 +2,7 @@ class LegacyOsRecordsController < InheritedResources::Base
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
   before_action :set_legacy_os_record, only: [:show, :edit, :update, :archive]
-
+  before_action :get_access_token, only: [:create, :update]
 
   def index
     @legacy_os_records = LegacyOsRecord.active
@@ -36,51 +36,53 @@ class LegacyOsRecordsController < InheritedResources::Base
 
     if search_field.present? 
       # call DeviceTdxApi
-      @device_tdx = DeviceTdxApi.new(search_field)
-      @device_tdx_info = @device_tdx.get_device_data
-      logger.debug "***********************@device_tdx_info: #{@device_tdx_info}"
-      if @device_tdx_info['error_device'].present?
+      if @access_token
+        # auth_token exists - call TDX
+        @device_tdx_info = get_device_tdx_info(search_field, @access_token)
+      else
+        # no token - create a device without calling TDX
+        @device_tdx_info = {'result' => {'device_not_in_tdx' => "No access to TDX API." }}
+      end
+      if @device_tdx_info['result']['more-then_one_result'].present?
         # api returns more then one result or no auth token
         respond_to do |format|
-          flash.now[:alert] = @device_tdx_info['error_device'] 
+          flash.now[:alert] = @device_tdx_info['result']['more-then_one_result'] 
           format.html { render :new }
           format.json { render json: @device.errors, status: :unprocessable_entity }
         end
-      elsif @device_tdx_info['device_tdx'].present?
+      elsif @device_tdx_info['result']['success']
         # create device with tdx data
-        @device_tdx_info.delete("device_tdx")
-        @legacy_os_record.build_device(@device_tdx_info)
+        @legacy_os_record.build_device(@device_tdx_info['data'])
         respond_to do |format|
           if @legacy_os_record.save 
-            format.html { redirect_to legacy_os_record_path(@legacy_os_record), notice: 'legacy os record was successfully created. '}
-              format.json { render :show, status: :created, location: @legacy_os_record }
+            format.html { redirect_to legacy_os_record_path(@legacy_os_record), notice: 'Legacy os record was successfully created. '}
+            format.json { render :show, status: :created, location: @legacy_os_record }
           else
-              format.html { render :new }
-              format.json { render json: @legacy_os_record.errors, status: :unprocessable_entity }
+            format.html { render :new }
+            format.json { render json: @legacy_os_record.errors, status: :unprocessable_entity }
           end
         end
-      elsif @device_tdx_info['device_note'].present?
+      elsif @device_tdx_info['result']['device_not_in_tdx'].present?
         # device doesn't exist in TDX database, should be created with device_params
-        device_note = @device_tdx_info['device_note']
         @legacy_os_record.build_device(legacy_os_record_params[:device_attributes])
         respond_to do |format|
           if @legacy_os_record.save 
-            format.html { redirect_to legacy_os_record_path(@legacy_os_record), notice: 'legacy os record was successfully created. ' + device_note}
-              format.json { render :show, status: :created, location: @legacy_os_record }
+            format.html { redirect_to legacy_os_record_path(@legacy_os_record), notice: 'Legacy os record was successfully created. ' + "#{@device_tdx_info['result']['device_not_in_tdx']}"}
+            format.json { render :show, status: :created, location: @legacy_os_record }
           else
-              format.html { render :new }
-              format.json { render json: @legacy_os_record.errors, status: :unprocessable_entity }
+            format.html { render :new }
+            format.json { render json: @legacy_os_record.errors, status: :unprocessable_entity }
           end
         end
       end
     else
       respond_to do |format|
         if @legacy_os_record.save 
-          format.html { redirect_to legacy_os_record_path(@legacy_os_record), notice: 'legacy os record was successfully created. ' }
-            format.json { render :show, status: :created, location: @legacy_os_record }
+          format.html { redirect_to legacy_os_record_path(@legacy_os_record), notice: 'Legacy os record was successfully created. ' }
+          format.json { render :show, status: :created, location: @legacy_os_record }
         else
-            format.html { render :new }
-            format.json { render json: @legacy_os_record.errors, status: :unprocessable_entity }
+          format.html { render :new }
+          format.json { render json: @legacy_os_record.errors, status: :unprocessable_entity }
         end
       end
     end
@@ -106,9 +108,19 @@ class LegacyOsRecordsController < InheritedResources::Base
 
   private
 
-  def set_legacy_os_record
-    @legacy_os_record = LegacyOsRecord.find(params[:id])
-  end
+    def set_legacy_os_record
+      @legacy_os_record = LegacyOsRecord.find(params[:id])
+    end
+
+    def get_access_token
+      auth_token = AuthTokenApi.new
+      @access_token = auth_token.get_auth_token
+    end
+
+    def get_device_tdx_info(search_field, access_token)
+      device_tdx = DeviceTdxApi.new(search_field, access_token)
+      @device_tdx_info = device_tdx.get_device_data
+    end
 
     def legacy_os_record_params
       params.require(:legacy_os_record).permit(:owner_username, :owner_full_name, :dept, :phone, :additional_dept_contact, :additional_dept_contact_phone, :support_poc, :legacy_os, :unique_app, :unique_hardware, :unique_date, :remediation, :exception_approval_date, :review_date, :review_contact, :justification, :local_it_support_group, :notes, :data_type_id, :device_id, :incomplete, attachments: [], device_attributes: [:serial, :hostname])
