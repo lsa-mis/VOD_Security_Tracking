@@ -8,6 +8,15 @@ class LegacyOsRecordsController < InheritedResources::Base
     @legacy_os_records = LegacyOsRecord.active
   end
 
+  def edit
+    @device = @legacy_os_record.device
+  end
+
+  def new
+    @legacy_os_record = LegacyOsRecord.new
+    @device = Device.new
+  end
+
   def create
     @legacy_os_record = LegacyOsRecord.new(legacy_os_record_params)
     @device = @legacy_os_record.build_device 
