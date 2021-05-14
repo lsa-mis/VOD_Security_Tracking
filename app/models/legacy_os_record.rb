@@ -32,6 +32,7 @@ class LegacyOsRecord < ApplicationRecord
   belongs_to :data_type
   belongs_to :device
   has_many :tdx_tickets, as: :records_to_tdx
+  accepts_nested_attributes_for :device
 
   has_many_attached :attachments
   audited
