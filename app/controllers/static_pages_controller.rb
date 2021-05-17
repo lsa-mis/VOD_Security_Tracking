@@ -1,10 +1,11 @@
 class StaticPagesController < ApplicationController
-  add_breadcrumb "home", :root_path
 
   def home
+    add_breadcrumb('', root_path)
   end
 
   def dashboard
-    add_breadcrumb "dashboard", dashboard_path
+    add_breadcrumb(action_name.titleize)
   end
+
 end

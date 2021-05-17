@@ -2,12 +2,14 @@ class ItSecurityIncidentsController < InheritedResources::Base
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
   before_action :set_it_security_incident, only: [:show, :edit, :update, :archive]
+  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
 
   def index
     @it_security_incidents = ItSecurityIncident.active
   end
 
   def show
+    add_breadcrumb(@it_security_incident.id)
   end
 
   def update
@@ -43,6 +45,10 @@ class ItSecurityIncidentsController < InheritedResources::Base
 
   def set_it_security_incident
     @it_security_incident = ItSecurityIncident.find(params[:id])
+  end
+
+  def add_index_breadcrumb
+    add_breadcrumb(controller_name.titleize, it_security_incidents_path)
   end
 
   def it_security_incident_params

@@ -1,14 +1,26 @@
 class DevicesController < InheritedResources::Base
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
+  before_action :set_device, only: [:show, :edit, :update, :archive]
+  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
 
   require 'uri'
   require 'net/http'
   require 'openssl'
   require 'json'
 
+  def show
+    add_breadcrumb(@device.display_name)
+  end
+
+  def edit
+    add_breadcrumb(@device.display_name, device_path(@device))
+    add_breadcrumb('Edit')
+  end
+
   def new
     @device = Device.new
+    add_breadcrumb('New')
   end
 
   def create
@@ -89,6 +101,14 @@ class DevicesController < InheritedResources::Base
     end
   end
   private
+
+  def set_device
+    @device = Device.find(params[:id])
+  end
+
+    def add_index_breadcrumb
+      add_breadcrumb(controller_name.titleize, devices_path)
+    end
 
     def device_params
       params.require(:device).permit(:serial, :hostname, :mac, :building, :room)
