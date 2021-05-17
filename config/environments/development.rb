@@ -77,6 +77,7 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   # config.logger = Logger.new(STDOUT)
-  config.logger = ActiveSupport::Logger.new('/dev/null')
+  config.logger = ActiveSupport::Logger.new(STDOUT)
+  # config.logger = ActiveSupport::Logger.new('/dev/null')
 
 end
