@@ -35,7 +35,7 @@ export default class extends Controller {
     console.log("type: ")
     console.log(type)
     if (type == 1) {
-      this.system_deviceTarget.classList.toggle("session--hide")
+      this.system_deviceTarget.classList.toggle("device--hide")
     }
   }
 }
