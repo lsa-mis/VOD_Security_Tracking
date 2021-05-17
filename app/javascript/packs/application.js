@@ -12,3 +12,5 @@ import "../layouts/application.sass";
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+console.log('Hello World from Webpacker')
+import "controllers"
