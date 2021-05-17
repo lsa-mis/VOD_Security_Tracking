@@ -2,9 +2,109 @@ class SensitiveDataSystemsController < InheritedResources::Base
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
   before_action :set_sensitive_data_system, only: [:show, :edit, :update, :archive]
+  before_action :get_access_token, only: [:create, :update]
 
   def index
     @sensitive_data_systems = SensitiveDataSystem.active
+  end
+
+  def new
+    @sensitive_data_system = SensitiveDataSystem.new
+    @device = Device.new
+  end
+
+  def create
+    @sensitive_data_system = SensitiveDataSystem.new(sensitive_data_system_params)
+    if sensitive_data_system_params[:sensitive_data_system_type_id] == "1"
+      serial = sensitive_data_system_params[:device_attributes][:serial]
+      hostname = sensitive_data_system_params[:device_attributes][:hostname]
+      # find device
+      if serial.present? 
+        if Device.find_by(serial: serial).present?
+          @sensitive_data_system.device_id = Device.find_by(serial: serial).id
+        else 
+          search_field = serial
+        end
+      elsif hostname.present? 
+        if Device.find_by(hostname: hostname).present?
+          @sensitive_data_system.device_id = Device.find_by(hostname: hostname).id
+        else
+          search_field = hostname
+        end
+      else
+        respond_to do |format|
+          flash.now[:alert] = "Serial or hostname should be present"
+          format.html { render :new }
+          format.json { render json: @device.errors, status: :unprocessable_entity }
+        end
+      end
+
+      if search_field.present? 
+        # call DeviceTdxApi
+        if @access_token
+          # auth_token exists - call TDX
+          @device_tdx_info = get_device_tdx_info(search_field, @access_token)
+        else
+          # no token - create a device without calling TDX
+          @device_tdx_info = {'result' => {'device_not_in_tdx' => "No access to TDX API." }}
+        end
+        logger.debug "*************************serial #{@device_tdx_info}"
+        if @device_tdx_info['result']['more-then_one_result'].present?
+          # api returns more then one result or no auth token
+          respond_to do |format|
+            flash.now[:alert] = @device_tdx_info['result']['more-then_one_result'] 
+            format.html { render :new }
+            format.json { render json: @device.errors, status: :unprocessable_entity }
+          end
+        elsif @device_tdx_info['result']['success']
+          # create device with tdx data
+          @sensitive_data_system.build_device(@device_tdx_info['data'])
+          respond_to do |format|
+            if @sensitive_data_system.save 
+              format.html { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Legacy os record was successfully created. '}
+              format.json { render :show, status: :created, location: @sensitive_data_system }
+            else
+              format.html { render :new }
+              format.json { render json: @sensitive_data_system.errors, status: :unprocessable_entity }
+            end
+          end
+        elsif @device_tdx_info['result']['device_not_in_tdx'].present?
+          # device doesn't exist in TDX database, should be created with device_params
+          @sensitive_data_system.build_device(sensitive_data_system_params[:device_attributes])
+          respond_to do |format|
+            if @sensitive_data_system.save 
+              format.html { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Legacy os record was successfully created. ' + "#{@device_tdx_info['result']['device_not_in_tdx']}"}
+              format.json { render :show, status: :created, location: @sensitive_data_system }
+            else
+              format.html { render :new }
+              format.json { render json: @sensitive_data_system.errors, status: :unprocessable_entity }
+            end
+          end
+        end
+      else
+        respond_to do |format|
+          if @sensitive_data_system.save 
+            format.html { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Legacy os record was successfully created. ' }
+            format.json { render :show, status: :created, location: @sensitive_data_system }
+          else
+            format.html { render :new }
+            format.json { render json: @legacy_os_record.errors, status: :unprocessable_entity }
+          end
+        end
+      end
+
+    else
+      # save without device
+      respond_to do |format|
+        if @sensitive_data_system.save 
+          format.html { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Legacy os record was successfully created. '}
+          format.json { render :show, status: :created, location: @sensitive_data_system }
+        else
+          format.html { render :new }
+          format.json { render json: @sensitive_data_system.errors, status: :unprocessable_entity }
+        end
+      end
+    end
   end
 
   def archive
@@ -27,12 +127,22 @@ class SensitiveDataSystemsController < InheritedResources::Base
 
   private
 
-  def set_sensitive_data_system
-    @sensitive_data_system = SensitiveDataSystem.find(params[:id])
-  end
+    def set_sensitive_data_system
+      @sensitive_data_system = SensitiveDataSystem.find(params[:id])
+    end
+    
+    def get_access_token
+      auth_token = AuthTokenApi.new
+      @access_token = auth_token.get_auth_token
+    end
+
+    def get_device_tdx_info(search_field, access_token)
+      device_tdx = DeviceTdxApi.new(search_field, access_token)
+      @device_tdx_info = device_tdx.get_device_data
+    end
 
     def sensitive_data_system_params
-      params.require(:sensitive_data_system).permit(:owner_username, :owner_full_name, :dept, :phone, :additional_dept_contact, :additional_dept_contact_phone, :support_poc, :expected_duration_of_data_retention, :agreements_related_to_data_types, :review_date, :review_contact, :notes, :storage_location_id, :data_type_id, :sensitive_data_system_type_id, :device_id, :incomplete, attachments: [])
+      params.require(:sensitive_data_system).permit(:owner_username, :owner_full_name, :dept, :phone, :additional_dept_contact, :additional_dept_contact_phone, :support_poc, :expected_duration_of_data_retention, :agreements_related_to_data_types, :review_date, :review_contact, :notes, :storage_location_id, :data_type_id, :sensitive_data_system_type_id, :incomplete, attachments: [], device_attributes: [:serial, :hostname])
     end
 
 end
