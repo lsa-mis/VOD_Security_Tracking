@@ -75,7 +75,11 @@ class DeviceTdxApi
 
       if asset_info.present? 
         mac_info = asset_info['Attributes'].select {|attrib| attrib["Name"] == "MAC Address(es)"}
-        @device_tdx['data']['mac'] = mac_info[0]["Value"]
+        if mac_info.empty?
+          @device_tdx['data']['mac'] = "" 
+        else 
+          @device_tdx['data']['mac'] = mac_info[0]["Value"]
+        end
       end
     elsif asset_info.present? && asset_info.count > 1
         @device_tdx['result']['more-then_one_result'] = "More then one result returned for serial or hostname [#{@search_field}]."
