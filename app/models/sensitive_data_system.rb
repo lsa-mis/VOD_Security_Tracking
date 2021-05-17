@@ -27,9 +27,10 @@
 class SensitiveDataSystem < ApplicationRecord
   belongs_to :storage_location
   belongs_to :data_type
-  # belongs_to :device
+  belongs_to :device, optional: true
   belongs_to :sensitive_data_system_type
   has_many :tdx_tickets, as: :records_to_tdx
+  accepts_nested_attributes_for :device
 
   has_many_attached :attachments
   audited
