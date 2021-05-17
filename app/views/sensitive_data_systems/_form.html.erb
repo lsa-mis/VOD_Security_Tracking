@@ -96,10 +96,14 @@
         <%= form.collection_select :sensitive_data_system_type_id, SensitiveDataSystemType.all, :id, :name, {include_blank: "Select"}, required: true, :"data-target" => "hello.sensitive_data_system_type", :"data-action" => "input->hello#display_device" %>
       </div>
 
-      <div class="device--hide" data-target="hello.system_device">
-        <%= form.label :device_id %><font color="red">**</font>
-        <%= form.collection_select :device_id, Device.all, :id, :display_name, {include_blank: "Select"} %>
-      </div>
+      <div id="device_input" class="device--hide" data-target="hello.system_device">
+      <%= form.label "Add a device" %><font color="red">**</font> - enter serial:
+      <%= form.fields_for :device, @device do |device_attributes| %>
+        <%= device_attributes.text_field :serial %>
+        or hostname:
+        <%= device_attributes.text_field :hostname %>
+      <% end %>
+  </div>
     <% end %>
 
   <div class="field">
