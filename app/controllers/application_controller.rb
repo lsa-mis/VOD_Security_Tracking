@@ -1,7 +1,20 @@
 class ApplicationController < ActionController::Base
 
+  before_action :set_breadcrumbs
+
   include Pundit
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
+ def add_breadcrumb(label, path = nil)
+  @breadcrumbs << {
+    label: label,
+    path: path
+  }
+ end
+
+ def set_breadcrumbs
+  @breadcrumbs = []
+ end
 
   private
 
