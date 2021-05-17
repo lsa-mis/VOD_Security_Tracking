@@ -3,41 +3,45 @@
     <div class="flex">
       <div class="w-1/3 pl-4">
         <address class="text-xs mt-2">
-        Organization
-        <br>123 Main Street
-        <br>456 East Hall
-        <br>Ann Arbor, MI 48109-1043
+        TECHNOLOGY SERVICES
+        <br>435 South State St
+        <br>G155 Angell Hall
+        <br>Ann Arbor, MI 48109-1003
         </address>
       </div>
       <div class="w-1/3 mt-2 mx-auto flex justify-center">
-        734.647.0000 - voice
-        <br>
-        734.763.0009 - fax
+        <ul>
+          <li>734.615.0100 - voice</li>
+          <li><%= mail_to "lsa.security@umich.edu", "lsa.security@umich.edu", class: "footer-link" %></li>
+        </ul>
+
       </div>
-      <div class="w-1/3 flex justify-end">
+      <div class="w-1/3 flex justify-end items-start mr-4">
         <% if admin_user_signed_in? %>
           <ul>
             <li>
-              <%= link_to 'Admin Dashboard', admin_root_path, class: "mt-2 pr-4" %>
+              <%= link_to 'Admin Dashboard', admin_root_path, class: "footer-link mt-2 pr-4" %>
             </li>
             <li>
-              <%= link_to destroy_admin_user_session_path, method: :delete do  %>
+              <%= link_to destroy_admin_user_session_path, class: "footer-link", method: :delete do  %>
                 <%= render :partial => 'svg/open_padlock' %>
                 <span>Admin Sign_out</span>
               <% end %>
             </li>
           </ul>
         <% else %>
-          <%= link_to new_admin_user_session_path do  %>
-            <%= render :partial => 'svg/closed_padlock' %>
-            <span class='pr-4'>Admin Sign_in</span>
+          <%= link_to new_admin_user_session_path, class: "text-gray-500" do  %>
+            <div class= "inline-block align-middle ">
+              <%= render :partial => 'svg/closed_padlock' %> 
+            </div>
+            <div class= "inline-block align-middle"> - Admin Login</div>
           <% end %>
         <% end %>
       </div>
     </div>
-    <div class="w-full flex justify-center">
+    <div class="w-full flex justify-center text-sm">
       <div class="copyright">
-        Copyright <%= Time.now.year %> | <%= link_to 'The Regents of the University of Michigan', 'https://regents.umich.edu' %>
+        Copyright <%= Time.now.year %> | <%= link_to 'The Regents of the University of Michigan', 'https://regents.umich.edu', class: "footer-link" %>
       </div>
     </div>
   </div>

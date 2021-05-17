@@ -33,8 +33,6 @@ Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  get 'home', to: 'static_pages#home'
-  get '/about', to: 'static_pages#about'
-  get '/privacy', to: 'static_pages#privacy'
-  get '/terms', to: 'static_pages#terms'
+  root to: 'static_pages#home'
+  get '/dashboard', to: 'static_pages#dashboard'
 end
