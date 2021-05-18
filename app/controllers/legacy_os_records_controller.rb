@@ -22,6 +22,7 @@ class LegacyOsRecordsController < InheritedResources::Base
   def new
     @legacy_os_record = LegacyOsRecord.new
     @device = Device.new
+  end
 
   def create
     @legacy_os_record = LegacyOsRecord.new(legacy_os_record_params)
@@ -104,6 +105,7 @@ class LegacyOsRecordsController < InheritedResources::Base
     def get_device_tdx_info(search_field, access_token)
       device_tdx = DeviceTdxApi.new(search_field, access_token)
       @device_tdx_info = device_tdx.get_device_data
+    end
       
     def add_index_breadcrumb
       add_breadcrumb(controller_name.titleize, legacy_os_records_path)

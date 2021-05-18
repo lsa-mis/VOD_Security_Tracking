@@ -59,6 +59,8 @@ class SensitiveDataSystemsController < InheritedResources::Base
         end
       end
     end
+  end
+  
   def show
     add_breadcrumb(@sensitive_data_system.id)
   end
@@ -95,6 +97,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
     def get_device_tdx_info(search_field, access_token)
       device_tdx = DeviceTdxApi.new(search_field, access_token)
       @device_tdx_info = device_tdx.get_device_data
+    end
 
     def add_index_breadcrumb
       add_breadcrumb(controller_name.titleize, sensitive_data_systems_path)
