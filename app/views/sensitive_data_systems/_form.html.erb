@@ -97,13 +97,13 @@
       </div>
 
       <div id="device_input" class="device--hide" data-hello-target="system_device">
-      <%= form.label "Add a device" %><font color="red">**</font> - enter serial:
-      <%= form.fields_for :device, @device do |device_attributes| %>
-        <%= device_attributes.text_field :serial %>
-        or hostname:
-        <%= device_attributes.text_field :hostname %>
-      <% end %>
-  </div>
+        <%= form.label "Add a device" %><font color="red">**</font> - enter serial:
+        <%= form.fields_for :device, @device do |device_attributes| %>
+          <%= device_attributes.text_field :serial %>
+          or hostname:
+          <%= device_attributes.text_field :hostname %>
+        <% end %>
+      </div>
     <% end %>
 
   <div class="field">
