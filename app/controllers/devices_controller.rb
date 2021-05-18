@@ -66,7 +66,7 @@ class DevicesController < InheritedResources::Base
             format.json { render json: @device.errors, status: :unprocessable_entity }
           end
         end
-      elsif @device_tdx_info['result']['device_not_in_tdx'].present?
+      else @device_tdx_info['result']['device_not_in_tdx'].present?
         # device doesn't exist in TDX database (or no access to TDX), create device with device_params
         device_not_in_tdx = @device_tdx_info['result']['device_not_in_tdx']
         @device = Device.new(device_params)
@@ -113,7 +113,7 @@ class DevicesController < InheritedResources::Base
           format.html { redirect_to @device, notice: "#{@device_tdx_info['result']['device_not_in_tdx']}"}
           format.json { render :show, status: :created, location: @device }
         end
-      elsif @device_tdx_info['result']['success']
+      else @device_tdx_info['result']['success']
         respond_to do |format|
           if @device.update(@device_tdx_info['data'])
             format.html { redirect_to @device, notice: "Device was successfully updated. "}
@@ -131,10 +131,9 @@ class DevicesController < InheritedResources::Base
         format.json { head :no_content }
       end
     end
-
-  end
+  end 
+  
   private
-
 
     def set_device
       @device = Device.find(params[:id])
@@ -142,7 +141,8 @@ class DevicesController < InheritedResources::Base
 
     def add_index_breadcrumb
       add_breadcrumb(controller_name.titleize, devices_path)
-
+    end 
+    
     def get_access_token
       auth_token = AuthTokenApi.new
       @access_token = auth_token.get_auth_token
