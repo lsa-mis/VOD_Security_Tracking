@@ -4,6 +4,8 @@ class SensitiveDataSystemsController < InheritedResources::Base
   before_action :set_sensitive_data_system, only: [:show, :edit, :update, :archive]
   before_action :get_access_token, only: [:create, :update]
 
+  include SaveRecordWithDevice
+
   def index
     @sensitive_data_systems = SensitiveDataSystem.active
   end
@@ -14,8 +16,8 @@ class SensitiveDataSystemsController < InheritedResources::Base
   end
 
   def create
-    @sensitive_data_system = SensitiveDataSystem.new(sensitive_data_system_params)
     if sensitive_data_system_params[:sensitive_data_system_type_id] == "1"
+      @sensitive_data_system = SensitiveDataSystem.new(sensitive_data_system_params)
       serial = sensitive_data_system_params[:device_attributes][:serial]
       hostname = sensitive_data_system_params[:device_attributes][:hostname]
       # find device
@@ -31,77 +33,28 @@ class SensitiveDataSystemsController < InheritedResources::Base
         else
           search_field = hostname
         end
-      else
-        respond_to do |format|
-          flash.now[:alert] = "Serial or hostname should be present"
-          format.html { render :new }
-          format.json { render json: @device.errors, status: :unprocessable_entity }
-        end
       end
-
-      if search_field.present? 
-        # call DeviceTdxApi
-        if @access_token
-          # auth_token exists - call TDX
-          @device_tdx_info = get_device_tdx_info(search_field, @access_token)
-        else
-          # no token - create a device without calling TDX
-          @device_tdx_info = {'result' => {'device_not_in_tdx' => "No access to TDX API." }}
-        end
-        logger.debug "*************************serial #{@device_tdx_info}"
-        if @device_tdx_info['result']['more-then_one_result'].present?
-          # api returns more then one result or no auth token
-          respond_to do |format|
-            flash.now[:alert] = @device_tdx_info['result']['more-then_one_result'] 
-            format.html { render :new }
-            format.json { render json: @device.errors, status: :unprocessable_entity }
-          end
-        elsif @device_tdx_info['result']['success']
-          # create device with tdx data
-          @sensitive_data_system.build_device(@device_tdx_info['data'])
-          respond_to do |format|
-            if @sensitive_data_system.save 
-              format.html { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Legacy os record was successfully created. '}
-              format.json { render :show, status: :created, location: @sensitive_data_system }
-            else
-              format.html { render :new }
-              format.json { render json: @sensitive_data_system.errors, status: :unprocessable_entity }
-            end
-          end
-        elsif @device_tdx_info['result']['device_not_in_tdx'].present?
-          # device doesn't exist in TDX database, should be created with device_params
-          @sensitive_data_system.build_device(sensitive_data_system_params[:device_attributes])
-          respond_to do |format|
-            if @sensitive_data_system.save 
-              format.html { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Legacy os record was successfully created. ' + "#{@device_tdx_info['result']['device_not_in_tdx']}"}
-              format.json { render :show, status: :created, location: @sensitive_data_system }
-            else
-              format.html { render :new }
-              format.json { render json: @sensitive_data_system.errors, status: :unprocessable_entity }
-            end
-          end
-        end
+    else 
+      @sensitive_data_system = SensitiveDataSystem.new(sensitive_data_system_params.except(:device_attributes))
+    end
+    if search_field.present? 
+      # call DeviceTdxApi
+      if @access_token
+        # auth_token exists - call TDX
+        @device_tdx_info = get_device_tdx_info(search_field, @access_token)
       else
-        respond_to do |format|
-          if @sensitive_data_system.save 
-            format.html { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Legacy os record was successfully created. ' }
-            format.json { render :show, status: :created, location: @sensitive_data_system }
-          else
-            format.html { render :new }
-            format.json { render json: @legacy_os_record.errors, status: :unprocessable_entity }
-          end
-        end
+        # no token - create a device without calling TDX
+        @device_tdx_info = {'result' => {'device_not_in_tdx' => "No access to TDX API." }}
       end
-
+      save_with_device(@sensitive_data_system, @device_tdx_info, 'sensitive_data_system')
     else
-      # save without device
       respond_to do |format|
         if @sensitive_data_system.save 
-          format.html { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Legacy os record was successfully created. '}
+          format.html { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Sensitive data system record was successfully created. ' }
           format.json { render :show, status: :created, location: @sensitive_data_system }
         else
           format.html { render :new }
-          format.json { render json: @sensitive_data_system.errors, status: :unprocessable_entity }
+          format.json { render json: @legacy_os_record.errors, status: :unprocessable_entity }
         end
       end
     end
@@ -112,11 +65,11 @@ class SensitiveDataSystemsController < InheritedResources::Base
     authorize @sensitive_data_system
     if @sensitive_data_system.archive
       respond_to do |format|
-        format.html { redirect_to sensitive_data_systems_path, notice: 'sensitive data system record was successfully archived.' }
+        format.html { redirect_to sensitive_data_systems_path, notice: 'Sensitive data system record was successfully archived.' }
         format.json { head :no_content }
       end
     else
-      format.html { redirect_to sensitive_data_systems_path, alert: 'error archiving sensitive data system record.' }
+      format.html { redirect_to sensitive_data_systems_path, alert: 'Error archiving sensitive data system record.' }
       format.json { head :no_content }
     end
   end
