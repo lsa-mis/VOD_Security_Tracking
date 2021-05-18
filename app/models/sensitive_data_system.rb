@@ -40,7 +40,6 @@ class SensitiveDataSystem < ApplicationRecord
   validates :review_date, presence: true
   validates :review_contact, presence: true
 
-  validate :device_is_needed
   validate :validate_if_complete
 
   scope :active, -> { where(deleted_at: nil) }
@@ -52,14 +51,6 @@ class SensitiveDataSystem < ApplicationRecord
 
   def archived?
     self.deleted_at.present?
-  end
-
-  def device_is_needed
-    if self.sensitive_data_system_type == "computer"
-      true
-    else 
-      false
-    end
   end
 
   def validate_if_complete
