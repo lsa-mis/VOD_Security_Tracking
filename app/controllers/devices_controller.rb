@@ -3,11 +3,8 @@ class DevicesController < InheritedResources::Base
   before_action :authenticate_logged_in!
   before_action :set_device, only: [:show, :edit, :update, :archive]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
+  before_action :get_access_token, only: [:create, :update]
 
-  require 'uri'
-  require 'net/http'
-  require 'openssl'
-  require 'json'
 
   def show
     add_breadcrumb(@device.display_name)
@@ -24,94 +21,140 @@ class DevicesController < InheritedResources::Base
   end
 
   def create
+    serial = device_params[:serial]
+    hostname = device_params[:hostname]
+    # check the devices table first
+    if serial.present? && Device.find_by(serial: serial).present?
+      device_exist =  "The device with serial number [#{serial}] already exists."
+    elsif hostname.present? && Device.find_by(hostname: hostname).present?
+      device_exist = "The device with hostname [#{hostname}] already exists."
+    else
+      # device doesn't exist in devices table, have to create search_field and call API
+      if serial.present? 
+        search_field = serial
+      else 
+        search_field = hostname
+      end
 
-    #  get auth token
-    url = URI("https://apigw.it.umich.edu/um/it/oauth2/token")
-
-    http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-    request = Net::HTTP::Post.new(url)
-    request["content-type"] = 'application/x-www-form-urlencoded'
-    request["accept"] = 'application/json'
-    request.body = "grant_type=client_credentials&client_id=#{Rails.application.credentials.um_api[:tdx_client_id]}&client_secret=#{Rails.application.credentials.um_api[:tdx_client_secret]}&scope=tdxticket"
-
-    response = http.request(request)
-    access_token = JSON.parse(response.read_body)['access_token']
-
-    @device = Device.new(device_params)
-    serial = params[:device][:serial]
-
-    url = URI("https://apigw.it.umich.edu/um/it/48/assets/search")
-
-    http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-    request = Net::HTTP::Post.new(url)
-    request["x-ibm-client-id"] = "#{Rails.application.credentials.um_api[:tdx_client_id]}"
-    request["authorization"] = "Bearer #{access_token}"
-    request["content-type"] = 'application/json'
-    request["accept"] = 'application/json'
-    request.body = "{\"SerialLike\":\"#{serial}\"}"
-
-    response = http.request(request)
-    asset_info = JSON.parse(response.read_body)
-
-    # check if response is not empty
-    if asset_info.present?
-      asset_id = asset_info[0]['ID']
-
-      url = URI("https://apigw.it.umich.edu/um/it/48/assets/#{asset_id}")
-
-      request = Net::HTTP::Get.new(url)
-      request["x-ibm-client-id"] = "#{Rails.application.credentials.um_api[:tdx_client_id]}"
-      request["authorization"] = "Bearer #{access_token}"
-      request["accept"] = 'application/json'
-
-      response = http.request(request)
-      asset_info = JSON.parse(response.read_body)
-
-      @device.building = asset_info['LocationName']
-      @device.room = asset_info['LocationRoomName']
-      @device.hostname = asset_info['Name']
-      @device.owner = asset_info['OwningCustomerName']
-      @device.department = asset_info['OwningDepartmentName']
-      @device.manufacturer = asset_info['ManufacturerName']
-      @device.model = asset_info['ProductModelName']
-
-      asset_info['Attributes'].each do |att|
-        if att['Name'] == "MAC Address(es)"
-          @device.mac = att['Value']
+      if @access_token
+        # auth_token exists - call TDX
+        @device_tdx_info = get_device_tdx_info(search_field, @access_token)
+      else
+        # no token - create a device without calling TDX
+        @device_tdx_info = {'result' => {'device_not_in_tdx' => "No access to TDX API." }}
+      end
+    end
+    if device_exist.blank?
+      # check TDX API result
+      if @device_tdx_info['result']['more-then_one_result'].present?
+        # api returns more then one result or no auth token
+        @device = Device.new(device_params)
+        respond_to do |format|
+          flash.now[:alert] = @device_tdx_info['result']['more-then_one_result'] 
+          format.html { render :new }
+          format.json { render json: @device.errors, status: :unprocessable_entity }
+        end
+      elsif @device_tdx_info['result']['success']
+        # create device with tdx data
+        @device = Device.new(@device_tdx_info['data'])
+        respond_to do |format|
+          if @device.save
+            format.html { redirect_to @device, notice: "Device was successfully created. " }
+            format.json { render :show, status: :created, location: @device }
+          else
+            format.html { render :new, status: :unprocessable_entity }
+            format.json { render json: @device.errors, status: :unprocessable_entity }
+          end
+        end
+      elsif @device_tdx_info['result']['device_not_in_tdx'].present?
+        # device doesn't exist in TDX database (or no access to TDX), create device with device_params
+        device_not_in_tdx = @device_tdx_info['result']['device_not_in_tdx']
+        @device = Device.new(device_params)
+        respond_to do |format|
+          if @device.save
+            format.html { redirect_to @device, notice: "Device was successfully created. " + device_not_in_tdx }
+            format.json { render :show, status: :created, location: @device }
+          else
+            format.html { render :new, status: :unprocessable_entity }
+            format.json { render json: @device.errors, status: :unprocessable_entity }
+          end
         end
       end
     else
-      redirect_to devices_path, alert: "#{serial} is not in the assets database. Please add this computer to the inventory first." and return
-    end
-
-    respond_to do |format|
-      if @device.save
-        format.html { redirect_to @device, notice: "device was successfully created." }
-        format.json { render :show, status: :created, location: @device }
-      else
-        format.html { render :new, status: :unprocessable_entity }
+      # device exists in the database
+      @device = Device.new(device_params)
+      respond_to do |format|
+        flash.now[:alert] = device_exist
+        format.html { render :new }
         format.json { render json: @device.errors, status: :unprocessable_entity }
       end
     end
   end
+
+  def update
+    @device = Device.find(params[:id])
+    if @device.serial.present? 
+      search_field = @device.serial
+    else 
+      search_field = @device.hostname
+    end
+    @access_token = get_access_token
+    if @access_token
+      # auth_token exists - call TDX
+      @device_tdx_info = get_device_tdx_info(search_field, @access_token)
+      # check TDX API return
+      if @device_tdx_info['result']['more-then_one_result'].present?
+        respond_to do |format|
+          format.html { redirect_to @device, notice: "#{@device_tdx_info['result']['more-then_one_result']}"}
+          format.json { render :show, status: :created, location: @device }
+        end
+      elsif @device_tdx_info['result']['device_not_in_tdx'].present?
+        respond_to do |format|
+          format.html { redirect_to @device, notice: "#{@device_tdx_info['result']['device_not_in_tdx']}"}
+          format.json { render :show, status: :created, location: @device }
+        end
+      elsif @device_tdx_info['result']['success']
+        respond_to do |format|
+          if @device.update(@device_tdx_info['data'])
+            format.html { redirect_to @device, notice: "Device was successfully updated. "}
+            format.json { render :show, status: :created, location: @device }
+          else
+            format.html { render :new, status: :unprocessable_entity }
+            format.json { render json: @device.errors, status: :unprocessable_entity }
+          end
+        end
+      end
+    else
+      # no auth token
+      respond_to do |format|
+        format.html { redirect_to devices_url, notice: 'No access to TDX API.' }
+        format.json { head :no_content }
+      end
+    end
+
+  end
   private
 
-  def set_device
-    @device = Device.find(params[:id])
-  end
+
+    def set_device
+      @device = Device.find(params[:id])
+    end
 
     def add_index_breadcrumb
       add_breadcrumb(controller_name.titleize, devices_path)
+
+    def get_access_token
+      auth_token = AuthTokenApi.new
+      @access_token = auth_token.get_auth_token
+    end
+
+    def get_device_tdx_info(search_field, access_token)
+      device_tdx = DeviceTdxApi.new(search_field, access_token)
+      @device_tdx_info = device_tdx.get_device_data
     end
 
     def device_params
-      params.require(:device).permit(:serial, :hostname, :mac, :building, :room)
+      params.require(:device).permit(:serial, :hostname, :mac, :building, :room, :manufacturer, :model, :owner, :department).each { |key, value| value.strip! }
     end
 
 end

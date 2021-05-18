@@ -27,9 +27,10 @@ Rails.application.routes.draw do
   post 'archive_it_security_incident/:id', to: 'it_security_incidents#archive', as: :archive_it_security_incident
   post 'archive_sensitive_data_system/:id', to: 'sensitive_data_systems#archive', as: :archive_sensitive_data_system
   post 'archive_legacy_os_record/:id', to: 'legacy_os_records#archive', as: :archive_legacy_os_record
-  post 'archive_dpa_exception/:id', to: 'dpa_exceptions#archive', as: :archive_dpa_exception
-
+  
   resources :devices
+  get 'update_device/:id', to: 'devices#update', as: :update_device
+
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
