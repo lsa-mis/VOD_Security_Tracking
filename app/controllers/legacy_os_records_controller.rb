@@ -42,7 +42,6 @@ class LegacyOsRecordsController < InheritedResources::Base
       # call DeviceTdxApi
       @device_tdx = DeviceTdxApi.new(search_field)
       @device_tdx_info = @device_tdx.get_device_data
-      logger.debug "***********************@device_tdx_info: #{@device_tdx_info}"
       if @device_tdx_info['error_device'].present?
         # api returns more then one result or no auth token
         respond_to do |format|
