@@ -12,7 +12,7 @@ gem 'devise_ldap_authenticatable'
 gem 'jbuilder', '~> 2.7'
 # gem install mysql2 -v '0.5.3' -- --with-ldflags=-L/usr/local/opt/openssl/lib --with-cppflags=-I/usr/local/opt/openssl/include
 gem 'mysql2', '~> 0.5'
-gem 'puma', '~> 5.0'
+gem 'puma', '~> 5.3'
 gem 'pundit', '~> 2.1'
 gem 'redis', '~> 4.0'
 gem 'sass-rails', '>= 6'

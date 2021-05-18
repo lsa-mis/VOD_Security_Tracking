@@ -1,41 +1,55 @@
 <h1>Devices</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Serial</th>
-      <th>Hostname</th>
-      <th>Mac</th>
-      <th>Manufacturer</th>
-      <th>Model</th>
-      <th>Owner</th>
-      <th>Department</th>
-      <th>Building</th>
-      <th>Room</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @devices.each do |device| %>
-      <tr>
-        <td><%= device.serial %></td>
-        <td><%= device.hostname %></td>
-        <td><%= device.mac %></td>
-        <td><%= device.manufacturer %></td>
-        <td><%= device.model %></td>
-        <td><%= device.owner %></td>
-        <td><%= device.department %></td>
-        <td><%= device.building %></td>
-        <td><%= device.room %></td>
-        <td><%= link_to 'Show', device %></td>
-        <td><%= link_to 'Update', update_device_path(device) %></td>
-        <td><%= link_to 'Destroy', device, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Device', new_device_path %>
+<p class="text-gray-500 text-sm mx-4">
+  Devices
+</p>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
+    <%= link_to 'New Device', new_device_path %>
+  </div>
+  <div class="flex flex-col">
+    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Actions</th>
+                <th scope="col">Serial</th>
+                <th scope="col">Hostname</th>
+                <th scope="col">Mac</th>
+                <th scope="col">Manufacturer</th>
+                <th scope="col">Model</th>
+                <th scope="col">Owner</th>
+                <th scope="col">Department</th>
+                <th scope="col">Building</th>
+                <th scope="col">Room</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @devices.each do |device| %>
+                <tr>
+                  <td>
+                    <ul>
+                      <li><%= link_to 'Show', device, class: "action-link" %></li>
+                      <li><%= link_to 'Edit', edit_device_path(device), class: "action-link" %></li>
+                      <li><%= link_to 'Destroy', device, class: "action-link", method: :delete, data: { confirm: 'Are you sure?' } %></li>
+                    </ul>
+                  </td>
+                  <td><%= device.serial %></td>
+                  <td><%= device.hostname %></td>
+                  <td><%= device.mac %></td>
+                  <td><%= device.manufacturer %></td>
+                  <td><%= device.model %></td>
+                  <td><%= device.owner %></td>
+                  <td><%= device.department %></td>
+                  <td><%= device.building %></td>
+                  <td><%= device.room %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,6 +3,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
   before_action :authenticate_logged_in!
   before_action :set_sensitive_data_system, only: [:show, :edit, :update, :archive]
   before_action :get_access_token, only: [:create, :update]
+  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
 
   include SaveRecordWithDevice
 
@@ -58,6 +59,8 @@ class SensitiveDataSystemsController < InheritedResources::Base
         end
       end
     end
+  def show
+    add_breadcrumb(@sensitive_data_system.id)
   end
 
   def archive
@@ -92,6 +95,9 @@ class SensitiveDataSystemsController < InheritedResources::Base
     def get_device_tdx_info(search_field, access_token)
       device_tdx = DeviceTdxApi.new(search_field, access_token)
       @device_tdx_info = device_tdx.get_device_data
+
+    def add_index_breadcrumb
+      add_breadcrumb(controller_name.titleize, sensitive_data_systems_path)
     end
 
     def sensitive_data_system_params

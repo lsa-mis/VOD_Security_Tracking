@@ -3,6 +3,7 @@ class LegacyOsRecordsController < InheritedResources::Base
   before_action :authenticate_logged_in!
   before_action :set_legacy_os_record, only: [:show, :edit, :update, :archive]
   before_action :get_access_token, only: [:create, :update]
+  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
 
   include SaveRecordWithDevice
 
@@ -14,10 +15,13 @@ class LegacyOsRecordsController < InheritedResources::Base
     @device = @legacy_os_record.device
   end
 
+  def show
+    add_breadcrumb(@legacy_os_record.id)
+  end
+
   def new
     @legacy_os_record = LegacyOsRecord.new
     @device = Device.new
-  end
 
   def create
     @legacy_os_record = LegacyOsRecord.new(legacy_os_record_params)
@@ -100,6 +104,9 @@ class LegacyOsRecordsController < InheritedResources::Base
     def get_device_tdx_info(search_field, access_token)
       device_tdx = DeviceTdxApi.new(search_field, access_token)
       @device_tdx_info = device_tdx.get_device_data
+      
+    def add_index_breadcrumb
+      add_breadcrumb(controller_name.titleize, legacy_os_records_path)
     end
 
     def legacy_os_record_params

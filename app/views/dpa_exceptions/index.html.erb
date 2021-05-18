@@ -1,10 +1,10 @@
 <h1>Dpa Exceptions</h1>
 
 <p class="text-gray-500 text-sm mx-4">
-DPA exceptions - Data Protection Addendums (<%= link_to 'https://it.umich.edu/information-technology-policies/general-policies/DS-20' %>)
+  DPA exceptions - Data Protection Addendums (<%= link_to 'https://it.umich.edu/information-technology-policies/general-policies/DS-20' %>)
 </p>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-  <div class="mt-2 -mr-1 mb-4 w-40 rounded-md shadow-lg py-1 bg-blue-500 text-sm text-white text-center ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
+  <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
     <%= link_to 'New Dpa Exception', new_dpa_exception_path %>
   </div>
 
@@ -12,53 +12,53 @@ DPA exceptions - Data Protection Addendums (<%= link_to 'https://it.umich.edu/in
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+          <table>
+            <thead>
               <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Review date exception first approval date</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Third party product service</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Used by</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Point of contact</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Review findings</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Review summary</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lsa security recommendation</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lsa security determination</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lsa security approval</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lsa technology services approval</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Exception approval date exception renewal date due</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Review date exception review date</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Notes</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sla agreement</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data type</th>
+                <th scope="col">Actions</th>
+                <th scope="col">Review date exception first approval date</th>
+                <th scope="col">Third party product service</th>
+                <th scope="col">Used by</th>
+                <th scope="col">Point of contact</th>
+                <th scope="col">Review findings</th>
+                <th scope="col">Review summary</th>
+                <th scope="col">Lsa security recommendation</th>
+                <th scope="col">Lsa security determination</th>
+                <th scope="col">Lsa security approval</th>
+                <th scope="col">Lsa technology services approval</th>
+                <th scope="col">Exception approval date exception renewal date due</th>
+                <th scope="col">Review date exception review date</th>
+                <th scope="col">Notes</th>
+                <th scope="col">Sla agreement</th>
+                <th scope="col">Data type</th>
               </tr>
             </thead>
 
             <tbody>
               <% @dpa_exceptions.each do |dpa_exception| %>
-                <tr class="bg-white">
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <tr>
+                  <td>
                     <ul>
                       <li><%= link_to 'Show', dpa_exception, class: "action-link" %></li>
                       <li><%= link_to 'Edit', edit_dpa_exception_path(dpa_exception), class: "action-link" %></li>
                       <li><%= link_to 'Archive', archive_dpa_exception_path(dpa_exception), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
                     </ul>
                   </td> 
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= dpa_exception.review_date_exception_first_approval_date %></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= dpa_exception.third_party_product_service %></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= dpa_exception.used_by %></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= dpa_exception.point_of_contact %></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= truncate(dpa_exception.review_findings, length: 25) %></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= truncate(dpa_exception.review_summary, length: 25) %></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= truncate(dpa_exception.lsa_security_recommendation, length: 25) %></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= truncate(dpa_exception.lsa_security_determination, length: 25) %></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= dpa_exception.lsa_security_approval %></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= dpa_exception.lsa_technology_services_approval %></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= dpa_exception.exception_approval_date_exception_renewal_date_due %></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= dpa_exception.review_date_exception_review_date %></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= truncate(dpa_exception.notes, length: 25) %></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= dpa_exception.sla_agreement %></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= dpa_exception.data_type_id %></td>
+                  <td><%= dpa_exception.review_date_exception_first_approval_date %></td>
+                  <td><%= dpa_exception.third_party_product_service %></td>
+                  <td><%= dpa_exception.used_by %></td>
+                  <td><%= dpa_exception.point_of_contact %></td>
+                  <td><%= truncate(dpa_exception.review_findings, length: 25) %></td>
+                  <td><%= truncate(dpa_exception.review_summary, length: 25) %></td>
+                  <td><%= truncate(dpa_exception.lsa_security_recommendation, length: 25) %></td>
+                  <td><%= truncate(dpa_exception.lsa_security_determination, length: 25) %></td>
+                  <td><%= dpa_exception.lsa_security_approval %></td>
+                  <td><%= dpa_exception.lsa_technology_services_approval %></td>
+                  <td><%= dpa_exception.exception_approval_date_exception_renewal_date_due %></td>
+                  <td><%= dpa_exception.review_date_exception_review_date %></td>
+                  <td><%= truncate(dpa_exception.notes, length: 25) %></td>
+                  <td><%= dpa_exception.sla_agreement %></td>
+                  <td><%= dpa_exception.data_type_id %></td>
                 </tr>
               <% end %>
             </tbody>
