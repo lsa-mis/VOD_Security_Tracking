@@ -37,5 +37,8 @@ module App
 
     # Need this setting so Active Storage doesn't overwrite files.
     config.active_storage.replace_on_assign_to_many = false
+    
+    config.eager_load_paths += %W(#{config.root}/lib)
+
   end
 end
