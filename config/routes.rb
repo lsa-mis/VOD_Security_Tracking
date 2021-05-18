@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+    sessions: 'users/sessions'
+  }
+  devise_scope :user do
+    root to: 'users/sessions#new'
+    get 'sign_in', to: 'users/sessions#new'
+    get '/users/sign_out', to: 'users/sessions#destroy'
+  end
 
   resources :it_security_incidents do
     resources :tdx_tickets, module: :it_security_incidents
@@ -10,6 +17,7 @@ Rails.application.routes.draw do
   resources :legacy_os_records do
     resources :tdx_tickets, module: :legacy_os_records
   end
+
   get 'dpa_exceptions/audit_log', to: 'dpa_exceptions#audit_log'
   resources :dpa_exceptions do
     resources :tdx_tickets, module: :dpa_exceptions
@@ -26,4 +34,5 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: 'static_pages#home'
   get '/dashboard', to: 'static_pages#dashboard'
+
 end
