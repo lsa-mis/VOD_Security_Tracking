@@ -1,6 +1,6 @@
 import { Controller } from "stimulus"
 
-export default class extends Controller {
+export default class SensitivedsController extends Controller {
   static targets = ["sensitive_data_system_type", "system_device"]
 
   connect() {
