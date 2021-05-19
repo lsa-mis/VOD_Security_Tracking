@@ -1,0 +1,35 @@
+form 
+  @apply space-y-8 divide-y divide-gray-200
+
+  .required
+    @apply text-red-600
+
+  .mandatory
+    @apply text-yellow-600
+
+  .field
+    @apply sm:col-span-4
+
+  label
+    @apply block text-sm font-medium text-gray-700
+
+  textarea
+    @apply shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md
+
+  input[type="text"], input[type="number"]
+    @apply shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md
+
+  input[type="file"]
+    @apply pl-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md
+
+  .help-text
+    @apply mt-2 text-sm text-gray-500
+
+  select 
+    @apply shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md
+
+  input[type="submit"]
+    @apply ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-laitan_blue hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+
+  .btn-incomplete
+    @apply ml-3 inline-flex justify-center py-2 px-4 border border-laitan_blue shadow-sm text-sm font-medium rounded-md text-laitan_blue bg-white hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500

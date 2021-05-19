@@ -7,7 +7,8 @@ import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
-import "../layouts/application.sass";
+import "../layouts/application.sass"
+import "../layouts/forms.sass"
 
 Rails.start()
 Turbolinks.start()

@@ -11,102 +11,154 @@
     </div>
   <% end %>
 
-  <div>
-  <font color="red">**</font> - mandatory fields<br>
-  <font color="red">*</font> - requered fields; to save without these fields check the [incomplete] checkbox
+  <div class="space-y-8 divide-y divide-gray-200">
+    <div>
+      <div>
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Special Fields
+        </h3>
+        <ul class="mt-1 text-sm text-gray-500">
+          <li class="mandatory">mandatory fields</li>
+          <li class="required">required fields; to save without these fields check the [incomplete] checkbox</li>
+        </ul>
+      </div>
+      <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+        <div class="field">
+          <%= form.label :review_date_exception_first_approval_date, required: true, class: "required" %>
+          <%= form.date_select :review_date_exception_first_approval_date, include_blank: true, start_year: Date.current.year, required: true %>
+        </div>
+
+        <div class="field">
+          <%= form.label :third_party_product_service, class: "mandatory" %>
+          <div class="mt-1">
+            <%= form.text_area :third_party_product_service, required: true  %>
+          </div>
+          <p class="help-text">Help text if needed</p>
+        </div>
+
+        <div class="field">
+          <%= form.label :used_by, class: "required" %>
+          <div class="mt-1">
+            <%= form.text_field :used_by %>
+          </div>
+          <p class="help-text">Help text if needed</p>
+        </div>
+
+        <div class="field">
+          <%= form.label :point_of_contact %>
+          <div class="mt-1">
+            <%= form.text_field :point_of_contact %>
+          </div>
+          <p class="help-text">Help text if needed</p>
+        </div>
+
+        <div class="field">
+          <%= form.label :review_findings %>
+          <div class="mt-1">
+            <%= form.text_area :review_findings %>
+          </div>
+          <p class="help-text">Help text if needed</p>
+        </div>
+
+        <div class="field">
+          <%= form.label :review_summary %>
+          <div class="mt-1">
+            <%= form.text_area :review_summary %>
+          </div>
+          <p class="help-text">Help text if needed</p>
+        </div>
+
+        <div class="field">
+          <%= form.label :lsa_security_recommendation %>
+          <div class="mt-1">
+            <%= form.text_area :lsa_security_recommendation %>
+          </div>
+          <p class="help-text">Help text if needed</p>
+        </div>
+
+        <div class="field">
+          <%= form.label :lsa_security_determination %>
+          <div class="mt-1">
+            <%= form.text_area :lsa_security_determination %>
+          </div>
+          <p class="help-text">Help text if needed</p>
+        </div>
+
+        <div class="field">
+          <%= form.label :lsa_security_approval, class: "required" %>
+          <div class="mt-1">
+            <%= form.text_field :lsa_security_approval %>
+          </div>
+          <p class="help-text">Help text if needed</p>
+        </div>
+
+        <div class="field">
+          <%= form.label :lsa_technology_services_approval, class: "required" %>
+          <div class="mt-1">
+            <%= form.text_field :lsa_technology_services_approval %>
+          </div>
+          <p class="help-text">Help text if needed</p>
+        </div>
+
+        <div class="field">
+          <%= form.label :exception_approval_date_exception_renewal_date_due, class: "required" %>
+          <%= form.date_select :exception_approval_date_exception_renewal_date_due, include_blank: true, start_year: Date.current.year %>
+        </div>
+
+        <div class="field">
+          <%= form.label :review_date_exception_review_date, class: "required" %>
+          <%= form.date_select :review_date_exception_review_date, include_blank: true, start_year: Date.current.year %>
+        </div>
+
+        <div class="field">
+          <%= form.label :notes %>
+          <div class="mt-1">
+            <%= form.text_field :notes %>
+          </div>
+          <p class="help-text">Help text if needed</p>
+        </div>
+
+        <div class="field">
+          <%= form.label :sla_agreement %>
+          <div class="mt-1">
+            <%= form.text_field :sla_agreement %>
+          </div>
+          <p class="help-text">Help text if needed</p>
+        </div>
+
+        <div class="field">
+          <%= form.label :sla_attachment %>
+          <div class="mt-1">
+            <%= form.file_field :sla_attachment %>
+          </div>
+        </div>
+
+        <div class="field">
+          <%= form.label :data_type_id, class: "mandatory" %>
+          <div class="mt-1">
+            <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}, required: true   %>
+          </div>
+        </div>
+
+        <div class="field">
+          <%= form.label :attachments %>
+          <div class="mt-1">
+            <%= form.file_field :attachments, multiple: true %>
+          </div>
+        </div>
+
+        <%= form.hidden_field :incomplete %>
+
+      </div>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :review_date_exception_first_approval_date %><font color="red">*</font>
-    <%= form.date_select :review_date_exception_first_approval_date, include_blank: true, start_year: Date.current.year %>
-  </div>
-
-  <div class="field">
-    <%= form.label :third_party_product_service %><font color="red">**</font>
-    <%= form.text_area :third_party_product_service, required: true  %>
-  </div>
-
-  <div class="field">
-    <%= form.label :used_by %><font color="red">*</font>
-    <%= form.text_field :used_by %>
-  </div>
-
-  <div class="field">
-    <%= form.label :point_of_contact %>
-    <%= form.text_field :point_of_contact %>
-  </div>
-
-  <div class="field">
-    <%= form.label :review_findings %>
-    <%= form.text_area :review_findings %>
-  </div>
-
-  <div class="field">
-    <%= form.label :review_summary %>
-    <%= form.text_area :review_summary %>
-  </div>
-
-  <div class="field">
-    <%= form.label :lsa_security_recommendation %>
-    <%= form.text_area :lsa_security_recommendation %>
-  </div>
-
-  <div class="field">
-    <%= form.label :lsa_security_determination %>
-    <%= form.text_area :lsa_security_determination %>
-  </div>
-
-  <div class="field">
-    <%= form.label :lsa_security_approval %><font color="red">*</font>
-    <%= form.text_field :lsa_security_approval %>
-  </div>
-
-  <div class="field">
-    <%= form.label :lsa_technology_services_approval %><font color="red">*</font>
-    <%= form.text_field :lsa_technology_services_approval %>
-  </div>
-
-  <div class="field">
-    <%= form.label :exception_approval_date_exception_renewal_date_due %><font color="red">*</font>
-    <%= form.date_select :exception_approval_date_exception_renewal_date_due, include_blank: true, start_year: Date.current.year %>
-  </div>
-
-  <div class="field">
-    <%= form.label :review_date_exception_review_date %><font color="red">*</font>
-    <%= form.date_select :review_date_exception_review_date, include_blank: true, start_year: Date.current.year %>
-  </div>
-
-  <div class="field">
-    <%= form.label :notes %>
-    <%= form.text_field :notes %>
-  </div>
-
-  <div class="field">
-    <%= form.label :sla_agreement %>
-    <%= form.text_field :sla_agreement %>
-  </div>
-
-  <div class="field">
-    <%= form.label :sla_attachment %>
-    <%= form.file_field :sla_attachment %>
-  </div>
-
-  <div class="field">
-    <%= form.label :data_type_id %><font color="red">**</font>
-    <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}, required: true   %>
-  </div>
-
-  <div class="field">
-    <%= form.label :attachments %>
-    <%= form.file_field :attachments, multiple: true %>
-  </div>
-
-  <div class="field">
-    <%= form.label :incomplete %>
-    <%= form.check_box :incomplete %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
+  <div class="pt-5">
+    <div class="flex justify-start">
+      <div class="actions">
+        <%= form.submit %>
+        <button name="incomplete" class="btn-incomplete">Save Incomplete Form</button>
+      </div>
+    </div>
   </div>
 <% end %>
