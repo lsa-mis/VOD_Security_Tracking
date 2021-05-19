@@ -11,129 +11,154 @@
     </div>
   <% end %>
 
-  <div>
-  <font color="red">**</font> - mandatory fields<br>
-  <font color="red">*</font> - requered fields; to save without these fields check the [incomplete] checkbox<br>
-  <font color="red">*/*</font> - Either Or is requered
+  <div class="form-container">
+    <div>
+      <h3 class="instruction-header">
+        Special Fields
+      </h3>
+      <ul class="instruction-container">
+        <li class="mandatory">mandatory fields</li>
+        <li class="required">required fields => to save as an incomplete record without these fields click the [Save Incomplete Form] button.</li>
+      </ul>
+    </div>
+
+    <div class="field-container">
+      <div class="field">
+        <%= form.label :owner_username, class: 'mandatory' %>
+        <%= form.text_field :owner_username, required: true  %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :owner_full_name, class: 'mandatory' %>
+        <%= form.text_field :owner_full_name, required: true  %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :dept, class: 'required' %>
+        <%= form.text_field :dept %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :phone, class: 'required' %>
+        <%= form.text_field :phone %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :additional_dept_contact %>
+        <%= form.text_field :additional_dept_contact %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :additional_dept_contact_phone %>
+        <%= form.text_field :additional_dept_contact_phone %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :support_poc, class: 'required' %>
+        <%= form.text_field :support_poc %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :legacy_os, class: 'mandatory' %>
+        <%= form.text_field :legacy_os, required: true  %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="sm:col-span-3">
+        <%= form.label :unique_app, class: 'required' %>
+        <%= form.text_field :unique_app %>
+        <p class="help-text">Unique app or Unique Hardware is required</p>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="sm:col-span-3">
+        <%= form.label :unique_hardware, class: 'required' %>
+        <%= form.text_field :unique_hardware %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :unique_date, class: 'required' %>
+        <%= form.date_select :unique_date, include_blank: true, start_year: Date.current.year %>
+      </div>
+
+      <div class="field">
+        <%= form.label :remediation, class: 'mandatory' %>
+        <%= form.text_field :remediation, required: true  %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :exception_approval_date %>
+        <%= form.date_select :exception_approval_date, include_blank: true, start_year: Date.current.year %>
+      </div>
+
+      <div class="field">
+        <%= form.label :review_date %>
+        <%= form.date_select :review_date, include_blank: true, start_year: Date.current.year %>
+      </div>
+
+      <div class="field">
+        <%= form.label :review_contact, class: 'mandatory' %>
+        <%= form.text_field :review_contact, required: true  %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :justification %>
+        <%= form.text_field :justification %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :local_it_support_group, class: 'required' %>
+        <%= form.text_field :local_it_support_group %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :notes %>
+        <%= form.text_area :notes %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :data_type_id, class: 'mandatory' %>
+        <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}, required: true %>
+      </div>
+
+      <div id="device_input">
+        <%= form.label "Add a device", class: 'mandatory' %> - enter serial:
+        <%= form.fields_for :device, Device.new do |device_attributes| %>
+          <%= device_attributes.text_field :serial %>
+          or hostname:
+          <%= device_attributes.text_field :hostname %>
+        <% end %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+          <%= form.label :attachments %>
+          <%= form.file_field :attachments, multiple: true %>
+      </div>
+
+      <%= form.hidden_field :incomplete %>
+
+    </div>
   </div>
 
-
-  <div class="field">
-    <%= form.label :owner_username %><font color="red">**</font>
-    <%= form.text_field :owner_username, required: true  %>
-  </div>
-
-  <div class="field">
-    <%= form.label :owner_full_name %><font color="red">**</font>
-    <%= form.text_field :owner_full_name, required: true  %>
-  </div>
-
-  <div class="field">
-    <%= form.label :dept %><font color="red">*</font>
-    <%= form.text_field :dept %>
-  </div>
-
-  <div class="field">
-    <%= form.label :phone %><font color="red">*</font>
-    <%= form.text_field :phone %>
-  </div>
-
-  <div class="field">
-    <%= form.label :additional_dept_contact %>
-    <%= form.text_field :additional_dept_contact %>
-  </div>
-
-  <div class="field">
-    <%= form.label :additional_dept_contact_phone %>
-    <%= form.text_field :additional_dept_contact_phone %>
-  </div>
-
-  <div class="field">
-    <%= form.label :support_poc %><font color="red">*</font>
-    <%= form.text_field :support_poc %>
-  </div>
-
-  <div class="field">
-    <%= form.label :legacy_os %><font color="red">**</font>
-    <%= form.text_field :legacy_os, required: true  %>
-  </div>
-
-  <div class="field">
-    <%= form.label :unique_app %><font color="red">*/*</font>
-    <%= form.text_field :unique_app %>
-  </div>
-
-  <div class="field">
-    <%= form.label :unique_hardware %><font color="red">*/*</font>
-    <%= form.text_field :unique_hardware %>
-  </div>
-
-  <div class="field">
-    <%= form.label :unique_date %><font color="red">*</font>
-    <%= form.date_select :unique_date, include_blank: true, start_year: Date.current.year %>
-  </div>
-
-  <div class="field">
-    <%= form.label :remediation %><font color="red">**</font>
-    <%= form.text_field :remediation, required: true  %>
-  </div>
-
-  <div class="field">
-    <%= form.label :exception_approval_date %>
-    <%= form.date_select :exception_approval_date, include_blank: true, start_year: Date.current.year %>
-  </div>
-
-  <div class="field">
-    <%= form.label :review_date %>
-    <%= form.date_select :review_date, include_blank: true, start_year: Date.current.year %>
-  </div>
-
-  <div class="field">
-    <%= form.label :review_contact %><font color="red">**</font>
-    <%= form.text_field :review_contact, required: true  %>
-  </div>
-
-  <div class="field">
-    <%= form.label :justification %>
-    <%= form.text_field :justification %>
-  </div>
-
-  <div class="field">
-    <%= form.label :local_it_support_group %><font color="red">*</font>
-    <%= form.text_field :local_it_support_group %>
-  </div>
-
-  <div class="field">
-    <%= form.label :notes %>
-    <%= form.text_area :notes %>
-  </div>
-
-  <div class="field">
-    <%= form.label :data_type_id %><font color="red">**</font>
-    <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}, required: true %>
-  </div>
-
-<div id="device_input">
-  <%= form.label "Add a device" %><font color="red">**</font> - enter serial:
-    <%= form.fields_for :device, Device.new do |device_attributes| %>
-      <%= device_attributes.text_field :serial %>
-      or hostname:
-      <%= device_attributes.text_field :hostname %>
-    <% end %>
-  </div>
-
-<div class="field">
-    <%= form.label :attachments %>
-    <%= form.file_field :attachments, multiple: true %>
-  </div>
-
-  <div class="field">
-    <%= form.label :incomplete %>
-    <%= form.check_box :incomplete %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
+  <div class="action-area">
+    <div class="actions">
+      <%= form.submit %>
+      <button name="incomplete" class="btn-incomplete">Save Incomplete Form</button>
+    </div>
   </div>
 <% end %>
 
