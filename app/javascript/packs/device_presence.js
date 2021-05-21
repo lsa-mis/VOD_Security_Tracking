@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#form').submit(function () {
+    $('input[type="submit"]').on('click', function () {
         serial = $("input[id$=serial").val();
         hostname = $("input[id$=hostname").val();
 
@@ -11,6 +11,7 @@ $(document).ready(function () {
         }
         if (errors > 0) {
             $('#device_input').append("<p>Add serial number or hostname</p>");
+            document.getElementById(id = "legacy_os_record_device_attributes_serial").focus();
             console.log("All fields are required");
             return false;
         }

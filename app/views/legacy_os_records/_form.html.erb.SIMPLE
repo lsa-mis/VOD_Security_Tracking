@@ -1,0 +1,40 @@
+<%= simple_form_for(@legacy_os_record, @device) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <div id="device_input">
+      <%= f.simple_fields_for:device, Device.new do |device_attributes| %>
+        <%= device_attributes.input :serial %>
+        or hostname:
+        <%= device_attributes.input :hostname %>
+      <% end %>
+  </div>
+    <%= f.input :owner_username %>
+    <%= f.input :owner_full_name %>
+    <%= f.input :dept %>
+    <%= f.input :phone %>
+    <%= f.input :additional_dept_contact %>
+    <%= f.input :additional_dept_contact_phone %>
+    <%= f.input :support_poc %>
+    <%= f.input :legacy_os %>
+    <%= f.input :unique_app %>
+    <%= f.input :unique_hardware %>
+    <%= f.input :unique_date %>
+    <%= f.input :remediation %>
+    <%= f.input :exception_approval_date %>
+    <%= f.input :review_date %>
+    <%= f.input :review_contact %>
+    <%= f.input :justification %>
+    <%= f.input :local_it_support_group %>
+    <%= f.input :notes %>
+    <%= f.association :data_type %>
+    <%= f.input :incomplete %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
+
+<%= javascript_pack_tag 'device_presence' %>
