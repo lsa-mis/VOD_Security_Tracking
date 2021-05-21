@@ -25,7 +25,14 @@
     <div class="field-container">
       <div class="field">
         <%= form.label :review_date_exception_first_approval_date, required: true, class: "required" %>
-        <%= form.date_select :review_date_exception_first_approval_date, include_blank: true, start_year: Date.current.year, required: true %>
+        <%= form.text_field :review_date_exception_first_approval_date,
+          data: {
+            controller: "flatpickr",
+            flatpickr_date_format: "Y-m-d",
+            flatpickr_min_date: Time.zone.now
+          },
+          required: true 
+        %>
       </div>
 
       <div class="field">
@@ -84,12 +91,24 @@
 
       <div class="field">
         <%= form.label :exception_approval_date_exception_renewal_date_due, class: "required" %>
-        <%= form.date_select :exception_approval_date_exception_renewal_date_due, include_blank: true, start_year: Date.current.year %>
+        <%= form.text_field :exception_approval_date_exception_renewal_date_due,
+          data: {
+            controller: "flatpickr",
+            flatpickr_date_format: "Y-m-d",
+            flatpickr_min_date: Time.zone.now
+          }
+        %>
       </div>
 
       <div class="field">
         <%= form.label :review_date_exception_review_date, class: "required" %>
-        <%= form.date_select :review_date_exception_review_date, include_blank: true, start_year: Date.current.year %>
+        <%= form.text_field :review_date_exception_review_date,
+          data: {
+            controller: "flatpickr",
+            flatpickr_date_format: "Y-m-d",
+            flatpickr_min_date: Time.zone.now
+          }
+        %>
       </div>
 
       <div class="field">
