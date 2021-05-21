@@ -3,15 +3,19 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-import Rails from "@rails/ujs"
-import Turbolinks from "turbolinks"
-import * as ActiveStorage from "@rails/activestorage"
+
+import "@hotwired/turbo-rails"
 import "channels"
+import "controllers"
+import * as ActiveStorage from "@rails/activestorage"
+import Rails from "@rails/ujs"
+
 import "../layouts/application.sass"
 import "../layouts/forms.sass"
 
 Rails.start()
-Turbolinks.start()
 ActiveStorage.start()
 
 const images = require.context('../images', true)
+
+
