@@ -15,7 +15,6 @@ import "../layouts/forms.sass"
 
 Rails.start()
 ActiveStorage.start()
-import "controllers"
 
 const images = require.context('../images', true)
 

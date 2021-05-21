@@ -99,14 +99,14 @@
       <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}, required: true %>
     </div>
 
-    <%= content_tag :div, nil, data: {controller: "hello"} do %>
+    <%= content_tag :div, nil, data: {controller: "sensitiveds"} do %>
 
       <div class="field">
         <%= form.label :sensitive_data_system_type_id %><font color="red">**</font>
-        <%= form.collection_select :sensitive_data_system_type_id, SensitiveDataSystemType.all, :id, :name, {include_blank: "Select"}, required: true, :"data-hello-target" => "sensitive_data_system_type", :"data-action" => "input->hello#display_device" %>
+        <%= form.collection_select :sensitive_data_system_type_id, SensitiveDataSystemType.all, :id, :name, {include_blank: "Select"}, required: true, :"data-sensitiveds-target" => "sensitive_data_system_type", :"data-action" => "input->sensitiveds#display_device" %>
       </div>
 
-      <div id="device_input" class="device--hide" data-hello-target="system_device">
+      <div id="device_input" class="device--hide" data-sensitiveds-target="system_device">
         <%= form.label "Add a device" %><font color="red">**</font> - enter serial:
         <%= form.fields_for :device, @device do |device_attributes| %>
           <%= device_attributes.text_field :serial %>
