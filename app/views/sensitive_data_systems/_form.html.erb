@@ -21,100 +21,6 @@
         <li class="required">required fields => to save as an incomplete record without these fields click the [Save Incomplete Form] button.</li>
       </ul>
     </div>
-  
-
-    <div>
-    <font color="red">**</font> - mandatory fields<br>
-    <font color="red">*</font> - requered fields; to save without these fields check the [incomplete] checkbox
-    </div>
-
-    <div class="field">
-      <%= form.label :owner_username %><font color="red">**</font>
-      <%= form.text_field :owner_username, required: true  %>
-    </div>
-
-    <div class="field">
-      <%= form.label :owner_full_name %><font color="red">**</font>
-      <%= form.text_field :owner_full_name, required: true  %>
-    </div>
-
-    <div class="field">
-      <%= form.label :dept %><font color="red">*</font>
-      <%= form.text_field :dept %>
-    </div>
-
-    <div class="field">
-      <%= form.label :phone %>
-      <%= form.text_field :phone %>
-    </div>
-
-    <div class="field">
-      <%= form.label :additional_dept_contact %>
-      <%= form.text_field :additional_dept_contact %>
-    </div>
-
-    <div class="field">
-      <%= form.label :additional_dept_contact_phone %>
-      <%= form.text_field :additional_dept_contact_phone %>
-    </div>
-
-    <div class="field">
-      <%= form.label :support_poc %><font color="red">*</font>
-      <%= form.text_field :support_poc %>
-    </div>
-
-    <div class="field">
-      <%= form.label :expected_duration_of_data_retention %>
-      <%= form.text_area :expected_duration_of_data_retention %>
-    </div>
-
-    <div class="field">
-      <%= form.label :agreements_related_to_data_types %>
-      <%= form.text_field :agreements_related_to_data_types %>
-    </div>
-
-    <div class="field">
-      <%= form.label :review_date %><font color="red">**</font>
-      <%= form.date_select :review_date, include_blank: true, start_year: Date.current.year, required: true %>
-    </div>
-
-    <div class="field">
-      <%= form.label :review_contact %><font color="red">**</font>
-      <%= form.text_field :review_contact, required: true  %>
-    </div>
-
-    <div class="field">
-      <%= form.label :notes %>
-      <%= form.text_field :notes %>
-    </div>
-
-    <div class="field">
-      <%= form.label :storage_location_id %><font color="red">**</font>
-      <%= form.collection_select :storage_location_id, StorageLocation.all, :id, :name, {include_blank: "Select"}, required: true %>
-
-    </div>
-
-    <div class="field">
-      <%= form.label :data_type_id %><font color="red">**</font>
-      <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}, required: true %>
-    </div>
-
-    <%= content_tag :div, nil, data: {controller: "sensitiveds"} do %>
-
-      <div class="field">
-        <%= form.label :sensitive_data_system_type_id %><font color="red">**</font>
-        <%= form.collection_select :sensitive_data_system_type_id, SensitiveDataSystemType.all, :id, :name, {include_blank: "Select"}, required: true, :"data-sensitiveds-target" => "sensitive_data_system_type", :"data-action" => "input->sensitiveds#display_device" %>
-      </div>
-
-      <div id="device_input" class="device--hide" data-sensitiveds-target="system_device">
-        <%= form.label "Add a device" %><font color="red">**</font> - enter serial:
-        <%= form.fields_for :device, @device do |device_attributes| %>
-          <%= device_attributes.text_field :serial %>
-          or hostname:
-          <%= device_attributes.text_field :hostname %>
-        <% end %>
-      </div>
-    <% end %>
 
     <div class="field-container">
       <div class="field">
@@ -164,7 +70,14 @@
 
       <div class="field">
         <%= form.label :review_date, class: "mandatory" %>
-        <%= form.date_select :review_date, include_blank: true, start_year: Date.current.year, required: true %>
+        <%= form.text_field :review_date,
+        data: {
+            controller: "flatpickr",
+            flatpickr_date_format: "Y-m-d",
+            flatpickr_min_date: Time.zone.now
+          },
+          required: true 
+        %>
       </div>
 
       <div class="field">
@@ -188,10 +101,22 @@
         <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}, required: true %>
       </div>
 
-      <div class="field">
-        <%= form.label :device_id, class: "mandatory" %>
-        <%= form.collection_select :device_id, Device.all, :id, :display_name, {include_blank: "Select"}, required: true %>
-      </div>
+      <%= content_tag :div, nil, data: {controller: "sensitiveds"} do %>
+
+        <div class="field">
+          <%= form.label :sensitive_data_system_type_id %><font color="red">**</font>
+          <%= form.collection_select :sensitive_data_system_type_id, SensitiveDataSystemType.all, :id, :name, {include_blank: "Select"}, required: true, :"data-sensitiveds-target" => "sensitive_data_system_type", :"data-action" => "input->sensitiveds#display_device" %>
+        </div>
+  
+        <div id="device_input" class="device--hide" data-sensitiveds-target="system_device">
+          <%= form.label "Add a device" %><font color="red">**</font> - enter serial:
+          <%= form.fields_for :device, @device do |device_attributes| %>
+            <%= device_attributes.text_field :serial %>
+            or hostname:
+            <%= device_attributes.text_field :hostname %>
+          <% end %>
+        </div>
+      <% end %>
 
       <div class="field">
         <%= form.label :attachments %>
