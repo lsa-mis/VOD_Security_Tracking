@@ -14,12 +14,12 @@ Devise.setup do |config|
    config.ldap_create_user = true
    config.ldap_update_password = false
   # config.ldap_config = "#{Rails.root}/config/ldap.yml"
-   config.ldap_check_group_membership = true 
+  # config.ldap_check_group_membership = true 
   # config.ldap_check_group_membership_without_admin = true
    config.ldap_check_attributes = false 
   # config.ldap_check_attributes_presence = false
    config.ldap_use_admin_to_bind = true
-   config.ldap_ad_group_check = true
+ #  config.ldap_ad_group_check = true
    config.ldap_auth_username_builder = Proc.new() {|attribute, login, ldap| login.end_with?('1') ? "#{login}" : "#{login}@UMICH.EDU"}
   # config.ldap_auth_username_builder = Proc.new() {|attribute, login, ldap| "#{login}"}
 
