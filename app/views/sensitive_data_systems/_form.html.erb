@@ -1,4 +1,4 @@
-<%= form_with(model: @sensitive_data_system, local: true) do |form| %>
+<%= form_with(model: @sensitive_data_system) do |form| %>
   <% if @sensitive_data_system.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@sensitive_data_system.errors.count, "error") %> prohibited this sensitive_data_system from being saved:</h2>

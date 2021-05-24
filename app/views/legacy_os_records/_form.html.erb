@@ -1,4 +1,4 @@
-<%= form_with(model: @legacy_os_record, local: true) do |form| %>
+<%= form_with(model: @legacy_os_record) do |form| %>
   <% if @legacy_os_record.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@legacy_os_record.errors.count, "error") %> prohibited this legacy_os_record from being saved:</h2>
@@ -154,7 +154,7 @@
 
       <div id="device_input">
         <%= form.label "Add a device", class: 'mandatory' %> - enter serial:
-        <%= form.fields_for :device, Device.new do |device_attributes| %>
+        <%= form.fields_for :device, @device do |device_attributes| %>
           <%= device_attributes.text_field :serial %>
           or hostname:
           <%= device_attributes.text_field :hostname %>

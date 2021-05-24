@@ -11,9 +11,9 @@ class LegacyOsRecordsController < InheritedResources::Base
     @legacy_os_records = LegacyOsRecord.active
   end
 
-  def edit
-    @device = @legacy_os_record.device
-  end
+  # def edit
+  #   @device = @legacy_os_record.device
+  # end
 
   def show
     add_breadcrumb(@legacy_os_record.id)
