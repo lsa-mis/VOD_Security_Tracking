@@ -36,6 +36,7 @@ class DpaExceptionsController < InheritedResources::Base
   def edit
     add_breadcrumb(@dpa_exception.third_party_product_service, dpa_exception_path(@dpa_exception))
     add_breadcrumb('Edit')
+    @tdx_ticket = @dpa_exception.tdx_tickets
   end
 
   def archive
