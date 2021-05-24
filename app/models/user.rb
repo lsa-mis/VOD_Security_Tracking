@@ -36,5 +36,6 @@ class User < ApplicationRecord
  
   def set_email_address
    self.email = Devise::LDAP::Adapter.get_ldap_param(self.username,"mail")
+   logger.debug "******** #{Devise::LDAP::Adapter.get_ldap_param(self.username,'memberOf')} *******"
   end
 end
