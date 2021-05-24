@@ -19,7 +19,7 @@
       <div class= "flex justify-end">
         <% if user_signed_in? %>
           <div>
-            <%= link_to current_user.email, edit_user_registration_path, class: "inline-block btn btn-sm btn-blue mr-1", title: "Edit profile" %>
+            <%= link_to current_user.username, edit_user_registration_path, class: "inline-block btn btn-sm btn-blue mr-1", title: "Edit profile" %>
           </div>
           <div>
             <%= link_to 'Sign out', destroy_user_session_path, method: :delete, class: "inline-block btn btn-sm btn-teal ml-1" %>
