@@ -3,20 +3,22 @@
 # You can also just copy and paste the tree (do not include the "authorizations") to each
 # environment if you need something different per environment.
 authorizations: &AUTHORIZATIONS
-  allow_unauthenticated_bind: false
-  #group_base: ou=groups,dc=test,dc=com
+ # allow_unauthenticated_bind: true
+#  group_base: OU=UMICH,DC=adsroot,DC=itcs,DC=umich,DC=edu
   ## Requires config.ldap_check_group_membership in devise.rb be true
   # Can have multiple values, must match all to be authorized
- # required_groups:
+  required_groups:
     # If only a group name is given, membership will be checked against "uniqueMember"
  #   - cn=admins,ou=groups,dc=test,dc=com
- #   - cn=users,ou=groups,dc=test,dc=com
+ #    - CN=lsa-ps-wads-aws-admins-master,OU=Passwordstate,OU=LSA Information Technology,OU=Users and Groups,OU=LSA,OU=Organizations,OU=UMICH,DC=adsroot,DC=itcs,DC=umich,DC=edu
     # If an array is given, the first element will be the attribute to check against, the second the group name
- #   - ["moreMembers", "cn=users,ou=groups,dc=test,dc=com"]
+     - ["memberOf", "CN=lsa-ps-wads-aws-admins-master,OU=Passwordstate,OU=LSA Information Technology,OU=Users and Groups,OU=LSA,OU=Organizations,OU=UMICH,DC=adsroot,DC=itcs,DC=umich,DC=edu"]
+     - ["memberOf", "CN=mcomm-lsa-was-rails-admins,OU=Groups,OU=UMICH,DC=adsroot,DC=itcs,DC=umich,DC=edu"]
   ## Requires config.ldap_check_attributes in devise.rb to be true
   ## Can have multiple attributes and values, must match all to be authorized
 #  require_attribute:
-#    memberOf: CN=username,OU=People,OU=Umich,DC=adsroot,DC=itd,DC=umich,DC=edu
+#     memberOf: CN=lsa-ps-wads-aws-admins-master,OU=Passwordstate,OU=LSA Information Technology,OU=Users and Groups,OU=LSA,OU=Organizations,OU=UMICH,DC=adsroot,DC=itcs,DC=umich,DC=edu
+#     memberOf: CN=mcomm-lsa-was-rails-admins,OU=Groups,OU=UMICH,DC=adsroot,DC=itcs,DC=umich,DC=edu
   #  objectClass: inetOrgPerson
   #  authorizationRole: postsAdmin
   ## Requires config.ldap_check_attributes_presence in devise.rb to be true
@@ -33,10 +35,10 @@ development:
   port: 389
   attribute: sAMAccountName
   base: OU=UMICH,DC=adsroot,DC=itcs,DC=umich,DC=edu
-  #admin_user: cn=admin,dc=test,dc=com
-  #admin_password: admin_password
+  admin_user: <%= Rails.application.credentials.ldap_admin[:user] %> 
+  admin_password: <%= Rails.application.credentials.ldap_admin[:password] %>
   ssl: false
- #  <<: *AUTHORIZATIONS
+#  <<: *AUTHORIZATIONS
 
 test:
   host: localhost
