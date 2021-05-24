@@ -13,6 +13,26 @@ class DpaExceptionsController < InheritedResources::Base
     add_breadcrumb(@dpa_exception.third_party_product_service)
   end
 
+  def new
+    @dpa_exception = DpaException.new
+    @tdx_ticket = @dpa_exception.tdx_tickets.new
+  end
+
+  def create 
+    @dpa_exception = DpaException.new(dpa_exception_params.except(:tdx_ticket))
+    @dpa_exception.tdx_tickets.new(ticket_link: dpa_exception_params[:tdx_ticket][:ticket_link])
+    @dpa_exception.save
+    respond_to do |format|
+      if @dpa_exception.save 
+        format.html { redirect_to dpa_exception_path(@dpa_exception), notice: 'dpa exception record was successfully created. ' }
+        format.json { render :show, status: :created, location: @dpa_exception }
+      else
+        format.html { render :new }
+        format.json { render json: @dpa_exception.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def edit
     add_breadcrumb(@dpa_exception.third_party_product_service, dpa_exception_path(@dpa_exception))
     add_breadcrumb('Edit')
@@ -47,7 +67,7 @@ class DpaExceptionsController < InheritedResources::Base
     end
 
     def dpa_exception_params
-      params.require(:dpa_exception).permit(:review_date_exception_first_approval_date, :third_party_product_service, :used_by, :point_of_contact, :review_findings, :review_summary, :lsa_security_recommendation, :lsa_security_determination, :lsa_security_approval, :lsa_technology_services_approval, :exception_approval_date_exception_renewal_date_due, :review_date_exception_review_date, :notes, :sla_agreement, :sla_attachment, :data_type_id, :incomplete, attachments: [])
+      params.require(:dpa_exception).permit(:review_date_exception_first_approval_date, :third_party_product_service, :used_by, :point_of_contact, :review_findings, :review_summary, :lsa_security_recommendation, :lsa_security_determination, :lsa_security_approval, :lsa_technology_services_approval, :exception_approval_date_exception_renewal_date_due, :review_date_exception_review_date, :notes, :sla_agreement, :sla_attachment, :data_type_id, :incomplete, attachments: [], tdx_ticket: [:ticket_link])
     end
 
 end
