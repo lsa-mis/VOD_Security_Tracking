@@ -51,11 +51,16 @@ test:
   # <<: *AUTHORIZATIONS
 
 production:
-  host: localhost
-  port: 636
-  attribute: cn
-  base: ou=people,dc=test,dc=com
-  admin_user: cn=admin,dc=test,dc=com
-  admin_password: admin_password
-  ssl: start_tls
+  # host: localhost
+  # port: 636
+  # attribute: cn
+  # base: ou=people,dc=test,dc=com
+  # admin_user: cn=admin,dc=test,dc=com
+  # admin_password: admin_password
+  # ssl: start_tls
   # <<: *AUTHORIZATIONS
+  host: adsroot.itcs.umich.edu 
+  port: 389
+  attribute: sAMAccountName
+  base: OU=UMICH,DC=adsroot,DC=itcs,DC=umich,DC=edu
+  ssl: false

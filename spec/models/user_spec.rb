@@ -17,6 +17,9 @@
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :string(255)
 #  last_sign_in_ip        :string(255)
+#  failed_attempts        :integer          default(0), not null
+#  unlock_token           :string(255)
+#  locked_at              :datetime
 #
 require 'rails_helper'
 

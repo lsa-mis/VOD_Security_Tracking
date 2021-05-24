@@ -17,6 +17,9 @@
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :string(255)
 #  last_sign_in_ip        :string(255)
+#  failed_attempts        :integer          default(0), not null
+#  unlock_token           :string(255)
+#  locked_at              :datetime
 #
 class User < ApplicationRecord
   enum role: [:user, :visitor, :can_delete]
@@ -28,9 +31,8 @@ class User < ApplicationRecord
   end
 
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :ldap_authenticatable, :registerable,
-         :recoverable, :rememberable # , :validatable, :trackable
+         :recoverable, :rememberable, :trackable, :timeoutable, :lockable
 
   private
  

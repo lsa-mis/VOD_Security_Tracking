@@ -9,5 +9,5 @@
 #  updated_at  :datetime         not null
 #
 class ItSecurityIncidentStatus < ApplicationRecord
-  audited
+  belongs_to :it_security_incident
 end

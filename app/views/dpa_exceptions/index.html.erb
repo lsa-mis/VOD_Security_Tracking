@@ -1,53 +1,70 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Dpa Exceptions</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Review date</th>
-      <th>Third party product service</th>
-      <th>Used by</th>
-      <th>Point of contact</th>
-      <th>Review findings</th>
-      <th>Review summary</th>
-      <th>Lsa security recommendation</th>
-      <th>Lsa security determination</th>
-      <th>Lsa security approval</th>
-      <th>Lsa technology services approval</th>
-      <th>Exception approval date</th>
-      <th>Notes</th>
-      <th>Sla agreement</th>
-      <th>Data type</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<p class="text-gray-500 text-sm mx-4">
+  DPA exceptions - Data Protection Addendums (<%= link_to 'https://it.umich.edu/information-technology-policies/general-policies/DS-20' %>)
+</p>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
+    <%= link_to 'New Dpa Exception', new_dpa_exception_path %>
+  </div>
 
-  <tbody>
-    <% @dpa_exceptions.each do |dpa_exception| %>
-      <tr>
-        <td><%= dpa_exception.review_date %></td>
-        <td><%= dpa_exception.third_party_product_service %></td>
-        <td><%= dpa_exception.used_by %></td>
-        <td><%= dpa_exception.point_of_contact %></td>
-        <td><%= dpa_exception.review_findings %></td>
-        <td><%= dpa_exception.review_summary %></td>
-        <td><%= dpa_exception.lsa_security_recommendation %></td>
-        <td><%= dpa_exception.lsa_security_determination %></td>
-        <td><%= dpa_exception.lsa_security_approval %></td>
-        <td><%= dpa_exception.lsa_technology_services_approval %></td>
-        <td><%= dpa_exception.exception_approval_date %></td>
-        <td><%= dpa_exception.notes %></td>
-        <td><%= dpa_exception.sla_agreement %></td>
-        <td><%= dpa_exception.data_type_id %></td>
-        <td><%= link_to 'Show', dpa_exception %></td>
-        <td><%= link_to 'Edit', edit_dpa_exception_path(dpa_exception) %></td>
-        <td><%= link_to 'Destroy', dpa_exception, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <div class="flex flex-col">
+    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Actions</th>
+                <th scope="col">Review date exception first approval date</th>
+                <th scope="col">Third party product service</th>
+                <th scope="col">Used by</th>
+                <th scope="col">Point of contact</th>
+                <th scope="col">Review findings</th>
+                <th scope="col">Review summary</th>
+                <th scope="col">Lsa security recommendation</th>
+                <th scope="col">Lsa security determination</th>
+                <th scope="col">Lsa security approval</th>
+                <th scope="col">Lsa technology services approval</th>
+                <th scope="col">Exception approval date exception renewal date due</th>
+                <th scope="col">Review date exception review date</th>
+                <th scope="col">Notes</th>
+                <th scope="col">Sla agreement</th>
+                <th scope="col">Data type</th>
+              </tr>
+            </thead>
 
-<br>
-
-<%= link_to 'New Dpa Exception', new_dpa_exception_path %>
+            <tbody>
+              <% @dpa_exceptions.each do |dpa_exception| %>
+                <tr>
+                  <td>
+                    <ul>
+                      <li><%= link_to 'Show', dpa_exception, class: "action-link" %></li>
+                      <li><%= link_to 'Edit', edit_dpa_exception_path(dpa_exception), class: "action-link" %></li>
+                      <li><%= link_to 'Archive', archive_dpa_exception_path(dpa_exception), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
+                    </ul>
+                  </td> 
+                  <td><%= dpa_exception.review_date_exception_first_approval_date %></td>
+                  <td><%= dpa_exception.third_party_product_service %></td>
+                  <td><%= dpa_exception.used_by %></td>
+                  <td><%= dpa_exception.point_of_contact %></td>
+                  <td><%= truncate(dpa_exception.review_findings, length: 25) %></td>
+                  <td><%= truncate(dpa_exception.review_summary, length: 25) %></td>
+                  <td><%= truncate(dpa_exception.lsa_security_recommendation, length: 25) %></td>
+                  <td><%= truncate(dpa_exception.lsa_security_determination, length: 25) %></td>
+                  <td><%= dpa_exception.lsa_security_approval %></td>
+                  <td><%= dpa_exception.lsa_technology_services_approval %></td>
+                  <td><%= dpa_exception.exception_approval_date_exception_renewal_date_due %></td>
+                  <td><%= dpa_exception.review_date_exception_review_date %></td>
+                  <td><%= truncate(dpa_exception.notes, length: 25) %></td>
+                  <td><%= dpa_exception.sla_agreement %></td>
+                  <td><%= dpa_exception.data_type_id %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
