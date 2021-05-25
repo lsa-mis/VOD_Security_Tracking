@@ -1,4 +1,11 @@
-<%= form_with(model: @legacy_os_record) do |form| %>
+<%= form_with(model: @legacy_os_record, html: {
+  local: true
+},
+data: {
+  controller: "legacyos",
+  target: "legacyos.form",
+  action: "submit->legacyos#submitForm"
+}) do |form| %>
   <% if @legacy_os_record.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@legacy_os_record.errors.count, "error") %> prohibited this legacy_os_record from being saved:</h2>
@@ -152,12 +159,12 @@
         <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}, required: true %>
       </div>
 
-      <div id="device_input">
+      <div id="device_input" data-legacyos-target="system_device">
         <%= form.label "Add a device", class: 'mandatory' %> - enter serial:
         <%= form.fields_for :device, @device do |device_attributes| %>
-          <%= device_attributes.text_field :serial %>
+          <%= device_attributes.text_field :serial, :"data-legacyos-target" => "serial" %>
           or hostname:
-          <%= device_attributes.text_field :hostname %>
+          <%= device_attributes.text_field :hostname, :"data-legacyos-target" => "hostname" %>
         <% end %>
         <p class="help-text">Help text if needed</p>
       </div>
@@ -179,5 +186,3 @@
     </div>
   </div>
 <% end %>
-
-<%= javascript_pack_tag 'device_presence' %>
