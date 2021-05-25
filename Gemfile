@@ -37,6 +37,7 @@ group :development do
   gem 'capistrano-rails', '~> 1.6', '>= 1.6.1',   require: false
   gem 'capistrano-rbenv', '~> 2.2',   require: false
   gem 'listen', '~> 3.3'
+  gem 'pry-rails'
   gem 'spring'
   gem 'web-console', '>= 4.1.0'
 end
