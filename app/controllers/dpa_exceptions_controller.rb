@@ -21,7 +21,6 @@ class DpaExceptionsController < InheritedResources::Base
   def create 
     @dpa_exception = DpaException.new(dpa_exception_params.except(:tdx_ticket))
     @dpa_exception.tdx_tickets.new(ticket_link: dpa_exception_params[:tdx_ticket][:ticket_link])
-    @dpa_exception.save
     respond_to do |format|
       if @dpa_exception.save 
         format.html { redirect_to dpa_exception_path(@dpa_exception), notice: 'dpa exception record was successfully created. ' }
@@ -36,7 +35,21 @@ class DpaExceptionsController < InheritedResources::Base
   def edit
     add_breadcrumb(@dpa_exception.third_party_product_service, dpa_exception_path(@dpa_exception))
     add_breadcrumb('Edit')
-    @tdx_ticket = @dpa_exception.tdx_tickets
+    @tdx_ticket = @dpa_exception.tdx_tickets.new
+  end
+
+  def update
+    @dpa_exception.tdx_tickets.create(ticket_link: dpa_exception_params[:tdx_ticket][:ticket_link])
+    respond_to do |format|
+      if @dpa_exception.update(dpa_exception_params.except(:tdx_ticket))
+        format.html { redirect_to @dpa_exception, notice: 'dpa exception record was successfully updated. ' }
+        format.json { render :show, status: :created, location: @dpa_exception }
+      else
+        format.html { render :edit }
+        format.json { render json: @dpa_exception.errors, status: :unprocessable_entity }
+      end
+    end
+
   end
 
   def archive
