@@ -6,6 +6,13 @@ export default class SensitivedsController extends Controller {
   connect() {
     console.log("hello from StimulusJS - hell!!!!!")
     this.display_device()
+    console.log("system_deviceTarget")
+    console.log(this.system_deviceTarget)
+
+
+    var action_name = this.system_deviceTarget.value
+    console.log("action_name: ")
+    console.log(action_name)
   }
 
   display_device() {
@@ -78,8 +85,7 @@ export default class SensitivedsController extends Controller {
       else {
         isValid = false;
       }
-
-      return isValid;
     }
+    return isValid;
   }
 }
