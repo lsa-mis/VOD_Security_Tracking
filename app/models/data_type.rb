@@ -17,4 +17,9 @@ class DataType < ApplicationRecord
   has_many :legacy_os_records
   has_many :sensitive_data_systems
   audited
+
+
+  def display_name
+    "#{self.name}"
+  end
 end

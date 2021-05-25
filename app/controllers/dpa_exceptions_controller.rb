@@ -33,7 +33,9 @@ class DpaExceptionsController < InheritedResources::Base
   end
 
   def edit
-    add_breadcrumb(@dpa_exception.third_party_product_service, dpa_exception_path(@dpa_exception))
+    add_breadcrumb(@dpa_exception.third_party_product_service, 
+                    dpa_exception_path(@dpa_exception)
+                  )
     add_breadcrumb('Edit')
     @tdx_ticket = @dpa_exception.tdx_tickets.new
   end
@@ -59,17 +61,27 @@ class DpaExceptionsController < InheritedResources::Base
     authorize @dpa_exception
     if @dpa_exception.archive
       respond_to do |format|
-        format.html { redirect_to dpa_exceptions_path, notice: 'dpa exception record was successfully archived.' }
+        format.html { redirect_to dpa_exceptions_path, 
+                      notice: 'dpa exception record was successfully archived.' 
+                    }
         format.json { head :no_content }
       end
     else
-      format.html { redirect_to dpa_exceptions_path, alert: 'error archiving dpa exception record.' }
+      format.html { redirect_to dpa_exceptions_path, 
+                    alert: 'error archiving dpa exception record.' 
+                  }
       format.json { head :no_content }
     end
   end
   
   def audit_log
     @dpa_exceptions = DpaException.all
+  end
+
+  def delete_file_attachment
+    @delete_file = ActiveStorage::Attachment.find(params[:id])
+    @delete_file.purge
+    redirect_back(fallback_location: request.referer)
   end
 
   private
@@ -83,7 +95,17 @@ class DpaExceptionsController < InheritedResources::Base
     end
 
     def dpa_exception_params
-      params.require(:dpa_exception).permit(:review_date_exception_first_approval_date, :third_party_product_service, :used_by, :point_of_contact, :review_findings, :review_summary, :lsa_security_recommendation, :lsa_security_determination, :lsa_security_approval, :lsa_technology_services_approval, :exception_approval_date_exception_renewal_date_due, :review_date_exception_review_date, :notes, :sla_agreement, :sla_attachment, :data_type_id, :incomplete, attachments: [], tdx_ticket: [:ticket_link])
+      params.require(:dpa_exception).permit(
+                    :review_date_exception_first_approval_date, 
+                    :third_party_product_service, :used_by, 
+                    :point_of_contact, :review_findings, :review_summary, 
+                    :lsa_security_recommendation, :lsa_security_determination, 
+                    :lsa_security_approval, :lsa_technology_services_approval, 
+                    :exception_approval_date_exception_renewal_date_due, 
+                    :review_date_exception_review_date, :notes, :sla_agreement,
+                    :sla_attachment, :data_type_id, :incomplete,
+                    attachments: [], tdx_ticket: [:ticket_link]
+                  )
     end
 
 end
