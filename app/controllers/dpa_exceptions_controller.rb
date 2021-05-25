@@ -39,7 +39,9 @@ class DpaExceptionsController < InheritedResources::Base
   end
 
   def update
-    @dpa_exception.tdx_tickets.create(ticket_link: dpa_exception_params[:tdx_ticket][:ticket_link])
+    if dpa_exception_params[:tdx_ticket][:ticket_link].present?
+      @dpa_exception.tdx_tickets.create(ticket_link: dpa_exception_params[:tdx_ticket][:ticket_link])
+    end
     respond_to do |format|
       if @dpa_exception.update(dpa_exception_params.except(:tdx_ticket))
         format.html { redirect_to @dpa_exception, notice: 'dpa exception record was successfully updated. ' }
