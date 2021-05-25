@@ -27,10 +27,11 @@
         <%= form.label :date, class: 'required' %>
         <%= form.text_field :date,
           data: {
-              controller: "flatpickr",
-              flatpickr_date_format: "Y-m-d",
-              flatpickr_min_date: Time.zone.now
-            }
+            controller: "flatpickr",
+            flatpickr_date_format: "Y-m-d",
+            flatpickr_min_date: Time.zone.now
+          },
+          required: true 
         %>
       </div>
 

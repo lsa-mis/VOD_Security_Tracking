@@ -1,10 +1,10 @@
-<%= form_with(model: dpa_exception) do |form| %>
-  <% if dpa_exception.errors.any? %>
+<%= form_with(model: @dpa_exception, local: true) do |form| %>
+  <% if @dpa_exception.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(dpa_exception.errors.count, "error") %> prohibited this dpa_exception from being saved:</h2>
+      <h2><%= pluralize(@dpa_exception.errors.count, "error") %> prohibited this dpa_exception from being saved:</h2>
 
       <ul>
-        <% dpa_exception.errors.each do |error| %>
+        <% @dpa_exception.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
@@ -126,6 +126,27 @@
       <div class="field">
         <%= form.label :sla_attachment %>
         <%= form.file_field :sla_attachment %>
+        <% if @dpa_exception.sla_attachment.attached? %>
+          <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+          <dt class="text-sm font-medium text-gray-500">
+            SLA Agreement currently connected to this record: 
+          </dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+              <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                <div class="w-0 flex-1 flex items-center">
+                  <!-- Heroicon name: solid/paper-clip -->
+                  <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="ml-2 flex-1 w-0 truncate">
+                    <%= link_to @dpa_exception.sla_attachment.filename, url_for(@dpa_exception.sla_attachment) %>
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </dd>
+        <% end %>
       </div>
 
       <div class="field">
@@ -133,9 +154,48 @@
         <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}, required: true   %>
       </div>
 
+      <%= form.fields_for @tdx_ticket do |f| %>
+        <div class="field">
+            <%= f.label :ticket_link, "Add a ticket link" %>
+            <%= f.text_field :ticket_link %>
+        </div>
+      <% end %>
+
+      <% if @dpa_exception.tdx_tickets.present? %>
+        <div>
+          <% @dpa_exception.tdx_tickets.each do |tdx| %>
+            <%= tdx.ticket_link %>
+          <% end %>
+        </div>
+      <% end %>
+
       <div class="field">
         <%= form.label :attachments %>
         <%= form.file_field :attachments, multiple: true %>
+        <% if @dpa_exception.attachments.attached? %>
+          <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+            <dt class="text-sm font-medium text-gray-500">
+              Other files currently connected to this record:
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+                <% @dpa_exception.attachments.each do |ma| %>
+                  <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                    <div class="w-0 flex-1 flex items-center">
+                      <!-- Heroicon name: solid/paper-clip -->
+                      <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
+                      </svg>
+                      <span class="ml-2 flex-1 w-0 truncate">
+                        <%= link_to ma.filename, url_for(ma) %>
+                      </span>
+                    </div>
+                  </li>
+                <% end %>
+              </ul>
+            </dd>
+          </div>
+        <% end %>
       </div>
 
       <%= form.hidden_field :incomplete %>
