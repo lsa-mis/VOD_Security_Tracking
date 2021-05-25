@@ -1,10 +1,17 @@
-<%= form_with(model: sensitive_data_system) do |form| %>
-  <% if sensitive_data_system.errors.any? %>
+<%= form_with(model: @sensitive_data_system, html: {
+  local: true
+},
+ data: {
+  controller: "sensitiveds",
+  target: "sensitiveds.form",
+  action: "submit->sensitiveds#submitForm"
+}) do |form| %>
+  <% if @sensitive_data_system.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(sensitive_data_system.errors.count, "error") %> prohibited this sensitive_data_system from being saved:</h2>
+      <h2><%= pluralize(@sensitive_data_system.errors.count, "error") %> prohibited this sensitive_data_system from being saved:</h2>
 
       <ul>
-        <% sensitive_data_system.errors.each do |error| %>
+        <% @sensitive_data_system.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
@@ -101,10 +108,20 @@
         <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}, required: true %>
       </div>
 
-      <div class="field">
-        <%= form.label :device_id, class: "mandatory" %>
-        <%= form.collection_select :device_id, Device.all, :id, :display_name, {include_blank: "Select"}, required: true %>
-      </div>
+
+        <div class="field">
+          <%= form.label :sensitive_data_system_type_id %><font color="red">**</font>
+          <%= form.collection_select :sensitive_data_system_type_id, SensitiveDataSystemType.all, :id, :name, {include_blank: "Select"}, required: true, :"data-sensitiveds-target" => "sensitive_data_system_type", :"data-action" => "input->sensitiveds#display_device" %>
+        </div>
+  
+        <div id="device_input" class="device--hide" data-sensitiveds-target="system_device">
+          <%= form.label "Add a device" %><font color="red">**</font> - enter serial:
+          <%= form.fields_for :device, @device do |device_attributes| %>
+            <%= device_attributes.text_field :serial, :"data-sensitiveds-target" => "serial" %>
+            or hostname:
+            <%= device_attributes.text_field :hostname, :"data-sensitiveds-target" => "hostname" %>
+          <% end %>
+        </div>
 
       <div class="field">
         <%= form.label :attachments %>
@@ -123,3 +140,4 @@
     </div>
   </div>
 <% end %>
+
