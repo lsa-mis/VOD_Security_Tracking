@@ -43,11 +43,8 @@ class LegacyOsRecordsController < InheritedResources::Base
         search_field = hostname
       end
     else
-      respond_to do |format|
-        flash.now[:alert] = "Serial or hostname should be present"
-        format.html { render :new }
-        format.json { render json: @device.errors, status: :unprocessable_entity }
-      end
+      flash.now[:alert] = "Serial or hostname should be present"
+      render turbo_stream: turbo_stream.update("flash", partial: "partials/flash")
     end
 
     if search_field.present? 
