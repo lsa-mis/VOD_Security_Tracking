@@ -49,11 +49,8 @@ class DevicesController < InheritedResources::Base
       if @device_tdx_info['result']['more-then_one_result'].present?
         # api returns more then one result or no auth token
         @device = Device.new(device_params)
-        respond_to do |format|
-          flash.now[:alert] = @device_tdx_info['result']['more-then_one_result'] 
-          format.html { render :new }
-          format.json { render json: @device.errors, status: :unprocessable_entity }
-        end
+        flash.now[:alert] = @device_tdx_info['result']['more-then_one_result'] 
+        render turbo_stream: turbo_stream.update("flash", partial: "partials/flash")
       elsif @device_tdx_info['result']['success']
         # create device with tdx data
         @device = Device.new(@device_tdx_info['data'])
