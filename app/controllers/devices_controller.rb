@@ -1,7 +1,7 @@
 class DevicesController < InheritedResources::Base
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
-  before_action :set_device, only: [:show, :edit, :update, :archive]
+  before_action :set_device, only: [:show, :edit, :update]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
   before_action :get_access_token, only: [:create, :update]
 
@@ -84,6 +84,7 @@ class DevicesController < InheritedResources::Base
       # device exists in the database
       @device = Device.new(device_params)
       respond_to do |format|
+        fail
         flash.now[:alert] = device_exist
         format.html { render :new }
         format.json { render json: @device.errors, status: :unprocessable_entity }
