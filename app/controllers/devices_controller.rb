@@ -84,7 +84,7 @@ class DevicesController < InheritedResources::Base
       # device exists in the database
       @device = Device.new(device_params)
       flash.now[:alert] = device_exist
-      render turbo_stream: turbo_stream.update("flash", partial: "shared/flash")
+      render turbo_stream: turbo_stream.update("flash", partial: "partials/flash")
     end
   end
 
