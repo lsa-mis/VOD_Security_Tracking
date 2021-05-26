@@ -21,6 +21,9 @@
     <main class="container mx-auto px-4">
       <%= render 'layouts/dev_banner' %>
       <%= render 'layouts/notification' %>
+      <turbo-frame id="flash">
+        <%= render 'shared/flash' %>
+      </turbo-frame>
       <%= yield %>
     </main>
     <%= render 'layouts/footer' %>

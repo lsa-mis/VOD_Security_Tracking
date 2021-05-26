@@ -83,12 +83,8 @@ class DevicesController < InheritedResources::Base
     else
       # device exists in the database
       @device = Device.new(device_params)
-      respond_to do |format|
-        fail
-        flash.now[:alert] = device_exist
-        format.html { render :new }
-        format.json { render json: @device.errors, status: :unprocessable_entity }
-      end
+      flash.now[:alert] = device_exist
+      render turbo_stream: turbo_stream.update("flash", partial: "shared/flash")
     end
   end
 
