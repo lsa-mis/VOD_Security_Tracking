@@ -10,10 +10,10 @@ authorizations: &AUTHORIZATIONS
   required_groups:
     # If only a group name is given, membership will be checked against "uniqueMember"
  #   - cn=admins,ou=groups,dc=test,dc=com
- #    - CN=lsa-ps-wads-aws-admins-master,OU=Passwordstate,OU=LSA Information Technology,OU=Users and Groups,OU=LSA,OU=Organizations,OU=UMICH,DC=adsroot,DC=itcs,DC=umich,DC=edu
+     - CN=lsa-vod-users,OU=Security Group,OU=LSA Information Technology,OU=Users and Groups,OU=LSA,OU=Organizations,OU=UMICH,DC=adsroot,DC=itcs,DC=umich,DC=edu
     # If an array is given, the first element will be the attribute to check against, the second the group name
-     - ["memberOf", "CN=lsa-ps-wads-aws-admins-master,OU=Passwordstate,OU=LSA Information Technology,OU=Users and Groups,OU=LSA,OU=Organizations,OU=UMICH,DC=adsroot,DC=itcs,DC=umich,DC=edu"]
-     - ["memberOf", "CN=mcomm-lsa-was-rails-admins,OU=Groups,OU=UMICH,DC=adsroot,DC=itcs,DC=umich,DC=edu"]
+    # - ["memberOf", "CN=lsa-vod-users,OU=Security Group,OU=LSA Information Technology,OU=Users and Groups,OU=LSA,OU=Organizations,OU=UMICH,DC=adsroot,DC=itcs,DC=umich,DC=edu"]
+    # - ["memberOf", "CN=mcomm-lsa-was-rails-admins,OU=Groups,OU=UMICH,DC=adsroot,DC=itcs,DC=umich,DC=edu"]
   ## Requires config.ldap_check_attributes in devise.rb to be true
   ## Can have multiple attributes and values, must match all to be authorized
 #  require_attribute:
@@ -38,7 +38,7 @@ development:
   admin_user: <%= Rails.application.credentials.ldap_admin[:user] %> 
   admin_password: <%= Rails.application.credentials.ldap_admin[:password] %>
   ssl: false
-#  <<: *AUTHORIZATIONS
+  <<: *AUTHORIZATIONS
 
 test:
   host: localhost
