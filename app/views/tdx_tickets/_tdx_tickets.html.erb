@@ -1,0 +1,21 @@
+<p>
+<strong>TDX tickets:</strong>
+<table>
+<tbody>
+  <% record_to_tdx.tdx_tickets.each do |tdx| %>
+    <tr><td><%= tdx.ticket_link %></td>
+    <% case destroy_p %>
+      <% when "dpa_exception" %>
+        <td><%= link_to 'Destroy', dpa_exception_tdx_ticket_path(params[:id],tdx.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% when "it_security_incident" %>
+        <td><%= link_to 'Destroy', it_security_incident_tdx_ticket_path(params[:id],tdx.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% when "sensitive_data_system" %>
+        <td><%= link_to 'Destroy', sensitive_data_system_tdx_ticket_path(params[:id],tdx.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% when "legacy_os_record" %>
+        <td><%= link_to 'Destroy', legacy_os_record_tdx_ticket_path(params[:id],tdx.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+</p>

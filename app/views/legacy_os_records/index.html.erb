@@ -1,65 +1,80 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Legacy Os Records</h1>
+<p class="text-gray-500 text-sm mx-4">
+  Legacy Os Record
+</p>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
+    <%= link_to 'New Legacy Os Record', new_legacy_os_record_path %>
+  </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Owner username</th>
-      <th>Owner full name</th>
-      <th>Dept</th>
-      <th>Phone</th>
-      <th>Additional dept contact</th>
-      <th>Additional dept contact phone</th>
-      <th>Support poc</th>
-      <th>Legacy os</th>
-      <th>Unique app</th>
-      <th>Unique hardware</th>
-      <th>Unique date</th>
-      <th>Remediation</th>
-      <th>Exception approval date</th>
-      <th>Review date</th>
-      <th>Review contact</th>
-      <th>Justification</th>
-      <th>Local it support group</th>
-      <th>Notes</th>
-      <th>Data type</th>
-      <th>Device</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+  <div class="flex flex-col">
+    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Actions</th>
+                <th scope="col">Owner username</th>
+                <th scope="col">Owner full name</th>
+                <th scope="col">Dept</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Additional dept contact</th>
+                <th scope="col">Additional dept contact phone</th>
+                <th scope="col">Support poc</th>
+                <th scope="col">Legacy os</th>
+                <th scope="col">Unique app</th>
+                <th scope="col">Unique hardware</th>
+                <th scope="col">Unique date</th>
+                <th scope="col">Remediation</th>
+                <th scope="col">Exception approval date</th>
+                <th scope="col">Review date</th>
+                <th scope="col">Review contact</th>
+                <th scope="col">Justification</th>
+                <th scope="col">Local it support group</th>
+                <th scope="col">Notes</th>
+                <th scope="col">Data type</th>
+                <th scope="col">Device</th>
+              </tr>
+            </thead>
 
-  <tbody>
-    <% @legacy_os_records.each do |legacy_os_record| %>
-      <tr>
-        <td><%= legacy_os_record.owner_username %></td>
-        <td><%= legacy_os_record.owner_full_name %></td>
-        <td><%= legacy_os_record.dept %></td>
-        <td><%= legacy_os_record.phone %></td>
-        <td><%= legacy_os_record.additional_dept_contact %></td>
-        <td><%= legacy_os_record.additional_dept_contact_phone %></td>
-        <td><%= legacy_os_record.support_poc %></td>
-        <td><%= legacy_os_record.legacy_os %></td>
-        <td><%= legacy_os_record.unique_app %></td>
-        <td><%= legacy_os_record.unique_hardware %></td>
-        <td><%= legacy_os_record.unique_date %></td>
-        <td><%= legacy_os_record.remediation %></td>
-        <td><%= legacy_os_record.exception_approval_date %></td>
-        <td><%= legacy_os_record.review_date %></td>
-        <td><%= legacy_os_record.review_contact %></td>
-        <td><%= legacy_os_record.justification %></td>
-        <td><%= legacy_os_record.local_it_support_group %></td>
-        <td><%= legacy_os_record.notes %></td>
-        <td><%= legacy_os_record.data_type_id %></td>
-        <td><%= legacy_os_record.device_id %></td>
-        <td><%= link_to 'Show', legacy_os_record %></td>
-        <td><%= link_to 'Edit', edit_legacy_os_record_path(legacy_os_record) %></td>
-        <td><%= link_to 'Destroy', legacy_os_record, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+            <tbody>
+              <% @legacy_os_records.each do |legacy_os_record| %>
+                <tr>
+                  <td>
+                    <ul>
+                      <li><%= link_to 'Show', legacy_os_record, class: "action-link" %></li>
+                      <li><%= link_to 'Edit', edit_legacy_os_record_path(legacy_os_record), class: "action-link" %></li>
+                      <li><%= link_to 'Archive', archive_legacy_os_record_path(legacy_os_record), class: "action-link", method: :post, data: { confirm: 'Are you sure?' } %></li>
+                    </ul>
+                  </td>
+                  <td><%= legacy_os_record.owner_username %></td>
+                  <td><%= legacy_os_record.owner_full_name %></td>
+                  <td><%= legacy_os_record.dept %></td>
+                  <td><%= legacy_os_record.phone %></td>
+                  <td><%= legacy_os_record.additional_dept_contact %></td>
+                  <td><%= legacy_os_record.additional_dept_contact_phone %></td>
+                  <td><%= legacy_os_record.support_poc %></td>
+                  <td><%= legacy_os_record.legacy_os %></td>
+                  <td><%= legacy_os_record.unique_app %></td>
+                  <td><%= legacy_os_record.unique_hardware %></td>
+                  <td><%= legacy_os_record.unique_date %></td>
+                  <td><%= legacy_os_record.remediation %></td>
+                  <td><%= legacy_os_record.exception_approval_date %></td>
+                  <td><%= legacy_os_record.review_date %></td>
+                  <td><%= legacy_os_record.review_contact %></td>
+                  <td><%= legacy_os_record.justification %></td>
+                  <td><%= legacy_os_record.local_it_support_group %></td>
+                  <td><%= legacy_os_record.notes %></td>
+                  <td><%= legacy_os_record.data_type_id %></td>
+                  <td><%= legacy_os_record.device_id %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<br>
-
-<%= link_to 'New Legacy Os Record', new_legacy_os_record_path %>

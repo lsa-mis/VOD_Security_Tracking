@@ -1,6 +1,12 @@
 <p>
-  <strong>Review date:</strong>
-  <%= @dpa_exception.review_date %>
+<% if @dpa_exception.incomplete %>
+  <strong>This record is incomplete!!!!!</strong>
+  <% end %>
+</p>
+
+<p>
+  <strong>Review date exception first approval date:</strong>
+  <%= @dpa_exception.review_date_exception_first_approval_date %>
 </p>
 
 <p>
@@ -49,8 +55,13 @@
 </p>
 
 <p>
-  <strong>Exception approval date:</strong>
-  <%= @dpa_exception.exception_approval_date %>
+  <strong>Exception approval date exception renewal date due:</strong>
+  <%= @dpa_exception.exception_approval_date_exception_renewal_date_due %>
+</p>
+
+<p>
+  <strong>Review date exception review date:</strong>
+  <%= @dpa_exception.review_date_exception_review_date %>
 </p>
 
 <p>
@@ -73,13 +84,14 @@
   </p>
 <% end %>
 
-
 <p>
   <strong>Data type:</strong>
   <%= @dpa_exception.data_type_id %>
 </p>
 
-<%= render partial: "partials/show_attachments", locals: {attached_files: @dpa_exception} %>
+<%= render partial: "partials/show_attachments", locals: {attached_files: @dpa_exception, show_p: "dpa_exception"} %>
 
-<%= link_to 'Edit', edit_dpa_exception_path(@dpa_exception) %> |
-<%= link_to 'Back', dpa_exceptions_path %>
+<%= render partial: "tdx_tickets/tdx_tickets", locals: {record_to_tdx: @dpa_exception, destroy_p: "dpa_exception"} %>
+<%= render partial: "tdx_tickets/form", locals: {record_to_tdx: @dpa_exception} %>
+
+<%= link_to 'Edit', edit_dpa_exception_path(@dpa_exception) %>

@@ -1,3 +1,60 @@
 @import "tailwindcss/base"
 @import "tailwindcss/components"
 @import "tailwindcss/utilities"
+
+main
+  @apply bg-white m-4 flex-1
+
+h1 
+  @apply text-xl font-bold leading-relaxed font-sans uppercase
+
+h2 
+  @apply text-lg
+
+h3 
+  @apply text-base
+
+h4 
+  @apply text-sm
+
+p
+  @apply text-base font-light text-base
+
+a 
+  &.action-link
+    @apply text-blue-600
+
+  &:hover
+    @apply text-um_yellow
+
+  &.header-link
+    @apply text-white
+
+  &.footer-link
+    @apply text-blue-900
+
+.btn-new
+  @apply mt-2 -mr-1 mb-4 w-40 rounded-md shadow-lg py-1 bg-green-500 text-sm text-white text-center ring-1 ring-black ring-opacity-5 focus:outline-none
+
+  &.btn-blue
+    @apply bg-laitan_blue
+
+.btn-login
+  @apply inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+
+table
+  @apply min-w-full divide-y divide-gray-200 table-auto
+
+  thead
+    @apply bg-gray-50 
+
+    th
+      @apply px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider
+
+  tbody
+    @apply bg-white divide-y divide-gray-200
+    
+    tr
+
+      td
+        @apply px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900

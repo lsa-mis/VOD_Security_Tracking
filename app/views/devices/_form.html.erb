@@ -11,52 +11,79 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :serial %>
-    <%= form.text_field :serial %>
+  <div class="form-container">
+    <div>
+      <h3 class="instruction-header">
+        Special Fields
+      </h3>
+      <ul class="instruction-container">
+        <li class="mandatory">mandatory fields</li>
+        <li class="required">required fields => to save as an incomplete record without these fields click the [Save Incomplete Form] button.</li>
+      </ul>
+    </div>
+
+    <div class="field-container">
+      <div class="field">
+        <%= form.label :serial %>
+        <%= form.text_field :serial %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :hostname %>
+        <%= form.text_field :hostname %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :mac %>
+        <%= form.text_field :mac %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :manufacturer %>
+        <%= form.text_field :manufacturer %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :model %>
+        <%= form.text_field :model %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :owner %>
+        <%= form.text_field :owner %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :department %>
+        <%= form.text_field :department %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :building %>
+        <%= form.text_field :building %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :room %>
+        <%= form.text_field :room %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :hostname %>
-    <%= form.text_field :hostname %>
-  </div>
-
-  <div class="field">
-    <%= form.label :mac %>
-    <%= form.text_field :mac %>
-  </div>
-
-  <div class="field">
-    <%= form.label :manufacturer %>
-    <%= form.text_field :manufacturer %>
-  </div>
-
-  <div class="field">
-    <%= form.label :model %>
-    <%= form.text_field :model %>
-  </div>
-
-  <div class="field">
-    <%= form.label :owner %>
-    <%= form.text_field :owner %>
-  </div>
-
-  <div class="field">
-    <%= form.label :department %>
-    <%= form.text_field :department %>
-  </div>
-
-  <div class="field">
-    <%= form.label :building %>
-    <%= form.text_field :building %>
-  </div>
-
-  <div class="field">
-    <%= form.label :room %>
-    <%= form.text_field :room %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
+  <div class="action-area">
+    <div class="actions">
+      <%= form.submit %>
+      <button name="incomplete" class="btn-incomplete">Save Incomplete Form</button>
+    </div>
   </div>
 <% end %>

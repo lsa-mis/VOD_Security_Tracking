@@ -11,52 +11,77 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :date %>
-    <%= form.datetime_select :date %>
+  <div class="form-container">
+    <div>
+      <h3 class="instruction-header">
+        Special Fields
+      </h3>
+      <ul class="instruction-container">
+        <li class="mandatory">mandatory fields</li>
+        <li class="required">required fields => to save as an incomplete record without these fields click the [Save Incomplete Form] button.</li>
+      </ul>
+    </div>
+
+    <div class="field-container">
+      <div class="field">
+        <%= form.label :date, class: 'required' %>
+        <%= form.date_select :date, include_blank: true, start_year: Date.current.year %>
+      </div>
+
+      <div class="field">
+        <%= form.label :people_involved, class: 'mandatory' %>
+        <%= form.text_area :people_involved, required: true %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :equipment_involved, class: 'mandatory' %>
+        <%= form.text_area :equipment_involved, required: true %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :remediation_steps, class: 'mandatory' %>
+        <%= form.text_area :remediation_steps, required: true %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :data_type_id, class: 'mandatory' %>
+        <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}, required: true %>
+      </div>
+
+      <div class="field">
+        <%= form.label :it_security_incident_status_id, class: 'required' %>
+        <%= form.collection_select :it_security_incident_status_id, ItSecurityIncidentStatus.all, :id, :name, {include_blank: "Select"} %>
+      </div>
+
+      <div class="field">
+        <%= form.label :estimated_finacial_cost %>
+        <%= form.number_field :estimated_finacial_cost %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :notes %>
+        <%= form.text_area :notes %>
+        <p class="help-text">Help text if needed</p>
+      </div>
+
+      <div class="field">
+        <%= form.label :attachments %>
+        <%= form.file_field :attachments, multiple: true %>
+      </div>
+
+      <%= form.hidden_field :incomplete %>
+
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :people_involved %>
-    <%= form.text_area :people_involved %>
-  </div>
-
-  <div class="field">
-    <%= form.label :equipment_involved %>
-    <%= form.text_area :equipment_involved %>
-  </div>
-
-  <div class="field">
-    <%= form.label :remediation_steps %>
-    <%= form.text_area :remediation_steps %>
-  </div>
-
-  <div class="field">
-    <%= form.label :estimated_finacial_cost %>
-    <%= form.number_field :estimated_finacial_cost %>
-  </div>
-
-  <div class="field">
-    <%= form.label :notes %>
-    <%= form.text_area :notes %>
-  </div>
-
-  <div class="field">
-    <%= form.label :it_security_incident_status_id %>
-    <%= form.collection_select :it_security_incident_status_id, ItSecurityIncidentStatus.all, :id, :name, {include_blank: "Select"} %>
-  </div>
-
-  <div class="field">
-    <%= form.label :data_type_id %>
-    <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"} %>
-  </div>
-
-  <div class="field">
-    <%= form.label :attachments %>
-    <%= form.file_field :attachments, multiple: true %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
+  <div class="action-area">
+    <div class="actions">
+      <%= form.submit %>
+      <button name="incomplete" class="btn-incomplete">Save Incomplete Form</button>
+    </div>
   </div>
 <% end %>
