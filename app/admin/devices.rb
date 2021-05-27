@@ -5,7 +5,8 @@ ActiveAdmin.register Device do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :serial, :hostname, :mac, :building, :room
+  permit_params :serial, :hostname, :mac, :building, :room, :owner, :department,
+                :manufacturer, :model
   #
   # or
   #
