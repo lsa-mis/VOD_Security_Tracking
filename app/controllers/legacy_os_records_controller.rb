@@ -11,10 +11,6 @@ class LegacyOsRecordsController < InheritedResources::Base
     @legacy_os_records = LegacyOsRecord.active
   end
 
-  # def edit
-  #   @device = @legacy_os_record.device
-  # end
-
   def show
     add_breadcrumb(@legacy_os_record.id)
   end
@@ -44,7 +40,7 @@ class LegacyOsRecordsController < InheritedResources::Base
       end
     else
       flash.now[:alert] = "Serial or hostname should be present"
-      render turbo_stream: turbo_stream.update("flash", partial: "partials/flash")
+      render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
     end
 
     if search_field.present? 
@@ -109,7 +105,21 @@ class LegacyOsRecordsController < InheritedResources::Base
     end
 
     def legacy_os_record_params
-      params.require(:legacy_os_record).permit(:owner_username, :owner_full_name, :dept, :phone, :additional_dept_contact, :additional_dept_contact_phone, :support_poc, :legacy_os, :unique_app, :unique_hardware, :unique_date, :remediation, :exception_approval_date, :review_date, :review_contact, :justification, :local_it_support_group, :notes, :data_type_id, :device_id, :incomplete, attachments: [], device_attributes: [:serial, :hostname])
+      params.require(:legacy_os_record).permit( :owner_username, :owner_full_name, 
+                                                :dept, :phone, 
+                                                :additional_dept_contact, 
+                                                :additional_dept_contact_phone, 
+                                                :support_poc, :legacy_os, 
+                                                :unique_app, :unique_hardware, 
+                                                :unique_date, :remediation, 
+                                                :exception_approval_date, 
+                                                :review_date, :review_contact, 
+                                                :justification, 
+                                                :local_it_support_group, :notes, 
+                                                :data_type_id, :device_id, 
+                                                :incomplete, attachments: [], 
+                                                device_attributes: [:serial, :hostname]
+                                              )
     end
 
 end

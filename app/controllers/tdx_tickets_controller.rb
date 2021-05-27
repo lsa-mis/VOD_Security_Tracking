@@ -17,4 +17,4 @@ class TdxTicketsController < ApplicationController
     def tdx_ticket_params
         params.require(:tdx_ticket).permit(:ticket_link)
     end
-  end
+end

@@ -20,9 +20,8 @@
     <%= render 'layouts/breadcrumbs' %>
     <main class="container mx-auto px-4">
       <%= render 'layouts/dev_banner' %>
-      <%= render 'layouts/notification' %>
       <turbo-frame id="flash">
-        <%= render 'partials/flash' %>
+        <%= render 'layouts/notification' %>
       </turbo-frame>
       <%= yield %>
     </main>

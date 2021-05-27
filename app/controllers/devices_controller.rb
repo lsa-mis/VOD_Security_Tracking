@@ -50,7 +50,7 @@ class DevicesController < InheritedResources::Base
         # api returns more then one result or no auth token
         @device = Device.new(device_params)
         flash.now[:alert] = @device_tdx_info['result']['more-then_one_result'] 
-        render turbo_stream: turbo_stream.update("flash", partial: "partials/flash")
+        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
       elsif @device_tdx_info['result']['success']
         # create device with tdx data
         @device = Device.new(@device_tdx_info['data'])
@@ -69,7 +69,9 @@ class DevicesController < InheritedResources::Base
         @device = Device.new(device_params)
         respond_to do |format|
           if @device.save
-            format.html { redirect_to @device, notice: "Device was successfully created. " + device_not_in_tdx }
+            format.html { redirect_to @device, 
+                          notice: "Device was successfully created. " + device_not_in_tdx 
+                        }
             format.json { render :show, status: :created, location: @device }
           else
             format.html { render :new, status: :unprocessable_entity }
@@ -81,7 +83,7 @@ class DevicesController < InheritedResources::Base
       # device exists in the database
       @device = Device.new(device_params)
       flash.now[:alert] = device_exist
-      render turbo_stream: turbo_stream.update("flash", partial: "partials/flash")
+      render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
     end
   end
 
@@ -99,12 +101,16 @@ class DevicesController < InheritedResources::Base
       # check TDX API return
       if @device_tdx_info['result']['more-then_one_result'].present?
         respond_to do |format|
-          format.html { redirect_to @device, notice: "#{@device_tdx_info['result']['more-then_one_result']}"}
+          format.html { redirect_to @device, 
+                        notice: "#{@device_tdx_info['result']['more-then_one_result']}"
+                      }
           format.json { render :show, status: :created, location: @device }
         end
       elsif @device_tdx_info['result']['device_not_in_tdx'].present?
         respond_to do |format|
-          format.html { redirect_to @device, notice: "#{@device_tdx_info['result']['device_not_in_tdx']}"}
+          format.html { redirect_to @device, 
+                        notice: "#{@device_tdx_info['result']['device_not_in_tdx']}"
+                      }
           format.json { render :show, status: :created, location: @device }
         end
       else @device_tdx_info['result']['success']
@@ -148,7 +154,9 @@ class DevicesController < InheritedResources::Base
     end
 
     def device_params
-      params.require(:device).permit(:serial, :hostname, :mac, :building, :room, :manufacturer, :model, :owner, :department).each { |key, value| value.strip! }
+      params.require(:device).permit( :serial, :hostname, :mac, :building, 
+                                      :room, :manufacturer, :model, :owner, 
+                                      :department).each { |key, value| value.strip! }
     end
 
 end

@@ -23,7 +23,9 @@ class DpaExceptionsController < InheritedResources::Base
     @dpa_exception.tdx_tickets.new(ticket_link: dpa_exception_params[:tdx_ticket][:ticket_link])
     respond_to do |format|
       if @dpa_exception.save 
-        format.html { redirect_to dpa_exception_path(@dpa_exception), notice: 'dpa exception record was successfully created. ' }
+        format.html { redirect_to dpa_exception_path(@dpa_exception), 
+                      notice: 'dpa exception record was successfully created. ' 
+                    }
         format.json { render :show, status: :created, location: @dpa_exception }
       else
         format.html { render :new }
