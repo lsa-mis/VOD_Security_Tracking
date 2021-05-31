@@ -4,6 +4,7 @@ class DpaExceptionsController < InheritedResources::Base
   before_action :authenticate_logged_in!
   before_action :set_dpa_exception, only: [:show, :edit, :update, :archive]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
+  before_action :set_membership
 
   def index
     @dpa_exceptions = DpaException.active
@@ -16,6 +17,7 @@ class DpaExceptionsController < InheritedResources::Base
   def new
     @dpa_exception = DpaException.new
     @tdx_ticket = @dpa_exception.tdx_tickets.new
+    authorize @dpa_exception
   end
 
   def create 
@@ -48,6 +50,7 @@ class DpaExceptionsController < InheritedResources::Base
     end
     respond_to do |format|
       if @dpa_exception.update(dpa_exception_params.except(:tdx_ticket))
+        Rails.logger.info(@dpa_exception.errors.inspect) 
         format.html { redirect_to @dpa_exception, notice: 'dpa exception record was successfully updated. ' }
         format.json { render :show, status: :created, location: @dpa_exception }
       else
@@ -61,18 +64,19 @@ class DpaExceptionsController < InheritedResources::Base
   def archive
     @dpa_exception = DpaException.find(params[:id])
     authorize @dpa_exception
-    if @dpa_exception.archive
-      respond_to do |format|
+    respond_to do |format|
+      if @dpa_exception.archive
         format.html { redirect_to dpa_exceptions_path, 
                       notice: 'dpa exception record was successfully archived.' 
                     }
         format.json { head :no_content }
+      else
+        Rails.logger.info(@dpa_exception.errors.inspect) 
+        format.html { redirect_to dpa_exceptions_path, 
+                      alert: 'error archiving dpa exception record.' 
+                    }
+        format.json { head :no_content }
       end
-    else
-      format.html { redirect_to dpa_exceptions_path, 
-                    alert: 'error archiving dpa exception record.' 
-                  }
-      format.json { head :no_content }
     end
   end
   
@@ -87,6 +91,19 @@ class DpaExceptionsController < InheritedResources::Base
   end
 
   private
+
+    def set_membership
+      if user_signed_in?
+        membership = []
+        groups = Devise::LDAP::Adapter.get_ldap_param(current_user.username,'memberOf')
+        groups.each do |group|
+          g = group.split(',')
+          membership.append(g.first.remove("CN="))
+        end
+        current_user.membership = membership
+        # logger.debug "*********** dpa_axception controller @membership ***** #{current_user.membership}"
+      end
+    end
 
     def set_dpa_exception
       @dpa_exception = DpaException.find(params[:id])
