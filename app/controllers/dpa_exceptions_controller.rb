@@ -4,7 +4,6 @@ class DpaExceptionsController < InheritedResources::Base
   before_action :authenticate_logged_in!
   before_action :set_dpa_exception, only: [:show, :edit, :update, :archive]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
-  before_action :set_membership
 
   def index
     @dpa_exceptions = DpaException.active
@@ -93,11 +92,6 @@ class DpaExceptionsController < InheritedResources::Base
   end
 
   private
-
-    def set_membership
-      current_user.membership = session[:user_memberships]
-      logger.debug "************ in DPA_EXCEPTION current_user.membership ***** #{current_user.membership}"
-    end
 
     def set_dpa_exception
       @dpa_exception = DpaException.find(params[:id])
