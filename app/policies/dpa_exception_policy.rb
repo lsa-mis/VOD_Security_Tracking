@@ -1,4 +1,4 @@
-class DpaExceptionPolicy
+class DpaExceptionPolicy < ApplicationPolicy
     attr_reader :user, :dpa_exception
   
     def initialize(user, dpa_exception)
@@ -7,8 +7,8 @@ class DpaExceptionPolicy
     end
 
     def new?
-      ldap_group = AccessLookup.find_by(table: "dpa_exceptions", action: "new").ldap_group
-      if user.membership.include? ldap_group
+      get_ldap_groups('dpa_exceptions', 'new')
+      if (user.membership & @ldap_group).any?
         return true
       else 
         return false
@@ -16,8 +16,26 @@ class DpaExceptionPolicy
     end
 
     def archive?
-      ldap_group = AccessLookup.find_by(table: "dpa_exceptions", action: "archive").ldap_group
-      if user.membership.include? ldap_group
+      get_ldap_groups('dpa_exceptions', 'archive')
+      if (user.membership & @ldap_group).any?
+        return true
+      else 
+        return false
+      end
+    end
+
+    def edit?
+      get_ldap_groups('dpa_exceptions', 'edit')
+      if (user.membership & @ldap_group).any?
+        return true
+      else 
+        return false
+      end
+    end
+
+    def show?
+      get_ldap_groups('dpa_exceptions', 'show')
+      if (user.membership & @ldap_group).any?
         return true
       else 
         return false
