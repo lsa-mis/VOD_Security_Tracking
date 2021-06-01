@@ -8,8 +8,18 @@ class ItSecurityIncidentsController < InheritedResources::Base
     @it_security_incidents = ItSecurityIncident.active
   end
 
+  def new
+    @it_security_incident = ItSecurityIncident.new
+    authorize @it_security_incident
+  end
+
+  def edit
+    authorize @dpa_exception
+  end
+
   def show
     add_breadcrumb(@it_security_incident.id)
+    authorize @it_security_incident
   end
 
   def update
