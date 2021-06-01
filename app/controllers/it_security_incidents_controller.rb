@@ -14,7 +14,7 @@ class ItSecurityIncidentsController < InheritedResources::Base
   end
 
   def edit
-    authorize @dpa_exception
+    authorize @it_security_incident
   end
 
   def show

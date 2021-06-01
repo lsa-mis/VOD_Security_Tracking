@@ -20,7 +20,7 @@ class AccessLookup < ApplicationRecord
     }
     enum table: {
         dpa_exceptions: 'dpa_exceptions',
-        it_security_incidents: 'dpa_exceptions',
+        it_security_incidents: 'it_security_incidents',
         legacy_os_records: 'legacy_os_records',
         sensitive_data_systems: 'sensitive_data_systems'
     }
