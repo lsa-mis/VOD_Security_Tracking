@@ -8,38 +8,22 @@ class ItSecurityIncidentPolicy < ApplicationPolicy
 
     def new?
       get_ldap_groups('it_security_incidents', 'new_action')
-      if (user.membership & @ldap_group).any?
-        return true
-      else 
-        return false
-      end
+      (user.membership & @ldap_group).any?
     end
 
     def archive?
       get_ldap_groups('it_security_incidents', 'archive_action')
-      if (user.membership & @ldap_group).any?
-        return true
-      else 
-        return false
-      end
+      (user.membership & @ldap_group).any?
     end
 
     def edit?
       get_ldap_groups('it_security_incidents', 'edit_action')
-      if (user.membership & @ldap_group).any?
-        return true
-      else 
-        return false
-      end
+      (user.membership & @ldap_group).any?
     end
 
     def show?
       get_ldap_groups('it_security_incidents', 'show_action')
-      if (user.membership & @ldap_group).any?
-        return true
-      else 
-        return false
-      end
+      (user.membership & @ldap_group).any?
     end
     
   end

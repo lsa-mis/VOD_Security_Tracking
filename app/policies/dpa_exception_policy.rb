@@ -8,37 +8,21 @@ class DpaExceptionPolicy < ApplicationPolicy
 
     def new?
       get_ldap_groups('dpa_exceptions', 'new_action')
-      if (user.membership & @ldap_group).any?
-        return true
-      else 
-        return false
-      end
+      (user.membership & @ldap_group).any?
     end
 
     def archive?
       get_ldap_groups('dpa_exceptions', 'archive_action')
-      if (user.membership & @ldap_group).any?
-        return true
-      else 
-        return false
-      end
+      (user.membership & @ldap_group).any?
     end
 
     def edit?
       get_ldap_groups('dpa_exceptions', 'edit_action')
-      if (user.membership & @ldap_group).any?
-        return true
-      else 
-        return false
-      end
+      (user.membership & @ldap_group).any?
     end
 
     def show?
       get_ldap_groups('dpa_exceptions', 'show_action')
-      if (user.membership & @ldap_group).any?
-        return true
-      else 
-        return false
-      end
+      (user.membership & @ldap_group).any?
     end
   end
