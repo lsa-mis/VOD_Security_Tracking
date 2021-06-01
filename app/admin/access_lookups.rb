@@ -15,4 +15,15 @@ ActiveAdmin.register AccessLookup do
   #   permitted
   # end
   
+  form do |f| # This is a formtastic form builder
+    f.semantic_errors # shows errors on :base
+    # f.inputs           # builds an input field for every attribute
+    f.inputs do
+      f.input :ldap_group
+      f.input :table, as: :select, collection: AccessLookup.tables
+      f.input :action, as: :select, collection: AccessLookup.actions
+    end
+    f.actions 
+  end
+
 end
