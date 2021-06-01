@@ -11,9 +11,19 @@ class SensitiveDataSystemsController < InheritedResources::Base
     @sensitive_data_systems = SensitiveDataSystem.active
   end
 
+  def show
+    add_breadcrumb(@sensitive_data_system.id)
+    authorize @sensitive_data_system
+  end
+
+  def edit
+    authorize @sensitive_data_system
+  end
+
   def new
     @sensitive_data_system = SensitiveDataSystem.new
     @device = Device.new
+    authorize @sensitive_data_system
   end
 
   def create
@@ -59,10 +69,6 @@ class SensitiveDataSystemsController < InheritedResources::Base
         end
       end
     end
-  end
-  
-  def show
-    add_breadcrumb(@sensitive_data_system.id)
   end
 
   def archive
