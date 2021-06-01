@@ -6,7 +6,21 @@ class DpaExceptionPolicy
       @dpa_exception = dpa_exception
     end
 
-    def archive?
-        user.role == 'can_delete'
+    def new?
+      ldap_group = AccessLookup.find_by(table: "dpa_exceptions", action: "new").ldap_group
+      if user.membership.include? ldap_group
+        return true
+      else 
+        return false
       end
+    end
+
+    def archive?
+      ldap_group = AccessLookup.find_by(table: "dpa_exceptions", action: "archive").ldap_group
+      if user.membership.include? ldap_group
+        return true
+      else 
+        return false
+      end
+    end
   end
