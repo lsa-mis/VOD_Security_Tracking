@@ -21,7 +21,6 @@
 #  username               :string(255)      default(""), not null
 #
 class User < ApplicationRecord
-  after_initialize :set_default_role, :if => :new_record?
   before_create :set_email_address
   attr_accessor :membership
 
