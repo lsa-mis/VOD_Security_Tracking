@@ -45,6 +45,6 @@ class ApplicationPolicy
   # end
 
   def get_ldap_groups(table, action)
-    @ldap_group = AccessLookup.where(table: table, :action => [action, 'all']).pluck(:ldap_group)
+    @ldap_group = AccessLookup.where(table: table, :action => [action, 'all_actions']).pluck(:ldap_group)
   end
 end
