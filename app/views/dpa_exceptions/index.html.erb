@@ -4,7 +4,7 @@
   DPA exceptions - Data Protection Addendums (<%= link_to 'https://it.umich.edu/information-technology-policies/general-policies/DS-20' %>)
 </p>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-  <% if has_ad_access?(current_user, "dpa_exceptions", "new_action") %>
+  <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
     <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
       <%= link_to 'New Dpa Exception', new_dpa_exception_path %>
     </div>
@@ -42,7 +42,7 @@
                   <td>
                     <ul>
                       <li><%= link_to 'Show', dpa_exception, class: "action-link" %></li>
-                      <% if has_ad_access?(current_user, "dpa_exceptions", "edit_action") %>
+                      <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
                         <li><%= link_to 'Edit', edit_dpa_exception_path(dpa_exception), class: "action-link" %></li>
                       <% end %>
                       <% if has_ad_access?(current_user, "dpa_exceptions", "archive_action") %>

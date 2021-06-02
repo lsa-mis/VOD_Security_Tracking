@@ -7,7 +7,7 @@ class ItSecurityIncidentPolicy < ApplicationPolicy
     end
 
     def new?
-      get_ldap_groups('it_security_incidents', 'new_action')
+      get_ldap_groups('it_security_incidents', 'newedit_action')
       (user.membership & @ldap_group).any?
     end
 
@@ -17,7 +17,7 @@ class ItSecurityIncidentPolicy < ApplicationPolicy
     end
 
     def edit?
-      get_ldap_groups('it_security_incidents', 'edit_action')
+      get_ldap_groups('it_security_incidents', 'newedit_action')
       (user.membership & @ldap_group).any?
     end
 

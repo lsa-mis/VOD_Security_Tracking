@@ -7,7 +7,7 @@ class SensitiveDataSystemPolicy < ApplicationPolicy
     end
   
     def new?
-      get_ldap_groups('sensitive_data_systems', 'new_action')
+      get_ldap_groups('sensitive_data_systems', 'newedit_action')
       (user.membership & @ldap_group).any?
     end
 
@@ -17,7 +17,7 @@ class SensitiveDataSystemPolicy < ApplicationPolicy
     end
 
     def edit?
-      get_ldap_groups('sensitive_data_systems', 'edit_action')
+      get_ldap_groups('sensitive_data_systems', 'newedit_action')
       (user.membership & @ldap_group).any?
     end
 

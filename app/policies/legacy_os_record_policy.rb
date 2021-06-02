@@ -7,7 +7,7 @@ class LegacyOsRecordPolicy < ApplicationPolicy
     end
 
     def new?
-      get_ldap_groups('legacy_os_records', 'new_action')
+      get_ldap_groups('legacy_os_records', 'newedit_action')
       (user.membership & @ldap_group).any?
     end
 
@@ -17,7 +17,7 @@ class LegacyOsRecordPolicy < ApplicationPolicy
     end
 
     def edit?
-      get_ldap_groups('legacy_os_records', 'edit_action')
+      get_ldap_groups('legacy_os_records', 'newedit_action')
       (user.membership & @ldap_group).any?
     end
 

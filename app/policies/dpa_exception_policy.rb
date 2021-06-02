@@ -7,7 +7,7 @@ class DpaExceptionPolicy < ApplicationPolicy
     end
 
     def new?
-      get_ldap_groups('dpa_exceptions', 'new_action')
+      get_ldap_groups('dpa_exceptions', 'newedit_action')
       (user.membership & @ldap_group).any?
     end
 
@@ -17,12 +17,12 @@ class DpaExceptionPolicy < ApplicationPolicy
     end
 
     def edit?
-      get_ldap_groups('dpa_exceptions', 'edit_action')
+      get_ldap_groups('dpa_exceptions', 'newedit_action')
       (user.membership & @ldap_group).any?
     end
 
-    def show?
-      get_ldap_groups('dpa_exceptions', 'show_action')
-      (user.membership & @ldap_group).any?
-    end
+    # def show?
+    #   get_ldap_groups('dpa_exceptions', 'show_action')
+    #   (user.membership & @ldap_group).any?
+    # end
   end
