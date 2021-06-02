@@ -42,6 +42,7 @@ class DpaExceptionsController < InheritedResources::Base
                   )
     add_breadcrumb('Edit')
     @tdx_ticket = @dpa_exception.tdx_tickets.new
+    authorize @dpa_exception
   end
 
   def update
@@ -91,18 +92,10 @@ class DpaExceptionsController < InheritedResources::Base
   end
 
   private
-
+  
     def set_membership
-      if user_signed_in?
-        membership = []
-        groups = Devise::LDAP::Adapter.get_ldap_param(current_user.username,'memberOf')
-        groups.each do |group|
-          g = group.split(',')
-          membership.append(g.first.remove("CN="))
-        end
-        current_user.membership = membership
-        # logger.debug "*********** dpa_axception controller @membership ***** #{current_user.membership}"
-      end
+      current_user.membership = session[:user_memberships]
+      logger.debug "************ in DPA_EXCEPTION current_user.membership ***** #{current_user.membership}"
     end
 
     def set_dpa_exception

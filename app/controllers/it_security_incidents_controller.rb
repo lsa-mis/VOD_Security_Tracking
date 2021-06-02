@@ -3,9 +3,19 @@ class ItSecurityIncidentsController < InheritedResources::Base
   before_action :authenticate_logged_in!
   before_action :set_it_security_incident, only: [:show, :edit, :update, :archive]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
+  before_action :set_membership
 
   def index
     @it_security_incidents = ItSecurityIncident.active
+  end
+
+  def new
+    @it_security_incident = ItSecurityIncident.new
+    authorize @it_security_incident
+  end
+
+  def edit
+    authorize @it_security_incident
   end
 
   def show
@@ -43,16 +53,21 @@ class ItSecurityIncidentsController < InheritedResources::Base
 
   private
 
-  def set_it_security_incident
-    @it_security_incident = ItSecurityIncident.find(params[:id])
-  end
+    def set_membership
+      current_user.membership = session[:user_memberships]
+      logger.debug "************ in DPA_EXCEPTION current_user.membership ***** #{current_user.membership}"
+    end
 
-  def add_index_breadcrumb
-    add_breadcrumb(controller_name.titleize, it_security_incidents_path)
-  end
+    def set_it_security_incident
+      @it_security_incident = ItSecurityIncident.find(params[:id])
+    end
 
-  def it_security_incident_params
-    params.require(:it_security_incident).permit(:date, :people_involved, :equipment_involved, :remediation_steps, :estimated_finacial_cost, :notes, :it_security_incident_status_id, :data_type_id, :incomplete, attachments: [])
-  end
+    def add_index_breadcrumb
+      add_breadcrumb(controller_name.titleize, it_security_incidents_path)
+    end
+
+    def it_security_incident_params
+      params.require(:it_security_incident).permit(:date, :people_involved, :equipment_involved, :remediation_steps, :estimated_finacial_cost, :notes, :it_security_incident_status_id, :data_type_id, :incomplete, attachments: [])
+    end
 
 end

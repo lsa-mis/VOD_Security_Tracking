@@ -14,5 +14,5 @@ ActiveAdmin.register AccessLookup do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
-  
+
 end

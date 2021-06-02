@@ -7,44 +7,44 @@ class ApplicationPolicy
     @record = record
   end
 
-  def index?
-    false
-  end
+  # def index?
+  #   false
+  # end
 
-  def show?
-    false
-  end
+  # def show?
+  #   false
+  # end
 
-  def create?
-    false
-  end
+  # def create?
+  #   false
+  # end
 
-  def new?
-    create?
-  end
+  # # def new?
+  # #   create?
+  # # end
 
-  def update?
-    false
-  end
+  # # def new?
+  # #   ldap_group = AccessLookup.where(table: "dpa_exceptions", action: "new").pluck(:ldap_group)
+  # #   if (user.membership & ldap_group).any?
+  # #     return true
+  # #   else 
+  # #     return false
+  # #   end
+  # # end
 
-  def edit?
-    update?
-  end
+  # def update?
+  #   false
+  # end
 
-  def destroy?
-    false
-  end
+  # def edit?
+  #   update?
+  # end
 
-  class Scope
-    attr_reader :user, :scope
+  # def destroy?
+  #   false
+  # end
 
-    def initialize(user, scope)
-      @user = user
-      @scope = scope
-    end
-
-    def resolve
-      scope.all
-    end
+  def get_ldap_groups(table, action)
+    @ldap_group = AccessLookup.where(table: table, :action => [action, 'all_actions']).pluck(:ldap_group)
   end
 end

@@ -1,4 +1,4 @@
-class ItSecurityIncidentPolicy
+class ItSecurityIncidentPolicy < ApplicationPolicy
     attr_reader :user, :it_security_incident
   
     def initialize(user, it_security_incident)
@@ -6,7 +6,24 @@ class ItSecurityIncidentPolicy
       @it_security_incident = it_security_incident
     end
 
+    def new?
+      get_ldap_groups('it_security_incidents', 'newedit_action')
+      (user.membership & @ldap_group).any?
+    end
+
     def archive?
-        user.role == 'can_delete'
-      end
+      get_ldap_groups('it_security_incidents', 'archive_action')
+      (user.membership & @ldap_group).any?
+    end
+
+    def edit?
+      get_ldap_groups('it_security_incidents', 'newedit_action')
+      (user.membership & @ldap_group).any?
+    end
+
+    def show?
+      get_ldap_groups('it_security_incidents', 'show_action')
+      (user.membership & @ldap_group).any?
+    end
+    
   end

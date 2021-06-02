@@ -1,4 +1,5 @@
 class StaticPagesController < ApplicationController
+  
   def home
     add_breadcrumb('', root_path)
   end
