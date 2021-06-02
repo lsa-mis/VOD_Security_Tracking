@@ -4,6 +4,7 @@ class LegacyOsRecordsController < InheritedResources::Base
   before_action :set_legacy_os_record, only: [:show, :edit, :update, :archive]
   before_action :get_access_token, only: [:create, :update]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
+  before_action :set_membership
 
   include SaveRecordWithDevice
 
@@ -91,6 +92,11 @@ class LegacyOsRecordsController < InheritedResources::Base
   end
 
   private
+
+    def set_membership
+      current_user.membership = session[:user_memberships]
+      logger.debug "************ in DPA_EXCEPTION current_user.membership ***** #{current_user.membership}"
+    end
 
     def set_legacy_os_record
       @legacy_os_record = LegacyOsRecord.find(params[:id])

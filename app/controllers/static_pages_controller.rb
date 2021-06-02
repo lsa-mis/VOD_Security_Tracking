@@ -1,4 +1,6 @@
 class StaticPagesController < ApplicationController
+  # skip_before_action :set_membership
+  
   def home
     add_breadcrumb('', root_path)
   end

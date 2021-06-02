@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   before_action :set_breadcrumbs
-  before_action :set_membership
 
   include Pundit
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -17,11 +16,6 @@ class ApplicationController < ActionController::Base
   end
 
   private
-
-    def set_membership
-      current_user.membership = session[:user_memberships]
-      logger.debug "************ in DPA_EXCEPTION current_user.membership ***** #{current_user.membership}"
-    end
 
     def set_breadcrumbs
       @breadcrumbs = []

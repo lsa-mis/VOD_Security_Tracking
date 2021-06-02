@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Users::SessionsController < Devise::SessionsController
+  #  skip_before_action :set_membership
    before_action :configure_sign_in_params, only: [:create]
    after_action :after_login
 
@@ -38,7 +39,7 @@ class Users::SessionsController < Devise::SessionsController
           membership.append(g.first.remove("CN="))
         end
         session[:user_memberships] = membership
-        # logger.debug "*********** session[:user_memberships] ***** #{session[:user_memberships]}"
+        logger.debug "*********** session[:user_memberships] ***** #{session[:user_memberships]}"
       end
     end
 end

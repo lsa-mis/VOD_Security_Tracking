@@ -4,6 +4,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
   before_action :set_sensitive_data_system, only: [:show, :edit, :update, :archive]
   before_action :get_access_token, only: [:create, :update]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
+  before_action :set_membership
 
   include SaveRecordWithDevice
 
@@ -90,6 +91,11 @@ class SensitiveDataSystemsController < InheritedResources::Base
   end
 
   private
+
+    def set_membership
+      current_user.membership = session[:user_memberships]
+      logger.debug "************ in DPA_EXCEPTION current_user.membership ***** #{current_user.membership}"
+    end
 
     def set_sensitive_data_system
       @sensitive_data_system = SensitiveDataSystem.find(params[:id])
