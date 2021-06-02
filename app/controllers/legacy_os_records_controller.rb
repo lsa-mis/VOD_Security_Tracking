@@ -14,7 +14,6 @@ class LegacyOsRecordsController < InheritedResources::Base
 
   def show
     add_breadcrumb(@legacy_os_record.id)
-    authorize @legacy_os_record
   end
 
   def edit

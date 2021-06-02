@@ -14,7 +14,6 @@ class SensitiveDataSystemsController < InheritedResources::Base
 
   def show
     add_breadcrumb(@sensitive_data_system.id)
-    authorize @sensitive_data_system
   end
 
   def edit

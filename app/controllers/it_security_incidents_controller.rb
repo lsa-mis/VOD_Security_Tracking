@@ -20,7 +20,6 @@ class ItSecurityIncidentsController < InheritedResources::Base
 
   def show
     add_breadcrumb(@it_security_incident.id)
-    authorize @it_security_incident
   end
 
   def update

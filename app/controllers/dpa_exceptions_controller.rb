@@ -12,7 +12,6 @@ class DpaExceptionsController < InheritedResources::Base
 
   def show
     add_breadcrumb(@dpa_exception.third_party_product_service)
-    authorize @dpa_exception
   end
 
   def new
