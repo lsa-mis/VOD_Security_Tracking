@@ -12,8 +12,7 @@
 class AccessLookup < ApplicationRecord
 
     enum action: {
-        new_action: "new_action",
-        edit_action: "edit_action",
+        new_action: "new-edit_action",
         show_action: "show_action",
         archive_action: "archive_action",
         all_actions: "all_actions"
