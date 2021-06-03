@@ -12,4 +12,6 @@
 class TdxTicket < ApplicationRecord
     belongs_to :records_to_tdx, polymorphic: true
     audited
+
+    validates :ticket_link, presence: true
 end

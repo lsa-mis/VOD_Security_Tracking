@@ -16,7 +16,6 @@ class DpaExceptionsController < InheritedResources::Base
 
   def new
     @dpa_exception = DpaException.new
-    # @tdx_ticket = @dpa_exception.tdx_tickets.new
     authorize @dpa_exception
   end
 
@@ -30,15 +29,9 @@ class DpaExceptionsController < InheritedResources::Base
         format.turbo_stream { redirect_to dpa_exception_path(@dpa_exception), 
           notice: 'dpa exception record was successfully created. ' 
         }
-        # format.html { redirect_to dpa_exception_path(@dpa_exception), 
-        #               notice: 'dpa exception record was successfully created. ' 
-        #             }
-        # format.json { render :show, status: :created, location: @dpa_exception }
       else
         Rails.logger.info(@dpa_exception.errors.inspect)
         format.turbo_stream
-        # format.html { render :new }
-        # format.json { render json: @dpa_exception.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -59,15 +52,10 @@ class DpaExceptionsController < InheritedResources::Base
     respond_to do |format|
       if @dpa_exception.update(dpa_exception_params.except(:tdx_ticket))
         format.turbo_stream { redirect_to @dpa_exception, notice: 'dpa exception record was successfully updated. ' }
-        # format.html { redirect_to @dpa_exception, notice: 'dpa exception record was successfully updated. ' }
-        # format.json { render :show, status: :created, location: @dpa_exception }
       else
         format.turbo_stream
-        # format.html { render :edit }
-        # format.json { render json: @dpa_exception.errors, status: :unprocessable_entity }
       end
     end
-
   end
 
   def archive
@@ -75,16 +63,14 @@ class DpaExceptionsController < InheritedResources::Base
     authorize @dpa_exception
     respond_to do |format|
       if @dpa_exception.archive
-        format.html { redirect_to dpa_exceptions_path, 
+        format.turbo_stream { redirect_to dpa_exceptions_path, 
                       notice: 'dpa exception record was successfully archived.' 
                     }
-        format.json { head :no_content }
       else
         Rails.logger.info(@dpa_exception.errors.inspect) 
-        format.html { redirect_to dpa_exceptions_path, 
+        format.turbo_stream { redirect_to dpa_exceptions_path, 
                       alert: 'error archiving dpa exception record.' 
                     }
-        format.json { head :no_content }
       end
     end
   end
