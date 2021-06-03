@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_02_203258) do
+ActiveRecord::Schema.define(version: 2021_06_03_175338) do
 
   create_table "access_lookups", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "ldap_group"
@@ -147,7 +147,7 @@ ActiveRecord::Schema.define(version: 2021_06_02_203258) do
     t.datetime "exception_approval_date_exception_renewal_date_due"
     t.string "notes"
     t.string "sla_agreement"
-    t.bigint "data_type_id", null: false
+    t.bigint "data_type_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "deleted_at"

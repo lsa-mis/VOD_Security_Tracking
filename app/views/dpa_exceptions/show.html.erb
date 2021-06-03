@@ -143,8 +143,13 @@
         Data type
       </dt>
       <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @dpa_exception.data_type.display_name %></span>
+        <span class="flex-grow"><%= show_data_type_name(@dpa_exception) %></span>
       </dd>
+    </div>
+    
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <%= render partial: "tdx_tickets/tdx_tickets", locals: {record_to_tdx: @dpa_exception, destroy_p: "dpa_exception"} %>
+      <%= render partial: "tdx_tickets/form", locals: {record_to_tdx: @dpa_exception} %>
     </div>
 
     <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
