@@ -4,7 +4,7 @@
 data: {
   controller: "legacyos",
   target: "legacyos.form",
-  action: "submit->legacyos#submitForm"
+  action: "ajax:beforeSend->legacyos#submitForm"
 }) do |form| %>
   <% if @legacy_os_record.errors.any? %>
     <div id="error_explanation">
@@ -21,36 +21,33 @@ data: {
   <div class="form-container">
     <div>
       <h3 class="instruction-header">
-        Special Fields
+      Form Instructions
       </h3>
-      <ul class="instruction-container">
-        <li class="mandatory">mandatory fields</li>
-        <li class="required">required fields => to save as an incomplete record without these fields click the [Save Incomplete Form] button.</li>
-      </ul>
+      <p>lsndn lksnsdj snnrew9ioqw\9, c diojslkmsdp odew-mw,mp owlf=w-9ke w,[osdk</p>
     </div>
 
     <div class="field-container">
       <div class="field">
-        <%= form.label :owner_username, class: 'mandatory' %>
+        <%= form.label :owner_username%>
         <%= form.text_field :owner_username, required: true  %>
         <p class="help-text">Help text if needed</p>
       </div>
 
       <div class="field">
-        <%= form.label :owner_full_name, class: 'mandatory' %>
+        <%= form.label :owner_full_name%>
         <%= form.text_field :owner_full_name, required: true  %>
         <p class="help-text">Help text if needed</p>
       </div>
 
       <div class="field">
-        <%= form.label :dept, class: 'required' %>
-        <%= form.text_field :dept %>
+        <%= form.label :dept%>
+        <%= form.text_field :dept, required: true %>
         <p class="help-text">Help text if needed</p>
       </div>
 
       <div class="field">
-        <%= form.label :phone, class: 'required' %>
-        <%= form.text_field :phone %>
+        <%= form.label :phone%>
+        <%= form.text_field :phone, required: true  %>
         <p class="help-text">Help text if needed</p>
       </div>
 
@@ -67,45 +64,44 @@ data: {
       </div>
 
       <div class="field">
-        <%= form.label :support_poc, class: 'required' %>
+        <%= form.label :support_poc%>
         <%= form.text_field :support_poc %>
         <p class="help-text">Help text if needed</p>
       </div>
 
       <div class="field">
-        <%= form.label :legacy_os, class: 'mandatory' %>
-        <%= form.text_field :legacy_os, required: true  %>
+        <%= form.label :legacy_os%>
+        <%= form.text_field :legacy_os%>
         <p class="help-text">Help text if needed</p>
       </div>
 
       <div class="sm:col-span-3">
-        <%= form.label :unique_app, class: 'required' %>
+        <%= form.label :unique_app%>
         <%= form.text_field :unique_app %>
         <p class="help-text">Unique app or Unique Hardware is required</p>
         <p class="help-text">Help text if needed</p>
       </div>
 
       <div class="sm:col-span-3">
-        <%= form.label :unique_hardware, class: 'required' %>
+        <%= form.label :unique_hardware%>
         <%= form.text_field :unique_hardware %>
         <p class="help-text">Help text if needed</p>
       </div>
 
       <div class="field">
-        <%= form.label :unique_date, class: 'required' %>
+        <%= form.label :unique_date%>
         <%= form.text_field :unique_date,
           data: {
             controller: "flatpickr",
             flatpickr_date_format: "Y-m-d",
             flatpickr_min_date: Time.zone.now
-          },
-          required: true 
+          }
         %>
       </div>
 
       <div class="field">
-        <%= form.label :remediation, class: 'mandatory' %>
-        <%= form.text_field :remediation, required: true  %>
+        <%= form.label :remediation%>
+        <%= form.text_field :remediation%>
         <p class="help-text">Help text if needed</p>
       </div>
 
@@ -132,8 +128,8 @@ data: {
       </div>
 
       <div class="field">
-        <%= form.label :review_contact, class: 'mandatory' %>
-        <%= form.text_field :review_contact, required: true  %>
+        <%= form.label :review_contact%>
+        <%= form.text_field :review_contact%>
         <p class="help-text">Help text if needed</p>
       </div>
 
@@ -144,7 +140,7 @@ data: {
       </div>
 
       <div class="field">
-        <%= form.label :local_it_support_group, class: 'required' %>
+        <%= form.label :local_it_support_group%>
         <%= form.text_field :local_it_support_group %>
         <p class="help-text">Help text if needed</p>
       </div>
@@ -156,12 +152,12 @@ data: {
       </div>
 
       <div class="field">
-        <%= form.label :data_type_id, class: 'mandatory' %>
-        <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}, required: true %>
+        <%= form.label :data_type_id%>
+        <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}%>
       </div>
 
       <div id="device_input" data-legacyos-target="system_device">
-        <%= form.label "Add a device", class: 'mandatory' %> - enter serial:
+        <%= form.label "Add a device"%> - enter serial:
         <%= form.fields_for :device, @device do |device_attributes| %>
           <%= device_attributes.text_field :serial, :"data-legacyos-target" => "serial" %>
           or hostname:
@@ -183,7 +179,6 @@ data: {
   <div class="action-area">
     <div class="actions">
       <%= form.submit %>
-      <button name="incomplete" class="btn-incomplete">Save Incomplete Form</button>
     </div>
   </div>
 <% end %>
