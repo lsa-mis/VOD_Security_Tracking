@@ -12,14 +12,12 @@ module SaveRecordWithDevice
       respond_to do |format|
         if record.save 
           if (path == "sensitive_data_system")
-            format.html { redirect_to sensitive_data_system_path(record), notice: 'Record was successfully created. '}
+            format.turbo_stream { redirect_to sensitive_data_system_path(record), notice: 'Record was successfully created. '}
           else
-            format.html { redirect_to legacy_os_record_path(record), notice: 'Record was successfully created. '}
+            format.turbo_stream { redirect_to legacy_os_record_path(record), notice: 'Record was successfully created. '}
           end
-          format.json { render :show, status: :created, location: record }
         else
-          format.html { render :new }
-          format.json { render json: record.errors, status: :unprocessable_entity }
+          format.turbo_stream
         end
       end
     elsif device_tdx_info['result']['device_not_in_tdx'].present?
@@ -32,14 +30,12 @@ module SaveRecordWithDevice
       respond_to do |format|
         if record.save 
           if (path == "sensitive_data_system")
-            format.html { redirect_to sensitive_data_system_path(record), notice: 'Record was successfully created. ' + "#{device_tdx_info['result']['device_not_in_tdx']}"}
+            format.turbo_stream { redirect_to sensitive_data_system_path(record), notice: 'Record was successfully created. ' + "#{device_tdx_info['result']['device_not_in_tdx']}"}
           else
-            format.html { redirect_to legacy_os_record_path(record), notice: 'Record was successfully created. '}
+            format.turbo_stream { redirect_to legacy_os_record_path(record), notice: 'Record was successfully created. '}
           end
-          format.json { render :show, status: :created, location: record }
         else
-          format.html { render :new }
-          format.json { render json: record.errors, status: :unprocessable_entity }
+          format.turbo_stream
         end
       end
     end

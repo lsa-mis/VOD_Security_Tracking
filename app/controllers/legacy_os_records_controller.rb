@@ -16,10 +16,6 @@ class LegacyOsRecordsController < InheritedResources::Base
     add_breadcrumb(@legacy_os_record.id)
   end
 
-  def edit
-    authorize @legacy_os_record
-  end
-
   def new
     @legacy_os_record = LegacyOsRecord.new
     @device = Device.new
@@ -62,14 +58,18 @@ class LegacyOsRecordsController < InheritedResources::Base
     else
       respond_to do |format|
         if @legacy_os_record.save 
-          format.html { redirect_to legacy_os_record_path(@legacy_os_record), notice: 'Legacy os record was successfully created. ' }
-          format.json { render :show, status: :created, location: @legacy_os_record }
+          format.turbo_stream { redirect_to legacy_os_record_path(@legacy_os_record), 
+          notice: 'Legacy os record was successfully created. ' 
+        }
         else
-          format.html { render :new }
-          format.json { render json: @legacy_os_record.errors, status: :unprocessable_entity }
+          format.turbo_stream
         end
       end
     end
+  end
+
+  def edit
+    authorize @legacy_os_record
   end
 
   def archive
