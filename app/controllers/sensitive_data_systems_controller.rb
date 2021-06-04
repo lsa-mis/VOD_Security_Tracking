@@ -16,8 +16,6 @@ class SensitiveDataSystemsController < InheritedResources::Base
     add_breadcrumb(@sensitive_data_system.id)
   end
 
-  def edit
-    authorize @sensitive_data_system
   end
 
   def new
@@ -28,7 +26,10 @@ class SensitiveDataSystemsController < InheritedResources::Base
 
   def create
     if sensitive_data_system_params[:sensitive_data_system_type_id] == "1"
-      @sensitive_data_system = SensitiveDataSystem.new(sensitive_data_system_params)
+      @sensitive_data_system = SensitiveDataSystem.new(sensitive_data_system_params.except(:tdx_ticket))
+      if sensitive_data_system_params[:tdx_ticket][:ticket_link].present?
+        @sensitive_data_system.tdx_tickets.new(ticket_link: sensitive_data_system_params[:tdx_ticket][:ticket_link])
+      end
       serial = sensitive_data_system_params[:device_attributes][:serial]
       hostname = sensitive_data_system_params[:device_attributes][:hostname]
       # find device
@@ -46,7 +47,10 @@ class SensitiveDataSystemsController < InheritedResources::Base
         end
       end
     else 
-      @sensitive_data_system = SensitiveDataSystem.new(sensitive_data_system_params.except(:device_attributes))
+      @sensitive_data_system = SensitiveDataSystem.new(sensitive_data_system_params.except(:device_attributes, :tdx_ticket))
+      if sensitive_data_system_params[:tdx_ticket][:ticket_link].present?
+        @sensitive_data_system.tdx_tickets.new(ticket_link: sensitive_data_system_params[:tdx_ticket][:ticket_link])
+      end
     end
     if search_field.present? 
       # call DeviceTdxApi
@@ -61,27 +65,44 @@ class SensitiveDataSystemsController < InheritedResources::Base
     else
       respond_to do |format|
         if @sensitive_data_system.save 
-          format.html { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Sensitive data system record was successfully created. ' }
-          format.json { render :show, status: :created, location: @sensitive_data_system }
+          format.turbo_stream { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Sensitive data system record was successfully created. ' }
         else
-          format.html { render :new }
-          format.json { render json: @legacy_os_record.errors, status: :unprocessable_entity }
+          format.turbo_stream
         end
       end
     end
   end
+
+  def edit
+    add_breadcrumb(@sensitive_data_system.id, 
+        sensitive_data_system_path(@sensitive_data_system)
+      )
+    add_breadcrumb('Edit')
+    @tdx_ticket = @sensitive_data_system.tdx_tickets.new
+    authorize @sensitive_data_system
+  end
+
+  def update
+    if sensitive_data_system_params[:tdx_ticket][:ticket_link].present?
+      @sensitive_data_system.tdx_tickets.create(ticket_link: sensitive_data_system_params[:tdx_ticket][:ticket_link])
+    end
+    respond_to do |format|
+      if @sensitive_data_system.update(sensitive_data_system_params.except(:tdx_ticket))
+        format.turbo_stream { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'legacy os record was successfully updated.' }
+      else
+        format.turbo_stream
+      end
+    end
 
   def archive
     @sensitive_data_system = SensitiveDataSystem.find(params[:id])
     authorize @sensitive_data_system
     if @sensitive_data_system.archive
       respond_to do |format|
-        format.html { redirect_to sensitive_data_systems_path, notice: 'Sensitive data system record was successfully archived.' }
-        format.json { head :no_content }
+        format.turbo_stream { redirect_to sensitive_data_systems_path, notice: 'Sensitive data system record was successfully archived.' }
       end
     else
-      format.html { redirect_to sensitive_data_systems_path, alert: 'Error archiving sensitive data system record.' }
-      format.json { head :no_content }
+      format.turbo_stream { redirect_to sensitive_data_systems_path, alert: 'Error archiving sensitive data system record.' }
     end
   end
   
@@ -93,7 +114,6 @@ class SensitiveDataSystemsController < InheritedResources::Base
 
     def set_membership
       current_user.membership = session[:user_memberships]
-      logger.debug "************ in DPA_EXCEPTION current_user.membership ***** #{current_user.membership}"
     end
 
     def set_sensitive_data_system
@@ -115,7 +135,18 @@ class SensitiveDataSystemsController < InheritedResources::Base
     end
 
     def sensitive_data_system_params
-      params.require(:sensitive_data_system).permit(:owner_username, :owner_full_name, :dept, :phone, :additional_dept_contact, :additional_dept_contact_phone, :support_poc, :expected_duration_of_data_retention, :agreements_related_to_data_types, :review_date, :review_contact, :notes, :storage_location_id, :data_type_id, :sensitive_data_system_type_id, :incomplete, attachments: [], device_attributes: [:serial, :hostname])
+      params.require(:sensitive_data_system).permit(:owner_username, :owner_full_name, 
+                                                    :dept, :phone, :additional_dept_contact, 
+                                                    :additional_dept_contact_phone, :support_poc, 
+                                                    :expected_duration_of_data_retention, 
+                                                    :agreements_related_to_data_types, 
+                                                    :review_date, :review_contact, :notes, 
+                                                    :storage_location_id, :data_type_id, 
+                                                    :sensitive_data_system_type_id, :incomplete, 
+                                                    attachments: [], 
+                                                    device_attributes: [:serial, :hostname], 
+                                                    tdx_ticket: [:ticket_link]
+                                                  )
     end
 
 end
