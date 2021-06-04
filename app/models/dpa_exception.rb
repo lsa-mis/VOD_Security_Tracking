@@ -28,7 +28,6 @@ class DpaException < ApplicationRecord
   has_many :tdx_tickets, as: :records_to_tdx
   has_many_attached :attachments
   has_one_attached :sla_attachment
-  accepts_nested_attributes_for :tdx_tickets
   audited
 
   validates :review_date_exception_first_approval_date, :third_party_product_service,
