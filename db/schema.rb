@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_04_163611) do
+ActiveRecord::Schema.define(version: 2021_06_04_180218) do
 
   create_table "access_lookups", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "ldap_group"
@@ -226,11 +226,11 @@ ActiveRecord::Schema.define(version: 2021_06_04_163611) do
     t.string "support_poc"
     t.text "expected_duration_of_data_retention"
     t.string "agreements_related_to_data_types"
-    t.datetime "review_date", null: false
-    t.string "review_contact", null: false
+    t.datetime "review_date"
+    t.string "review_contact"
     t.string "notes"
     t.bigint "storage_location_id", null: false
-    t.bigint "data_type_id", null: false
+    t.bigint "data_type_id"
     t.bigint "device_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
