@@ -156,6 +156,21 @@ data: {
         <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}%>
       </div>
 
+      <%= form.fields_for @legacy_os_record.tdx_tickets.new do |f| %>
+        <div class="field">
+            <%= f.label :ticket_link, "Add a ticket link" %>
+            <%= f.text_field :ticket_link %>
+        </div>
+      <% end %>
+
+      <% if @legacy_os_record.tdx_tickets.present? %>
+        <div>
+          <% @legacy_os_record.tdx_tickets.each do |tdx| %>
+            <%= tdx.ticket_link %>
+          <% end %>
+        </div>
+      <% end %>
+
       <div id="device_input" data-legacyos-target="system_device">
         <%= form.label "Add a device"%> - enter serial:
         <%= form.fields_for :device, @device do |device_attributes| %>
