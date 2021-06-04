@@ -10,18 +10,18 @@
 #  additional_dept_contact       :string(255)
 #  additional_dept_contact_phone :string(255)
 #  support_poc                   :string(255)
-#  legacy_os                     :string(255)      not null
+#  legacy_os                     :string(255)
 #  unique_app                    :string(255)
 #  unique_hardware               :string(255)
 #  unique_date                   :datetime
-#  remediation                   :string(255)      not null
+#  remediation                   :string(255)
 #  exception_approval_date       :datetime
 #  review_date                   :datetime
-#  review_contact                :string(255)      not null
+#  review_contact                :string(255)
 #  justification                 :string(255)
 #  local_it_support_group        :string(255)
 #  notes                         :text(65535)
-#  data_type_id                  :bigint           not null
+#  data_type_id                  :bigint
 #  device_id                     :bigint
 #  created_at                    :datetime         not null
 #  updated_at                    :datetime         not null
