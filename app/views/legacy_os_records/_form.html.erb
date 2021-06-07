@@ -4,7 +4,7 @@
 data: {
   controller: "legacyos",
   target: "legacyos.form",
-  action: "ajax:beforeSend->legacyos#submitForm"
+  action: "submit->legacyos#submitForm"
 }) do |form| %>
   <% if @legacy_os_record.errors.any? %>
     <div id="error_explanation">
@@ -171,7 +171,7 @@ data: {
         </div>
       <% end %>
 
-      <div id="device_input" data-legacyos-target="system_device">
+      <div data-legacyos-target="system_device">
         <%= form.label "Add a device"%> - enter serial:
         <%= form.fields_for :device, @device do |device_attributes| %>
           <%= device_attributes.text_field :serial, :"data-legacyos-target" => "serial" %>
