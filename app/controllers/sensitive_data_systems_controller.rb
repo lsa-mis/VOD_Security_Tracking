@@ -16,8 +16,6 @@ class SensitiveDataSystemsController < InheritedResources::Base
     add_breadcrumb(@sensitive_data_system.id)
   end
 
-  end
-
   def new
     @sensitive_data_system = SensitiveDataSystem.new
     @device = Device.new
@@ -93,6 +91,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
         format.turbo_stream
       end
     end
+  end
 
   def archive
     @sensitive_data_system = SensitiveDataSystem.find(params[:id])
