@@ -33,18 +33,33 @@ require 'rails_helper'
 RSpec.describe LegacyOsRecord, type: :model do
   let!(:device) { FactoryBot.create(:device) }
   let!(:data_classification_level) { FactoryBot.create(:data_classification_level) }
-  # let!(:data_type) { FactoryBot.create(:data_type, { data_classification_level: data_classification_level }) }
-  let!(:data_type) { FactoryBot.create(:data_type )}
+  let!(:data_type) { FactoryBot.create(:data_type, { data_classification_level: data_classification_level }) }
+  # let(:legacy_os_record) {FactoryBot.build :legacy_os_record}
 
   it "is valid with valid attributes" do
-    expect(LegacyOsRecord.new(device: device, data_type: data_type)).to be_valid
+    expect(LegacyOsRecord.new(owner_username: "brita", owner_full_name: "Rita Barvinok",
+                              dept: "Dept", phone: "123-345-6789",
+                              unique_app: "unique_app",
+                              device: device)).to be_valid
+    # legacy_os_record = FactoryBot.build(:legacy_os_record)
+    # expect(legacy_os_record).to be_valid
   end
   
   it "is not valid without a device" do
-    expect(LegacyOsRecord.new(data_type: data_type)).to_not be_valid
+    # legacy_os_record = FactoryBot.build(:legacy_os_record)
+    # legacy_os_record.device_id = nil
+    # expect(legacy_os_record).to_not be_valid
+    expect(LegacyOsRecord.new(owner_username: "brita", owner_full_name: "Rita Barvinok", remediation: "remediation", 
+                              review_contact: "review_contact", dept: "Dept", phone: "123-345-6789", support_poc: "support_poc",
+                              unique_date: "2021-03-19 16:50:16", unique_app: "unique_app",
+                              data_type: data_type)).to_not be_valid
   end
 
-  it "is not valid without a data_type" do
-    expect(LegacyOsRecord.new(device: device)).to_not be_valid
-  end
+  # it "is not valid without a data_type" do
+  #   expect(LegacyOsRecord.new(owner_username: "brita", owner_full_name: "Rita Barvinok", remediation: "remediation", 
+  #                             review_contact: "review_contact", dept: "Dept", phone: "123-345-6789", support_poc: "support_poc",
+  #                             unique_date: "2021-03-19 16:50:16", unique_app: "unique_app",
+  #                             device: device)).to_not be_valid
+  # end
+
 end
