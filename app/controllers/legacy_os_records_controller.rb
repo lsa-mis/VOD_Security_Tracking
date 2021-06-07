@@ -27,7 +27,7 @@ class LegacyOsRecordsController < InheritedResources::Base
     if legacy_os_record_params[:tdx_ticket][:ticket_link].present?
       @legacy_os_record.tdx_tickets.new(ticket_link: legacy_os_record_params[:tdx_ticket][:ticket_link])
     end
-    @device = @legacy_os_record.build_device 
+    @device = @legacy_os_record.build_device(legacy_os_record_params[:device_attributes])
     serial = legacy_os_record_params[:device_attributes][:serial]
     hostname = legacy_os_record_params[:device_attributes][:hostname]
 
