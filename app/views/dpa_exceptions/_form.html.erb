@@ -148,7 +148,7 @@
 
       <div class="field">
         <%= form.label :data_type_id %>
-        <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}   %>
+        <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"} %>
       </div>
 
       <%= form.fields_for @dpa_exception.tdx_tickets.new do |f| %>

@@ -23,14 +23,14 @@
               <%= link_to 'Admin Dashboard', admin_root_path, class: "footer-link mt-2 pr-4" %>
             </li>
             <li>
-              <%= link_to destroy_admin_user_session_path, class: "footer-link", method: :delete do  %>
+              <%= link_to destroy_admin_user_session_path, class: "footer-link", method: :delete do %>
                 <%= render :partial => 'svg/open_padlock' %>
                 <span>Admin Sign_out</span>
               <% end %>
             </li>
           </ul>
         <% else %>
-          <%= link_to new_admin_user_session_path, class: "text-gray-500" do  %>
+          <%= link_to new_admin_user_session_path, class: "text-gray-500" do %>
             <div class= "inline-block align-middle ">
               <%= render :partial => 'svg/closed_padlock' %> 
             </div>
