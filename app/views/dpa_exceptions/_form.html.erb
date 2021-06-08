@@ -118,6 +118,26 @@
       </div>
 
       <div class="field">
+        <%= form.label :data_type_id %>
+        <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}   %>
+      </div>
+
+      <% if @dpa_exception.tdx_tickets.present? %>
+        <div>
+          <% @dpa_exception.tdx_tickets.each do |tdx| %>
+            <%= tdx.ticket_link %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <%= form.fields_for @dpa_exception.tdx_tickets.new do |f| %>
+        <div class="field">
+            <%= f.label :ticket_link, "Add a ticket link" %>
+            <%= f.text_field :ticket_link %>
+        </div>
+      <% end %>
+
+      <div class="field">
         <%= form.label :sla_agreement %>
         <%= form.text_field :sla_agreement %>
         <p class="help-text">Help text if needed</p>
@@ -148,26 +168,6 @@
           </dd>
         <% end %>
       </div>
-
-      <div class="field">
-        <%= form.label :data_type_id, class: "mandatory" %>
-        <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}, required: true   %>
-      </div>
-
-      <%= form.fields_for @tdx_ticket do |f| %>
-        <div class="field">
-            <%= f.label :ticket_link, "Add a ticket link" %>
-            <%= f.text_field :ticket_link %>
-        </div>
-      <% end %>
-
-      <% if @dpa_exception.tdx_tickets.present? %>
-        <div>
-          <% @dpa_exception.tdx_tickets.each do |tdx| %>
-            <%= tdx.ticket_link %>
-          <% end %>
-        </div>
-      <% end %>
 
       <div class="field">
         <%= form.label :attachments %>

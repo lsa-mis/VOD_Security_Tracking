@@ -15,6 +15,12 @@ class ApplicationController < ActionController::Base
     }
   end
 
+  def delete_file_attachment
+    @delete_file = ActiveStorage::Attachment.find(params[:id])
+    @delete_file.purge
+    redirect_back(fallback_location: request.referer)
+  end
+
   private
 
     def set_breadcrumbs

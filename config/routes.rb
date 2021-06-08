@@ -19,11 +19,15 @@ Rails.application.routes.draw do
     resources :tdx_tickets, module: :legacy_os_records
   end
 
-  get 'dpa_exceptions/audit_log', to: 'dpa_exceptions#audit_log'
-  get 'dpa_exceptions/delete_file_attachment/:id', to: 'dpa_exceptions#delete_file_attachment', as: :delete_sla_agreement
   resources :dpa_exceptions do
     resources :tdx_tickets, module: :dpa_exceptions
   end
+
+  resources :tdx_tickets
+
+  get 'dpa_exceptions/audit_log', to: 'dpa_exceptions#audit_log'
+  get 'application/delete_file_attachment/:id', to: 'application#delete_file_attachment', as: :delete_file
+
   
   post 'archive_it_security_incident/:id', to: 'it_security_incidents#archive', as: :archive_it_security_incident
   post 'archive_sensitive_data_system/:id', to: 'sensitive_data_systems#archive', as: :archive_sensitive_data_system

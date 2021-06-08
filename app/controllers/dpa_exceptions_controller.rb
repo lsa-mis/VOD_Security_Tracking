@@ -22,7 +22,11 @@ class DpaExceptionsController < InheritedResources::Base
 
   def create 
     @dpa_exception = DpaException.new(dpa_exception_params.except(:tdx_ticket))
-    @dpa_exception.tdx_tickets.new(ticket_link: dpa_exception_params[:tdx_ticket][:ticket_link])
+    if dpa_exception_params[:tdx_ticket][:ticket_link].present?
+      @dpa_exception.tdx_tickets.new(
+          ticket_link: dpa_exception_params[:tdx_ticket][:ticket_link]
+        )
+    end
     respond_to do |format|
       if @dpa_exception.save 
         format.html { redirect_to dpa_exception_path(@dpa_exception), 
@@ -47,13 +51,16 @@ class DpaExceptionsController < InheritedResources::Base
 
   def update
     if dpa_exception_params[:tdx_ticket][:ticket_link].present?
-      @dpa_exception.tdx_tickets.create(ticket_link: dpa_exception_params[:tdx_ticket][:ticket_link])
+      @dpa_exception.tdx_tickets.create(
+          ticket_link: dpa_exception_params[:tdx_ticket][:ticket_link]
+        )
     end
     respond_to do |format|
       if @dpa_exception.update(dpa_exception_params.except(:tdx_ticket))
-        Rails.logger.info(@dpa_exception.errors.inspect) 
-        format.html { redirect_to @dpa_exception, notice: 'dpa exception record was successfully updated. ' }
-        format.json { render :show, status: :created, location: @dpa_exception }
+        format.turbo_stream{ 
+            redirect_to @dpa_exception, 
+            notice: 'dpa exception record was successfully updated. ' 
+          }
       else
         format.html { render :edit }
         format.json { render json: @dpa_exception.errors, status: :unprocessable_entity }
@@ -83,12 +90,6 @@ class DpaExceptionsController < InheritedResources::Base
   
   def audit_log
     @dpa_exceptions = DpaException.all
-  end
-
-  def delete_file_attachment
-    @delete_file = ActiveStorage::Attachment.find(params[:id])
-    @delete_file.purge
-    redirect_back(fallback_location: request.referer)
   end
 
   private
