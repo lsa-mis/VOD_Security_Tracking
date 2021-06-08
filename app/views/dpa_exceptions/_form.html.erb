@@ -14,36 +14,33 @@
   <div class="form-container">
     <div>
       <h3 class="instruction-header">
-        Special Fields
+        Form Instructions
       </h3>
-      <ul class="instruction-container">
-        <li class="mandatory">mandatory fields</li>
-        <li class="required">required fields => to save as an incomplete record without these fields click the [Save Incomplete Form] button.</li>
-      </ul>
+      <p>lsndn lksnsdj snnrew9ioqw\9, c diojslkmsdp odew-mw,mp owlf=w-9ke w,[osdk</p>
     </div>
 
     <div class="field-container">
       <div class="field">
-        <%= form.label :review_date_exception_first_approval_date, required: true, class: "required" %>
+        <%= form.label :review_date_exception_first_approval_date %>
         <%= form.text_field :review_date_exception_first_approval_date,
           data: {
             controller: "flatpickr",
             flatpickr_date_format: "Y-m-d",
             flatpickr_min_date: Time.zone.now
           },
-          required: true 
+          required: true
         %>
       </div>
 
       <div class="field">
-        <%= form.label :third_party_product_service, class: "mandatory" %>
-        <%= form.text_area :third_party_product_service, required: true  %>
+        <%= form.label :third_party_product_service %>
+        <%= form.text_area :third_party_product_service, required: true %>
         <p class="help-text">Help text if needed</p>
       </div>
 
       <div class="field">
-        <%= form.label :used_by, class: "required" %>
-        <%= form.text_field :used_by %>
+        <%= form.label :used_by%>
+        <%= form.text_field :used_by, required: true %>
         <p class="help-text">Help text if needed</p>
       </div>
 
@@ -78,19 +75,19 @@
       </div>
 
       <div class="field">
-        <%= form.label :lsa_security_approval, class: "required" %>
+        <%= form.label :lsa_security_approval%>
         <%= form.text_field :lsa_security_approval %>
         <p class="help-text">Help text if needed</p>
       </div>
 
       <div class="field">
-        <%= form.label :lsa_technology_services_approval, class: "required" %>
+        <%= form.label :lsa_technology_services_approval%>
         <%= form.text_field :lsa_technology_services_approval %>
         <p class="help-text">Help text if needed</p>
       </div>
 
       <div class="field">
-        <%= form.label :exception_approval_date_exception_renewal_date_due, class: "required" %>
+        <%= form.label :exception_approval_date_exception_renewal_date_due%>
         <%= form.text_field :exception_approval_date_exception_renewal_date_due,
           data: {
             controller: "flatpickr",
@@ -101,7 +98,7 @@
       </div>
 
       <div class="field">
-        <%= form.label :review_date_exception_review_date, class: "required" %>
+        <%= form.label :review_date_exception_review_date%>
         <%= form.text_field :review_date_exception_review_date,
           data: {
             controller: "flatpickr",
@@ -150,11 +147,11 @@
       </div>
 
       <div class="field">
-        <%= form.label :data_type_id, class: "mandatory" %>
-        <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}, required: true   %>
+        <%= form.label :data_type_id %>
+        <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"} %>
       </div>
 
-      <%= form.fields_for @tdx_ticket do |f| %>
+      <%= form.fields_for @dpa_exception.tdx_tickets.new do |f| %>
         <div class="field">
             <%= f.label :ticket_link, "Add a ticket link" %>
             <%= f.text_field :ticket_link %>
@@ -206,7 +203,6 @@
   <div class="action-area">
     <div class="actions">
       <%= form.submit %>
-      <button name="incomplete" class="btn-incomplete">Save Incomplete Form</button>
     </div>
   </div>
 <% end %>

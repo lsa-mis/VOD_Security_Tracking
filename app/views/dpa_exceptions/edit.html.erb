@@ -1,3 +1,5 @@
 <h1>Editing Dpa Exception</h1>
 
-<%= render 'form', locals: { dpa_exception: [@dpa_exception, @tdx_ticket] } %>
+<%= turbo_frame_tag "form", target: "_top" do %>
+  <%= render 'form', locals: { dpa_exception: [@dpa_exception, @tdx_ticket] } %>
+<% end %>

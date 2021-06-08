@@ -79,10 +79,12 @@
   <%= @sensitive_data_system.sensitive_data_system_type_id %>
 </p>
 
-<p>
-  <strong>Device:</strong>
-  <%= @sensitive_data_system.device_id %>
-</p>
+<% if @sensitive_data_system.device_id.present? %>
+  <p>
+    <strong>Device:</strong>
+    <%= @sensitive_data_system.device.display_name %>
+  </p>
+<% end %>
 
 <%= render partial: "partials/show_attachments", locals: {attached_files: @sensitive_data_system} %>
 

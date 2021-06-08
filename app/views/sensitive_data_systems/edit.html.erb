@@ -1,3 +1,5 @@
 <h1>Editing Sensitive Data System</h1>
 
-<%= render 'form', sensitive_data_system: @sensitive_data_system %>
+<%= turbo_frame_tag "form", target: "_top" do %>
+    <%= render 'form', locals: { sensitive_data_system: [@sensitive_data_system, @tdx_ticket] } %>
+<% end %>
