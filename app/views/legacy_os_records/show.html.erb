@@ -101,7 +101,7 @@
 
 <p>
   <strong>Device:</strong>
-  <%= @legacy_os_record.device_id %>
+  <%= @legacy_os_record.device.display_name %>
 </p>
 
 <%= render partial: "partials/show_attachments", locals: {attached_files: @legacy_os_record}, show_p: "legacy_os_record" %>
