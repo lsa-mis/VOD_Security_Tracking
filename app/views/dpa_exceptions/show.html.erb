@@ -143,7 +143,7 @@
         Data type
       </dt>
       <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @dpa_exception.data_type.display_name %></span>
+        <span class="flex-grow"><%= show_data_type_name(@dpa_exception) %></span>
       </dd>
     </div>
     
@@ -210,7 +210,7 @@
       <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
         <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
           <% if @dpa_exception.attachments.attached? %>
-            <% @dpa_exception.attachments.each do |ma|  %>
+            <% @dpa_exception.attachments.each do |ma| %>
               <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
                 <div class="w-0 flex-1 flex items-center">
                   <!-- Heroicon name: solid/paper-clip -->

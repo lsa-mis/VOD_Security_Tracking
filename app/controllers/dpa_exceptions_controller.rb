@@ -16,7 +16,6 @@ class DpaExceptionsController < InheritedResources::Base
 
   def new
     @dpa_exception = DpaException.new
-    @tdx_ticket = @dpa_exception.tdx_tickets.new
     authorize @dpa_exception
   end
 
@@ -29,13 +28,12 @@ class DpaExceptionsController < InheritedResources::Base
     end
     respond_to do |format|
       if @dpa_exception.save 
-        format.html { redirect_to dpa_exception_path(@dpa_exception), 
-                      notice: 'dpa exception record was successfully created. ' 
-                    }
-        format.json { render :show, status: :created, location: @dpa_exception }
+        format.turbo_stream { redirect_to dpa_exception_path(@dpa_exception), 
+          notice: 'dpa exception record was successfully created. ' 
+        }
       else
-        format.html { render :new }
-        format.json { render json: @dpa_exception.errors, status: :unprocessable_entity }
+        Rails.logger.info(@dpa_exception.errors.inspect)
+        format.turbo_stream
       end
     end
   end
@@ -62,11 +60,9 @@ class DpaExceptionsController < InheritedResources::Base
             notice: 'dpa exception record was successfully updated. ' 
           }
       else
-        format.html { render :edit }
-        format.json { render json: @dpa_exception.errors, status: :unprocessable_entity }
+        format.turbo_stream
       end
     end
-
   end
 
   def archive
@@ -74,16 +70,14 @@ class DpaExceptionsController < InheritedResources::Base
     authorize @dpa_exception
     respond_to do |format|
       if @dpa_exception.archive
-        format.html { redirect_to dpa_exceptions_path, 
+        format.turbo_stream { redirect_to dpa_exceptions_path, 
                       notice: 'dpa exception record was successfully archived.' 
                     }
-        format.json { head :no_content }
       else
         Rails.logger.info(@dpa_exception.errors.inspect) 
-        format.html { redirect_to dpa_exceptions_path, 
+        format.turbo_stream { redirect_to dpa_exceptions_path, 
                       alert: 'error archiving dpa exception record.' 
                     }
-        format.json { head :no_content }
       end
     end
   end
@@ -96,7 +90,7 @@ class DpaExceptionsController < InheritedResources::Base
   
     def set_membership
       current_user.membership = session[:user_memberships]
-      logger.debug "************ in DPA_EXCEPTION current_user.membership ***** #{current_user.membership}"
+      # logger.debug "************ in DPA_EXCEPTION current_user.membership ***** #{current_user.membership}"
     end
 
     def set_dpa_exception

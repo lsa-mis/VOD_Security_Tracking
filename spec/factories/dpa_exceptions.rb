@@ -16,7 +16,7 @@
 #  exception_approval_date_exception_renewal_date_due :datetime
 #  notes                                              :string(255)
 #  sla_agreement                                      :string(255)
-#  data_type_id                                       :bigint           not null
+#  data_type_id                                       :bigint
 #  created_at                                         :datetime         not null
 #  updated_at                                         :datetime         not null
 #  deleted_at                                         :datetime

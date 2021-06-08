@@ -1,61 +1,35 @@
-<footer class="w-full h-auto pin-b">
-  <div>
-    <div class="flex">
-      <div class="w-1/3 pl-4">
-      </div>
-      <div class="w-1/3 mt-2 mx-auto flex justify-center">
-            <div class="display: flex;flex-direction: row; flex-wrap: nowrap; justify-content: space-between; align-content: center; align-items: center;">
-              <div class="order: 0;flex: 0 2 auto;align-self: auto;">
-                <svg class="flex-shrink-0 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
-                </svg>
-                <span>734.615.0100</span> 
-              </div>
-              <div class="order: 1;flex: 0 2 auto;align-self: auto;">
-                <svg class="flex-shrink-0 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
-                </svg>
-                <span>
-                  <%= mail_to "LSATechnologyServices@umich.edu","LSATechnologyServices@umich.edu", class: "footer-link" %>
-                </span>
-              </div>
-              <div class="order: 2;flex: 0 2 auto;align-self: auto">
-                <svg class="flex-shrink-0 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
-                </svg>
-                <span>
-                  <%= link_to "Report Issue", "#" %>
-                </span>
-              </div>
-            </div>
-      </div>
-      <div class="w-1/3 flex justify-end items-start mr-4">
-        <% if admin_user_signed_in? %>
-          <ul>
-            <li>
-              <%= link_to 'Admin Dashboard', admin_root_path, class: "footer-link mt-2 pr-4" %>
-            </li>
-            <li>
-              <%= link_to destroy_admin_user_session_path, class: "footer-link", method: :delete do  %>
-                <%= render :partial => 'svg/open_padlock' %>
-                <span>Admin Sign_out</span>
-              <% end %>
-            </li>
-          </ul>
-        <% else %>
-          <%= link_to new_admin_user_session_path, class: "text-gray-500" do  %>
-            <div class= "inline-block align-middle ">
-              <%= render :partial => 'svg/closed_padlock' %> 
-            </div>
-            <div class= "inline-block align-middle"> - Admin Login</div>
-          <% end %>
-        <% end %>
-      </div>
+<footer class="footer-grid-container text-sm text-gray-700 p-4">
+  <div class="footer-left">
+  </div>
+  <div class="footer-center">
+    <div class="inline-block">
+      <i class="ml-2 inline-block fa fa-phone" aria-hidden="true""></i>
+      <span>734.615.0100</span>
+      <i class="ml-2 inline-block fa fa-envelope" aria-hidden="true""></i>
+      <span><%= mail_to "LSATechnologyServices@umich.edu", "LSATechnologyServices@umich.edu", class: "footer-link" %></span>
+      <i class="ml-2 inline-block fa fa-comments" aria-hidden="true""></i>
+      <span>Report Issue</span>
     </div>
-    <div class="w-full flex justify-center text-sm">
-      <div class="copyright">
-        Copyright <%= Time.now.year %> | <%= link_to 'The Regents of the University of Michigan', 'https://regents.umich.edu', class: "footer-link" %>
-      </div>
+  </div>
+  <div class="footer-right">
+    <div class="inline-block">
+      <% if admin_user_signed_in? %>
+        <%= link_to 'Admin Dashboard', admin_root_path, class: "footer-link mt-2 pr-4" %>
+          <%= link_to destroy_admin_user_session_path, class: "footer-link", method: :delete do  %>
+            <%= render :partial => 'svg/open_padlock' %>
+              <span>Admin Sign_out</span>
+          <% end %>
+      <% else %>
+        <%= link_to new_admin_user_session_path, class: "text-gray-500" do  %>
+          <%= render :partial => 'svg/closed_padlock' %> 
+          <span>Admin Login</span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="footer-copyright w-full flex justify-center text-sm">
+    <div class="copyright">
+      Copyright <%= Time.now.year %> | <%= link_to 'The Regents of the University of Michigan', 'https://regents.umich.edu', class: "footer-link" %>
     </div>
   </div>
 </footer>

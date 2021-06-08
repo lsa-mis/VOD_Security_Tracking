@@ -11,5 +11,13 @@ module ApplicationHelper
     end
     (user.membership & ldap_groups).any?
   end
-  
+
+  def show_data_type_name(resource)
+    if resource.data_type
+      resource.data_type.display_name
+    else
+      "No data type has been selected"
+    end
+  end 
+
 end
