@@ -16,6 +16,7 @@ class AccessLookup < ApplicationRecord
     :newedit_action,
     :show_action,
     :archive_action,
+    :audit_action,
     :all_actions
   ]
   enum table: [
