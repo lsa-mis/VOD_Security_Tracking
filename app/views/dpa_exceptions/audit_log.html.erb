@@ -18,7 +18,11 @@
         <tr>
         <td><%= audit.action %></td>
         <td><%= audit.created_at %></td>
-        <td><%= audit.user_id %></td>
+        <% if User.find_by(id: audit.user_id).present? %>
+            <td><%= User.find_by(id: audit.user_id).username %></td>
+        <% else %> 
+            <td><%= audit.user_id %></td>
+        <% end %>
         <td>
             <% audit.audited_changes.each do |k, v| %>
                 <%= k.titleize %>
