@@ -5,7 +5,6 @@
 <table>
   <thead>
     <tr>
-      <th>Record</th>
       <th>Type</th>
       <th>When</th>
       <th>Who(user_id)</th>
@@ -15,27 +14,24 @@
   </thead>
 
   <tbody>
-    <% @dpa_exceptions.each do |dpa_exception| %>
-        <tr><td><%= link_to dpa_exception.id, dpa_exception %></td>
-            <% dpa_exception.audits.all.order(:created_at).each do | audit| %>
-                <td><%= audit.action %></td>
-                <td><%= audit.created_at %></td>
-                <td><%= audit.user_id %></td>
-                <td>
-                    <% audit.audited_changes.each do |k, v| %>
-                        <%= k.titleize %>
-                        <% if v.is_a? Array %>
-                            <strong>from:</strong> <%= v[0] %>
-                            <strong>to:</strong> <%= v[1] %>
-                        <% else %>
-                            <strong>to:</strong> <%= v %>
-                        <% end %>
-                        <br>
-                    <% end %>
-                </td>
-                </tr><tr><td></td>
-        <% end %>
-        </tr>
+    <% @dpa_exception.audits.all.order(:created_at).each do | audit| %>
+        <tr>
+        <td><%= audit.action %></td>
+        <td><%= audit.created_at %></td>
+        <td><%= audit.user_id %></td>
+        <td>
+            <% audit.audited_changes.each do |k, v| %>
+                <%= k.titleize %>
+                <% if v.is_a? Array %>
+                    <strong>from:</strong> <%= v[0] %>
+                    <strong>to:</strong> <%= v[1] %>
+                <% else %>
+                    <strong>to:</strong> <%= v %>
+                <% end %>
+                <br>
+            <% end %>
+        </td>
+        </tr><tr><td></td>
     <% end %>
 </tbody>
 </table>
