@@ -80,6 +80,8 @@ class DpaExceptionsController < InheritedResources::Base
       dpa_exception_path(@dpa_exception)
                   )
     add_breadcrumb('Audit')
+
+    @dpa_item_audit_log = @dpa_exception.audits.all.order(:created_at)
   end
 
   def delete_file_attachment

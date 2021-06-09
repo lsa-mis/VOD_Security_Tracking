@@ -14,7 +14,7 @@
   </thead>
 
   <tbody>
-    <% @dpa_exception.audits.all.order(:created_at).each do | audit| %>
+    <% @dpa_item_audit_log.each do | audit| %>
         <tr>
           <td class="audit_table"><%= audit.action %></td>
           <td class="audit_table"><%= audit.created_at.strftime('%c - %Z') %></td>
