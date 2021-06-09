@@ -8,6 +8,7 @@ class DpaExceptionsController < InheritedResources::Base
 
   def index
     @dpa_exceptions = DpaException.active
+    authorize @dpa_exceptions
   end
 
   def show
