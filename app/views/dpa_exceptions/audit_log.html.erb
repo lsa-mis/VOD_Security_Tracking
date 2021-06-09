@@ -27,8 +27,13 @@
             <% audit.audited_changes.each do |k, v| %>
                 <%= k.titleize %>
                 <% if v.is_a? Array %>
-                    <strong>from:</strong> <%= v[0] %>
-                    <strong>to:</strong> <%= v[1] %>
+                    <% if k == "data_type_id" %>
+                        <strong>from:</strong> <%= DataType.find(v[0]).name %>
+                        <strong>to:</strong> <%= DataType.find(v[1]).name %>
+                    <% else %>
+                        <strong>from:</strong> <%= v[0] %>
+                        <strong>to:</strong> <%= v[1] %>
+                    <% end %>
                 <% else %>
                     <strong>to:</strong> <%= v %>
                 <% end %>
