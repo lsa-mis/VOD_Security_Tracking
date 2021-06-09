@@ -9,29 +9,30 @@
       <th>When</th>
       <th>Who(user_id)</th>
       <th>What changed</th>
-      <th></th>
+      <th>IP Address</th>
     </tr>
   </thead>
 
   <tbody>
     <% @dpa_exception.audits.all.order(:created_at).each do | audit| %>
         <tr>
-        <td><%= audit.action %></td>
-        <td><%= audit.created_at %></td>
-        <td><%= user_name_email(audit.user_id) %></td>
-        <td>
-            <% audit.audited_changes.each do |k, v| %>
-                <%= k.titleize %>
-                <% if v.is_a? Array %>
-                    <strong>from:</strong> <%= v[0] %>
-                    <strong>to:</strong> <%= v[1] %>
-                <% else %>
-                    <strong>to:</strong> <%= v %>
-                <% end %>
-                <br>
-            <% end %>
-        </td>
-        </tr><tr><td></td>
+          <td class="audit_table"><%= audit.action %></td>
+          <td class="audit_table"><%= audit.created_at.strftime('%c - %Z') %></td>
+          <td class="audit_table"><%= user_name_email(audit.user_id) %></td>
+          <td class="audit_table">
+              <% audit.audited_changes.each do |k, v| %>
+                  <%= k.titleize %>
+                  <% if v.is_a? Array %>
+                      <strong>from:</strong> <%= v[0] %>
+                      <strong>to:</strong> <%= v[1] %>
+                  <% else %>
+                      <strong>to:</strong> <%= v %>
+                  <% end %>
+                  <br>
+              <% end %>
+          </td>
+          <td class="audit_table"><%= audit.remote_address %></td>
+        </tr>
     <% end %>
 </tbody>
 </table>
