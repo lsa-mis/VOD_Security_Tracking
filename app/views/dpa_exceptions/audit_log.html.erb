@@ -18,15 +18,28 @@
         <tr>
           <td class="audit_table"><%= audit.action %></td>
           <td class="audit_table"><%= audit.created_at.strftime('%c - %Z') %></td>
-          <td class="audit_table"><%= user_name_email(audit.user_id) %></td>
+          <% if User.find_by(id: audit.user_id).present? %>
+            <td class="audit_table"><%= user_name_email(audit.user_id) %></td>
+          <% else %> 
+            <td><%= audit.user_id %></td>
+          <% end %>
           <td class="audit_table">
               <% audit.audited_changes.each do |k, v| %>
                   <%= k.titleize %>
                   <% if v.is_a? Array %>
-                      <strong>from:</strong> <%= v[0] %>
-                      <strong>to:</strong> <%= v[1] %>
+                    <% if k == "data_type_id" %>
+                        <strong>from:</strong> <%= DataType.find(v[0]).name %>
+                        <strong>to:</strong> <%= DataType.find(v[1]).name %>
+                    <% else %>
+                        <strong>from:</strong> <%= v[0] %>
+                        <strong>to:</strong> <%= v[1] %>
+                    <% end %>
                   <% else %>
-                      <strong>to:</strong> <%= v %>
+                    <% if k == "data_type_id" %>
+                        <strong>from:</strong> <%= DataType.find(v).name %>
+                    <% else %>
+                        <strong>to:</strong> <%= v %>
+                    <% end %>
                   <% end %>
                   <br>
               <% end %>
