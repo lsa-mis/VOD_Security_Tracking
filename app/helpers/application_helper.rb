@@ -18,6 +18,10 @@ module ApplicationHelper
     else
       "No data type has been selected"
     end
-  end 
+  end
+
+  def user_name_email(id)
+    User.find(id).display_name
+  end
 
 end

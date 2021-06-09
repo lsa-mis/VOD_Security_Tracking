@@ -21,8 +21,8 @@ class DpaExceptionPolicy < ApplicationPolicy
       (user.membership & @ldap_group).any?
     end
 
-    # def show?
-    #   get_ldap_groups('dpa_exceptions', 'show_action')
-    #   (user.membership & @ldap_group).any?
-    # end
+    def audit_log?
+      get_ldap_groups('dpa_exceptions', 'audit_action')
+      (user.membership & @ldap_group).any?
+    end
   end

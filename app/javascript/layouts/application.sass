@@ -48,7 +48,7 @@ a
   @apply inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
 
 table
-  @apply min-w-full divide-y divide-gray-200 table-auto
+  @apply min-w-full divide-y divide-gray-200 table-fixed
 
   thead
     @apply bg-gray-50 
@@ -59,11 +59,11 @@ table
   tbody
     @apply bg-white divide-y divide-gray-200
     
-    tr
+    td
+      @apply px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900
 
-      td
-        @apply px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900
-
+      &.audit_table
+        @apply text-xs
 
 .footer-grid-container
   display: grid

@@ -48,6 +48,9 @@
                       <% if has_ad_access?(current_user, "dpa_exceptions", "archive_action") %>
                         <li><%= link_to 'Archive', archive_dpa_exception_path(dpa_exception), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
                       <% end %>
+                      <% if has_ad_access?(current_user, "dpa_exceptions", "audit_action") %>
+                        <li><%= link_to 'Audit', dpa_exception_audit_log_path(dpa_exception), class: "action-link" %></li>
+                      <% end %>
                     </ul>
                   </td> 
                   <td><%= dpa_exception.review_date_exception_first_approval_date %></td>

@@ -28,6 +28,10 @@ class User < ApplicationRecord
   devise :ldap_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :timeoutable, :lockable
 
+  def display_name
+    "#{self.username} - #{email}"
+  end
+
   private
  
   def set_email_address

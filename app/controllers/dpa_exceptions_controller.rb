@@ -2,8 +2,8 @@ class DpaExceptionsController < InheritedResources::Base
 
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
-  before_action :set_dpa_exception, only: [:show, :edit, :update, :archive]
-  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
+  before_action :set_dpa_exception, only: [:show, :edit, :update, :archive, :audit_log]
+  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_membership
 
   def index
@@ -59,7 +59,6 @@ class DpaExceptionsController < InheritedResources::Base
   end
 
   def archive
-    @dpa_exception = DpaException.find(params[:id])
     authorize @dpa_exception
     respond_to do |format|
       if @dpa_exception.archive
@@ -74,9 +73,15 @@ class DpaExceptionsController < InheritedResources::Base
       end
     end
   end
-  
+
   def audit_log
-    @dpa_exceptions = DpaException.all
+    authorize @dpa_exception
+    add_breadcrumb(@dpa_exception.third_party_product_service, 
+      dpa_exception_path(@dpa_exception)
+                  )
+    add_breadcrumb('Audit')
+
+    @dpa_item_audit_log = @dpa_exception.audits.all.reorder(created_at: :desc)
   end
 
   def delete_file_attachment
