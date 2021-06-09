@@ -35,7 +35,11 @@
                         <strong>to:</strong> <%= v[1] %>
                     <% end %>
                   <% else %>
-                      <strong>to:</strong> <%= v %>
+                    <% if k == "data_type_id" %>
+                        <strong>from:</strong> <%= DataType.find(v).name %>
+                    <% else %>
+                        <strong>to:</strong> <%= v %>
+                    <% end %>
                   <% end %>
                   <br>
               <% end %>
