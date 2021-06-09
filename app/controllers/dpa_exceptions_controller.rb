@@ -81,7 +81,7 @@ class DpaExceptionsController < InheritedResources::Base
                   )
     add_breadcrumb('Audit')
 
-    @dpa_item_audit_log = @dpa_exception.audits.all.order(:created_at)
+    @dpa_item_audit_log = @dpa_exception.audits.all.reorder(created_at: :desc)
   end
 
   def delete_file_attachment
