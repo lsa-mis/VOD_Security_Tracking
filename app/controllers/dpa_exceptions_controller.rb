@@ -3,7 +3,7 @@ class DpaExceptionsController < InheritedResources::Base
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
   before_action :set_dpa_exception, only: [:show, :edit, :update, :archive, :audit_log]
-  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
+  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_membership
 
   def index
@@ -76,8 +76,8 @@ class DpaExceptionsController < InheritedResources::Base
 
   def audit_log
     authorize @dpa_exception
-    add_breadcrumb(@dpa_exception.id,
-                  dpa_exception_path(@dpa_exception)
+    add_breadcrumb(@dpa_exception.third_party_product_service, 
+      dpa_exception_path(@dpa_exception)
                   )
     add_breadcrumb('Audit')
   end

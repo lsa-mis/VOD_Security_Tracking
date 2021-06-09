@@ -9,24 +9,24 @@
       <th>When</th>
       <th>Who(user_id)</th>
       <th>What changed</th>
-      <th></th>
+      <th>IP Address</th>
     </tr>
   </thead>
 
   <tbody>
     <% @dpa_exception.audits.all.order(:created_at).each do | audit| %>
         <tr>
-        <td><%= audit.action %></td>
-        <td><%= audit.created_at %></td>
-        <% if User.find_by(id: audit.user_id).present? %>
-            <td><%= User.find_by(id: audit.user_id).username %></td>
-        <% else %> 
+          <td class="audit_table"><%= audit.action %></td>
+          <td class="audit_table"><%= audit.created_at.strftime('%c - %Z') %></td>
+          <% if User.find_by(id: audit.user_id).present? %>
+            <td class="audit_table"><%= user_name_email(audit.user_id) %></td>
+          <% else %> 
             <td><%= audit.user_id %></td>
-        <% end %>
-        <td>
-            <% audit.audited_changes.each do |k, v| %>
-                <%= k.titleize %>
-                <% if v.is_a? Array %>
+          <% end %>
+          <td class="audit_table">
+              <% audit.audited_changes.each do |k, v| %>
+                  <%= k.titleize %>
+                  <% if v.is_a? Array %>
                     <% if k == "data_type_id" %>
                         <strong>from:</strong> <%= DataType.find(v[0]).name %>
                         <strong>to:</strong> <%= DataType.find(v[1]).name %>
@@ -34,13 +34,14 @@
                         <strong>from:</strong> <%= v[0] %>
                         <strong>to:</strong> <%= v[1] %>
                     <% end %>
-                <% else %>
-                    <strong>to:</strong> <%= v %>
-                <% end %>
-                <br>
-            <% end %>
-        </td>
-        </tr><tr><td></td>
+                  <% else %>
+                      <strong>to:</strong> <%= v %>
+                  <% end %>
+                  <br>
+              <% end %>
+          </td>
+          <td class="audit_table"><%= audit.remote_address %></td>
+        </tr>
     <% end %>
 </tbody>
 </table>
