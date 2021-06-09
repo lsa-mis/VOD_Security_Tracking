@@ -18,7 +18,7 @@
         <tr>
         <td><%= audit.action %></td>
         <td><%= audit.created_at %></td>
-        <td><%= audit.user_id %></td>
+        <td><%= user_name_email(audit.user_id) %></td>
         <td>
             <% audit.audited_changes.each do |k, v| %>
                 <%= k.titleize %>
