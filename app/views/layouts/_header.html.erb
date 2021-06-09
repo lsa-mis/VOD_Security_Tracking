@@ -10,13 +10,13 @@
             <% if has_ad_access?(current_user, "dpa_exceptions") %>
               <%= link_to "DPA Exceptions", dpa_exceptions_path, class: "mr-4" %>
             <% end %>
-            <% if has_ad_access?(current_user, "it_security_incidents", "show_action") %>
+            <% if has_ad_access?(current_user, "it_security_incidents") %>
               <%= link_to "It Security Incidents", it_security_incidents_path, class: "mr-4" %>
             <% end %>
-            <% if has_ad_access?(current_user, "legacy_os_records", "show_action") %>
+            <% if has_ad_access?(current_user, "legacy_os_records") %>
               <%= link_to "Legacy Os Record", legacy_os_records_path, class: "mr-4" %>
             <% end %>
-            <% if has_ad_access?(current_user, "sensitive_data_systems", "show_action") %>
+            <% if has_ad_access?(current_user, "sensitive_data_systems") %>
               <%= link_to "Sensitive Data System", sensitive_data_systems_path, class: "mr-4" %>
             <% end %>
         <% end %>

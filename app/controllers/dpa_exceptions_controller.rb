@@ -8,10 +8,12 @@ class DpaExceptionsController < InheritedResources::Base
 
   def index
     @dpa_exceptions = DpaException.active
+    authorize @dpa_exceptions
   end
 
   def show
     add_breadcrumb(@dpa_exception.third_party_product_service)
+    authorize @dpa_exception
   end
 
   def new
