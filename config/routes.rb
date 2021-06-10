@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     resources :tdx_tickets, module: :sensitive_data_systems
   end
 
+  get 'legacy_os_records/audit_log/:id', to: 'legacy_os_records#audit_log', as: :legacy_os_record_audit_log
   resources :legacy_os_records do
     resources :tdx_tickets, module: :legacy_os_records
   end

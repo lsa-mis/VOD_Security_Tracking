@@ -1,9 +1,9 @@
 class LegacyOsRecordsController < InheritedResources::Base
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
-  before_action :set_legacy_os_record, only: [:show, :edit, :update, :archive]
+  before_action :set_legacy_os_record, only: [:show, :edit, :update, :archive, :audit_log]
   before_action :get_access_token, only: [:create, :update]
-  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
+  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_membership
 
   include SaveRecordWithDevice
@@ -104,7 +104,13 @@ class LegacyOsRecordsController < InheritedResources::Base
   end
   
   def audit_log
-    @legacy_os_records = LegacyOsRecord.all
+    authorize @legacy_os_record
+    add_breadcrumb(@legacy_os_record.id, 
+      legacy_os_record_path(@legacy_os_record)
+                  )
+    add_breadcrumb('Audit')
+
+    @legacy_os_item_audit_log = @legacy_os_record.audits.all.reorder(created_at: :desc)
   end
 
   private

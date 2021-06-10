@@ -52,6 +52,9 @@
                       <% if has_ad_access?(current_user, "legacy_os_records", "archive_action") %>
                         <li><%= link_to 'Archive', archive_legacy_os_record_path(legacy_os_record), class: "action-link", method: :post, data: { confirm: 'Are you sure?' } %></li>
                       <% end %>
+                      <% if has_ad_access?(current_user, "legacy_os_records", "audit_action") %>
+                        <li><%= link_to 'Audit', legacy_os_record_audit_log_path(legacy_os_record), class: "action-link" %></li>
+                      <% end %>
                     </ul>
                   </td>
                   <td><%= legacy_os_record.owner_username %></td>
