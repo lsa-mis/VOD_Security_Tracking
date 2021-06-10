@@ -12,9 +12,12 @@ Rails.application.routes.draw do
   resources :it_security_incidents do
     resources :tdx_tickets, module: :it_security_incidents
   end
+
+  get 'sensitive_data_systems/audit_log/:id', to: 'sensitive_data_systems#audit_log', as: :sensitive_data_system_audit_log
   resources :sensitive_data_systems do
     resources :tdx_tickets, module: :sensitive_data_systems
   end
+
   resources :legacy_os_records do
     resources :tdx_tickets, module: :legacy_os_records
   end

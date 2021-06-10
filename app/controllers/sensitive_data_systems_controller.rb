@@ -1,9 +1,9 @@
 class SensitiveDataSystemsController < InheritedResources::Base
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
-  before_action :set_sensitive_data_system, only: [:show, :edit, :update, :archive]
+  before_action :set_sensitive_data_system, only: [:show, :edit, :update, :archive, :audit_log]
   before_action :get_access_token, only: [:create, :update]
-  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
+  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_membership
 
   include SaveRecordWithDevice
@@ -108,7 +108,13 @@ class SensitiveDataSystemsController < InheritedResources::Base
   end
   
   def audit_log
-    @sensitive_data_systems = SensitiveDataSystem.all
+    authorize @sensitive_data_system
+    add_breadcrumb(@sensitive_data_system.id, 
+      sensitive_data_system_path(@sensitive_data_system)
+                  )
+    add_breadcrumb('Audit')
+
+    @sensitive_ds_item_audit_log = @sensitive_data_system.audits.all.reorder(created_at: :desc)
   end
 
   private
