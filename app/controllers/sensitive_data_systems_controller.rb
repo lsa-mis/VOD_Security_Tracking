@@ -10,10 +10,12 @@ class SensitiveDataSystemsController < InheritedResources::Base
 
   def index
     @sensitive_data_systems = SensitiveDataSystem.active
+    authorize @sensitive_data_systems
   end
 
   def show
     add_breadcrumb(@sensitive_data_system.id)
+    authorize @sensitive_data_system
   end
 
   def new
@@ -63,7 +65,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
     else
       respond_to do |format|
         if @sensitive_data_system.save 
-          format.turbo_stream { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Sensitive data system record was successfully created. ' }
+          format.turbo_stream { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Sensitive Data System record was successfully created.' }
         else
           format.turbo_stream
         end
@@ -96,12 +98,12 @@ class SensitiveDataSystemsController < InheritedResources::Base
   def archive
     @sensitive_data_system = SensitiveDataSystem.find(params[:id])
     authorize @sensitive_data_system
-    if @sensitive_data_system.archive
-      respond_to do |format|
-        format.turbo_stream { redirect_to sensitive_data_systems_path, notice: 'Sensitive data system record was successfully archived.' }
+    respond_to do |format|
+      if @sensitive_data_system.archive
+        format.turbo_stream { redirect_to sensitive_data_systems_path, notice: 'Sensitive Data System record was successfully archived.' }
+      else
+        format.turbo_stream { redirect_to sensitive_data_systems_path, alert: 'Error archiving Sensitive Data System record.' }
       end
-    else
-      format.turbo_stream { redirect_to sensitive_data_systems_path, alert: 'Error archiving sensitive data system record.' }
     end
   end
   
