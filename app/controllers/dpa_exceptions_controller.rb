@@ -29,10 +29,10 @@ class DpaExceptionsController < InheritedResources::Base
     respond_to do |format|
       if @dpa_exception.save 
         format.turbo_stream { redirect_to dpa_exception_path(@dpa_exception), 
-          notice: 'dpa exception record was successfully created. ' 
+          notice: 'DPA Exception record was successfully created.' 
         }
       else
-        Rails.logger.info(@dpa_exception.errors.inspect)
+        # Rails.logger.info(@dpa_exception.errors.inspect)
         format.turbo_stream
       end
     end
@@ -53,7 +53,7 @@ class DpaExceptionsController < InheritedResources::Base
     end
     respond_to do |format|
       if @dpa_exception.update(dpa_exception_params.except(:tdx_ticket))
-        format.turbo_stream { redirect_to @dpa_exception, notice: 'dpa exception record was successfully updated. ' }
+        format.turbo_stream { redirect_to @dpa_exception, notice: 'DPA Exception record was successfully updated. ' }
       else
         format.turbo_stream
       end
@@ -65,12 +65,12 @@ class DpaExceptionsController < InheritedResources::Base
     respond_to do |format|
       if @dpa_exception.archive
         format.turbo_stream { redirect_to dpa_exceptions_path, 
-                      notice: 'dpa exception record was successfully archived.' 
+                      notice: 'DPA Exception record was successfully archived.' 
                     }
       else
         Rails.logger.info(@dpa_exception.errors.inspect) 
         format.turbo_stream { redirect_to dpa_exceptions_path, 
-                      alert: 'error archiving dpa exception record.' 
+                      alert: 'Error archiving DPA Exception record.' 
                     }
       end
     end
