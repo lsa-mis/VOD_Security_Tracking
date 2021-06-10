@@ -31,4 +31,8 @@ class ItSecurityIncidentPolicy < ApplicationPolicy
       (user.membership & @ldap_groups).any?
     end
     
+    def audit_log?
+      get_ldap_groups('it_security_incidents', 'audit_action')
+      (user.membership & @ldap_groups).any?
+    end
   end

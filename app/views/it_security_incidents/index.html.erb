@@ -40,6 +40,9 @@
                       <% if has_ad_access?(current_user, "it_security_incidents", "archive_action") %>
                         <li><%= link_to 'Archive', archive_it_security_incident_path(it_security_incident), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
                       <% end %>
+                      <% if has_ad_access?(current_user, "it_security_incidents", "audit_action") %>
+                        <li><%= link_to 'Audit', it_security_incident_audit_log_path(it_security_incident), class: "action-link" %></li>
+                      <% end %>
                     </ul>
                   </td> 
                   <td><%= it_security_incident.date %></td>

@@ -1,0 +1,43 @@
+<p id="notice"><%= notice %></p>
+
+<h3>It Security Incidents Audit Log</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>When</th>
+      <th>Who(user_id)</th>
+      <th>What changed</th>
+      <th>IP Address</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @it_si_item_audit_log.each do |audit| %>
+        <tr>
+          <td class="audit_table"><%= audit.action %></td>
+          <td class="audit_table"><%= audit.created_at.strftime('%c - %Z') %></td>
+          <% if User.find_by(id: audit.user_id).present? %>
+            <td class="audit_table"><%= user_name_email(audit.user_id) %></td>
+          <% else %> 
+            <td><%= audit.user_id %></td>
+          <% end %>
+          <td class="audit_table">
+              <% audit.audited_changes.each do |k, v| %>
+                  <%= k.titleize %>
+                  <% if v.is_a? Array %>
+                    <strong>from:</strong> <%= v[0] %>
+                    <strong>to:</strong> <%= v[1] %>
+                  <% else %>
+                    <strong>to:</strong> <%= v %>
+                  <% end %>
+                  <br>
+              <% end %>
+          </td>
+          <td class="audit_table"><%= audit.remote_address %></td>
+        </tr>
+    <% end %>
+</tbody>
+</table>
+ 

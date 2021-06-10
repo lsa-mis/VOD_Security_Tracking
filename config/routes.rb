@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     get '/users/sign_out', to: 'users/sessions#destroy'
   end
 
+  get 'it_security_incidents/audit_log/:id', to: 'it_security_incidents#audit_log', as: :it_security_incident_audit_log
   resources :it_security_incidents do
     resources :tdx_tickets, module: :it_security_incidents
   end

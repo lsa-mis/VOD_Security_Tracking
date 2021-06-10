@@ -1,8 +1,8 @@
 class ItSecurityIncidentsController < InheritedResources::Base
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
-  before_action :set_it_security_incident, only: [:show, :edit, :update, :archive]
-  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
+  before_action :set_it_security_incident, only: [:show, :edit, :update, :archive, :audit_log]
+  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_membership
 
   def index
@@ -75,7 +75,13 @@ class ItSecurityIncidentsController < InheritedResources::Base
   end
   
   def audit_log
-    @it_security_incidents = ItSecurityIncident.all
+    authorize @it_security_incident
+    add_breadcrumb(@it_security_incident.id, 
+      it_security_incident_path(@it_security_incident)
+                  )
+    add_breadcrumb('Audit')
+
+    @it_si_item_audit_log = @it_security_incident.audits.all.reorder(created_at: :desc)
   end
 
   private
