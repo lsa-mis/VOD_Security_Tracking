@@ -3,9 +3,11 @@
   It Security Incidents
 </p>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-  <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
-    <%= link_to 'New It Security Incident', new_it_security_incident_path %>
-  </div>
+  <% if has_ad_access?(current_user, "it_security_incidents", "newedit_action") %>
+    <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
+      <%= link_to 'New It Security Incident', new_it_security_incident_path %>
+    </div>
+  <% end %>
 
   <div class="flex flex-col">
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -32,8 +34,12 @@
                   <td>
                     <ul>
                       <li><%= link_to 'Show', it_security_incident, class: "action-link" %></li>
-                      <li><%= link_to 'Edit', edit_it_security_incident_path(it_security_incident), class: "action-link" %></li>
-                      <li><%= link_to 'Archive', archive_it_security_incident_path(it_security_incident), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
+                      <% if has_ad_access?(current_user, "it_security_incidents", "newedit_action") %>
+                        <li><%= link_to 'Edit', edit_it_security_incident_path(it_security_incident), class: "action-link" %></li>
+                      <% end %>
+                      <% if has_ad_access?(current_user, "it_security_incidents", "archive_action") %>
+                        <li><%= link_to 'Archive', archive_it_security_incident_path(it_security_incident), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
+                      <% end %>
                     </ul>
                   </td> 
                   <td><%= it_security_incident.date %></td>
