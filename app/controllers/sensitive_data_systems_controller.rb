@@ -25,25 +25,31 @@ class SensitiveDataSystemsController < InheritedResources::Base
   end
 
   def create
-    if sensitive_data_system_params[:sensitive_data_system_type_id] == "1"
+    serial = sensitive_data_system_params[:device_attributes][:serial]
+    hostname = sensitive_data_system_params[:device_attributes][:hostname]
+    if serial.present? || hostname.present?
       @sensitive_data_system = SensitiveDataSystem.new(sensitive_data_system_params.except(:tdx_ticket))
       if sensitive_data_system_params[:tdx_ticket][:ticket_link].present?
         @sensitive_data_system.tdx_tickets.new(ticket_link: sensitive_data_system_params[:tdx_ticket][:ticket_link])
       end
-      serial = sensitive_data_system_params[:device_attributes][:serial]
-      hostname = sensitive_data_system_params[:device_attributes][:hostname]
       # find device
-      if serial.present? 
+      if serial.present?
         if Device.find_by(serial: serial).present?
+          fail
           @sensitive_data_system.device_id = Device.find_by(serial: serial).id
         else 
           search_field = serial
         end
-      elsif hostname.present? 
-        if Device.find_by(hostname: hostname).present?
-          @sensitive_data_system.device_id = Device.find_by(hostname: hostname).id
+      else
+        if hostname.present?
+          if Device.find_by(hostname: hostname).present?
+            @sensitive_data_system.device_id = Device.find_by(hostname: hostname).id
+          else
+            search_field = hostname
+          end
         else
-          search_field = hostname
+          flash.now[:alert] = "Serial or hostname should be present"
+          render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
         end
       end
     else 
@@ -149,7 +155,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
                                                     :agreements_related_to_data_types, 
                                                     :review_date, :review_contact, :notes, 
                                                     :storage_location_id, :data_type_id, 
-                                                    :sensitive_data_system_type_id, :incomplete, 
+                                                    :incomplete, 
                                                     attachments: [], 
                                                     device_attributes: [:serial, :hostname], 
                                                     tdx_ticket: [:ticket_link]
