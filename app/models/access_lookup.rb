@@ -7,15 +7,15 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  table      :integer          default("no_table"), not null
-#  action     :integer          default("no_action"), not null
+#  action     :integer          default("show_action"), not null
 #
 class AccessLookup < ApplicationRecord
 
   enum action: [
-    :no_action,
-    :newedit_action,
     :show_action,
+    :newedit_action,
     :archive_action,
+    :audit_action,
     :all_actions
   ]
   enum table: [
@@ -27,7 +27,8 @@ class AccessLookup < ApplicationRecord
   ]
 
   validates :ldap_group, presence: true
-  validates :table, presence: true
+  validates :table, exclusion: { in: %w(no_table),
+    message: "you must select a table" }
   validates :action, presence: true
 
 end

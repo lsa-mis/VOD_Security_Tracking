@@ -1,16 +1,18 @@
 class ItSecurityIncidentsController < InheritedResources::Base
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
-  before_action :set_it_security_incident, only: [:show, :edit, :update, :archive]
-  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
+  before_action :set_it_security_incident, only: [:show, :edit, :update, :archive, :audit_log]
+  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_membership
 
   def index
     @it_security_incidents = ItSecurityIncident.active
+    authorize @it_security_incidents
   end
 
   def show
     add_breadcrumb(@it_security_incident.id)
+    authorize @it_security_incident
   end
 
   def new
@@ -26,10 +28,10 @@ class ItSecurityIncidentsController < InheritedResources::Base
     respond_to do |format|
       if @it_security_incident.save 
         format.turbo_stream { redirect_to it_security_incident_path(@it_security_incident), 
-          notice: 'it security incident record was successfully created. ' 
+          notice: 'IT Security Incident record was successfully created.' 
         }
       else
-        Rails.logger.info(@it_security_incident.errors.inspect)
+        # Rails.logger.info(@it_security_incident.errors.inspect)
         format.turbo_stream
       end
     end
@@ -50,7 +52,7 @@ class ItSecurityIncidentsController < InheritedResources::Base
     end
     respond_to do |format|
       if @it_security_incident.update(it_security_incident_params.except(:tdx_ticket))
-        format.turbo_stream { redirect_to it_security_incident_path(@it_security_incident), notice: 'it security incident record was successfully updated.' }
+        format.turbo_stream { redirect_to it_security_incident_path(@it_security_incident), notice: 'IT Security Incident record was successfully updated.' }
       else
         format.turbo_stream
       end
@@ -59,24 +61,34 @@ class ItSecurityIncidentsController < InheritedResources::Base
 
   def archive
     authorize @it_security_incident
-    if @it_security_incident.archive
-      respond_to do |format|
-        format.turbo_stream { redirect_to it_security_incidents_path, notice: 'it security incident record was successfully archived.' }
+    respond_to do |format|
+      if @it_security_incident.archive
+          format.turbo_stream { redirect_to it_security_incidents_path,
+                      notice: 'IT Security Incident record was successfully archived.'
+                    }
+      else
+        format.turbo_stream { redirect_to it_security_incidents_path,
+                    alert: 'Error archiving IT Security Incident record.' 
+                  }
       end
-    else
-      format.turbo_stream { redirect_to it_security_incidents_path, alert: 'error archiving it security incident record.' }
     end
   end
   
   def audit_log
-    @it_security_incidents = ItSecurityIncident.all
+    authorize @it_security_incident
+    add_breadcrumb(@it_security_incident.id, 
+      it_security_incident_path(@it_security_incident)
+                  )
+    add_breadcrumb('Audit')
+
+    @it_si_item_audit_log = @it_security_incident.audits.all.reorder(created_at: :desc)
   end
 
   private
 
     def set_membership
       current_user.membership = session[:user_memberships]
-      logger.debug "************ in DPA_EXCEPTION current_user.membership ***** #{current_user.membership}"
+      # logger.debug "************ in it_security_incident current_user.membership ***** #{current_user.membership}"
     end
 
     def set_it_security_incident

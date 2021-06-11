@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h3>DPA Exceptions Audit Log</h3>
+<h3>It Security Incidents Audit Log</h3>
 
 <table>
   <thead>
@@ -14,7 +14,7 @@
   </thead>
 
   <tbody>
-    <% @dpa_item_audit_log.each do |audit| %>
+    <% @it_si_item_audit_log.each do |audit| %>
         <tr>
           <td class="audit_table"><%= audit.action %></td>
           <td class="audit_table"><%= audit.created_at.strftime('%c - %Z') %></td>

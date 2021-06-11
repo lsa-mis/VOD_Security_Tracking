@@ -3,9 +3,11 @@
   Sensitive Data Systems
 </p>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-  <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
-    <%= link_to 'New Sensitive Data System', new_sensitive_data_system_path %>
-  </div>
+  <% if has_ad_access?(current_user, "sensitive_data_systems", "newedit_action") %>
+    <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
+      <%= link_to 'New Sensitive Data System', new_sensitive_data_system_path %>
+    </div>
+  <% end %>
 
   <div class="flex flex-col">
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -39,9 +41,16 @@
                   <td>
                     <ul>
                       <li><%= link_to 'Show', sensitive_data_system, class: "action-link" %></li>
-                      <li><%= link_to 'Edit', edit_sensitive_data_system_path(sensitive_data_system), class: "action-link" %></li>
-                      <li><%= link_to 'Archive', archive_sensitive_data_system_path(sensitive_data_system), class: "action-link", method: :post, data: { confirm: 'Are you sure?' } %></li>
-                    </ul>
+                      <% if has_ad_access?(current_user, "sensitive_data_systems", "newedit_action") %>
+                        <li><%= link_to 'Edit', edit_sensitive_data_system_path(sensitive_data_system), class: "action-link" %></li>
+                      <% end %>
+                      <% if has_ad_access?(current_user, "sensitive_data_systems", "archive_action") %>
+                        <li><%= link_to 'Archive', archive_sensitive_data_system_path(sensitive_data_system), class: "action-link", method: :post, data: { confirm: 'Are you sure?' } %></li>
+                      <% end %>
+                      <% if has_ad_access?(current_user, "sensitive_data_systems", "audit_action") %>
+                        <li><%= link_to 'Audit', sensitive_data_system_audit_log_path(sensitive_data_system), class: "action-link" %></li>
+                      <% end %>
+                      </ul>
                   </td>
                   <td><%= sensitive_data_system.owner_username %></td>
                   <td><%= sensitive_data_system.owner_full_name %></td>

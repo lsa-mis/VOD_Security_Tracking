@@ -3,9 +3,11 @@
   Legacy Os Record
 </p>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-  <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
-    <%= link_to 'New Legacy Os Record', new_legacy_os_record_path %>
-  </div>
+  <% if has_ad_access?(current_user, "legacy_os_records", "newedit_action") %>
+    <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
+      <%= link_to 'New Legacy Os Record', new_legacy_os_record_path %>
+    </div>
+  <% end %>
 
   <div class="flex flex-col">
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -44,8 +46,15 @@
                   <td>
                     <ul>
                       <li><%= link_to 'Show', legacy_os_record, class: "action-link" %></li>
-                      <li><%= link_to 'Edit', edit_legacy_os_record_path(legacy_os_record), class: "action-link" %></li>
-                      <li><%= link_to 'Archive', archive_legacy_os_record_path(legacy_os_record), class: "action-link", method: :post, data: { confirm: 'Are you sure?' } %></li>
+                      <% if has_ad_access?(current_user, "legacy_os_records", "newedit_action") %>
+                        <li><%= link_to 'Edit', edit_legacy_os_record_path(legacy_os_record), class: "action-link" %></li>
+                      <% end %>
+                      <% if has_ad_access?(current_user, "legacy_os_records", "archive_action") %>
+                        <li><%= link_to 'Archive', archive_legacy_os_record_path(legacy_os_record), class: "action-link", method: :post, data: { confirm: 'Are you sure?' } %></li>
+                      <% end %>
+                      <% if has_ad_access?(current_user, "legacy_os_records", "audit_action") %>
+                        <li><%= link_to 'Audit', legacy_os_record_audit_log_path(legacy_os_record), class: "action-link" %></li>
+                      <% end %>
                     </ul>
                   </td>
                   <td><%= legacy_os_record.owner_username %></td>
