@@ -38,6 +38,8 @@ Rails.application.routes.draw do
   resources :devices
   get 'update_device/:id', to: 'devices#update', as: :update_device
 
+  get 'storage_locations/is_device_required/:id', to: 'storage_locations#is_device_required?'
+
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

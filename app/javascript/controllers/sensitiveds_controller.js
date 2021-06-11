@@ -1,17 +1,22 @@
 import { Controller } from "stimulus"
 
 export default class SensitivedsController extends Controller {
-  static targets = ["sensitive_data_system_type", "system_device", "form", "serial", "hostname"]
+  static targets = ["storage_location", "system_device", "form", "serial", "hostname", "device_error"]
 
-  connect() {
-    this.display_device()
+  checkIfDeviceIsRequired() {
+    let id = this.storage_locationTarget.value;
+    fetch(`/storage_locations/is_device_required/${id}`)
+      .then((response) => response.json())
+      .then((data) => this.display_device(data)
+      );
   }
 
-  display_device() {
-    var type = this.sensitive_data_system_typeTarget.value
-    if (type == 1) {
+  display_device(data) {
+    if (data) {
       this.system_deviceTarget.classList.add("device--display")
       this.system_deviceTarget.classList.remove("device--hide")
+      if (this.system_deviceTarget.classList[0] == "device--display") {
+      }
     }
     else {
       this.system_deviceTarget.classList.add("device--hide")
@@ -20,29 +25,19 @@ export default class SensitivedsController extends Controller {
   }
 
   submitForm(event) {
-    var type = this.sensitive_data_system_typeTarget.value
-    if (type == 1) {
-      let isValid = this.validateForm(this.formTarget);
-      if (!isValid) {
-        this.system_deviceTarget.append("Add serial number or hostname");
-        event.preventDefault();
+    if (this.system_deviceTarget.classList[0] == "device--display") {
+      var serial = this.serialTarget.value
+      var hostname = this.hostnameTarget.value
+      if (serial == "" && hostname == "") {
+        this.device_errorTarget.classList.add("device-error--display")
+        this.device_errorTarget.classList.remove("device-error--hide")
+        event.preventDefault()
+      }
+      else {
+        this.device_errorTarget.classList.add("device-error--hide")
+        this.device_errorTarget.classList.remove("device-error--display")
       }
     }
   }
 
-  validateForm() {
-    let isValid = true;
-    var system_type = this.sensitive_data_system_typeTarget.value
-    var serial = this.serialTarget.value
-    var hostname = this.hostnameTarget.value
-    if (system_type == 1) {
-      if (serial == "" && hostname == "") {
-        isValid = false;
-      }
-      else {
-        isValid = true;
-      }
-      return isValid;
-    }
-  }
 }
