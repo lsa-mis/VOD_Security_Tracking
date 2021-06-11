@@ -1,19 +1,21 @@
 class LegacyOsRecordsController < InheritedResources::Base
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
-  before_action :set_legacy_os_record, only: [:show, :edit, :update, :archive]
+  before_action :set_legacy_os_record, only: [:show, :edit, :update, :archive, :audit_log]
   before_action :get_access_token, only: [:create, :update]
-  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
+  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_membership
 
   include SaveRecordWithDevice
 
   def index
     @legacy_os_records = LegacyOsRecord.active
+    authorize @legacy_os_records
   end
 
   def show
     add_breadcrumb(@legacy_os_record.id)
+    authorize @legacy_os_record
   end
 
   def new
@@ -62,7 +64,7 @@ class LegacyOsRecordsController < InheritedResources::Base
       respond_to do |format|
         if @legacy_os_record.save 
           format.turbo_stream { redirect_to legacy_os_record_path(@legacy_os_record), 
-          notice: 'Legacy os record was successfully created. ' 
+          notice: 'Legacy OS record was successfully created. ' 
         }
         else
           format.turbo_stream
@@ -81,7 +83,7 @@ class LegacyOsRecordsController < InheritedResources::Base
     end
     respond_to do |format|
       if @legacy_os_record.update(legacy_os_record_params.except(:tdx_ticket))
-        format.turbo_stream { redirect_to legacy_os_record_path(@legacy_os_record), notice: 'legacy os record was successfully updated.' }
+        format.turbo_stream { redirect_to legacy_os_record_path(@legacy_os_record), notice: 'Legacy OS record was successfully updated.' }
       else
         format.turbo_stream
       end
@@ -92,24 +94,30 @@ class LegacyOsRecordsController < InheritedResources::Base
   def archive
     @legacy_os_record = LegacyOsRecord.find(params[:id])
     authorize @legacy_os_record
-    if @legacy_os_record.archive
-      respond_to do |format|
-        format.turbo_stream { redirect_to legacy_os_records_path, notice: 'legacy os record was successfully archived.' }
+    respond_to do |format|
+      if @legacy_os_record.archive
+        format.turbo_stream { redirect_to legacy_os_records_path, notice: 'Legacy OS record was successfully archived.' }
+      else
+        format.turbo_stream { redirect_to legacy_os_records_path, alert: 'Error archiving Legacy OS record.' }
       end
-    else
-      format.turbo_stream { redirect_to legacy_os_records_path, alert: 'error archiving legacy os record.' }
     end
   end
   
   def audit_log
-    @legacy_os_records = LegacyOsRecord.all
+    authorize @legacy_os_record
+    add_breadcrumb(@legacy_os_record.id, 
+      legacy_os_record_path(@legacy_os_record)
+                  )
+    add_breadcrumb('Audit')
+
+    @legacy_os_item_audit_log = @legacy_os_record.audits.all.reorder(created_at: :desc)
   end
 
   private
 
     def set_membership
       current_user.membership = session[:user_memberships]
-      logger.debug "************ in DPA_EXCEPTION current_user.membership ***** #{current_user.membership}"
+      # logger.debug "************ in legacy_os_record current_user.membership ***** #{current_user.membership}"
     end
 
     def set_legacy_os_record
