@@ -94,14 +94,14 @@
       </div>
 
       <div class="field">
-        <%= form.label :storage_location_id%>
-        <%= form.collection_select :storage_location_id, StorageLocation.all, :id, :name, {include_blank: "Select"}, required: true %>
-
+        <%= form.label :data_type_id%>
+        <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"} %>
       </div>
 
       <div class="field">
-        <%= form.label :data_type_id%>
-        <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"} %>
+        <%= form.label :storage_location_id %>
+        <%= form.collection_select :storage_location_id, StorageLocation.all, :id, :name, {include_blank: "Select"},
+                  :"data-sensitiveds-target" => "storage_location", :"data-action" => "input->sensitiveds#checkIfDeviceIsRequired" %>
       </div>
 
       <%= form.fields_for @sensitive_data_system.tdx_tickets.new do |f| %>
@@ -118,11 +118,6 @@
           <% end %>
         </div>
       <% end %>
-
-        <div class="field">
-          <%= form.label :sensitive_data_system_type_id %><font color="red">**</font>
-          <%= form.collection_select :sensitive_data_system_type_id, SensitiveDataSystemType.all, :id, :name, {include_blank: "Select"}, required: true, :"data-sensitiveds-target" => "sensitive_data_system_type", :"data-action" => "input->sensitiveds#display_device" %>
-        </div>
   
         <div id="device_input" class="device--hide" data-sensitiveds-target="system_device">
           <%= form.label "Add a device" %><font color="red">**</font> - enter serial:
@@ -131,6 +126,9 @@
             or hostname:
             <%= device_attributes.text_field :hostname, :"data-sensitiveds-target" => "hostname" %>
           <% end %>
+          <div class="device-error--hide" data-sensitiveds-target="device_error">
+            Add serial number or hostname
+          </div>
         </div>
 
       <div class="field">
