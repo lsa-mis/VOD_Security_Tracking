@@ -3,6 +3,10 @@
   <head>
     <title>App</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <% unless @turbo %>
+      <meta name="turbo-visit-control" content="reload" />
+      <meta name="turbo-cache-control" content="no-cache" />
+    <% end %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -15,7 +19,7 @@
     </noscript>
 -->
   </head>
-  <body class='flex flex-col h-full'>
+  <body class='flex flex-col h-full' data-turbo="<%= @turbo.present? %>">
     <%= render 'layouts/header' %>
     <%= render 'layouts/breadcrumbs' %>
     <main class="container mx-auto px-4">
