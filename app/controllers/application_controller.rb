@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :set_breadcrumbs
+ # before_action :verify_duo_authentication 
 
   include Pundit
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -13,6 +14,12 @@ class ApplicationController < ActionController::Base
       label: label,
       path: path
     }
+  end
+
+  def verify_duo_authentication
+    if !session[:duo_auth]
+      redirect_to duo_path
+    end
   end
 
   private
