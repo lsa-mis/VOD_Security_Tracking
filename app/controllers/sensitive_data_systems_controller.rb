@@ -35,7 +35,6 @@ class SensitiveDataSystemsController < InheritedResources::Base
       # find device
       if serial.present?
         if Device.find_by(serial: serial).present?
-          fail
           @sensitive_data_system.device_id = Device.find_by(serial: serial).id
         else 
           search_field = serial
@@ -85,6 +84,9 @@ class SensitiveDataSystemsController < InheritedResources::Base
       )
     add_breadcrumb('Edit')
     @tdx_ticket = @sensitive_data_system.tdx_tickets.new
+    if @sensitive_data_system.device_id.nil?
+      @device = Device.new
+    end
     authorize @sensitive_data_system
   end
 
@@ -92,13 +94,73 @@ class SensitiveDataSystemsController < InheritedResources::Base
     if sensitive_data_system_params[:tdx_ticket][:ticket_link].present?
       @sensitive_data_system.tdx_tickets.create(ticket_link: sensitive_data_system_params[:tdx_ticket][:ticket_link])
     end
+    # create a device and get device_id
+    if StorageLocation.find(sensitive_data_system_params[:storage_location_id]).device_is_required
+      serial = sensitive_data_system_params[:device_attributes][:serial]
+      hostname = sensitive_data_system_params[:device_attributes][:hostname]
+      if serial.present? || hostname.present?
+        if serial.present?
+          if Device.find_by(serial: serial).present?
+            device_id = Device.find_by(serial: serial).id
+          else 
+            search_field = serial
+          end
+        else
+          if hostname.present?
+            if Device.find_by(hostname: hostname).present?
+              device_id = Device.find_by(hostname: hostname).id
+              return device_id
+            else
+              search_field = hostname
+            end
+          end
+        end
+      else 
+        flash.now[:alert] = "Serial or hostname should be present"
+        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+      end
+      if search_field.present?
+        # call DeviceTdxApi
+        if @access_token
+          # auth_token exists - call TDX
+          device_tdx_info = get_device_tdx_info(search_field, @access_token)
+        else
+          # no token - create a device without calling TDX
+          device_tdx_info = {'result' => {'device_not_in_tdx' => "No access to TDX API." }}
+        end
+      end
+      if device_tdx_info['result']['more-then_one_result'].present?
+        flash.now[:alert] = device_tdx_info['result']['more-then_one_result']
+        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+        fail
+      elsif device_tdx_info['result']['success']
+        # create device with tdx data
+        device = Device.new(device_tdx_info['data'])
+      elsif device_tdx_info['result']['device_not_in_tdx'].present?
+        # device doesn't exist in TDX database, should be created with device_params
+        device = Device.new(sensitive_data_system_params[:device_attributes])
+      end
+      if device.save 
+        device_id = device.id
+      else
+        flash.now[:alert] = "Eroor saving device"
+        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+      end
+    else 
+      device_id = nil
+    end
+
+    #device_id = create_device(@sensitive_data_system, sensitive_data_system_params[:device_attributes], 'sensitive_data_system')
+    @sensitive_data_system.device_id = device_id
     respond_to do |format|
-      if @sensitive_data_system.update(sensitive_data_system_params.except(:tdx_ticket))
+      if @sensitive_data_system.update(sensitive_data_system_params.except(:device_attributes, :tdx_ticket))
+        # Rails.logger.info(@sensitive_data_system.errors.inspect) 
         format.turbo_stream { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'legacy os record was successfully updated.' }
       else
         format.turbo_stream
       end
     end
+
   end
 
   def archive
@@ -148,13 +210,14 @@ class SensitiveDataSystemsController < InheritedResources::Base
     end
 
     def sensitive_data_system_params
-      params.require(:sensitive_data_system).permit(:owner_username, :owner_full_name, 
-                                                    :dept, :phone, :additional_dept_contact, 
-                                                    :additional_dept_contact_phone, :support_poc, 
-                                                    :expected_duration_of_data_retention, 
-                                                    :agreements_related_to_data_types, 
-                                                    :review_date, :review_contact, :notes, 
-                                                    :storage_location_id, :data_type_id, 
+      params.require(:sensitive_data_system).permit(:owner_username, :owner_full_name,
+                                                    :dept, :phone, :additional_dept_contact,
+                                                    :additional_dept_contact_phone, :support_poc,
+                                                    :expected_duration_of_data_retention,
+                                                    :agreements_related_to_data_types,
+                                                    :review_date, :review_contact, :notes,
+                                                    :storage_location_id, :data_type_id,
+                                                    :device_id,
                                                     :incomplete, 
                                                     attachments: [], 
                                                     device_attributes: [:serial, :hostname], 

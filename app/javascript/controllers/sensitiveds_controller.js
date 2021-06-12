@@ -3,12 +3,18 @@ import { Controller } from "stimulus"
 export default class SensitivedsController extends Controller {
   static targets = ["storage_location", "system_device", "form", "serial", "hostname", "device_error"]
 
+  connect() {
+    this.checkIfDeviceIsRequired()
+  }
+
   checkIfDeviceIsRequired() {
     let id = this.storage_locationTarget.value;
-    fetch(`/storage_locations/is_device_required/${id}`)
-      .then((response) => response.json())
-      .then((data) => this.display_device(data)
-      );
+    if (id) {
+      fetch(`/storage_locations/is_device_required/${id}`)
+        .then((response) => response.json())
+        .then((data) => this.display_device(data)
+        );
+    }
   }
 
   display_device(data) {
@@ -21,6 +27,12 @@ export default class SensitivedsController extends Controller {
     else {
       this.system_deviceTarget.classList.add("device--hide")
       this.system_deviceTarget.classList.remove("device--display")
+      if (this.serialTarget) {
+        this.serialTarget.value = ""
+      }
+      if (this.hostnameTarget) {
+        this.hostnameTarget.value = ""
+      }
     }
   }
 

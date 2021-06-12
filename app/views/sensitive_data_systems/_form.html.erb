@@ -118,18 +118,18 @@
           <% end %>
         </div>
       <% end %>
-  
-        <div id="device_input" class="device--hide" data-sensitiveds-target="system_device">
-          <%= form.label "Add a device" %><font color="red">**</font> - enter serial:
-          <%= form.fields_for :device, @device do |device_attributes| %>
-            <%= device_attributes.text_field :serial, :"data-sensitiveds-target" => "serial" %>
-            or hostname:
-            <%= device_attributes.text_field :hostname, :"data-sensitiveds-target" => "hostname" %>
-          <% end %>
-          <div class="device-error--hide" data-sensitiveds-target="device_error">
-            Add serial number or hostname
-          </div>
+
+      <div id="device_input" class="device--hide" data-sensitiveds-target="system_device">
+        <%= form.label "Add a device" %><font color="red">**</font> - enter serial:
+        <%= form.fields_for :device, @device do |device_attributes| %>
+          <%= device_attributes.text_field :serial, :"data-sensitiveds-target" => "serial" %>
+          or hostname:
+          <%= device_attributes.text_field :hostname, :"data-sensitiveds-target" => "hostname" %>
+        <% end %>
+        <div class="device-error--hide" data-sensitiveds-target="device_error">
+          Add serial number or hostname
         </div>
+      </div>
 
       <div class="field">
         <%= form.label :attachments %>
