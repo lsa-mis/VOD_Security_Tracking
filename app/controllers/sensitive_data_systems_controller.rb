@@ -98,27 +98,24 @@ class SensitiveDataSystemsController < InheritedResources::Base
     if StorageLocation.find(sensitive_data_system_params[:storage_location_id]).device_is_required
       serial = sensitive_data_system_params[:device_attributes][:serial]
       hostname = sensitive_data_system_params[:device_attributes][:hostname]
-      if serial.present? || hostname.present?
-        if serial.present?
-          if Device.find_by(serial: serial).present?
-            device_id = Device.find_by(serial: serial).id
-          else 
-            search_field = serial
-          end
-        else
-          if hostname.present?
-            if Device.find_by(hostname: hostname).present?
-              device_id = Device.find_by(hostname: hostname).id
-              return device_id
-            else
-              search_field = hostname
-            end
+      # if serial.present? || hostname.present?
+      if serial.present?
+        search_field = serial
+        if Device.find_by(serial: serial).present?
+          device_id = Device.find_by(serial: serial).id
+        end
+      else
+        if hostname.present?
+          search_field = hostname
+          if Device.find_by(hostname: hostname).present?
+            device_id = Device.find_by(hostname: hostname).id
           end
         end
-      else 
-        flash.now[:alert] = "Serial or hostname should be present"
-        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
       end
+      # else 
+      #   flash.now[:alert] = "Serial or hostname should be present"
+      #   render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+      # end
       if search_field.present?
         # call DeviceTdxApi
         if @access_token
@@ -132,19 +129,21 @@ class SensitiveDataSystemsController < InheritedResources::Base
       if device_tdx_info['result']['more-then_one_result'].present?
         flash.now[:alert] = device_tdx_info['result']['more-then_one_result']
         render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
-        fail
-      elsif device_tdx_info['result']['success']
-        # create device with tdx data
-        device = Device.new(device_tdx_info['data'])
-      elsif device_tdx_info['result']['device_not_in_tdx'].present?
-        # device doesn't exist in TDX database, should be created with device_params
-        device = Device.new(sensitive_data_system_params[:device_attributes])
-      end
-      if device.save 
-        device_id = device.id
+        return
       else
-        flash.now[:alert] = "Eroor saving device"
-        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+        if device_tdx_info['result']['success']
+          # create device with tdx data
+          device = Device.new(device_tdx_info['data'])
+        elsif device_tdx_info['result']['device_not_in_tdx'].present?
+          # device doesn't exist in TDX database, should be created with device_params
+          device = Device.new(sensitive_data_system_params[:device_attributes])
+        end
+        if device.save 
+          device_id = device.id
+        else
+          flash.now[:alert] = "Eroor saving device"
+          render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+        end
       end
     else 
       device_id = nil
@@ -155,7 +154,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
     respond_to do |format|
       if @sensitive_data_system.update(sensitive_data_system_params.except(:device_attributes, :tdx_ticket))
         # Rails.logger.info(@sensitive_data_system.errors.inspect) 
-        format.turbo_stream { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'legacy os record was successfully updated.' }
+        format.turbo_stream { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Sensitive Data System record was successfully updated.' }
       else
         format.turbo_stream
       end
