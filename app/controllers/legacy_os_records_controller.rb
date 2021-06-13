@@ -81,15 +81,67 @@ class LegacyOsRecordsController < InheritedResources::Base
     if legacy_os_record_params[:tdx_ticket][:ticket_link].present?
       @legacy_os_record.tdx_tickets.create(ticket_link: legacy_os_record_params[:tdx_ticket][:ticket_link])
     end
-    respond_to do |format|
-      if @legacy_os_record.update(legacy_os_record_params.except(:tdx_ticket))
-        format.turbo_stream { redirect_to legacy_os_record_path(@legacy_os_record), notice: 'Legacy OS record was successfully updated.' }
+    # update or create a new device
+    serial = legacy_os_record_params[:device_attributes][:serial]
+    hostname = legacy_os_record_params[:device_attributes][:hostname]
+    device_id = nil
+    # if serial.present? || hostname.present?
+    if serial.present?
+      search_field = serial
+      if Device.find_by(serial: serial).present?
+        device_id = Device.find_by(serial: serial).id
+      end
+    else
+      if hostname.present?
+        search_field = hostname
+        if Device.find_by(hostname: hostname).present?
+          device_id = Device.find_by(hostname: hostname).id
+        end
+      end
+    end
+    # else 
+    #   flash.now[:alert] = "Serial or hostname should be present"
+    #   render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+    # end
+    if search_field.present?
+      # call DeviceTdxApi
+      if @access_token
+        # auth_token exists - call TDX
+        device_tdx_info = get_device_tdx_info(search_field, @access_token)
       else
-        format.turbo_stream
+        # no token - create a device without calling TDX
+        device_tdx_info = {'result' => {'device_not_in_tdx' => "No access to TDX API." }}
+      end
+    end
+    if device_tdx_info['result']['more-then_one_result'].present?
+      flash.now[:alert] = device_tdx_info['result']['more-then_one_result']
+      render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification") 
+    else
+      if device_tdx_info['result']['success']
+        # create device with tdx data
+        device = Device.new(device_tdx_info['data'])
+      elsif device_tdx_info['result']['device_not_in_tdx'].present?
+        # device doesn't exist in TDX database, should be created with device_params
+        device = Device.new(legacy_os_record_params[:device_attributes])
+      end
+      if device.save 
+        if device_id.nil?
+          @legacy_os_record.device_id = device.id
+        end
+        #  save legacy_os_record
+        respond_to do |format|
+          if @legacy_os_record.update(legacy_os_record_params.except(:device_attributes, :tdx_ticket))
+            format.turbo_stream { redirect_to legacy_os_record_path(@legacy_os_record), notice: 'Legacy OS record was successfully updated.' }
+          else
+            format.turbo_stream
+          end
+        end
+      else
+        flash.now[:alert] = "Eroor saving device"
+        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
       end
     end
   end
-
 
   def archive
     @legacy_os_record = LegacyOsRecord.find(params[:id])
