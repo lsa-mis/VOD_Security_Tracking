@@ -119,7 +119,7 @@
         </div>
       <% end %>
 
-      <div id="device_input" class="device--hide" data-sensitiveds-target="system_device">
+      <div class="device--hide" data-sensitiveds-target="system_device">
         <%= form.label "Add a device" %><font color="red">**</font> - enter serial:
         <%= form.fields_for :device, @device do |device_attributes| %>
           <%= device_attributes.text_field :serial, :"data-sensitiveds-target" => "serial" %>
