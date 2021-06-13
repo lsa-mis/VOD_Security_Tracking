@@ -178,6 +178,9 @@ data: {
           or hostname:
           <%= device_attributes.text_field :hostname, :"data-legacyos-target" => "hostname" %>
         <% end %>
+        <div class="device-error--hide" data-legacyos-target="device_error">
+          Add serial number or hostname
+        </div>
         <p class="help-text">Help text if needed</p>
       </div>
 
