@@ -56,11 +56,9 @@ class DevicesController < InheritedResources::Base
         @device = Device.new(@device_tdx_info['data'])
         respond_to do |format|
           if @device.save
-            format.html { redirect_to @device, notice: "Device was successfully created. " }
-            format.json { render :show, status: :created, location: @device }
+            format.turbo_stream { redirect_to @device, notice: "Device was successfully created. " }
           else
-            format.html { render :new, status: :unprocessable_entity }
-            format.json { render json: @device.errors, status: :unprocessable_entity }
+            format.turbo_stream { render :new, status: :unprocessable_entity }
           end
         end
       else @device_tdx_info['result']['device_not_in_tdx'].present?
@@ -69,13 +67,11 @@ class DevicesController < InheritedResources::Base
         @device = Device.new(device_params)
         respond_to do |format|
           if @device.save
-            format.html { redirect_to @device, 
+            format.turbo_stream { redirect_to @device, 
                           notice: "Device was successfully created. " + device_not_in_tdx 
                         }
-            format.json { render :show, status: :created, location: @device }
           else
-            format.html { render :new, status: :unprocessable_entity }
-            format.json { render json: @device.errors, status: :unprocessable_entity }
+            format.turbo_stream { render :new, status: :unprocessable_entity }
           end
         end
       end
@@ -101,34 +97,29 @@ class DevicesController < InheritedResources::Base
       # check TDX API return
       if @device_tdx_info['result']['more-then_one_result'].present?
         respond_to do |format|
-          format.html { redirect_to @device, 
+          format.turbo_stream { redirect_to @device, 
                         notice: "#{@device_tdx_info['result']['more-then_one_result']}"
                       }
-          format.json { render :show, status: :created, location: @device }
         end
       elsif @device_tdx_info['result']['device_not_in_tdx'].present?
         respond_to do |format|
-          format.html { redirect_to @device, 
+          format.turbo_stream { redirect_to @device, 
                         notice: "#{@device_tdx_info['result']['device_not_in_tdx']}"
                       }
-          format.json { render :show, status: :created, location: @device }
         end
       else @device_tdx_info['result']['success']
         respond_to do |format|
           if @device.update(@device_tdx_info['data'])
-            format.html { redirect_to @device, notice: "Device was successfully updated. "}
-            format.json { render :show, status: :created, location: @device }
+            format.turbo_stream { redirect_to @device, notice: "Device was successfully updated. "}
           else
-            format.html { render :new, status: :unprocessable_entity }
-            format.json { render json: @device.errors, status: :unprocessable_entity }
+            format.turbo_stream { render :new, status: :unprocessable_entity }
           end
         end
       end
     else
       # no auth token
       respond_to do |format|
-        format.html { redirect_to devices_url, notice: 'No access to TDX API.' }
-        format.json { head :no_content }
+        format.turbo { redirect_to devices_url, notice: 'No access to TDX API.' }
       end
     end
   end 
