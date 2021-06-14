@@ -25,7 +25,7 @@
 
 <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
   <div class="text-lg leading-6 font-medium text-gray-900">
-    <%= @dpa_exception.third_party_product_service %>
+    <%= @dpa_exception.display_name %>
       <p class="mt-1 max-w-2xl text-sm text-gray-500">
         Exception details.
       </p>
@@ -156,7 +156,7 @@
     </div>
     
     <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-      <%= render partial: "tdx_tickets/tdx_tickets", locals: { possum: @dpa_exception } %>
+      <%= render partial: "tdx_tickets/tdx_tickets", locals: { tdx_ticket_resource: @dpa_exception } %>
     </div>
 
     <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
@@ -209,48 +209,7 @@
     </div>
 
     <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-      <dt class="text-sm font-medium text-gray-500">
-        Other Attachments
-      </dt>
-      <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
-          <% if @dpa_exception.attachments.attached? %>
-            <% @dpa_exception.attachments.each do |ma| %>
-              <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-                <div class="w-0 flex-1 flex items-center">
-                  <!-- Heroicon name: solid/paper-clip -->
-                  <i class="fas fa-paperclip text-gray-400"></i>
-                  <span class="ml-2 flex-1 w-0 truncate">
-                    <%= link_to ma.filename, url_for(ma) %>
-                  </span>
-                </div>
-                <div class="ml-4 flex-shrink-0 flex space-x-4">
-                  <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    <%= link_to 'Update', edit_dpa_exception_path(@dpa_exception) %>
-                  </button>
-                  <span class="text-gray-300" aria-hidden="true">|</span>
-                  <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    <%= link_to 'Remove', delete_file_path(ma.id), data: { confirm: "Are sure you?"} %>
-                  </button>
-                </div>
-              </li>
-            <% end %>
-          <% else %>
-            <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-              <div class="w-0 flex-1 flex items-center">
-                <span class="ml-2 flex-1 w-0 truncate">
-                  you currently do not have an attached files.
-                </span>
-              </div>
-              <div class="ml-4 flex-shrink-0 flex space-x-4">
-                <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                  <%= link_to 'Add', edit_dpa_exception_path(@dpa_exception) %>
-                </button>
-              </div>
-            </li>
-          <% end %>
-        </ul>
-      </dd>
+      <%= render partial: "partials/show_attachments", locals: { attached_files_resource: @dpa_exception } %>
     </div>
   </dl>
 </div>
