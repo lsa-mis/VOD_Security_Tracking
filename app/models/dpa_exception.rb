@@ -44,4 +44,8 @@ class DpaException < ApplicationRecord
     self.deleted_at.present?
   end
 
+  def display_name
+    "#{self.third_party_product_service}"
+  end
+
 end
