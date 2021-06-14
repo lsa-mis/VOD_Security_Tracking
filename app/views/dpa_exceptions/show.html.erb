@@ -177,26 +177,30 @@
                   <%= link_to @dpa_exception.sla_attachment.filename, url_for(@dpa_exception.sla_attachment) %>
                 </span>
               </div>
-              <div class="ml-4 flex-shrink-0 flex space-x-4">
-                <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                  <%= link_to 'Update', edit_dpa_exception_path(@dpa_exception) %>
-                </button>
-                <span class="text-gray-300" aria-hidden="true">|</span>
-                <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                  <%= link_to 'Remove', delete_sla_agreement_path(@dpa_exception.sla_attachment.id), data: { confirm: "Are sure you want to purge this file?"} %>
-                </button>
-              </div>
+              <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
+                <div class="ml-4 flex-shrink-0 flex space-x-4">
+                  <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <%= link_to 'Update', edit_dpa_exception_path(@dpa_exception) %>
+                  </button>
+                  <span class="text-gray-300" aria-hidden="true">|</span>
+                  <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <%= link_to 'Remove', delete_sla_agreement_path(@dpa_exception.sla_attachment.id), data: { confirm: "Are sure you want to purge this file?"} %>
+                  </button>
+                </div>
+              <%end %>
             <% else %>
               <div class="w-0 flex-1 flex items-center">
                 <span class="ml-2 flex-1 w-0 truncate">
                   you currently do not have an SLA Agreement attached.
                 </span>
               </div>
-              <div class="ml-4 flex-shrink-0 flex space-x-4">
-                <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                  <%= link_to 'Add', edit_dpa_exception_path(@dpa_exception) %>
-                </button>
-              </div>
+              <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
+                <div class="ml-4 flex-shrink-0 flex space-x-4">
+                  <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <%= link_to 'Add', edit_dpa_exception_path(@dpa_exception) %>
+                  </button>
+                </div>
+              <%end %>
             <% end %>
           </li>
         </ul>
@@ -221,15 +225,17 @@
                     <%= link_to ma.filename, url_for(ma) %>
                   </span>
                 </div>
-                <div class="ml-4 flex-shrink-0 flex space-x-4">
-                  <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    <%= link_to 'Update', edit_dpa_exception_path(@dpa_exception) %>
-                  </button>
-                  <span class="text-gray-300" aria-hidden="true">|</span>
-                  <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    <%= link_to 'Remove', delete_sla_agreement_path(ma.id), data: { confirm: "Are sure you want to purge this file?"} %>
-                  </button>
-                </div>
+                <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
+                  <div class="ml-4 flex-shrink-0 flex space-x-4">
+                    <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                      <%= link_to 'Update', edit_dpa_exception_path(@dpa_exception) %>
+                    </button>
+                    <span class="text-gray-300" aria-hidden="true">|</span>
+                    <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                      <%= link_to 'Remove', delete_sla_agreement_path(ma.id), data: { confirm: "Are sure you want to purge this file?"} %>
+                    </button>
+                  </div>
+                <% end %>
               </li>
             <% end %>
           <% else %>
@@ -239,11 +245,13 @@
                   you currently do not have an other attached files.
                 </span>
               </div>
-              <div class="ml-4 flex-shrink-0 flex space-x-4">
-                <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                  <%= link_to 'Add', edit_dpa_exception_path(@dpa_exception) %>
-                </button>
-              </div>
+              <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
+                <div class="ml-4 flex-shrink-0 flex space-x-4">
+                  <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <%= link_to 'Add', edit_dpa_exception_path(@dpa_exception) %>
+                  </button>
+                </div>
+              <% end %>
             </li>
           <% end %>
         </ul>
