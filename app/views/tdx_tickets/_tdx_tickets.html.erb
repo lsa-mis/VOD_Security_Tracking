@@ -7,10 +7,9 @@
       <% possum.tdx_tickets.each do |tdx| %>
         <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
           <div class="w-0 flex-1 flex items-center">
-            <!-- Heroicon name: solid/paper-clip -->
             <i class="fas fa-link text-gray-400"></i>
             <span class="ml-2 flex-1 w-0 truncate">
-              <%= link_to tdx.ticket_link %>
+              <%= link_to tdx.ticket_link, url_for(tdx.ticket_link) %>
             </span>
           </div>
           <div class="ml-4 flex-shrink-0 flex space-x-4">
@@ -24,7 +23,7 @@
       <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
         <div class="w-0 flex-1 flex items-center">
           <span class="ml-2 flex-1 w-0 truncate">
-            you currently do not have an links.
+            you currently do not have any links.
           </span>
         </div>
       </li>
