@@ -3,8 +3,8 @@
 </dt>
 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
   <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
-    <% if possum.tdx_tickets.present? %>
-      <% possum.tdx_tickets.each do |tdx| %>
+    <% if tdx_ticket_resource.tdx_tickets.present? %>
+      <% tdx_ticket_resource.tdx_tickets.each do |tdx| %>
         <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
           <div class="w-0 flex-1 flex items-center">
             <i class="fas fa-link text-gray-400"></i>
@@ -29,5 +29,5 @@
       </li>
     <% end %>
   </ul>
-  <%= render partial: "tdx_tickets/form", locals: { possum: @dpa_exception} %>
+  <%= render partial: "tdx_tickets/form", locals: { tdx_ticket_resource: tdx_ticket_resource } %>
 </dd>
