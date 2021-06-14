@@ -74,15 +74,10 @@
   <%= @sensitive_data_system.data_type_id %>
 </p>
 
-<p>
-  <strong>System Type:</strong>
-  <%= @sensitive_data_system.sensitive_data_system_type_id %>
-</p>
-
 <% if @sensitive_data_system.device_id.present? %>
   <p>
     <strong>Device:</strong>
-    <%= @sensitive_data_system.device.display_name %>
+    <%= link_to @sensitive_data_system.device.display_name, device_path(@sensitive_data_system.device.id), target: :_blank %>
   </p>
 <% end %>
 

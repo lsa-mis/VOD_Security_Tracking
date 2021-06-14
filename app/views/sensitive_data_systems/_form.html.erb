@@ -118,11 +118,6 @@
           <% end %>
         </div>
       <% end %>
-
-        <div class="field">
-          <%= form.label :sensitive_data_system_type_id %><font color="red">**</font>
-          <%= form.collection_select :sensitive_data_system_type_id, SensitiveDataSystemType.all, :id, :name, {include_blank: "Select"}, required: true, :"data-sensitiveds-target" => "sensitive_data_system_type", :"data-action" => "input->sensitiveds#display_device" %>
-        </div>
   
         <div id="device_input" class="device--hide" data-sensitiveds-target="system_device">
           <%= form.label "Add a device" %><font color="red">**</font> - enter serial:
