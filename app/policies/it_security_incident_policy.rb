@@ -7,12 +7,12 @@ class ItSecurityIncidentPolicy < ApplicationPolicy
     end
 
     def index?
-      get_ldap_groups('dpa_exceptions')
+      get_ldap_groups('it_security_incidents')
       (user.membership & @ldap_groups).any?
     end
 
     def show?
-      get_ldap_groups('dpa_exceptions')
+      get_ldap_groups('it_security_incidents')
       (user.membership & @ldap_groups).any?
     end 
 
