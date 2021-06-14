@@ -12,7 +12,7 @@ class DpaExceptionsController < InheritedResources::Base
   end
 
   def show
-    add_breadcrumb(@dpa_exception.third_party_product_service)
+    add_breadcrumb(@dpa_exception.display_name)
     authorize @dpa_exception
   end
 
@@ -41,7 +41,7 @@ class DpaExceptionsController < InheritedResources::Base
   end
 
   def edit
-    add_breadcrumb(@dpa_exception.third_party_product_service, 
+    add_breadcrumb(@dpa_exception.display_name, 
                     dpa_exception_path(@dpa_exception)
                   )
     add_breadcrumb('Edit')
