@@ -95,8 +95,11 @@ class DpaExceptionsController < InheritedResources::Base
   private
   
     def set_membership
-      current_user.membership = session[:user_memberships]
-      # logger.debug "************ in DPA_EXCEPTION current_user.membership ***** #{current_user.membership}"
+      if user_signed_in?
+        current_user.membership = session[:user_memberships]
+      else
+        redirect_to root_path
+      end
     end
 
     def set_dpa_exception

@@ -116,8 +116,11 @@ class LegacyOsRecordsController < InheritedResources::Base
   private
 
     def set_membership
-      current_user.membership = session[:user_memberships]
-      # logger.debug "************ in legacy_os_record current_user.membership ***** #{current_user.membership}"
+      if user_signed_in?
+        current_user.membership = session[:user_memberships]
+      else
+        redirect_to root_path
+      end
     end
 
     def set_legacy_os_record

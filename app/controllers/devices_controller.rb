@@ -4,7 +4,7 @@ class DevicesController < InheritedResources::Base
   before_action :set_device, only: [:show, :edit, :update]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
   before_action :get_access_token, only: [:create, :update]
-
+  before_action :set_membership
 
   def show
     add_breadcrumb(@device.display_name)
@@ -134,6 +134,14 @@ class DevicesController < InheritedResources::Base
   end 
   
   private
+
+    def set_membership
+      if user_signed_in?
+        current_user.membership = session[:user_memberships]
+      else
+        redirect_to root_path
+      end
+    end
 
     def set_device
       @device = Device.find(params[:id])

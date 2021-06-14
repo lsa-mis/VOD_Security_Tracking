@@ -120,7 +120,11 @@ class SensitiveDataSystemsController < InheritedResources::Base
   private
 
     def set_membership
-      current_user.membership = session[:user_memberships]
+      if user_signed_in?
+        current_user.membership = session[:user_memberships]
+      else
+        redirect_to root_path
+      end
     end
 
     def set_sensitive_data_system
