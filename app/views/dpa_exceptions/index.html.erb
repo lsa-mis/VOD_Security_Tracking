@@ -43,7 +43,7 @@
             <thead>
               <tr>
                 <th scope="col">Actions</th>
-                <th scope="col">Review date exception first approval date</th>
+                <th scope="col"><%= sort_link(@q, :review_date_exception_first_approval_date, 'Review date exception first approval date') %></th>
                 <th scope="col">Third party product service</th>
                 <th scope="col"><%= sort_link(@q, :used_by, 'Used by', default_order: :desc) %></th>
                 <th scope="col">Point of contact</th>
