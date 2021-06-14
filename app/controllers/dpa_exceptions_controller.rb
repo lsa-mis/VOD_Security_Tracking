@@ -7,7 +7,9 @@ class DpaExceptionsController < InheritedResources::Base
   before_action :set_membership
 
   def index
-    @dpa_exceptions = DpaException.active
+    # @dpa_exceptions = DpaException.active
+    @q = DpaException.active.ransack(params[:q])
+    @dpa_exceptions = @q.result
     authorize @dpa_exceptions
   end
 

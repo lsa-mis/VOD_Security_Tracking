@@ -3,6 +3,17 @@
 <p class="text-gray-500 text-sm mx-4">
   DPA exceptions - Data Protection Addendums (<%= link_to 'https://it.umich.edu/information-technology-policies/general-policies/DS-20' %>)
 </p>
+
+<div>
+  <%= search_form_for @q do |f| %>
+    <%= f.label :third_party_product_service_cont %>
+    <%= f.text_field :third_party_product_service_cont, class: 'form-control' %>
+    <%= f.label :used_by_cont %>
+    <%= f.text_field :used_by_cont, class: 'form-control' %>
+    <%= link_to "Clear", request.path, class: "btn btn-default" %>
+    <%= f.submit class: 'btn btn-primary' %>
+  <% end %>
+</div>  
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
   <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
     <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
@@ -20,7 +31,7 @@
                 <th scope="col">Actions</th>
                 <th scope="col">Review date exception first approval date</th>
                 <th scope="col">Third party product service</th>
-                <th scope="col">Used by</th>
+                <th scope="col"><%= sort_link(@q, :used_by, 'Used by', default_order: :desc) %></th>
                 <th scope="col">Point of contact</th>
                 <th scope="col">Review findings</th>
                 <th scope="col">Review summary</th>
