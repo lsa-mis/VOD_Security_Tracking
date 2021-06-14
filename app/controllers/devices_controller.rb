@@ -135,14 +135,6 @@ class DevicesController < InheritedResources::Base
   
   private
 
-    def set_membership
-      if user_signed_in?
-        current_user.membership = session[:user_memberships]
-      else
-        redirect_to root_path
-      end
-    end
-
     def set_device
       @device = Device.find(params[:id])
     end

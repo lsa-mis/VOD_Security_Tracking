@@ -17,6 +17,14 @@ class ApplicationController < ActionController::Base
 
   private
 
+    def set_membership
+      if user_signed_in?
+        current_user.membership = session[:user_memberships]
+      else
+        redirect_to root_path
+      end
+    end
+
     def set_breadcrumbs
       @breadcrumbs = []
     end

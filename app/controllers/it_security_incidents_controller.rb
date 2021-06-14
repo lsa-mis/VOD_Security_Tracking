@@ -86,14 +86,6 @@ class ItSecurityIncidentsController < InheritedResources::Base
 
   private
 
-  def set_membership
-    if user_signed_in?
-      current_user.membership = session[:user_memberships]
-    else
-      redirect_to root_path
-    end
-  end
-
     def set_it_security_incident
       @it_security_incident = ItSecurityIncident.find(params[:id])
     end
