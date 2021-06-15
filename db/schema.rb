@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_12_190406) do
+ActiveRecord::Schema.define(version: 2021_06_09_211530) do
+
+  create_table "access_lookups", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "ldap_group"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "table", default: 0, null: false
+    t.integer "action", default: 0, null: false
+  end
 
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "namespace"
@@ -139,7 +147,7 @@ ActiveRecord::Schema.define(version: 2021_05_12_190406) do
     t.datetime "exception_approval_date_exception_renewal_date_due"
     t.string "notes"
     t.string "sla_agreement"
-    t.bigint "data_type_id", null: false
+    t.bigint "data_type_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "deleted_at"
@@ -180,18 +188,18 @@ ActiveRecord::Schema.define(version: 2021_05_12_190406) do
     t.string "additional_dept_contact"
     t.string "additional_dept_contact_phone"
     t.string "support_poc"
-    t.string "legacy_os", null: false
+    t.string "legacy_os"
     t.string "unique_app"
     t.string "unique_hardware"
     t.datetime "unique_date"
-    t.string "remediation", null: false
+    t.string "remediation"
     t.datetime "exception_approval_date"
     t.datetime "review_date"
-    t.string "review_contact", null: false
+    t.string "review_contact"
     t.string "justification"
     t.string "local_it_support_group"
     t.text "notes"
-    t.bigint "data_type_id", null: false
+    t.bigint "data_type_id"
     t.bigint "device_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -218,11 +226,11 @@ ActiveRecord::Schema.define(version: 2021_05_12_190406) do
     t.string "support_poc"
     t.text "expected_duration_of_data_retention"
     t.string "agreements_related_to_data_types"
-    t.datetime "review_date", null: false
-    t.string "review_contact", null: false
+    t.datetime "review_date"
+    t.string "review_contact"
     t.string "notes"
     t.bigint "storage_location_id", null: false
-    t.bigint "data_type_id", null: false
+    t.bigint "data_type_id"
     t.bigint "device_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -260,7 +268,6 @@ ActiveRecord::Schema.define(version: 2021_05_12_190406) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "role"
     t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"

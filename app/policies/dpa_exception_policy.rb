@@ -1,4 +1,4 @@
-class DpaExceptionPolicy
+class DpaExceptionPolicy < ApplicationPolicy
     attr_reader :user, :dpa_exception
   
     def initialize(user, dpa_exception)
@@ -6,7 +6,33 @@ class DpaExceptionPolicy
       @dpa_exception = dpa_exception
     end
 
+    def index?
+      get_ldap_groups('dpa_exceptions')
+      (user.membership & @ldap_groups).any?
+    end
+  
+    def show?
+      get_ldap_groups('dpa_exceptions')
+      (user.membership & @ldap_groups).any?
+    end  
+
+    def new?
+      get_ldap_groups('dpa_exceptions', 'newedit_action')
+      (user.membership & @ldap_groups).any?
+    end
+
     def archive?
-        user.role == 'can_delete'
-      end
+      get_ldap_groups('dpa_exceptions', 'archive_action')
+      (user.membership & @ldap_groups).any?
+    end
+
+    def edit?
+      get_ldap_groups('dpa_exceptions', 'newedit_action')
+      (user.membership & @ldap_groups).any?
+    end
+
+    def audit_log?
+      get_ldap_groups('dpa_exceptions', 'audit_action')
+      (user.membership & @ldap_groups).any?
+    end
   end

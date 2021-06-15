@@ -48,7 +48,7 @@ a
   @apply inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
 
 table
-  @apply min-w-full divide-y divide-gray-200 table-auto
+  @apply min-w-full divide-y divide-gray-200 table-fixed
 
   thead
     @apply bg-gray-50 
@@ -59,7 +59,29 @@ table
   tbody
     @apply bg-white divide-y divide-gray-200
     
-    tr
+    td
+      @apply px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900
 
-      td
-        @apply px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900
+      &.audit_table
+        @apply text-xs
+
+.footer-grid-container
+  display: grid
+  grid-template-columns: 1fr 2fr 1fr
+  grid-template-rows: 1fr max-content
+  gap: 0px 0px
+  grid-template-areas: "footer-left footer-center footer-right" ". footer-copyright ."
+
+.footer-center
+  grid-area: footer-center
+  justify-self: center
+
+.footer-left
+  grid-area: footer-left
+
+.footer-right
+  grid-area: footer-right
+  justify-self: end
+
+.footer-copyright
+  grid-area: footer-copyright

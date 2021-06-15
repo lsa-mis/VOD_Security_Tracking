@@ -1,4 +1,4 @@
-class LegacyOsRecordPolicy
+class LegacyOsRecordPolicy < ApplicationPolicy
     attr_reader :user, :legacy_os_record
   
     def initialize(user, legacy_os_record)
@@ -6,7 +6,33 @@ class LegacyOsRecordPolicy
       @legacy_os_record = legacy_os_record
     end
 
+    def index?
+      get_ldap_groups('legacy_os_records')
+      (user.membership & @ldap_groups).any?
+    end
+
+    def show?
+      get_ldap_groups('legacy_os_records')
+      (user.membership & @ldap_groups).any?
+    end
+
+    def new?
+      get_ldap_groups('legacy_os_records', 'newedit_action')
+      (user.membership & @ldap_groups).any?
+    end
+
     def archive?
-        user.role == 'can_delete'
-      end
+      get_ldap_groups('legacy_os_records', 'archive_action')
+      (user.membership & @ldap_groups).any?
+    end
+
+    def edit?
+      get_ldap_groups('legacy_os_records', 'newedit_action')
+      (user.membership & @ldap_groups).any?
+    end
+
+    def audit_log?
+      get_ldap_groups('legacy_os_records', 'audit_action')
+      (user.membership & @ldap_groups).any?
+    end
   end

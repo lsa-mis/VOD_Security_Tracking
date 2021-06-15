@@ -1,21 +1,33 @@
-<p>
-<strong>TDX tickets:</strong>
-<table>
-<tbody>
-  <% record_to_tdx.tdx_tickets.each do |tdx| %>
-    <tr><td><%= tdx.ticket_link %></td>
-    <% case destroy_p %>
-      <% when "dpa_exception" %>
-        <td><%= link_to 'Destroy', dpa_exception_tdx_ticket_path(params[:id],tdx.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      <% when "it_security_incident" %>
-        <td><%= link_to 'Destroy', it_security_incident_tdx_ticket_path(params[:id],tdx.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      <% when "sensitive_data_system" %>
-        <td><%= link_to 'Destroy', sensitive_data_system_tdx_ticket_path(params[:id],tdx.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      <% when "legacy_os_record" %>
-        <td><%= link_to 'Destroy', legacy_os_record_tdx_ticket_path(params[:id],tdx.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+<dt class="text-sm font-medium text-gray-500">
+  TDX tickets
+</dt>
+<dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+  <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+    <% if tdx_ticket_resource.tdx_tickets.present? %>
+      <% tdx_ticket_resource.tdx_tickets.each do |tdx| %>
+        <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+          <div class="w-0 flex-1 flex items-center">
+            <i class="fas fa-link text-gray-400"></i>
+            <span class="ml-2 flex-1 w-0 truncate">
+              <%= link_to tdx.ticket_link, url_for(tdx.ticket_link) %>
+            </span>
+          </div>
+          <div class="ml-4 flex-shrink-0 flex space-x-4">
+            <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <%= link_to 'Remove', tdx_ticket_path(tdx.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+            </button>
+          </div>
+        </li>
       <% end %>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
-</p>
+    <% else %>
+      <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+        <div class="w-0 flex-1 flex items-center">
+          <span class="ml-2 flex-1 w-0 truncate">
+            you currently do not have any links.
+          </span>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+  <%= render partial: "tdx_tickets/form", locals: { tdx_ticket_resource: tdx_ticket_resource } %>
+</dd>

@@ -1,10 +1,10 @@
-<%= form_with(model: it_security_incident) do |form| %>
-  <% if it_security_incident.errors.any? %>
+<%= form_with(model: @it_security_incident, local: true) do |form| %>
+  <% if @it_security_incident.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(it_security_incident.errors.count, "error") %> prohibited this it_security_incident from being saved:</h2>
+      <h2><%= pluralize(@it_security_incident.errors.count, "error") %> prohibited this it_security_incident from being saved:</h2>
 
       <ul>
-        <% it_security_incident.errors.each do |error| %>
+        <% @it_security_incident.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
@@ -14,53 +14,62 @@
   <div class="form-container">
     <div>
       <h3 class="instruction-header">
-        Special Fields
+        Form Instructions
       </h3>
-      <ul class="instruction-container">
-        <li class="mandatory">mandatory fields</li>
-        <li class="required">required fields => to save as an incomplete record without these fields click the [Save Incomplete Form] button.</li>
-      </ul>
+      <p>Ipsum voluptate aliquip adipisicing labore sint amet officia commodo 
+      duis laboris do sit. Labore veniam mollit commodo quis nisi esse aute 
+      fugiat. Amet exercitation aliquip labore ullamco irure magna tempor ad 
+      sit aliqua culpa. Aliquip occaecat dolore Lorem officia incididunt amet 
+      nisi nulla amet aute ex aute. Proident labore fugiat commodo ipsum ut 
+      Lorem aliquip officia reprehenderit. Laboris dolore amet non irure do 
+      voluptate nisi ex. Magna ullamco veniam exercitation duis esse officia 
+      duis labore tempor sunt mollit.</p>
     </div>
 
     <div class="field-container">
       <div class="field">
-        <%= form.label :date, class: 'required' %>
-        <%= form.text_field :date,
-          data: {
-            controller: "flatpickr",
-            flatpickr_date_format: "Y-m-d",
-            flatpickr_min_date: Time.zone.now
-          },
-          required: true 
-        %>
+        <%= form.label :date %>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <i class="fas fa-calendar-day text-gray-400"></i>
+            </div>
+            <%= form.text_field :date,
+              data: {
+                controller: "flatpickr",
+                flatpickr_date_format: "Y-m-d",
+                flatpickr_min_date: Time.zone.now
+              },
+              required: true
+            %>
+        </div>
       </div>
 
       <div class="field">
-        <%= form.label :people_involved, class: 'mandatory' %>
+        <%= form.label :people_involved %>
         <%= form.text_area :people_involved, required: true %>
         <p class="help-text">Help text if needed</p>
       </div>
 
       <div class="field">
-        <%= form.label :equipment_involved, class: 'mandatory' %>
+        <%= form.label :equipment_involved %>
         <%= form.text_area :equipment_involved, required: true %>
         <p class="help-text">Help text if needed</p>
       </div>
 
       <div class="field">
-        <%= form.label :remediation_steps, class: 'mandatory' %>
+        <%= form.label :remediation_steps %>
         <%= form.text_area :remediation_steps, required: true %>
         <p class="help-text">Help text if needed</p>
       </div>
 
       <div class="field">
-        <%= form.label :data_type_id, class: 'mandatory' %>
+        <%= form.label :data_type_id %>
         <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}, required: true %>
       </div>
 
       <div class="field">
-        <%= form.label :it_security_incident_status_id, class: 'required' %>
-        <%= form.collection_select :it_security_incident_status_id, ItSecurityIncidentStatus.all, :id, :name, {include_blank: "Select"} %>
+        <%= form.label :it_security_incident_status_id %>
+        <%= form.collection_select :it_security_incident_status_id, ItSecurityIncidentStatus.all, :id, :name, {include_blank: "Select"}, required: true %>
       </div>
 
       <div class="field">
@@ -76,8 +85,59 @@
       </div>
 
       <div class="field">
+        <%= form.fields_for @it_security_incident.tdx_tickets.new do |f| %>
+          <%= f.label :ticket_link, "Add a TDX ticket link" %>
+          <%= f.text_field :ticket_link %>
+        <% end %>
+        <% if @it_security_incident.tdx_tickets.present? %>
+          <div class="py-4 pl-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+            <dt class="text-sm font-medium text-gray-500">
+              TDX tickets connected to this record: 
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+                <% @it_security_incident.tdx_tickets.each do |tdx| %>
+                  <% if tdx.persisted? %>
+                    <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                      <div class="w-0 flex-1 flex items-center">
+                        <i class="fas fa-link text-gray-400"></i>
+                        <span class="ml-2 flex-1 w-0 truncate">
+                          <%= link_to tdx.ticket_link, url_for(tdx.ticket_link) %>
+                        </span>
+                      </div>
+                    </li>
+                  <% end %>
+                <% end %>
+              </ul>
+            </dd>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="field">
         <%= form.label :attachments %>
         <%= form.file_field :attachments, multiple: true %>
+        <% if @it_security_incident.attachments.attached? %>
+          <div class="py-4 pl-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+            <dt class="text-sm font-medium text-gray-500">
+              Other files currently connected to this record:
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+                <% @it_security_incident.attachments.each do |ma| %>
+                  <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                    <div class="w-0 flex-1 flex items-center">
+                      <i class="fas fa-paperclip text-gray-400"></i>
+                      <span class="ml-2 flex-1 w-0 truncate">
+                        <%= link_to ma.filename, url_for(ma) %>
+                      </span>
+                    </div>
+                  </li>
+                <% end %>
+              </ul>
+            </dd>
+          </div>
+        <% end %>
       </div>
 
       <%= form.hidden_field :incomplete %>
@@ -88,7 +148,6 @@
   <div class="action-area">
     <div class="actions">
       <%= form.submit %>
-      <button name="incomplete" class="btn-incomplete">Save Incomplete Form</button>
     </div>
   </div>
 <% end %>

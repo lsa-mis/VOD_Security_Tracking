@@ -14,21 +14,32 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'it_security_incidents/audit_log/:id', to: 'it_security_incidents#audit_log', as: :it_security_incident_audit_log
   resources :it_security_incidents do
     resources :tdx_tickets, module: :it_security_incidents
   end
+
+  get 'sensitive_data_systems/audit_log/:id', to: 'sensitive_data_systems#audit_log', as: :sensitive_data_system_audit_log
   resources :sensitive_data_systems do
     resources :tdx_tickets, module: :sensitive_data_systems
   end
+
+  get 'legacy_os_records/audit_log/:id', to: 'legacy_os_records#audit_log', as: :legacy_os_record_audit_log
   resources :legacy_os_records do
     resources :tdx_tickets, module: :legacy_os_records
   end
 
-  get 'dpa_exceptions/audit_log', to: 'dpa_exceptions#audit_log'
+  get 'dpa_exceptions/audit_log/:id', to: 'dpa_exceptions#audit_log', as: :dpa_exception_audit_log
   get 'dpa_exceptions/delete_file_attachment/:id', to: 'dpa_exceptions#delete_file_attachment', as: :delete_sla_agreement
   resources :dpa_exceptions do
     resources :tdx_tickets, module: :dpa_exceptions
   end
+
+  resources :tdx_tickets
+
+  get 'dpa_exceptions/audit_log', to: 'dpa_exceptions#audit_log'
+  get 'application/delete_file_attachment/:id', to: 'application#delete_file_attachment', as: :delete_file
+
   
   post 'archive_it_security_incident/:id', to: 'it_security_incidents#archive', as: :archive_it_security_incident
   post 'archive_sensitive_data_system/:id', to: 'sensitive_data_systems#archive', as: :archive_sensitive_data_system

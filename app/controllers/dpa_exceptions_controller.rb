@@ -3,92 +3,96 @@ class DpaExceptionsController < InheritedResources::Base
   before_action :verify_duo_authentication
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
-  before_action :set_dpa_exception, only: [:show, :edit, :update, :archive]
-  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
+  before_action :set_dpa_exception, only: [:show, :edit, :update, :archive, :audit_log]
+  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
+  before_action :set_membership
 
   def index
     @dpa_exceptions = DpaException.active
+    authorize @dpa_exceptions
   end
 
   def show
-    add_breadcrumb(@dpa_exception.third_party_product_service)
+    add_breadcrumb(@dpa_exception.display_name)
+    authorize @dpa_exception
   end
 
   def new
     @dpa_exception = DpaException.new
-    @tdx_ticket = @dpa_exception.tdx_tickets.new
+    authorize @dpa_exception
   end
 
   def create 
     @dpa_exception = DpaException.new(dpa_exception_params.except(:tdx_ticket))
-    @dpa_exception.tdx_tickets.new(ticket_link: dpa_exception_params[:tdx_ticket][:ticket_link])
+    if dpa_exception_params[:tdx_ticket][:ticket_link].present?
+      @dpa_exception.tdx_tickets.new(
+          ticket_link: dpa_exception_params[:tdx_ticket][:ticket_link]
+        )
+    end
     respond_to do |format|
       if @dpa_exception.save 
-        format.html { redirect_to dpa_exception_path(@dpa_exception), 
-                      notice: 'dpa exception record was successfully created. ' 
-                    }
-        format.json { render :show, status: :created, location: @dpa_exception }
+        format.turbo_stream { redirect_to dpa_exception_path(@dpa_exception), 
+          notice: 'DPA Exception record was successfully created.' 
+        }
       else
-        format.html { render :new }
-        format.json { render json: @dpa_exception.errors, status: :unprocessable_entity }
+        # Rails.logger.info(@dpa_exception.errors.inspect)
+        format.turbo_stream
       end
     end
   end
 
   def edit
-    add_breadcrumb(@dpa_exception.third_party_product_service, 
+    add_breadcrumb(@dpa_exception.display_name, 
                     dpa_exception_path(@dpa_exception)
                   )
     add_breadcrumb('Edit')
     @tdx_ticket = @dpa_exception.tdx_tickets.new
+    authorize @dpa_exception
   end
 
   def update
     if dpa_exception_params[:tdx_ticket][:ticket_link].present?
-      @dpa_exception.tdx_tickets.create(ticket_link: dpa_exception_params[:tdx_ticket][:ticket_link])
+      @dpa_exception.tdx_tickets.create(
+          ticket_link: dpa_exception_params[:tdx_ticket][:ticket_link]
+        )
     end
     respond_to do |format|
       if @dpa_exception.update(dpa_exception_params.except(:tdx_ticket))
-        format.html { redirect_to @dpa_exception, notice: 'dpa exception record was successfully updated. ' }
-        format.json { render :show, status: :created, location: @dpa_exception }
+        format.turbo_stream { redirect_to @dpa_exception, notice: 'DPA Exception record was successfully updated. ' }
       else
-        format.html { render :edit }
-        format.json { render json: @dpa_exception.errors, status: :unprocessable_entity }
+        format.turbo_stream
       end
     end
-
   end
 
   def archive
-    @dpa_exception = DpaException.find(params[:id])
     authorize @dpa_exception
-    if @dpa_exception.archive
-      respond_to do |format|
-        format.html { redirect_to dpa_exceptions_path, 
-                      notice: 'dpa exception record was successfully archived.' 
+    respond_to do |format|
+      if @dpa_exception.archive
+        format.turbo_stream { redirect_to dpa_exceptions_path, 
+                      notice: 'DPA Exception record was successfully archived.' 
                     }
-        format.json { head :no_content }
+      else
+        Rails.logger.info(@dpa_exception.errors.inspect) 
+        format.turbo_stream { redirect_to dpa_exceptions_path, 
+                      alert: 'Error archiving DPA Exception record.' 
+                    }
       end
-    else
-      format.html { redirect_to dpa_exceptions_path, 
-                    alert: 'error archiving dpa exception record.' 
-                  }
-      format.json { head :no_content }
     end
   end
-  
-  def audit_log
-    @dpa_exceptions = DpaException.all
-  end
 
-  def delete_file_attachment
-    @delete_file = ActiveStorage::Attachment.find(params[:id])
-    @delete_file.purge
-    redirect_back(fallback_location: request.referer)
+  def audit_log
+    authorize @dpa_exception
+    add_breadcrumb(@dpa_exception.third_party_product_service, 
+      dpa_exception_path(@dpa_exception)
+                  )
+    add_breadcrumb('Audit')
+
+    @dpa_item_audit_log = @dpa_exception.audits.all.reorder(created_at: :desc)
   end
 
   private
-
+  
     def set_dpa_exception
       @dpa_exception = DpaException.find(params[:id])
     end

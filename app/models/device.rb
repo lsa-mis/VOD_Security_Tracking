@@ -33,6 +33,6 @@ class Device < ApplicationRecord
     end
 
     def display_name
-        "#{self.serial} - #{self.hostname}" # or whatever column you want
-      end
+      "#{self.serial} - #{self.hostname}" # or whatever column you want
+    end
 end

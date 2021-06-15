@@ -1,16 +1,24 @@
 <header class="w-full h-75 bg-um_blue text-white ">
   <nav class="flex items-center justify-between flex-wrap p-6">
     <div class="flex items-center flex-no-shrink text-white mr-6">
-      <%= image_pack_tag "Technology_Services_logo_rgb_reverse.png", alt:"LSATS Logo", size: "323x75"  %>
+      <%= image_pack_tag "Technology_Services_logo_rgb_reverse.png", alt:"LSATS Logo", size: "323x75" %>
     </div>
     <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
       <div class="lg:flex-grow">
-        <% if user_signed_in? or admin_user_signed_in? %>
+        <% if user_signed_in? %>
             <%= link_to "Dashboard", dashboard_path, class: "mr-4" %>
-            <%= link_to "DPA Exceptions", dpa_exceptions_path, class: "mr-4" %>
-            <%= link_to "It Security Incidents", it_security_incidents_path, class: "mr-4" %>
-            <%= link_to "Legacy Os Record", legacy_os_records_path, class: "mr-4" %>
-            <%= link_to "Sensitive Data System", sensitive_data_systems_path, class: "mr-4" %>
+            <% if has_ad_access?(current_user, "dpa_exceptions") %>
+              <%= link_to "DPA Exceptions", dpa_exceptions_path, class: "mr-4" %>
+            <% end %>
+            <% if has_ad_access?(current_user, "it_security_incidents") %>
+              <%= link_to "It Security Incidents", it_security_incidents_path, class: "mr-4" %>
+            <% end %>
+            <% if has_ad_access?(current_user, "legacy_os_records") %>
+              <%= link_to "Legacy Os Record", legacy_os_records_path, class: "mr-4" %>
+            <% end %>
+            <% if has_ad_access?(current_user, "sensitive_data_systems") %>
+              <%= link_to "Sensitive Data System", sensitive_data_systems_path, class: "mr-4" %>
+            <% end %>
         <% end %>
       </div>
 

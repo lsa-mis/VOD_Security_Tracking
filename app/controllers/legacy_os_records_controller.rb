@@ -2,28 +2,35 @@ class LegacyOsRecordsController < InheritedResources::Base
   before_action :verify_duo_authentication
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
-  before_action :set_legacy_os_record, only: [:show, :edit, :update, :archive]
+  before_action :set_legacy_os_record, only: [:show, :edit, :update, :archive, :audit_log]
   before_action :get_access_token, only: [:create, :update]
-  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
+  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
+  before_action :set_membership
 
   include SaveRecordWithDevice
 
   def index
     @legacy_os_records = LegacyOsRecord.active
+    authorize @legacy_os_records
   end
 
   def show
-    add_breadcrumb(@legacy_os_record.id)
+    add_breadcrumb(@legacy_os_record.display_name)
+    authorize @legacy_os_record
   end
 
   def new
     @legacy_os_record = LegacyOsRecord.new
     @device = Device.new
+    authorize @legacy_os_record
   end
 
   def create
-    @legacy_os_record = LegacyOsRecord.new(legacy_os_record_params)
-    @device = @legacy_os_record.build_device 
+    @legacy_os_record = LegacyOsRecord.new(legacy_os_record_params.except(:tdx_ticket))
+    if legacy_os_record_params[:tdx_ticket][:ticket_link].present?
+      @legacy_os_record.tdx_tickets.new(ticket_link: legacy_os_record_params[:tdx_ticket][:ticket_link])
+    end
+    @device = @legacy_os_record.build_device(legacy_os_record_params[:device_attributes])
     serial = legacy_os_record_params[:device_attributes][:serial]
     hostname = legacy_os_record_params[:device_attributes][:hostname]
 
@@ -57,32 +64,58 @@ class LegacyOsRecordsController < InheritedResources::Base
     else
       respond_to do |format|
         if @legacy_os_record.save 
-          format.html { redirect_to legacy_os_record_path(@legacy_os_record), notice: 'Legacy os record was successfully created. ' }
-          format.json { render :show, status: :created, location: @legacy_os_record }
+          format.turbo_stream { redirect_to legacy_os_record_path(@legacy_os_record), 
+          notice: 'Legacy OS record was successfully created. ' 
+        }
         else
-          format.html { render :new }
-          format.json { render json: @legacy_os_record.errors, status: :unprocessable_entity }
+          format.turbo_stream
         end
       end
     end
   end
 
+  def edit
+    add_breadcrumb(@legacy_os_record.display_name, 
+      dpa_exception_path(@legacy_os_record)
+    )
+add_breadcrumb('Edit')
+    authorize @legacy_os_record
+  end
+
+  def update
+    if legacy_os_record_params[:tdx_ticket][:ticket_link].present?
+      @legacy_os_record.tdx_tickets.create(ticket_link: legacy_os_record_params[:tdx_ticket][:ticket_link])
+    end
+    respond_to do |format|
+      if @legacy_os_record.update(legacy_os_record_params.except(:tdx_ticket))
+        format.turbo_stream { redirect_to legacy_os_record_path(@legacy_os_record), notice: 'Legacy OS record was successfully updated.' }
+      else
+        format.turbo_stream
+      end
+    end
+  end
+
+
   def archive
     @legacy_os_record = LegacyOsRecord.find(params[:id])
     authorize @legacy_os_record
-    if @legacy_os_record.archive
-      respond_to do |format|
-        format.html { redirect_to legacy_os_records_path, notice: 'legacy os record was successfully archived.' }
-        format.json { head :no_content }
+    respond_to do |format|
+      if @legacy_os_record.archive
+        format.turbo_stream { redirect_to legacy_os_records_path, notice: 'Legacy OS record was successfully archived.' }
+      else
+        format.turbo_stream { redirect_to legacy_os_records_path, alert: 'Error archiving Legacy OS record.' }
       end
-    else
-      format.html { redirect_to legacy_os_records_path, alert: 'error archiving legacy os record.' }
-      format.json { head :no_content }
     end
   end
   
   def audit_log
-    @legacy_os_records = LegacyOsRecord.all
+    authorize @legacy_os_record
+    add_breadcrumb(@legacy_os_record.id, 
+      legacy_os_record_path(@legacy_os_record)
+                  )
+    add_breadcrumb('Audit')
+
+    @legacy_os_item_audit_log = @legacy_os_record.audits.all.reorder(created_at: :desc)
   end
 
   private
@@ -119,7 +152,8 @@ class LegacyOsRecordsController < InheritedResources::Base
                                                 :local_it_support_group, :notes, 
                                                 :data_type_id, :device_id, 
                                                 :incomplete, attachments: [], 
-                                                device_attributes: [:serial, :hostname]
+                                                device_attributes: [:serial, :hostname],
+                                                tdx_ticket: [:ticket_link]
                                               )
     end
 

@@ -58,3 +58,4 @@ production:
   admin_user: <%= Rails.application.credentials.ldap_admin[:user] %> 
   admin_password: <%= Rails.application.credentials.ldap_admin[:password] %>
   ssl: false
+  <<: *AUTHORIZATIONS

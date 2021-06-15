@@ -10,18 +10,18 @@
 #  additional_dept_contact       :string(255)
 #  additional_dept_contact_phone :string(255)
 #  support_poc                   :string(255)
-#  legacy_os                     :string(255)      not null
+#  legacy_os                     :string(255)
 #  unique_app                    :string(255)
 #  unique_hardware               :string(255)
 #  unique_date                   :datetime
-#  remediation                   :string(255)      not null
+#  remediation                   :string(255)
 #  exception_approval_date       :datetime
 #  review_date                   :datetime
-#  review_contact                :string(255)      not null
+#  review_contact                :string(255)
 #  justification                 :string(255)
 #  local_it_support_group        :string(255)
 #  notes                         :text(65535)
-#  data_type_id                  :bigint           not null
+#  data_type_id                  :bigint
 #  device_id                     :bigint
 #  created_at                    :datetime         not null
 #  updated_at                    :datetime         not null
@@ -29,7 +29,7 @@
 #  incomplete                    :boolean          default(FALSE)
 #
 class LegacyOsRecord < ApplicationRecord
-  belongs_to :data_type
+  belongs_to :data_type, optional: true
   belongs_to :device
   has_many :tdx_tickets, as: :records_to_tdx
   accepts_nested_attributes_for :device
@@ -37,12 +37,7 @@ class LegacyOsRecord < ApplicationRecord
   has_many_attached :attachments
   audited
 
-  validates :owner_username, presence: true
-  validates :owner_full_name, presence: true
-  validates :remediation, presence: true
-  validates :review_contact, presence: true
-
-  validate :validate_if_complete
+  validates :owner_username, :owner_full_name, :dept, :phone, presence: true
 
   validate :unique_app_or_unique_hardware
 
@@ -58,25 +53,11 @@ class LegacyOsRecord < ApplicationRecord
   end
   
   def unique_app_or_unique_hardware
-    if !self.incomplete
-      errors.add(:unique_app, "or Unique Hardware needs a value") unless unique_app.present? || unique_hardware.present?
-    end
+    errors.add(:unique_app, "or Unique Hardware needs a value") unless unique_app.present? || unique_hardware.present?
   end
 
-  def validate_if_complete
-    if self.dept.blank?
-      errors.add(:dept, "can't be blank") unless self.incomplete 
-    end
-    if self.phone.blank?
-      errors.add(:phone, "can't be blank") unless self.incomplete 
-    end
-    if self.support_poc.blank?
-      errors.add(:support_poc, "can't be blank") unless self.incomplete
-    end
-    if self.unique_date.blank?
-      errors.add(:unique_date, "can't be blank") unless self.incomplete
-    end
-
+  def display_name
+    "#{self.owner_username} - #{self.legacy_os}"
   end
 
 end
