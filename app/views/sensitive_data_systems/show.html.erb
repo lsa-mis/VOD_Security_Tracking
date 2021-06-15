@@ -65,13 +65,17 @@
 </p>
 
 <p>
-  <strong>Storage location:</strong>
-  <%= @sensitive_data_system.storage_location_id %>
+  <strong>Data type:</strong>
+  <% if @sensitive_data_system.data_type_id.present? %>
+    <%= @sensitive_data_system.data_type.name %>
+  <% end %>
 </p>
 
 <p>
-  <strong>Data type:</strong>
-  <%= @sensitive_data_system.data_type_id %>
+  <strong>Storage location:</strong>
+  <% if @sensitive_data_system.storage_location_id.present? %>
+    <%= @sensitive_data_system.storage_location.display_name %>
+  <% end %>
 </p>
 
 <% if @sensitive_data_system.device_id.present? %>

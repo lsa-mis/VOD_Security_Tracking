@@ -100,7 +100,7 @@
 
       <div class="field">
         <%= form.label :storage_location_id %>
-        <%= form.collection_select :storage_location_id, StorageLocation.all, :id, :name, {include_blank: "Select"},
+        <%= form.collection_select :storage_location_id, StorageLocation.all, :id, :display_name, {include_blank: "Select"},
                   :"data-sensitiveds-target" => "storage_location", :"data-action" => "input->sensitiveds#checkIfDeviceIsRequired" %>
       </div>
 
