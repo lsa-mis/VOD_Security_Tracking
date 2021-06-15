@@ -3,7 +3,7 @@
   <head>
     <title>App</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <% unless @turbo %>
+    <% if @turbo %>
       <meta name="turbo-visit-control" content="reload" />
       <meta name="turbo-cache-control" content="no-cache" />
     <% end %>
