@@ -4,30 +4,35 @@
   DPA exceptions - Data Protection Addendums (<%= link_to 'https://it.umich.edu/information-technology-policies/general-policies/DS-20' %>)
 </p>
 
-<div>
-  <%= search_form_for @q do |f| %>
-    <%= f.label :review_date_exception_first_approval_date %>
-    <%= f.text_field :review_date_exception_first_approval_date_gteq,
-    data: {
-      controller: "flatpickr",
-      flatpickr_date_format: "Y-m-d",
-      flatpickr_min_date: Time.zone.now
-    } %>
-    <%= f.text_field :review_date_exception_first_approval_date_lteq,
-    data: {
-      controller: "flatpickr",
-      flatpickr_date_format: "Y-m-d",
-      flatpickr_min_date: Time.zone.now
-    } %>
+<div data-controller='toggle' class="m-2">
+  <div data-action='click->toggle#toggle touch->toggle#toggle' class="bg-gray-900 text-white p-6">
+    Filters
+  </div>
+  <div data-toggle-target='toggleable' class="m-4 hidden">
+    <%= search_form_for @q do |f| %>
+      <%= f.label :review_date_exception_first_approval_date %>
+      <%= f.text_field :review_date_exception_first_approval_date_gteq,
+      data: {
+        controller: "flatpickr",
+        flatpickr_date_format: "Y-m-d",
+        flatpickr_min_date: Time.zone.now
+      } %>
+      <%= f.text_field :review_date_exception_first_approval_date_lteq,
+      data: {
+        controller: "flatpickr",
+        flatpickr_date_format: "Y-m-d",
+        flatpickr_min_date: Time.zone.now
+      } %>
 
-    <%= f.label :third_party_product_service_cont %>
-    <%= f.text_field :third_party_product_service_cont, class: 'form-control' %>
-    <%= f.label :used_by_cont %>
-    <%= f.text_field :used_by_cont, class: 'form-control' %>
-    <%= link_to "Clear", request.path, class: "btn btn-default" %>
-    <%= f.submit class: 'btn btn-primary' %>
-  <% end %>
-</div>  
+      <%= f.label :third_party_product_service_cont %>
+      <%= f.text_field :third_party_product_service_cont, class: 'form-control' %>
+      <%= f.label :used_by_cont %>
+      <%= f.text_field :used_by_cont, class: 'form-control' %>
+      <%= link_to "Clear", request.path, class: "btn btn-default" %>
+      <%= f.submit class: 'btn btn-primary' %>
+    <% end %>
+  </div>  
+</div>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
   <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
     <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
