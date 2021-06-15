@@ -1,4 +1,5 @@
 class ItSecurityIncidentsController < InheritedResources::Base
+  before_action :verify_duo_authentication
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
   before_action :set_it_security_incident, only: [:show, :edit, :update, :archive]
