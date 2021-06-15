@@ -119,10 +119,6 @@ class SensitiveDataSystemsController < InheritedResources::Base
 
   private
 
-    def set_membership
-      current_user.membership = session[:user_memberships]
-    end
-
     def set_sensitive_data_system
       @sensitive_data_system = SensitiveDataSystem.find(params[:id])
     end

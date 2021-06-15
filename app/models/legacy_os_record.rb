@@ -56,4 +56,8 @@ class LegacyOsRecord < ApplicationRecord
     errors.add(:unique_app, "or Unique Hardware needs a value") unless unique_app.present? || unique_hardware.present?
   end
 
+  def display_name
+    "#{self.owner_username} - #{self.legacy_os}"
+  end
+
 end

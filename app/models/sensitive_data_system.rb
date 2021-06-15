@@ -48,4 +48,8 @@ class SensitiveDataSystem < ApplicationRecord
     self.deleted_at.present?
   end
 
+  def display_name
+    "#{self.id} - #{self.owner_username}"
+  end
+
 end

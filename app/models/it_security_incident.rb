@@ -37,5 +37,9 @@ class ItSecurityIncident < ApplicationRecord
   def archived?
     self.deleted_at.present?
   end
+
+  def display_name
+    "#{self.id}"
+  end
   
 end
