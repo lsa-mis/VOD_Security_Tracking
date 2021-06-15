@@ -19,6 +19,8 @@ class ApplicationController < ActionController::Base
     if !session[:duo_auth]
       redirect_to duo_path
     end
+  end
+
   def delete_file_attachment
     @delete_file = ActiveStorage::Attachment.find(params[:id])
     @delete_file.purge
