@@ -54,7 +54,7 @@
         Date:
       </dt>
       <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @it_security_incident.date.strftime("%m/%d/%Y") %></span>
+        <span class="flex-grow"><%= @it_security_incident.date.strftime("%m/%d/%Y") unless @it_security_incident.date.blank? %></span>
       </dd>
     </div>
 
