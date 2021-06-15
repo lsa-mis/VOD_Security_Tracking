@@ -1,8 +1,8 @@
 <%= form_with(model: @dpa_exception, local: true) do |form| %>
   <% if @dpa_exception.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@dpa_exception.errors.count, "error") %> prohibited this dpa_exception from being saved:</h2>
-
+      <h2><%= pluralize(@dpa_exception.errors.count, "error") %> prohibited this
+       dpa_exception from being saved:</h2>
       <ul>
         <% @dpa_exception.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -16,20 +16,32 @@
       <h3 class="instruction-header">
         Form Instructions
       </h3>
-      <p>lsndn lksnsdj snnrew9ioqw\9, c diojslkmsdp odew-mw,mp owlf=w-9ke w,[osdk</p>
+      <p>Ipsum voluptate aliquip adipisicing labore sint amet officia commodo 
+      duis laboris do sit. Labore veniam mollit commodo quis nisi esse aute 
+      fugiat. Amet exercitation aliquip labore ullamco irure magna tempor ad 
+      sit aliqua culpa. Aliquip occaecat dolore Lorem officia incididunt amet 
+      nisi nulla amet aute ex aute. Proident labore fugiat commodo ipsum ut 
+      Lorem aliquip officia reprehenderit. Laboris dolore amet non irure do 
+      voluptate nisi ex. Magna ullamco veniam exercitation duis esse officia 
+      duis labore tempor sunt mollit.</p>
     </div>
 
     <div class="field-container">
       <div class="field">
         <%= form.label :review_date_exception_first_approval_date %>
-        <%= form.text_field :review_date_exception_first_approval_date,
-          data: {
-            controller: "flatpickr",
-            flatpickr_date_format: "Y-m-d",
-            flatpickr_min_date: Time.zone.now
-          },
-          required: true
-        %>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <i class="fas fa-calendar-day text-gray-400"></i>
+            </div>
+            <%= form.text_field :review_date_exception_first_approval_date,
+              data: {
+                controller: "flatpickr",
+                flatpickr_date_format: "Y-m-d",
+                flatpickr_min_date: Time.zone.now
+              },
+              required: true
+            %>
+        </div>
       </div>
 
       <div class="field">
@@ -87,25 +99,35 @@
       </div>
 
       <div class="field">
-        <%= form.label :exception_approval_date_exception_renewal_date_due%>
-        <%= form.text_field :exception_approval_date_exception_renewal_date_due,
-          data: {
-            controller: "flatpickr",
-            flatpickr_date_format: "Y-m-d",
-            flatpickr_min_date: Time.zone.now
-          }
-        %>
+        <%= form.label :exception_approval_date_exception_renewal_date_due %>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <i class="fas fa-calendar-day text-gray-400"></i>
+            </div>
+            <%= form.text_field :exception_approval_date_exception_renewal_date_due,
+              data: {
+                controller: "flatpickr",
+                flatpickr_date_format: "Y-m-d",
+                flatpickr_min_date: Time.zone.now
+              }
+            %>
+        </div>
       </div>
 
       <div class="field">
-        <%= form.label :review_date_exception_review_date%>
-        <%= form.text_field :review_date_exception_review_date,
-          data: {
-            controller: "flatpickr",
-            flatpickr_date_format: "Y-m-d",
-            flatpickr_min_date: Time.zone.now
-          }
-        %>
+        <%= form.label :review_date_exception_review_date %>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <i class="fas fa-calendar-day text-gray-400"></i>
+            </div>
+            <%= form.text_field :review_date_exception_review_date,
+              data: {
+                controller: "flatpickr",
+                flatpickr_date_format: "Y-m-d",
+                flatpickr_min_date: Time.zone.now
+              }
+            %>
+        </div>
       </div>
 
       <div class="field">
@@ -115,62 +137,76 @@
       </div>
 
       <div class="field">
-        <%= form.label :sla_agreement %>
+        <%= form.label :data_type_id %>
+        <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}   %>
+      </div>
+
+      <div class="field">
+        <%= form.fields_for @dpa_exception.tdx_tickets.new do |f| %>
+          <%= f.label :ticket_link, "Add a TDX ticket link" %>
+          <%= f.text_field :ticket_link %>
+        <% end %>
+        <% if @dpa_exception.tdx_tickets.present? %>
+          <div class="py-4 pl-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+            <dt class="text-sm font-medium text-gray-500">
+              TDX tickets connected to this record: 
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+                <% @dpa_exception.tdx_tickets.each do |tdx| %>
+                  <% if tdx.persisted? %>
+                    <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                      <div class="w-0 flex-1 flex items-center">
+                        <i class="fas fa-link text-gray-400"></i>
+                        <span class="ml-2 flex-1 w-0 truncate">
+                          <%= link_to tdx.ticket_link, url_for(tdx.ticket_link) %>
+                        </span>
+                      </div>
+                    </li>
+                  <% end %>
+                <% end %>
+              </ul>
+            </dd>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="field">
+        <%= form.label :sla_agreement, "SLA Agreement" %>
         <%= form.text_field :sla_agreement %>
         <p class="help-text">Help text if needed</p>
       </div>
 
       <div class="field">
-        <%= form.label :sla_attachment %>
+        <%= form.label :sla_attachment, "SLA Agreement File" %>
         <%= form.file_field :sla_attachment %>
+        <p class="help-text">Selecting a file will replace the currently attached file!</p>
         <% if @dpa_exception.sla_attachment.attached? %>
-          <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-          <dt class="text-sm font-medium text-gray-500">
-            SLA Agreement currently connected to this record: 
-          </dt>
-          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
-              <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-                <div class="w-0 flex-1 flex items-center">
-                  <!-- Heroicon name: solid/paper-clip -->
-                  <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
-                  </svg>
-                  <span class="ml-2 flex-1 w-0 truncate">
-                    <%= link_to @dpa_exception.sla_attachment.filename, url_for(@dpa_exception.sla_attachment) %>
-                  </span>
-                </div>
-              </li>
-            </ul>
-          </dd>
+          <div class="py-4 pl-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+            <dt class="text-sm font-medium text-gray-500">
+              SLA Agreement currently connected to this record: 
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+                <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                  <div class="w-0 flex-1 flex items-center">
+                    <i class="fas fa-paperclip text-gray-400"></i>
+                    <span class="ml-2 flex-1 w-0 truncate">
+                      <%= link_to @dpa_exception.sla_attachment.filename, url_for(@dpa_exception.sla_attachment) %>
+                    </span>
+                  </div>
+                </li>
+              </ul>
+            </dd>
+          </div>
         <% end %>
       </div>
-
-      <div class="field">
-        <%= form.label :data_type_id %>
-        <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"} %>
-      </div>
-
-      <%= form.fields_for @dpa_exception.tdx_tickets.new do |f| %>
-        <div class="field">
-            <%= f.label :ticket_link, "Add a ticket link" %>
-            <%= f.text_field :ticket_link %>
-        </div>
-      <% end %>
-
-      <% if @dpa_exception.tdx_tickets.present? %>
-        <div>
-          <% @dpa_exception.tdx_tickets.each do |tdx| %>
-            <%= tdx.ticket_link %>
-          <% end %>
-        </div>
-      <% end %>
 
       <div class="field">
         <%= form.label :attachments %>
         <%= form.file_field :attachments, multiple: true %>
         <% if @dpa_exception.attachments.attached? %>
-          <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+          <div class="py-4 pl-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
             <dt class="text-sm font-medium text-gray-500">
               Other files currently connected to this record:
             </dt>
@@ -179,10 +215,7 @@
                 <% @dpa_exception.attachments.each do |ma| %>
                   <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
                     <div class="w-0 flex-1 flex items-center">
-                      <!-- Heroicon name: solid/paper-clip -->
-                      <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
-                      </svg>
+                      <i class="fas fa-paperclip text-gray-400"></i>
                       <span class="ml-2 flex-1 w-0 truncate">
                         <%= link_to ma.filename, url_for(ma) %>
                       </span>

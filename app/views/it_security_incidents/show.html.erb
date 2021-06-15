@@ -1,54 +1,133 @@
-<p>
 <% if @it_security_incident.incomplete %>
-  <strong>This record is incomplete!!!!!</strong>
-  <% end %>
-</p>
+  <div class="inset-x-0 pb-2 sm:pb-5">
+    <div class="max-w-xl mx-auto px-2 sm:px-6 lg:px-8">
+      <div class="p-2 rounded-lg bg-yellow-400 shadow-lg sm:p-3">
+        <div class="flex items-center justify-between flex-wrap">
+          <div class="w-0 flex-1 flex items-center">
+            <span class="flex p-2 rounded-lg bg-yellow-600">
+              <!-- Heroicon name: outline/speakerphone -->
+              <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+              </svg>
+            </span>
+            <p class="ml-3 font-medium text-white truncate">
+              <span>
+                  This record is incomplete!
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
 
-<p>
-  <strong>Date:</strong>
-  <%= @it_security_incident.date %>
-</p>
-
-<p>
-  <strong>People involved:</strong>
-  <%= @it_security_incident.people_involved %>
-</p>
-
-<p>
-  <strong>Equipment involved:</strong>
-  <%= @it_security_incident.equipment_involved %>
-</p>
-
-<p>
-  <strong>Remediation steps:</strong>
-  <%= @it_security_incident.remediation_steps %>
-</p>
-
-<p>
-  <strong>Estimated finacial cost:</strong>
-  <%= @it_security_incident.estimated_finacial_cost %>
-</p>
-
-<p>
-  <strong>Notes:</strong>
-  <%= @it_security_incident.notes %>
-</p>
-
-<p>
-  <strong>It security incident status:</strong>
-  <%= @it_security_incident.it_security_incident_status_id %>
-</p>
-
-<p>
-  <strong>Data type:</strong>
-  <%= @it_security_incident.data_type_id %>
-</p>
-
-<%= render partial: "partials/show_attachments", locals: {attached_files: @it_security_incident} %>
-
-<div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-  <%= render partial: "tdx_tickets/tdx_tickets", locals: {record_to_tdx: @it_security_incident, destroy_p: "it_security_incident"} %>
-  <%= render partial: "tdx_tickets/form", locals: {record_to_tdx: @it_security_incident} %>
+<div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+  <div class="text-lg leading-6 font-medium text-gray-900">
+    <%= @it_security_incident.display_name %>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">
+        IT Security Incident details.
+      </p>
+  </div>
+  <div class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+    <span class="flex-grow"></span>
+    <span class="ml-4 flex-shrink-0">
+      <ul>
+        <% if has_ad_access?(current_user, "it_security_incidents", "newedit_action") %>
+          <li><%= link_to 'Edit', edit_it_security_incident_path(@it_security_incident), class: "action-link" %></li>
+        <% end %>
+        <% if has_ad_access?(current_user, "it_security_incidents", "archive_action") %>
+          <li><%= link_to 'Archive', archive_it_security_incident_path(@it_security_incident), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
+        <% end %>
+        <% if has_ad_access?(current_user, "it_security_incidents", "audit_action") %>
+          <li><%= link_to 'Audit', it_security_incident_audit_log_path(@it_security_incident), class: "action-link" %></li>
+        <% end %>
+      </ul>
+    </span>
+  </div>
 </div>
 
-<%= link_to 'Edit', edit_it_security_incident_path(@it_security_incident) %>
+<div class="mt-5 border-t border-gray-200">
+  <dl class="divide-y divide-gray-200">
+    <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Date:
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @it_security_incident.date.strftime("%m/%d/%Y") unless @it_security_incident.date.blank? %></span>
+      </dd>
+    </div>
+
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        People involved
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @it_security_incident.people_involved %></span>
+      </dd>
+    </div>
+
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Equipment involved
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @it_security_incident.equipment_involved %></span>
+      </dd>
+    </div>
+
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Remediation Steps
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @it_security_incident.remediation_steps %></span>
+      </dd>
+    </div>
+  
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Estimated Financial Cost
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @it_security_incident.estimated_finacial_cost %></span>
+      </dd>
+    </div>
+  
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Notes
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @it_security_incident.notes %></span>
+      </dd>
+    </div>
+  
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        IT Security Incident Status
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @it_security_incident.it_security_incident_status_id %></span>
+      </dd>
+    </div>
+  
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Data Type
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @it_security_incident.data_type_id %></span>
+      </dd>
+    </div>
+  
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <%= render partial: "tdx_tickets/tdx_tickets", locals: { tdx_ticket_resource: @it_security_incident } %>
+    </div>
+    
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <%= render partial: "partials/show_attachments", locals: { attached_files_resource: @it_security_incident } %>
+    </div>
+
+  </dl>
+</div>
