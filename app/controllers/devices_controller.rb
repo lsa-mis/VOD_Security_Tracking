@@ -10,10 +10,10 @@ class DevicesController < InheritedResources::Base
     add_breadcrumb(@device.display_name)
   end
 
-  def edit
-    add_breadcrumb(@device.display_name, device_path(@device))
-    add_breadcrumb('Edit')
-  end
+  # def edit
+  #   add_breadcrumb(@device.display_name, device_path(@device))
+  #   add_breadcrumb('Edit')
+  # end
 
   def new
     @device = Device.new
@@ -96,31 +96,25 @@ class DevicesController < InheritedResources::Base
       @device_tdx_info = get_device_tdx_info(search_field, @access_token)
       # check TDX API return
       if @device_tdx_info['result']['more-then_one_result'].present?
-        respond_to do |format|
-          format.turbo_stream { redirect_to @device, 
-                        notice: "#{@device_tdx_info['result']['more-then_one_result']}"
-                      }
-        end
+        flash.now[:alert] = @device_tdx_info['result']['more-then_one_result'] 
+        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
       elsif @device_tdx_info['result']['device_not_in_tdx'].present?
-        respond_to do |format|
-          format.turbo_stream { redirect_to @device, 
-                        notice: "#{@device_tdx_info['result']['device_not_in_tdx']}"
-                      }
-        end
-      else @device_tdx_info['result']['success']
-        respond_to do |format|
-          if @device.update(@device_tdx_info['data'])
-            format.turbo_stream { redirect_to @device, notice: "Device was successfully updated. "}
-          else
-            format.turbo_stream { render :new, status: :unprocessable_entity }
-          end
+        flash.now[:alert] = @device_tdx_info['result']['device_not_in_tdx'] 
+        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+      elsif @device_tdx_info['result']['success']
+        # respond_to do |format|
+        if @device.update(@device_tdx_info['data'])
+          flash.now[:alert] = "Device was successfully updated."
+          render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+        else
+          flash.now[:alert] = "Error upfdatimg Device."
+          render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
         end
       end
     else
       # no auth token
-      respond_to do |format|
-        format.turbo { redirect_to devices_url, notice: 'No access to TDX API.' }
-      end
+      flash.now[:alert] = 'No access to TDX API.'
+      render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
     end
   end 
   
