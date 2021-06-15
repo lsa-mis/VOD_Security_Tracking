@@ -7,6 +7,11 @@ Rails.application.routes.draw do
     # root to: 'users/sessions#new'
     get 'sign_in', to: 'users/sessions#new'
     get '/users/sign_out', to: 'users/sessions#destroy'
+    post 'registrations/duo_verify', to: 'registrations#duo_verify', as: :duo_verify
+    get 'registrations/duo', to: 'registrations#duo', as: :duo
+    authenticated do
+     root :to => "registrations#duo", as: :new_root
+    end
   end
 
   get 'it_security_incidents/audit_log/:id', to: 'it_security_incidents#audit_log', as: :it_security_incident_audit_log

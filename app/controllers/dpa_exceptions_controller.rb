@@ -1,5 +1,6 @@
 class DpaExceptionsController < InheritedResources::Base
 
+  before_action :verify_duo_authentication
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
   before_action :set_dpa_exception, only: [:show, :edit, :update, :archive, :audit_log]
