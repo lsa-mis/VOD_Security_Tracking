@@ -23,6 +23,10 @@ class ApplicationController < ActionController::Base
 
   private
 
+    def set_membership
+      current_user.membership = session[:user_memberships]
+    end
+
     def set_breadcrumbs
       @breadcrumbs = []
     end

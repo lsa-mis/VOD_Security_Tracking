@@ -119,11 +119,6 @@ add_breadcrumb('Edit')
 
   private
 
-    def set_membership
-      current_user.membership = session[:user_memberships]
-      # logger.debug "************ in legacy_os_record current_user.membership ***** #{current_user.membership}"
-    end
-
     def set_legacy_os_record
       @legacy_os_record = LegacyOsRecord.find(params[:id])
     end
