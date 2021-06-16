@@ -14,12 +14,9 @@
   <div class="form-container">
     <div>
       <h3 class="instruction-header">
-        Special Fields
+      Form Instructions
       </h3>
-      <ul class="instruction-container">
-        <li class="mandatory">mandatory fields</li>
-        <li class="required">required fields => to save as an incomplete record without these fields click the [Save Incomplete Form] button.</li>
-      </ul>
+      <p>lsndn lksnsdj snnrew9ioqw\9, c diojslkmsdp odew-mw,mp owlf=w-9ke w,[osdk</p>
     </div>
 
     <div class="field-container">
@@ -34,55 +31,12 @@
         <%= form.text_field :hostname %>
         <p class="help-text">Help text if needed</p>
       </div>
-
-      <div class="field">
-        <%= form.label :mac %>
-        <%= form.text_field :mac %>
-        <p class="help-text">Help text if needed</p>
-      </div>
-
-      <div class="field">
-        <%= form.label :manufacturer %>
-        <%= form.text_field :manufacturer %>
-        <p class="help-text">Help text if needed</p>
-      </div>
-
-      <div class="field">
-        <%= form.label :model %>
-        <%= form.text_field :model %>
-        <p class="help-text">Help text if needed</p>
-      </div>
-
-      <div class="field">
-        <%= form.label :owner %>
-        <%= form.text_field :owner %>
-        <p class="help-text">Help text if needed</p>
-      </div>
-
-      <div class="field">
-        <%= form.label :department %>
-        <%= form.text_field :department %>
-        <p class="help-text">Help text if needed</p>
-      </div>
-
-      <div class="field">
-        <%= form.label :building %>
-        <%= form.text_field :building %>
-        <p class="help-text">Help text if needed</p>
-      </div>
-
-      <div class="field">
-        <%= form.label :room %>
-        <%= form.text_field :room %>
-        <p class="help-text">Help text if needed</p>
-      </div>
-
     </div>
   </div>
 
   <div class="action-area">
     <div class="actions">
-      <%= form.submit %>
+      <%= form.submit 'Create Device Record', data: { disable_with: false } %>
     </div>
   </div>
 <% end %>
