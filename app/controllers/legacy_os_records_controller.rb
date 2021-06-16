@@ -2,11 +2,8 @@ class LegacyOsRecordsController < InheritedResources::Base
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
   before_action :set_legacy_os_record, only: [:show, :edit, :update, :archive, :audit_log]
-  before_action :get_access_token, only: [:create, :update]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_membership
-
-  include SaveRecordWithDevice
 
   def index
     @legacy_os_records = LegacyOsRecord.active
@@ -25,50 +22,48 @@ class LegacyOsRecordsController < InheritedResources::Base
   end
 
   def create
-    @legacy_os_record = LegacyOsRecord.new(legacy_os_record_params.except(:tdx_ticket))
+    note = ''
+    @legacy_os_record = LegacyOsRecord.new(legacy_os_record_params.except(:device_attributes, :tdx_ticket))
     if legacy_os_record_params[:tdx_ticket][:ticket_link].present?
       @legacy_os_record.tdx_tickets.new(ticket_link: legacy_os_record_params[:tdx_ticket][:ticket_link])
     end
-    @device = @legacy_os_record.build_device(legacy_os_record_params[:device_attributes])
     serial = legacy_os_record_params[:device_attributes][:serial]
     hostname = legacy_os_record_params[:device_attributes][:hostname]
 
-    if serial.present? 
-      if Device.find_by(serial: serial).present?
-        @legacy_os_record.device_id = Device.find_by(serial: serial).id
-      else 
-        search_field = serial
-      end
-    elsif hostname.present? 
-      if Device.find_by(hostname: hostname).present?
-        @legacy_os_record.device_id = Device.find_by(hostname: hostname).id
-      else
-        search_field = hostname
-      end
+    device_class = DeviceManagment.new
+    # check the devices table first
+    device_exist = device_class.if_exist(serial, hostname)
+    if device_exist['success']
+      # device exists in devices table
+      @legacy_os_record.device_id = device_exist['device_id']
     else
-      flash.now[:alert] = "Serial or hostname should be present"
-      render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
-    end
-
-    if search_field.present? 
-      # call DeviceTdxApi
-      if @access_token
-        # auth_token exists - call TDX
-        @device_tdx_info = get_device_tdx_info(search_field, @access_token)
-      else
-        # no token - create a device without calling TDX
-        @device_tdx_info = {'result' => {'device_not_in_tdx' => "No access to TDX API." }}
-      end
-      save_with_device(@legacy_os_record, @device_tdx_info, 'legacy_os_record')
-    else
-      respond_to do |format|
-        if @legacy_os_record.save 
-          format.turbo_stream { redirect_to legacy_os_record_path(@legacy_os_record), 
-          notice: 'Legacy OS record was successfully created. ' 
-        }
+      # create new device (or not)
+      search = device_class.search_tdx(serial, hostname)
+      if search['to_save']
+        if search['tdx']['in_tdx']
+          save_device = device_class.save_return_device(search['data'])
         else
-          format.turbo_stream
+          # save with device_params
+          save_device = device_class.save_return_device(legacy_os_record_params[:device_attributes])
+          note = search['message']
         end
+      else
+        # more them one search result
+        flash.now[:alert] = search['message']
+        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+        return
+      end
+      if save_device['success']
+        @legacy_os_record.device_id = save_device['device'].id
+      end
+    end
+    respond_to do |format|
+      if @legacy_os_record.save 
+        format.turbo_stream { redirect_to legacy_os_record_path(@legacy_os_record), 
+        notice: 'Legacy OS record was successfully created. ' + note
+      }
+      else
+        format.turbo_stream
       end
     end
   end
@@ -84,61 +79,37 @@ class LegacyOsRecordsController < InheritedResources::Base
     # update or create a new device
     serial = legacy_os_record_params[:device_attributes][:serial]
     hostname = legacy_os_record_params[:device_attributes][:hostname]
-    device_id = nil
-    # if serial.present? || hostname.present?
-    if serial.present?
-      search_field = serial
-      if Device.find_by(serial: serial).present?
-        device_id = Device.find_by(serial: serial).id
-      end
+    device_class = DeviceManagment.new
+    device_exist = device_class.if_exist(serial, hostname)
+    if device_exist['success']
+      @legacy_os_record.device_id = device_exist['device_id']
     else
-      if hostname.present?
-        search_field = hostname
-        if Device.find_by(hostname: hostname).present?
-          device_id = Device.find_by(hostname: hostname).id
-        end
-      end
-    end
-    # else 
-    #   flash.now[:alert] = "Serial or hostname should be present"
-    #   render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
-    # end
-    if search_field.present?
-      # call DeviceTdxApi
-      if @access_token
-        # auth_token exists - call TDX
-        device_tdx_info = get_device_tdx_info(search_field, @access_token)
-      else
-        # no token - create a device without calling TDX
-        device_tdx_info = {'result' => {'device_not_in_tdx' => "No access to TDX API." }}
-      end
-    end
-    if device_tdx_info['result']['more-then_one_result'].present?
-      flash.now[:alert] = device_tdx_info['result']['more-then_one_result']
-      render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification") 
-    else
-      if device_tdx_info['result']['success']
-        # create device with tdx data
-        device = Device.new(device_tdx_info['data'])
-      elsif device_tdx_info['result']['device_not_in_tdx'].present?
-        # device doesn't exist in TDX database, should be created with device_params
-        device = Device.new(legacy_os_record_params[:device_attributes])
-      end
-      if device.save 
-        if device_id.nil?
-          @legacy_os_record.device_id = device.id
-        end
-        #  save legacy_os_record
-        respond_to do |format|
-          if @legacy_os_record.update(legacy_os_record_params.except(:device_attributes, :tdx_ticket))
-            format.turbo_stream { redirect_to legacy_os_record_path(@legacy_os_record), notice: 'Legacy OS record was successfully updated.' }
-          else
-            format.turbo_stream
-          end
+      # create new device (or not)
+      search = device_class.search_tdx(serial, hostname)
+      if search['to_save']
+        if search['tdx']['in_tdx']
+          save_device = device_class.save_return_device(search['data'])
+        else
+          # save with device_params
+          save_device = device_class.save_return_device(legacy_os_record_params[:device_attributes])
+          note = search['message']
         end
       else
-        flash.now[:alert] = "Eroor saving device"
+        # more them one search result
+        flash.now[:alert] = search['message']
         render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+        return
+      end
+      if save_device['success']
+        @legacy_os_record.device_id = save_device['device'].id
+      end
+    end
+    #  update legacy_os_record
+    respond_to do |format|
+      if @legacy_os_record.update(legacy_os_record_params.except(:device_attributes, :tdx_ticket))
+        format.turbo_stream { redirect_to legacy_os_record_path(@legacy_os_record), notice: 'Legacy OS record was successfully updated.' }
+      else
+        format.turbo_stream
       end
     end
   end
@@ -174,16 +145,6 @@ class LegacyOsRecordsController < InheritedResources::Base
 
     def set_legacy_os_record
       @legacy_os_record = LegacyOsRecord.find(params[:id])
-    end
-
-    def get_access_token
-      auth_token = AuthTokenApi.new
-      @access_token = auth_token.get_auth_token
-    end
-
-    def get_device_tdx_info(search_field, access_token)
-      device_tdx = DeviceTdxApi.new(search_field, access_token)
-      @device_tdx_info = device_tdx.get_device_data
     end
       
     def add_index_breadcrumb

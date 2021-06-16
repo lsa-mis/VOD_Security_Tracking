@@ -1,10 +1,8 @@
 class DevicesController < InheritedResources::Base
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
-  before_action :set_device, only: [:show, :edit, :update]
-  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
-  before_action :get_access_token, only: [:create, :update]
-
+  before_action :set_device, only: [:show, :update]
+  before_action :add_index_breadcrumb, only: [:index, :show, :new]
 
   def show
     add_breadcrumb(@device.display_name)
@@ -21,102 +19,75 @@ class DevicesController < InheritedResources::Base
   end
 
   def create
+    note = ''
     serial = device_params[:serial]
     hostname = device_params[:hostname]
-    # check the devices table first
-    if serial.present? && Device.find_by(serial: serial).present?
-      device_exist =  "The device with serial number [#{serial}] already exists."
-    elsif hostname.present? && Device.find_by(hostname: hostname).present?
-      device_exist = "The device with hostname [#{hostname}] already exists."
-    else
-      # device doesn't exist in devices table, have to create search_field and call API
-      if serial.present? 
-        search_field = serial
-      else 
-        search_field = hostname
-      end
 
-      if @access_token
-        # auth_token exists - call TDX
-        @device_tdx_info = get_device_tdx_info(search_field, @access_token)
-      else
-        # no token - create a device without calling TDX
-        @device_tdx_info = {'result' => {'device_not_in_tdx' => "No access to TDX API." }}
-      end
-    end
-    if device_exist.blank?
-      # check TDX API result
-      if @device_tdx_info['result']['more-then_one_result'].present?
-        # api returns more then one result or no auth token
-        @device = Device.new(device_params)
-        flash.now[:alert] = @device_tdx_info['result']['more-then_one_result'] 
-        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
-      elsif @device_tdx_info['result']['success']
-        # create device with tdx data
-        @device = Device.new(@device_tdx_info['data'])
-        respond_to do |format|
-          if @device.save
-            format.turbo_stream { redirect_to @device, notice: "Device was successfully created. " }
-          else
-            format.turbo_stream { render :new, status: :unprocessable_entity }
-          end
-        end
-      else @device_tdx_info['result']['device_not_in_tdx'].present?
-        # device doesn't exist in TDX database (or no access to TDX), create device with device_params
-        device_not_in_tdx = @device_tdx_info['result']['device_not_in_tdx']
-        @device = Device.new(device_params)
-        respond_to do |format|
-          if @device.save
-            format.turbo_stream { redirect_to @device, 
-                          notice: "Device was successfully created. " + device_not_in_tdx 
-                        }
-          else
-            format.turbo_stream { render :new, status: :unprocessable_entity }
-          end
-        end
-      end
-    else
-      # device exists in the database
+    device_class = DeviceManagment.new
+    # check the devices table first
+    device_exist = device_class.if_exist(serial, hostname)
+    if device_exist['success']
+      # devise exists in devices table
       @device = Device.new(device_params)
-      flash.now[:alert] = device_exist
+      flash.now[:alert] = device_exist['message']
       render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+    else
+      # device doesn't exist in devices table; create a new device (or not)
+      search = device_class.search_tdx(serial, hostname)
+      if search['to_save']
+        if search['tdx']['in_tdx']
+          save_device = device_class.save_return_device(search['data'])
+        else
+          # save with device_params
+          save_device = device_class.save_return_device(device_params)
+          note = search['message']
+        end
+      else
+        # more them one search result
+        flash.now[:alert] = search['message']
+        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+        return
+      end
+      if save_device['success']
+        @device = save_device['device']
+        respond_to do |format|
+          format.turbo_stream { redirect_to @device, notice: "Device was successfully created. " + note }
+        end
+      else
+        flash.now[:alert] = save_device['message']
+        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+      end
     end
   end
 
   def update
-    @device = Device.find(params[:id])
-    if @device.serial.present? 
-      search_field = @device.serial
-    else 
-      search_field = @device.hostname
-    end
-    @access_token = get_access_token
-    if @access_token
-      # auth_token exists - call TDX
-      @device_tdx_info = get_device_tdx_info(search_field, @access_token)
-      # check TDX API return
-      if @device_tdx_info['result']['more-then_one_result'].present?
-        flash.now[:alert] = @device_tdx_info['result']['more-then_one_result'] 
+    device_class = DeviceManagment.new
+    logger.debug "********************** @device.serial #{@device.serial}"
+    search = device_class.search_tdx(@device.serial, @device.hostname)
+    if search['to_save']
+      # have returned data from TDX
+      if search['tdx']['in_tdx']
+        update_device = device_class.update_device(@device, search['data'])
+        # not reloading the page - how to?
+        flash.now[:alert] = update_device['message']
         render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
-      elsif @device_tdx_info['result']['device_not_in_tdx'].present?
-        flash.now[:alert] = @device_tdx_info['result']['device_not_in_tdx'] 
-        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
-      elsif @device_tdx_info['result']['success']
+
+        # and this not working  
+        # @device = update_device['device']
         # respond_to do |format|
-        if @device.update(@device_tdx_info['data'])
-          flash.now[:alert] = "Device was successfully updated."
-          render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
-        else
-          flash.now[:alert] = "Error upfdatimg Device."
-          render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
-        end
+        #   format.turbo_stream { redirect_to @device, notice: "#{update_device['message']}" }
+        # end
+      else
+        # device still not in tdx or no access to tdx -> no need to update
+        flash.now[:alert] = search['message']
+        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
       end
     else
-      # no auth token
-      flash.now[:alert] = 'No access to TDX API.'
+      # too many results
+      flash.now[:alert] = search['message']
       render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
     end
-  end 
+  end
   
   private
 
@@ -127,16 +98,6 @@ class DevicesController < InheritedResources::Base
     def add_index_breadcrumb
       add_breadcrumb(controller_name.titleize, devices_path)
     end 
-    
-    def get_access_token
-      auth_token = AuthTokenApi.new
-      @access_token = auth_token.get_auth_token
-    end
-
-    def get_device_tdx_info(search_field, access_token)
-      device_tdx = DeviceTdxApi.new(search_field, access_token)
-      @device_tdx_info = device_tdx.get_device_data
-    end
 
     def device_params
       params.require(:device).permit( :serial, :hostname, :mac, :building, 

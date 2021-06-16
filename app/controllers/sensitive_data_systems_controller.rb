@@ -2,11 +2,8 @@ class SensitiveDataSystemsController < InheritedResources::Base
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
   before_action :set_sensitive_data_system, only: [:show, :edit, :update, :archive, :audit_log]
-  before_action :get_access_token, only: [:create, :update]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_membership
-
-  include SaveRecordWithDevice
 
   def index
     @sensitive_data_systems = SensitiveDataSystem.active
@@ -25,55 +22,45 @@ class SensitiveDataSystemsController < InheritedResources::Base
   end
 
   def create
+    @sensitive_data_system = SensitiveDataSystem.new(sensitive_data_system_params.except(:device_attributes, :tdx_ticket))
+    if sensitive_data_system_params[:tdx_ticket][:ticket_link].present?
+      @sensitive_data_system.tdx_tickets.new(ticket_link: sensitive_data_system_params[:tdx_ticket][:ticket_link])
+    end
     serial = sensitive_data_system_params[:device_attributes][:serial]
     hostname = sensitive_data_system_params[:device_attributes][:hostname]
     if serial.present? || hostname.present?
-      @sensitive_data_system = SensitiveDataSystem.new(sensitive_data_system_params.except(:tdx_ticket))
-      if sensitive_data_system_params[:tdx_ticket][:ticket_link].present?
-        @sensitive_data_system.tdx_tickets.new(ticket_link: sensitive_data_system_params[:tdx_ticket][:ticket_link])
-      end
-      # find device
-      if serial.present?
-        if Device.find_by(serial: serial).present?
-          @sensitive_data_system.device_id = Device.find_by(serial: serial).id
-        else 
-          search_field = serial
-        end
+      device_class = DeviceManagment.new
+      # check the devices table first
+      device_exist = device_class.if_exist(serial, hostname)
+      if device_exist['success']
+        @sensitive_data_system.device_id = device_exist['device_id']
       else
-        if hostname.present?
-          if Device.find_by(hostname: hostname).present?
-            @sensitive_data_system.device_id = Device.find_by(hostname: hostname).id
+        # create new device (or not)
+        search = device_class.search_tdx(serial, hostname)
+        if search['to_save']
+          if search['tdx']['in_tdx']
+            save_device = device_class.save_return_device(search['data'])
           else
-            search_field = hostname
+            # save with device_params
+            save_device = device_class.save_return_device(sensitive_data_system_params[:device_attributes])
+            note = search['message']
           end
         else
-          flash.now[:alert] = "Serial or hostname should be present"
+          # more them one search result
+          flash.now[:alert] = search['message']
           render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+          return
         end
-      end
-    else 
-      @sensitive_data_system = SensitiveDataSystem.new(sensitive_data_system_params.except(:device_attributes, :tdx_ticket))
-      if sensitive_data_system_params[:tdx_ticket][:ticket_link].present?
-        @sensitive_data_system.tdx_tickets.new(ticket_link: sensitive_data_system_params[:tdx_ticket][:ticket_link])
+        if save_device['success']
+          @sensitive_data_system.device_id = save_device['device'].id
+        end
       end
     end
-    if search_field.present? 
-      # call DeviceTdxApi
-      if @access_token
-        # auth_token exists - call TDX
-        @device_tdx_info = get_device_tdx_info(search_field, @access_token)
+    respond_to do |format|
+      if @sensitive_data_system.save 
+        format.turbo_stream { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Sensitive Data System record was successfully created. ' + note }
       else
-        # no token - create a device without calling TDX
-        @device_tdx_info = {'result' => {'device_not_in_tdx' => "No access to TDX API." }}
-      end
-      save_with_device(@sensitive_data_system, @device_tdx_info, 'sensitive_data_system')
-    else
-      respond_to do |format|
-        if @sensitive_data_system.save 
-          format.turbo_stream { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Sensitive Data System record was successfully created.' }
-        else
-          format.turbo_stream
-        end
+        format.turbo_stream
       end
     end
   end
@@ -98,59 +85,38 @@ class SensitiveDataSystemsController < InheritedResources::Base
     if StorageLocation.find(sensitive_data_system_params[:storage_location_id]).device_is_required
       serial = sensitive_data_system_params[:device_attributes][:serial]
       hostname = sensitive_data_system_params[:device_attributes][:hostname]
-      # if serial.present? || hostname.present?
-      if serial.present?
-        search_field = serial
-        if Device.find_by(serial: serial).present?
-          device_id = Device.find_by(serial: serial).id
-        end
-      else
-        if hostname.present?
-          search_field = hostname
-          if Device.find_by(hostname: hostname).present?
-            device_id = Device.find_by(hostname: hostname).id
+      if serial.present? || hostname.present?
+        device_class = DeviceManagment.new
+        # check the devices table first
+        device_exist = device_class.if_exist(serial, hostname)
+        if device_exist['success']
+          @sensitive_data_system.device_id = device_exist['device_id']
+        else
+          # create new device (or not)
+          search = device_class.search_tdx(serial, hostname)
+          if search['to_save']
+            if search['tdx']['in_tdx']
+              save_device = device_class.save_return_device(search['data'])
+            else
+              # save with device_params
+              save_device = device_class.save_return_device(sensitive_data_system_params[:device_attributes])
+              note = search['message']
+            end
+          else
+            # more them one search result
+            flash.now[:alert] = search['message']
+            render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+            return
+          end
+          if save_device['success']
+            @sensitive_data_system.device_id = save_device['device'].id
           end
         end
       end
-      # else 
-      #   flash.now[:alert] = "Serial or hostname should be present"
-      #   render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
-      # end
-      if search_field.present?
-        # call DeviceTdxApi
-        if @access_token
-          # auth_token exists - call TDX
-          device_tdx_info = get_device_tdx_info(search_field, @access_token)
-        else
-          # no token - create a device without calling TDX
-          device_tdx_info = {'result' => {'device_not_in_tdx' => "No access to TDX API." }}
-        end
-      end
-      if device_tdx_info['result']['more-then_one_result'].present?
-        flash.now[:alert] = device_tdx_info['result']['more-then_one_result']
-        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
-        return
-      else
-        if device_tdx_info['result']['success']
-          # create device with tdx data
-          device = Device.new(device_tdx_info['data'])
-        elsif device_tdx_info['result']['device_not_in_tdx'].present?
-          # device doesn't exist in TDX database, should be created with device_params
-          device = Device.new(sensitive_data_system_params[:device_attributes])
-        end
-        if device.save 
-          device_id = device.id
-        else
-          flash.now[:alert] = "Eroor saving device"
-          render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
-        end
-      end
     else 
-      device_id = nil
+      @sensitive_data_system.device_id = nil
     end
 
-    #device_id = create_device(@sensitive_data_system, sensitive_data_system_params[:device_attributes], 'sensitive_data_system')
-    @sensitive_data_system.device_id = device_id
     respond_to do |format|
       if @sensitive_data_system.update(sensitive_data_system_params.except(:device_attributes, :tdx_ticket))
         # Rails.logger.info(@sensitive_data_system.errors.inspect) 
@@ -192,16 +158,6 @@ class SensitiveDataSystemsController < InheritedResources::Base
 
     def set_sensitive_data_system
       @sensitive_data_system = SensitiveDataSystem.find(params[:id])
-    end
-    
-    def get_access_token
-      auth_token = AuthTokenApi.new
-      @access_token = auth_token.get_auth_token
-    end
-
-    def get_device_tdx_info(search_field, access_token)
-      device_tdx = DeviceTdxApi.new(search_field, access_token)
-      @device_tdx_info = device_tdx.get_device_data
     end
 
     def add_index_breadcrumb
