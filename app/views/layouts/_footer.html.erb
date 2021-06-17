@@ -13,18 +13,7 @@
   </div>
   <div class="footer-right">
     <div class="inline-block">
-      <% if admin_user_signed_in? %>
-        <%= link_to 'Admin Dashboard', admin_root_path, class: "footer-link mt-2 pr-4" %>
-          <%= link_to destroy_admin_user_session_path, class: "footer-link", method: :delete do  %>
-            <%= render :partial => 'svg/open_padlock' %>
-              <span>Admin Sign_out</span>
-          <% end %>
-      <% else %>
-        <%= link_to new_admin_user_session_path, class: "text-gray-500" do  %>
-          <%= render :partial => 'svg/closed_padlock' %> 
-          <span>Admin Login</span>
-        <% end %>
-      <% end %>
+      <%= link_to 'Admin Dashboard', admin_root_path, class: "footer-link mt-2 pr-4" %>
     </div>
   </div>
   <div class="footer-copyright w-full flex justify-center text-sm">
