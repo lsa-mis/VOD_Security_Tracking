@@ -40,9 +40,5 @@ module App
     
     config.eager_load_paths += %W(#{config.root}/lib)
 
-    config.after_initialize do
-      config.assets.precompile.delete("turbo")
-    end
-
   end
 end
