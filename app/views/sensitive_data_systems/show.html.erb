@@ -33,7 +33,7 @@
     <span class="flex-grow"></span>
     <span class="ml-4 flex-shrink-0">
       <ul>
-        <% if has_ad_access?(current_user, "sensitive_data_system", "newedit_action") %>
+        <% if has_ad_access?(current_user, "sensitive_data_systems", "newedit_action") %>
           <li><%= link_to 'Edit', edit_sensitive_data_system_path(@sensitive_data_system), class: "action-link" %></li>
         <% end %>
         <% if has_ad_access?(current_user, "sensitive_data_systems", "archive_action") %>
