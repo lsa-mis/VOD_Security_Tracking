@@ -27,27 +27,28 @@ class DeviceManagment
     else 
       search_field = hostname
     end
-    result = {'to_save' => false, 'tdx' => {'in_tdx' => false, 'too_many' => false, 'not_in_tdx' => false}, 'data' => {}, 'message' => ''}
+    result = {'success' => false, 'save_with_tdx' => false, 'too_many' => false, 'not_in_tdx' => false, 'data' => {}, 'message' => ''}
     get_access_token
     if @access_token
       # auth_token exists - call TDX
       get_device_tdx_info(search_field, @access_token)    
       if @device_tdx_info['result']['success']
-        result['to_save'] = true
-        result['tdx']['in_tdx'] = true
+        result['success'] = true
+        result['save_with_tdx'] = true
         result['data'] = @device_tdx_info['data']
       elsif @device_tdx_info['result']['more-then_one_result'].present?
-        result['to_save'] = false
-        result['tdx']['too_many'] = true
+        result['success'] = true
+        result['too_many'] = true
         result['message'] = @device_tdx_info['result']['more-then_one_result']
       elsif @device_tdx_info['result']['device_not_in_tdx']
-        result['to_save'] = true
-        result['tdx']['not_in_tdx'] = true
+        result['success'] = true
+        result['not_in_tdx'] = true
         result['message'] = @device_tdx_info['result']['device_not_in_tdx']
       end
     else
       # no token - create a device without calling TDX
-      result['to_save'] = true
+      result['success'] = true
+      result['not_in_tdx'] = true
       result['message'] = "No access to TDX API."
     end
     return result

@@ -26,6 +26,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
     if sensitive_data_system_params[:tdx_ticket][:ticket_link].present?
       @sensitive_data_system.tdx_tickets.new(ticket_link: sensitive_data_system_params[:tdx_ticket][:ticket_link])
     end
+    note = ''
     serial = sensitive_data_system_params[:device_attributes][:serial]
     hostname = sensitive_data_system_params[:device_attributes][:hostname]
     if serial.present? || hostname.present?
@@ -37,19 +38,23 @@ class SensitiveDataSystemsController < InheritedResources::Base
       else
         # create new device (or not)
         search = device_class.search_tdx(serial, hostname)
-        if search['to_save']
-          if search['tdx']['in_tdx']
+        if search['success']
+          if search['save_with_tdx']
             save_device = device_class.save_return_device(search['data'])
-          else
+          elsif search['not_in_tdx']
             # save with device_params
             save_device = device_class.save_return_device(sensitive_data_system_params[:device_attributes])
             note = search['message']
+          elsif search['too_many']
+            # more them one search result
+            flash.now[:alert] = search['message']
+            render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+            return
           end
         else
-          # more them one search result
-          flash.now[:alert] = search['message']
-          render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
-          return
+          flash.now[:alert] = "Error searching for device"
+            render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+            return
         end
         if save_device['success']
           @sensitive_data_system.device_id = save_device['device'].id
@@ -94,17 +99,21 @@ class SensitiveDataSystemsController < InheritedResources::Base
         else
           # create new device (or not)
           search = device_class.search_tdx(serial, hostname)
-          if search['to_save']
-            if search['tdx']['in_tdx']
+          if search['success']
+            if search['save_with_tdx']
               save_device = device_class.save_return_device(search['data'])
-            else
+            elsif search['not_in_tdx']
               # save with device_params
               save_device = device_class.save_return_device(sensitive_data_system_params[:device_attributes])
               note = search['message']
+            elsif search['too_many']
+              # more them one search result
+              flash.now[:alert] = search['message']
+              render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+              return
             end
           else
-            # more them one search result
-            flash.now[:alert] = search['message']
+            flash.now[:alert] = "Error searching for device"
             render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
             return
           end

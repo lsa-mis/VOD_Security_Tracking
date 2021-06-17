@@ -39,19 +39,23 @@ class LegacyOsRecordsController < InheritedResources::Base
     else
       # create new device (or not)
       search = device_class.search_tdx(serial, hostname)
-      if search['to_save']
-        if search['tdx']['in_tdx']
+      if search['success']
+        if search['save_with_tdx']
           save_device = device_class.save_return_device(search['data'])
-        else
+        elsif search['not_in_tdx']
           # save with device_params
           save_device = device_class.save_return_device(legacy_os_record_params[:device_attributes])
           note = search['message']
+        elsif search['too_many']
+          # more them one search result
+          flash.now[:alert] = search['message']
+          render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+          return
         end
       else
-        # more them one search result
-        flash.now[:alert] = search['message']
-        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
-        return
+        flash.now[:alert] = "Error searching for device"
+          render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+          return
       end
       if save_device['success']
         @legacy_os_record.device_id = save_device['device'].id
@@ -86,19 +90,23 @@ class LegacyOsRecordsController < InheritedResources::Base
     else
       # create new device (or not)
       search = device_class.search_tdx(serial, hostname)
-      if search['to_save']
-        if search['tdx']['in_tdx']
+      if search['success']
+        if search['save_with_tdx']
           save_device = device_class.save_return_device(search['data'])
-        else
-          # save with device_params
+        elsif search['not_in_tdx']
+            # save with device_params
           save_device = device_class.save_return_device(legacy_os_record_params[:device_attributes])
           note = search['message']
+        elsif search['too_many']
+          # more them one search result
+          flash.now[:alert] = search['message']
+          render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+          return
         end
       else
-        # more them one search result
-        flash.now[:alert] = search['message']
-        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
-        return
+        flash.now[:alert] = "Error searching for device"
+          render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+          return
       end
       if save_device['success']
         @legacy_os_record.device_id = save_device['device'].id
