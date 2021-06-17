@@ -16,8 +16,12 @@ class ApplicationController < ActionController::Base
   end
 
   def verify_duo_authentication
-    if !session[:duo_auth]
-      redirect_to duo_path
+    if user_signed_in?
+      if !session[:duo_auth]
+        redirect_to duo_path
+      end
+    else
+      new_user_session_path
     end
   end
 
@@ -29,9 +33,13 @@ class ApplicationController < ActionController::Base
 
   private
 
-    def set_membership
+  def set_membership
+    if user_signed_in?
       current_user.membership = session[:user_memberships]
+    else
+      new_user_session_path
     end
+  end
 
     def set_breadcrumbs
       @breadcrumbs = []
