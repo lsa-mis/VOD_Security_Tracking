@@ -1,7 +1,7 @@
 import { Controller } from "stimulus"
 const Choices = require('choices.js');
 export default class extends Controller {
-  static targets = ["all_filters"]
+  static targets = ["form", "all_filters"]
   static classes = ['hidden']
 
 
@@ -27,16 +27,23 @@ export default class extends Controller {
   }
 
   toggle() {
+    console.log("toggle")
     this.all_filtersTarget.classList.toggle(this.class)
   }
 
   show() {
+    console.log("show")
     this.all_filtersTarget.classList.remove(this.class)
   }
 
   hide() {
+    console.log("hide")
     this.all_filtersTarget.classList.add(this.class)
   }
 
+  submitForm(event) {
+    console.log("submit")
+    this.show()
+  }
 
 }
