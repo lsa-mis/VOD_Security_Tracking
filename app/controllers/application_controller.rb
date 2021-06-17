@@ -24,7 +24,11 @@ class ApplicationController < ActionController::Base
   private
 
     def set_membership
-      current_user.membership = session[:user_memberships]
+      if user_signed_in?
+        current_user.membership = session[:user_memberships]
+      else
+        new_user_session_path
+      end
     end
 
     def set_breadcrumbs
