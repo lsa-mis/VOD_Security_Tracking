@@ -23,7 +23,14 @@
       <h3 class="instruction-header">
       Form Instructions
       </h3>
-      <p>lsndn lksnsdj snnrew9ioqw\9, c diojslkmsdp odew-mw,mp owlf=w-9ke w,[osdk</p>
+      <p>Ipsum voluptate aliquip adipisicing labore sint amet officia commodo 
+      duis laboris do sit. Labore veniam mollit commodo quis nisi esse aute 
+      fugiat. Amet exercitation aliquip labore ullamco irure magna tempor ad 
+      sit aliqua culpa. Aliquip occaecat dolore Lorem officia incididunt amet 
+      nisi nulla amet aute ex aute. Proident labore fugiat commodo ipsum ut 
+      Lorem aliquip officia reprehenderit. Laboris dolore amet non irure do 
+      voluptate nisi ex. Magna ullamco veniam exercitation duis esse officia 
+      duis labore tempor sunt mollit.</p>
     </div>
 
     <div class="field-container">
@@ -123,14 +130,24 @@
           <%= form.label :sensitive_data_system_type_id %><font color="red">**</font>
           <%= form.collection_select :sensitive_data_system_type_id, SensitiveDataSystemType.all, :id, :name, {include_blank: "Select"}, required: true, :"data-sensitiveds-target" => "sensitive_data_system_type", :"data-action" => "input->sensitiveds#display_device" %>
         </div>
-  
-        <div id="device_input" class="device--hide" data-sensitiveds-target="system_device">
-          <%= form.label "Add a device" %><font color="red">**</font> - enter serial:
-          <%= form.fields_for :device, @device do |device_attributes| %>
-            <%= device_attributes.text_field :serial, :"data-sensitiveds-target" => "serial" %>
-            or hostname:
-            <%= device_attributes.text_field :hostname, :"data-sensitiveds-target" => "hostname" %>
-          <% end %>
+
+        <div id="device_input" class="field device--hide" data-sensitiveds-target="system_device">
+          <%= form.label 'Device' %>
+          <div class="flex flex-row flex-nowrap justify-items-start items-center" >
+            <%= form.fields_for :device, @device do |device_attributes| %>
+              <div class="w-1/3 pr-4">
+                <%= form.label :serial %>
+                <%= device_attributes.text_field :serial, :"data-sensitiveds-target" => "serial" %>
+                <p class="help-text">Help text if needed</p>
+              </div>
+
+              <div class="w-1/3">
+                <%= form.label :hostname %>
+                <%= device_attributes.text_field :hostname, :"data-sensitiveds-target" => "hostname" %>
+                <p class="help-text">Help text if needed</p>
+              </div>
+            <% end %>
+          </div>
         </div>
 
       <div class="field">
