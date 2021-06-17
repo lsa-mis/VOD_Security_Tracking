@@ -4,13 +4,13 @@
   DPA exceptions - Data Protection Addendums (<%= link_to 'https://it.umich.edu/information-technology-policies/general-policies/DS-20' %>)
 </p>
 
-<div data-controller='toggle' class="m-2">
+<div data-controller='filters' data-filters-hidden-class="filters--hide" class="m-2">
   <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-    data-action='click->toggle#toggle'>
+    data-action='filters#toggle'>
   Filters
   </button>
   
-  <div data-toggle-target='toggleable' class="m-4 hidden">
+  <div data-filters-target='all_filters' class="m-4 filters--hide">
     <div class="form-container">
       <div class="field-container">
         <%= search_form_for @q do |f| %>
@@ -40,10 +40,13 @@
               <%= f.text_field :third_party_product_service_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
           </div>
-          <div class="field flex flex-row flex-nowrap justify-items-start items-center" >
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center" data-controller='filters'>
             <%= f.label :used_by %>
             <div class="w-1/2 pl-2">
-              <%= f.text_field :used_by_cont, placeholder: "Contains", class: 'form-control' %>
+              <%= f.select :used_by_cont, @used_by, placeholder: "Contains", class: 'form-control' %>
+
+
+            
             </div>
           </div>
           <%= link_to "Clear", request.path, class: "btn btn-default" %>
@@ -60,6 +63,10 @@
       <%= link_to 'New Dpa Exception', new_dpa_exception_path %>
     </div>
   <% end %>
+
+  <span class="display-filters-result">
+  Total number of records: <%= "#{@total}" %>
+  </span>
 
   <div class="flex flex-col">
     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">

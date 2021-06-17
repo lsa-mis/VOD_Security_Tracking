@@ -10,6 +10,8 @@ class DpaExceptionsController < InheritedResources::Base
     # @dpa_exceptions = DpaException.active
     @q = DpaException.active.ransack(params[:q])
     @dpa_exceptions = @q.result
+    @total = @dpa_exceptions.count
+    @used_by = @dpa_exceptions.uniq.pluck(:used_by)
     authorize @dpa_exceptions
   end
 
