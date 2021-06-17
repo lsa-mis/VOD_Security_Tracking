@@ -1,9 +1,41 @@
-<% if attached_files.attachments.attached? %>
-<ul>
-  <% attached_files.attachments.each do |file| %>
-    <li>
-        <strong>Attachment:</strong> <%= link_to file.filename, url_for(file) %>
-    </li>
-  <% end %>
-</ul>
-<% end %>
+<dt class="text-sm font-medium text-gray-500">
+  Other Attachments
+</dt>
+<dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+  <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+    <% if attached_files_resource.attachments.attached? %>
+      <% attached_files_resource.attachments.each do |file| %>
+        <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+          <div class="w-0 flex-1 flex items-center">
+            <i class="fas fa-paperclip text-gray-400"></i>
+            <span class="ml-2 flex-1 w-0 truncate">
+              <%= link_to file.filename, url_for(file) %>
+            </span>
+          </div>
+          <div class="ml-4 flex-shrink-0 flex space-x-4">
+            <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <%= link_to "Update", "#{attached_files_resource.id}/edit" %>
+            </button>
+            <span class="text-gray-300" aria-hidden="true">|</span>
+            <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <%= link_to 'Remove', delete_file_path(file.id), data: { confirm: "Are sure you?"} %>
+            </button>
+          </div>
+        </li>
+      <% end %>
+    <% else %>
+      <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+        <div class="w-0 flex-1 flex items-center">
+          <span class="ml-2 flex-1 w-0 truncate">
+            you currently do not have an attached files.
+          </span>
+        </div>
+        <div class="ml-4 flex-shrink-0 flex space-x-4">
+          <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <%= link_to "Add", "#{attached_files_resource.id}/edit" %>
+          </button>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</dd>

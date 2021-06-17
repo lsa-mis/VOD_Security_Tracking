@@ -21,28 +21,32 @@
   <div class="form-container">
     <div>
       <h3 class="instruction-header">
-        Special Fields
+      Form Instructions
       </h3>
-      <ul class="instruction-container">
-        <li class="mandatory">mandatory fields</li>
-        <li class="required">required fields => to save as an incomplete record without these fields click the [Save Incomplete Form] button.</li>
-      </ul>
+      <p>Ipsum voluptate aliquip adipisicing labore sint amet officia commodo 
+      duis laboris do sit. Labore veniam mollit commodo quis nisi esse aute 
+      fugiat. Amet exercitation aliquip labore ullamco irure magna tempor ad 
+      sit aliqua culpa. Aliquip occaecat dolore Lorem officia incididunt amet 
+      nisi nulla amet aute ex aute. Proident labore fugiat commodo ipsum ut 
+      Lorem aliquip officia reprehenderit. Laboris dolore amet non irure do 
+      voluptate nisi ex. Magna ullamco veniam exercitation duis esse officia 
+      duis labore tempor sunt mollit.</p>
     </div>
 
     <div class="field-container">
       <div class="field">
-        <%= form.label :owner_username, class: "mandatory" %>
-        <%= form.text_field :owner_username, required: true  %>
+        <%= form.label :owner_username%>
+        <%= form.text_field :owner_username, required: true %>
       </div>
 
       <div class="field">
-        <%= form.label :owner_full_name, class: "mandatory" %>
-        <%= form.text_field :owner_full_name, required: true  %>
+        <%= form.label :owner_full_name%>
+        <%= form.text_field :owner_full_name, required: true %>
       </div>
 
       <div class="field">
-        <%= form.label :dept, class: "required" %>
-        <%= form.text_field :dept %>
+        <%= form.label :dept%>
+        <%= form.text_field :dept, required: true %>
       </div>
 
       <div class="field">
@@ -61,7 +65,7 @@
       </div>
 
       <div class="field">
-        <%= form.label :support_poc, class: "required" %>
+        <%= form.label :support_poc%>
         <%= form.text_field :support_poc %>
       </div>
 
@@ -76,20 +80,19 @@
       </div>
 
       <div class="field">
-        <%= form.label :review_date, class: "mandatory" %>
+        <%= form.label :review_date %>
         <%= form.text_field :review_date,
           data: {
             controller: "flatpickr",
             flatpickr_date_format: "Y-m-d",
             flatpickr_min_date: Time.zone.now
-          },
-          required: true 
+          }
         %>
       </div>
 
       <div class="field">
-        <%= form.label :review_contact, class: "mandatory" %>
-        <%= form.text_field :review_contact, required: true  %>
+        <%= form.label :review_contact%>
+        <%= form.text_field :review_contact%>
       </div>
 
       <div class="field">
@@ -98,29 +101,53 @@
       </div>
 
       <div class="field">
-        <%= form.label :storage_location_id, class: "mandatory" %>
+        <%= form.label :storage_location_id%>
         <%= form.collection_select :storage_location_id, StorageLocation.all, :id, :name, {include_blank: "Select"}, required: true %>
 
       </div>
 
       <div class="field">
-        <%= form.label :data_type_id, class: "mandatory" %>
-        <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}, required: true %>
+        <%= form.label :data_type_id%>
+        <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"} %>
       </div>
 
+      <%= form.fields_for @sensitive_data_system.tdx_tickets.new do |f| %>
+        <div class="field">
+            <%= f.label :ticket_link, "Add a ticket link" %>
+            <%= f.text_field :ticket_link %>
+        </div>
+      <% end %>
+
+      <% if @sensitive_data_system.tdx_tickets.present? %>
+        <div>
+          <% @sensitive_data_system.tdx_tickets.each do |tdx| %>
+            <%= tdx.ticket_link %>
+          <% end %>
+        </div>
+      <% end %>
 
         <div class="field">
           <%= form.label :sensitive_data_system_type_id %><font color="red">**</font>
           <%= form.collection_select :sensitive_data_system_type_id, SensitiveDataSystemType.all, :id, :name, {include_blank: "Select"}, required: true, :"data-sensitiveds-target" => "sensitive_data_system_type", :"data-action" => "input->sensitiveds#display_device" %>
         </div>
-  
-        <div id="device_input" class="device--hide" data-sensitiveds-target="system_device">
-          <%= form.label "Add a device" %><font color="red">**</font> - enter serial:
-          <%= form.fields_for :device, @device do |device_attributes| %>
-            <%= device_attributes.text_field :serial, :"data-sensitiveds-target" => "serial" %>
-            or hostname:
-            <%= device_attributes.text_field :hostname, :"data-sensitiveds-target" => "hostname" %>
-          <% end %>
+
+        <div id="device_input" class="field device--hide" data-sensitiveds-target="system_device">
+          <%= form.label 'Device' %>
+          <div class="flex flex-row flex-nowrap justify-items-start items-center" >
+            <%= form.fields_for :device, @device do |device_attributes| %>
+              <div class="w-1/3 pr-4">
+                <%= form.label :serial %>
+                <%= device_attributes.text_field :serial, :"data-sensitiveds-target" => "serial" %>
+                <p class="help-text">Help text if needed</p>
+              </div>
+
+              <div class="w-1/3">
+                <%= form.label :hostname %>
+                <%= device_attributes.text_field :hostname, :"data-sensitiveds-target" => "hostname" %>
+                <p class="help-text">Help text if needed</p>
+              </div>
+            <% end %>
+          </div>
         </div>
 
       <div class="field">
@@ -135,8 +162,7 @@
 
   <div class="action-area">
     <div class="actions">
-      <%= form.submit %>
-      <button name="incomplete" class="btn-incomplete">Save Incomplete Form</button>
+      <%= form.submit 'Create Sensitive Data System', data: { disable_with: false } %>
     </div>
   </div>
 <% end %>

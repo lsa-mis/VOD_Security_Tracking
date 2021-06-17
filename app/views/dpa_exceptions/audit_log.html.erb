@@ -5,36 +5,37 @@
 <table>
   <thead>
     <tr>
-      <th>Record</th>
-      <th>Type</th>
+      <th>Action</th>
       <th>When</th>
       <th>Who(user_id)</th>
       <th>What changed</th>
-      <th></th>
+      <th>IP Address</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @dpa_exceptions.each do |dpa_exception| %>
-        <tr><td><%= link_to dpa_exception.id, dpa_exception %></td>
-            <% dpa_exception.audits.all.order(:created_at).each do | audit| %>
-                <td><%= audit.action %></td>
-                <td><%= audit.created_at %></td>
-                <td><%= audit.user_id %></td>
-                <td>
-                    <% audit.audited_changes.each do |k, v| %>
-                        <%= k.titleize %>
-                        <% if v.is_a? Array %>
-                            <strong>from:</strong> <%= v[0] %>
-                            <strong>to:</strong> <%= v[1] %>
-                        <% else %>
-                            <strong>to:</strong> <%= v %>
-                        <% end %>
-                        <br>
-                    <% end %>
-                </td>
-                </tr><tr><td></td>
-        <% end %>
+    <% @dpa_item_audit_log.each do |audit| %>
+        <tr>
+          <td class="audit_table"><%= audit.action %></td>
+          <td class="audit_table"><%= audit.created_at.strftime('%c - %Z') %></td>
+          <% if User.find_by(id: audit.user_id).present? %>
+            <td class="audit_table"><%= user_name_email(audit.user_id) %></td>
+          <% else %> 
+            <td><%= audit.user_id %></td>
+          <% end %>
+          <td class="audit_table">
+              <% audit.audited_changes.each do |k, v| %>
+                  <%= k.titleize %>
+                  <% if v.is_a? Array %>
+                    <strong>from:</strong> <%= v[0] %>
+                    <strong>to:</strong> <%= v[1] %>
+                  <% else %>
+                    <strong>to:</strong> <%= v %>
+                  <% end %>
+                  <br>
+              <% end %>
+          </td>
+          <td class="audit_table"><%= audit.remote_address %></td>
         </tr>
     <% end %>
 </tbody>

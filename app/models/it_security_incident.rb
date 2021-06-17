@@ -17,17 +17,14 @@
 #  incomplete                     :boolean          default(FALSE)
 #
 class ItSecurityIncident < ApplicationRecord
-  has_one :it_security_incident_status
+  belongs_to :it_security_incident_status
   belongs_to :data_type
   has_many :tdx_tickets, as: :records_to_tdx
   has_many_attached :attachments
   audited
 
-  validate :validate_if_complete
-  validates :people_involved, presence: true
-  validates :equipment_involved, presence: true
-  validates :remediation_steps, presence: true
-  validates :data_type_id, presence: true
+  validates :date, :people_involved, :equipment_involved, :remediation_steps,
+            :data_type_id, :it_security_incident_status_id, presence: true
 
 
   scope :active, -> { where(deleted_at: nil) }
@@ -41,13 +38,8 @@ class ItSecurityIncident < ApplicationRecord
     self.deleted_at.present?
   end
 
-  def validate_if_complete
-    if self.it_security_incident_status_id.blank?
-      errors.add(:it_security_incident_status_id, "can't be blank") unless self.incomplete 
-    end
-    if self.date.blank?
-      errors.add(:date, "can't be blank") unless self.incomplete
-    end
+  def display_name
+    "#{self.id}"
   end
   
 end

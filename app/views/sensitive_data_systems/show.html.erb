@@ -1,92 +1,207 @@
-<p>
 <% if @sensitive_data_system.incomplete %>
-  <strong>This record is incomplete!!!!!</strong>
-  <% end %>
+  <div class="inset-x-0 pb-2 sm:pb-5">
+    <div class="max-w-xl mx-auto px-2 sm:px-6 lg:px-8">
+      <div class="p-2 rounded-lg bg-yellow-400 shadow-lg sm:p-3">
+        <div class="flex items-center justify-between flex-wrap">
+          <div class="w-0 flex-1 flex items-center">
+            <span class="flex p-2 rounded-lg bg-yellow-600">
+              <!-- Heroicon name: outline/speakerphone -->
+              <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+              </svg>
+            </span>
+            <p class="ml-3 font-medium text-white truncate">
+              <span>
+                  This record is incomplete!
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+  <div class="text-lg leading-6 font-medium text-gray-900">
+    <%= @sensitive_data_system.display_name %>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">
+        Sensitive Data System details.
+      </p>
+  </div>
+  <div class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+    <span class="flex-grow"></span>
+    <span class="ml-4 flex-shrink-0">
+      <ul>
+        <% if has_ad_access?(current_user, "sensitive_data_systems", "newedit_action") %>
+          <li><%= link_to 'Edit', edit_sensitive_data_system_path(@sensitive_data_system), class: "action-link" %></li>
+        <% end %>
+        <% if has_ad_access?(current_user, "sensitive_data_systems", "archive_action") %>
+          <li><%= link_to 'Archive', archive_sensitive_data_system_path(@sensitive_data_system), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
+        <% end %>
+        <% if has_ad_access?(current_user, "sensitive_data_systems", "audit_action") %>
+          <li><%= link_to 'Audit', sensitive_data_system_audit_log_path(@sensitive_data_system), class: "action-link" %></li>
+        <% end %>
+      </ul>
+    </span>
+  </div>
+</div>
+
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Owner Name
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @sensitive_data_system.owner_username %></span>
+      </dd>
+    </div>
+
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Owner Full Name
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @sensitive_data_system.owner_full_name %></span>
+      </dd>
+    </div>
+
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Department
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @sensitive_data_system.dept %></span>
+      </dd>
+    </div>
+
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Phone
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @sensitive_data_system.phone %></span>
+      </dd>
+    </div>
+
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Additional Department Contact
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @sensitive_data_system.additional_dept_contact %></span>
+      </dd>
+    </div>
+  
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Additional Department Contact Phone
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @sensitive_data_system.additional_dept_contact_phone %></span>
+      </dd>
+    </div>
+
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Support Point of Contact
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @sensitive_data_system.support_poc %></span>
+      </dd>
+    </div>
+
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Expected Duration of Data Retention
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @sensitive_data_system.expected_duration_of_data_retention %></span>
+      </dd>
+    </div>
+
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Agreements Related to Dat Types
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @sensitive_data_system.agreements_related_to_data_types %></span>
+      </dd>
+    </div>
+  
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Review Date
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @sensitive_data_system.review_date.strftime("%m/%d/%Y") unless @sensitive_data_system.review_date.blank? %></span>
+      </dd>
+    </div>
+
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Review Contact
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @sensitive_data_system.review_contact %></span>
+      </dd>
+    </div>
+  
 </p>
 
-<p>
-  <strong>Owner username:</strong>
-  <%= @sensitive_data_system.owner_username %>
-</p>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Notes
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @sensitive_data_system.notes %></span>
+      </dd>
+    </div>
 
-<p>
-  <strong>Owner full name:</strong>
-  <%= @sensitive_data_system.owner_full_name %>
-</p>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Storage Location
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @sensitive_data_system.storage_location_id %></span>
+      </dd>
+    </div>
 
-<p>
-  <strong>Dept:</strong>
-  <%= @sensitive_data_system.dept %>
-</p>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Data Type
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @sensitive_data_system.data_type_id %></span>
+      </dd>
+    </div>
+  
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Sensitive Data System Type
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @sensitive_data_system.sensitive_data_system_type_id %></span>
+      </dd>
+    </div>
 
-<p>
-  <strong>Phone:</strong>
-  <%= @sensitive_data_system.phone %>
-</p>
+    <% if @sensitive_data_system.device_id.present? %>
+      <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+        <dt class="text-sm font-medium text-gray-500">
+          Device Name
+        </dt>
+        <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+          <span class="flex-grow"><%= @sensitive_data_system.device.display_name %></span>
+        </dd>
+      </div>
+    <% end %>
 
-<p>
-  <strong>Additional dept contact:</strong>
-  <%= @sensitive_data_system.additional_dept_contact %>
-</p>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <%= render partial: "tdx_tickets/tdx_tickets", locals: { tdx_ticket_resource: @sensitive_data_system } %>
+    </div>
+    
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <%= render partial: "partials/show_attachments", locals: { attached_files_resource: @sensitive_data_system } %>
+    </div>
 
-<p>
-  <strong>Additional dept contact phone:</strong>
-  <%= @sensitive_data_system.additional_dept_contact_phone %>
-</p>
-
-<p>
-  <strong>Support poc:</strong>
-  <%= @sensitive_data_system.support_poc %>
-</p>
-
-<p>
-  <strong>Expected duration of data retention:</strong>
-  <%= @sensitive_data_system.expected_duration_of_data_retention %>
-</p>
-
-<p>
-  <strong>Agreements related to data types:</strong>
-  <%= @sensitive_data_system.agreements_related_to_data_types %>
-</p>
-
-<p>
-  <strong>Review date:</strong>
-  <%= @sensitive_data_system.review_date %>
-</p>
-
-<p>
-  <strong>Review contact:</strong>
-  <%= @sensitive_data_system.review_contact %>
-</p>
-
-<p>
-  <strong>Notes:</strong>
-  <%= @sensitive_data_system.notes %>
-</p>
-
-<p>
-  <strong>Storage location:</strong>
-  <%= @sensitive_data_system.storage_location_id %>
-</p>
-
-<p>
-  <strong>Data type:</strong>
-  <%= @sensitive_data_system.data_type_id %>
-</p>
-
-<p>
-  <strong>System Type:</strong>
-  <%= @sensitive_data_system.sensitive_data_system_type_id %>
-</p>
-
-<p>
-  <strong>Device:</strong>
-  <%= @sensitive_data_system.device_id %>
-</p>
-
-<%= render partial: "partials/show_attachments", locals: {attached_files: @sensitive_data_system} %>
-
-<%= render partial: "tdx_tickets/tdx_tickets", locals: {record_to_tdx: @sensitive_data_system, destroy_p: "sensitive_data_system"} %>
-<%= render partial: "tdx_tickets/form", locals: {record_to_tdx: @sensitive_data_system} %>
-
-<%= link_to 'Edit', edit_sensitive_data_system_path(@sensitive_data_system) %>
+  </dl>
+</div>
