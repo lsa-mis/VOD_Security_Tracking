@@ -19,4 +19,8 @@ ActiveStorage.start()
 
 const images = require.context('../images', true)
 
-
+$(document).on("turbo:load", () => {
+    console.log("turbo")
+    // $('[data-toggle="tooltip"]').tooltip()
+    // $('[data-toggle="popover"]').popover()
+})
