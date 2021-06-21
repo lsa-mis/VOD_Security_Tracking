@@ -2,9 +2,6 @@ class RegistrationsController < Devise::RegistrationsController
   skip_before_action :require_no_authentication, only: [:duo_verify]
   skip_before_action :verify_authenticity_token
 
-  self.responder = Responder
-  respond_to :html, :turbo_stream
-  
   def duo
     @sig_request = Duo.sign_request(Rails.application.credentials.duo[:duo_ikey], Rails.application.credentials.duo[:duo_skey], Rails.application.credentials.duo[:duo_akey], current_user.username)
   end
