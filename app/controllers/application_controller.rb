@@ -38,8 +38,8 @@ class ApplicationController < ActionController::Base
     end
 
     def after_sign_in_path_for(resource)
-      duo_path
-      # dashboard_path
+      # duo_path
+      dashboard_path
     end  
 
     def user_not_authorized
