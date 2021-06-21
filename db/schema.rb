@@ -168,7 +168,7 @@ ActiveRecord::Schema.define(version: 2021_06_09_211530) do
     t.text "people_involved", null: false
     t.text "equipment_involved", null: false
     t.text "remediation_steps", null: false
-    t.integer "estimated_finacial_cost"
+    t.integer "estimated_financial_cost"
     t.text "notes"
     t.bigint "it_security_incident_status_id"
     t.bigint "data_type_id", null: false
