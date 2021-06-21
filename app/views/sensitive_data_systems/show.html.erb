@@ -181,7 +181,7 @@
           Device Name
         </dt>
         <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span class="flex-grow"><%= @sensitive_data_system.device.display_name %></span>
+          <span class="flex-grow"><%= link_to @sensitive_data_system.device.display_name, device_path(@sensitive_data_system.device_id) %></span>
         </dd>
       </div>
     <% end %>
