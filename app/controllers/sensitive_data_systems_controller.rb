@@ -57,7 +57,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
     end
     respond_to do |format|
       if @sensitive_data_system.update(sensitive_data_system_params.except(:device_attributes, :tdx_ticket))
-        format.turbo_stream { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'legacy os record was successfully updated.' }
+        format.turbo_stream { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Sensitive Data System record was successfully updated.' }
       else
         format.turbo_stream
       end
