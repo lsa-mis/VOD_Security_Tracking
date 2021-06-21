@@ -26,50 +26,18 @@ class SensitiveDataSystemsController < InheritedResources::Base
   end
 
   def create
-    if sensitive_data_system_params[:sensitive_data_system_type_id] == "1"
-      @sensitive_data_system = SensitiveDataSystem.new(sensitive_data_system_params.except(:tdx_ticket))
-      if sensitive_data_system_params[:tdx_ticket][:ticket_link].present?
-        @sensitive_data_system.tdx_tickets.new(ticket_link: sensitive_data_system_params[:tdx_ticket][:ticket_link])
-      end
-      serial = sensitive_data_system_params[:device_attributes][:serial]
-      hostname = sensitive_data_system_params[:device_attributes][:hostname]
-      # find device
-      if serial.present? 
-        if Device.find_by(serial: serial).present?
-          @sensitive_data_system.device_id = Device.find_by(serial: serial).id
-        else 
-          search_field = serial
-        end
-      elsif hostname.present? 
-        if Device.find_by(hostname: hostname).present?
-          @sensitive_data_system.device_id = Device.find_by(hostname: hostname).id
-        else
-          search_field = hostname
-        end
-      end
-    else 
-      @sensitive_data_system = SensitiveDataSystem.new(sensitive_data_system_params.except(:device_attributes, :tdx_ticket))
-      if sensitive_data_system_params[:tdx_ticket][:ticket_link].present?
-        @sensitive_data_system.tdx_tickets.new(ticket_link: sensitive_data_system_params[:tdx_ticket][:ticket_link])
-      end
+    # not adding a device yet
+    # serial = sensitive_data_system_params[:device_attributes][:serial]
+    # hostname = sensitive_data_system_params[:device_attributes][:hostname]
+    @sensitive_data_system = SensitiveDataSystem.new(sensitive_data_system_params.except(:device_attributes, :tdx_ticket))
+    if sensitive_data_system_params[:tdx_ticket][:ticket_link].present?
+      @sensitive_data_system.tdx_tickets.new(ticket_link: sensitive_data_system_params[:tdx_ticket][:ticket_link])
     end
-    if search_field.present? 
-      # call DeviceTdxApi
-      if @access_token
-        # auth_token exists - call TDX
-        @device_tdx_info = get_device_tdx_info(search_field, @access_token)
+    respond_to do |format|
+      if @sensitive_data_system.save 
+        format.turbo_stream { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Sensitive Data System record was successfully created.' }
       else
-        # no token - create a device without calling TDX
-        @device_tdx_info = {'result' => {'device_not_in_tdx' => "No access to TDX API." }}
-      end
-      save_with_device(@sensitive_data_system, @device_tdx_info, 'sensitive_data_system')
-    else
-      respond_to do |format|
-        if @sensitive_data_system.save 
-          format.turbo_stream { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Sensitive Data System record was successfully created.' }
-        else
-          format.turbo_stream
-        end
+        format.turbo_stream
       end
     end
   end
@@ -88,7 +56,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
       @sensitive_data_system.tdx_tickets.create(ticket_link: sensitive_data_system_params[:tdx_ticket][:ticket_link])
     end
     respond_to do |format|
-      if @sensitive_data_system.update(sensitive_data_system_params.except(:tdx_ticket))
+      if @sensitive_data_system.update(sensitive_data_system_params.except(:device_attributes, :tdx_ticket))
         format.turbo_stream { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'legacy os record was successfully updated.' }
       else
         format.turbo_stream
