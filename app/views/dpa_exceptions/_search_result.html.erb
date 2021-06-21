@@ -1,0 +1,36 @@
+
+            <tbody>
+              <% dpa_exceptions.each do |dpa_exception| %>
+                <tr>
+                  <td>
+                    <ul>
+                      <li><%= link_to 'Show', dpa_exception, class: "action-link" %></li>
+                      <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
+                        <li><%= link_to 'Edit', edit_dpa_exception_path(dpa_exception), class: "action-link" %></li>
+                      <% end %>
+                      <% if has_ad_access?(current_user, "dpa_exceptions", "archive_action") %>
+                        <li><%= link_to 'Archive', archive_dpa_exception_path(dpa_exception), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
+                      <% end %>
+                      <% if has_ad_access?(current_user, "dpa_exceptions", "audit_action") %>
+                        <li><%= link_to 'Audit', dpa_exception_audit_log_path(dpa_exception), class: "action-link" %></li>
+                      <% end %>
+                    </ul>
+                  </td> 
+                  <td><%= dpa_exception.review_date_exception_first_approval_date %></td>
+                  <td><%= dpa_exception.third_party_product_service %></td>
+                  <td><%= dpa_exception.used_by %></td>
+                  <td><%= dpa_exception.point_of_contact %></td>
+                  <td><%= truncate(dpa_exception.review_findings, length: 25) %></td>
+                  <td><%= truncate(dpa_exception.review_summary, length: 25) %></td>
+                  <td><%= truncate(dpa_exception.lsa_security_recommendation, length: 25) %></td>
+                  <td><%= truncate(dpa_exception.lsa_security_determination, length: 25) %></td>
+                  <td><%= dpa_exception.lsa_security_approval %></td>
+                  <td><%= dpa_exception.lsa_technology_services_approval %></td>
+                  <td><%= dpa_exception.exception_approval_date_exception_renewal_date_due %></td>
+                  <td><%= dpa_exception.review_date_exception_review_date %></td>
+                  <td><%= truncate(dpa_exception.notes, length: 25) %></td>
+                  <td><%= dpa_exception.sla_agreement %></td>
+                  <td><%= dpa_exception.data_type_id %></td>
+                </tr>
+              <% end %>
+            </tbody>
