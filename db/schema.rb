@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_21_132208) do
+ActiveRecord::Schema.define(version: 2021_06_21_171917) do
 
   create_table "access_lookups", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "ldap_group"
@@ -177,7 +177,7 @@ ActiveRecord::Schema.define(version: 2021_06_21_132208) do
     t.text "people_involved", null: false
     t.text "equipment_involved", null: false
     t.text "remediation_steps", null: false
-    t.integer "estimated_finacial_cost"
+    t.integer "estimated_financial_cost"
     t.text "notes"
     t.bigint "it_security_incident_status_id"
     t.bigint "data_type_id", null: false
