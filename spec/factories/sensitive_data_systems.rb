@@ -15,14 +15,13 @@
 #  review_date                         :datetime
 #  review_contact                      :string(255)
 #  notes                               :string(255)
-#  storage_location_id                 :bigint           not null
+#  storage_location_id                 :bigint
 #  data_type_id                        :bigint
 #  device_id                           :bigint
 #  created_at                          :datetime         not null
 #  updated_at                          :datetime         not null
 #  deleted_at                          :datetime
 #  incomplete                          :boolean          default(FALSE)
-#  sensitive_data_system_type_id       :bigint           not null
 #
 FactoryBot.define do
   factory :sensitive_data_system do
