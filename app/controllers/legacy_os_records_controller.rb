@@ -34,44 +34,16 @@ class LegacyOsRecordsController < InheritedResources::Base
     serial = legacy_os_record_params[:device_attributes][:serial]
     hostname = legacy_os_record_params[:device_attributes][:hostname]
 
-    if serial.present? 
-      if Device.find_by(serial: serial).present?
-        @legacy_os_record.device_id = Device.find_by(serial: serial).id
-      else 
-        search_field = serial
-      end
-    elsif hostname.present? 
-      if Device.find_by(hostname: hostname).present?
-        @legacy_os_record.device_id = Device.find_by(hostname: hostname).id
+    respond_to do |format|
+      if @legacy_os_record.save 
+        format.turbo_stream { redirect_to legacy_os_record_path(@legacy_os_record), 
+        notice: 'Legacy OS record was successfully created. ' 
+      }
       else
-        search_field = hostname
-      end
-    else
-      flash.now[:alert] = "Serial or hostname should be present"
-      render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
-    end
-
-    if search_field.present? 
-      # call DeviceTdxApi
-      if @access_token
-        # auth_token exists - call TDX
-        @device_tdx_info = get_device_tdx_info(search_field, @access_token)
-      else
-        # no token - create a device without calling TDX
-        @device_tdx_info = {'result' => {'device_not_in_tdx' => "No access to TDX API." }}
-      end
-      save_with_device(@legacy_os_record, @device_tdx_info, 'legacy_os_record')
-    else
-      respond_to do |format|
-        if @legacy_os_record.save 
-          format.turbo_stream { redirect_to legacy_os_record_path(@legacy_os_record), 
-          notice: 'Legacy OS record was successfully created. ' 
-        }
-        else
-          format.turbo_stream
-        end
+        format.turbo_stream
       end
     end
+    
   end
 
   def edit
