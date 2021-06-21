@@ -1,0 +1,16 @@
+<script src="https://api.duosecurity.com/frame/hosted/Duo-Web-v2.js" type="text/javascript"></script>
+<iframe id="duo_iframe"
+        data-host="<%= Rails.application.credentials.duo[:duo_host] %>"
+        data-sig-request="<%= @sig_request %>"
+        data-post-action="/registrations/duo_verify">
+</iframe>
+
+<style>
+  #duo_iframe {
+    width: 100%;
+    min-width: 304px;
+    max-width: 620px;
+    height: 330px;
+    border: none;
+  }
+</style>
