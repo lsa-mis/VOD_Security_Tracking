@@ -13,7 +13,13 @@
   <div data-filters-target='displayfilters' class="m-4 hidden">
     <div class="form-container">
       <div class="field-container">
-        <%= search_form_for @q do |f| %>
+        <%= search_form_for @q do |f| , html: {
+          local: true
+        },
+        data: {
+          target: "filters.form",
+          action: "submit->filters#submitForm"
+        }) %>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
             
             <%= f.label "Group searching conditions by:" %>

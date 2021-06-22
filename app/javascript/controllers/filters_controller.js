@@ -34,4 +34,12 @@ export default class extends Controller {
     this.visibleValue = !this.visibleValue
   }
 
+  submitForm(event) {
+    let isValid = this.validateForm(this.formTarget);
+    if (!isValid) {
+      this.system_deviceTarget.append("Add serial number or hostname");
+      event.preventDefault();
+    }
+  }
+
 }
