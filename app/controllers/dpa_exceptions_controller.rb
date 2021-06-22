@@ -8,7 +8,12 @@ class DpaExceptionsController < InheritedResources::Base
 
   def index
     # @dpa_exceptions = DpaException.active
-    @q = DpaException.active.ransack(params[:q])
+    if params[:q].nil?
+      @q = DpaException.active.ransack(params[:q])
+    else
+      @q = DpaException.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
+    end
+
     @dpa_exceptions = @q.result
     @total = @dpa_exceptions.count
     @used_by = @dpa_exceptions.uniq.pluck(:used_by)
@@ -113,7 +118,7 @@ class DpaExceptionsController < InheritedResources::Base
                     :lsa_security_approval, :lsa_technology_services_approval, 
                     :exception_approval_date_exception_renewal_date_due, 
                     :review_date_exception_review_date, :notes, :sla_agreement,
-                    :sla_attachment, :data_type_id, :incomplete,
+                    :sla_attachment, :data_type_id, :incomplete, :m,
                     attachments: [], tdx_ticket: [:ticket_link]
                   )
     end
