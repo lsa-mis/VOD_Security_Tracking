@@ -14,7 +14,7 @@
 #  agreements_related_to_data_types    :string(255)
 #  review_date                         :datetime
 #  review_contact                      :string(255)
-#  notes                               :string(255)
+#  notes                               :text(65535)
 #  storage_location_id                 :bigint
 #  data_type_id                        :bigint
 #  device_id                           :bigint
