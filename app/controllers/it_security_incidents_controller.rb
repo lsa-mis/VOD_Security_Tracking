@@ -6,7 +6,13 @@ class ItSecurityIncidentsController < InheritedResources::Base
   before_action :set_membership
 
   def index
-    @it_security_incidents = ItSecurityIncident.active
+    if params[:q].nil?
+      @q = ItSecurityIncident.active.ransack(params[:q])
+    else
+      @q = ItSecurityIncident.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
+    end
+    @it_security_incidents = @q.result
+    # @it_security_incidents = ItSecurityIncident.active
     authorize @it_security_incidents
   end
 
