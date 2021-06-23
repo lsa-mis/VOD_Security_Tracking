@@ -4,7 +4,7 @@ export default class SensitivedsController extends Controller {
   static targets = ["storage_location", "system_device", "form", "serial", "hostname", "serial_error", "hostname_error"]
 
   initialize() {
-    var device_is_required = false
+    this.checkIfDeviceIsRequired()
   }
 
   checkIfDeviceIsRequired() {

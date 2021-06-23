@@ -48,6 +48,9 @@ class SensitiveDataSystemsController < InheritedResources::Base
       )
     add_breadcrumb('Edit')
     @tdx_ticket = @sensitive_data_system.tdx_tickets.new
+    if @sensitive_data_system.device_id.nil?
+      @device = Device.new
+    end
     authorize @sensitive_data_system
   end
 
