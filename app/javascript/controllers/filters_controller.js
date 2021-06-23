@@ -1,7 +1,7 @@
 import { Controller } from "stimulus"
 const Choices = require('choices.js');
 export default class extends Controller {
-  static targets = ["displayfilters"]
+  static targets = ["displayfilters", "filter_displayed"]
   static values = { visible: Boolean }
   static classes = ["hidden"]
 
@@ -21,25 +21,48 @@ export default class extends Controller {
   //   }
 
   // connect() {
-  //   console.log("choices")
-  //   this.updateHiddenClass()
+  initialize() {
+    console.log("connect")
+    // this.updateHiddenClass()
+    var filter_displayed = this.filter_displayedTarget.value
+    console.log(filter_displayed)
+    if (filter_displayed == 1) {
+      console.log("here - true")
+      this.displayfiltersTarget.classList.remove("hidden")
+      this.filter_displayedTarget.value = "1"
+    }
+    else {
+      console.log("here - false")
+      this.displayfiltersTarget.classList.add("hidden")
+      this.filter_displayedTarget.value = "0"
+    }
 
-  // }
+
+  }
   updateHiddenClass() {
     console.log("updateHiddenClass")
     // console.log(this.displayfiltersTarget.classList)
     // console.log(this.hiddenClass)
+    console.log(this.filter_displayedTarget.value)
+
+    this.displayfiltersTarget.classList.toggle(this.hiddenClass)
+    if (this.filter_displayedTarget.value == "1") {
+      this.filter_displayedTarget.value = "0"
+    }
+    else {
+      this.filter_displayedTarget.value = "1"
+    }
+    // this.filter_displayedTarget.value = !this.filter_displayedTarget.value
+    console.log("toggle")
+    console.log(this.filter_displayedTarget.value)
     // console.log(this.visibleValue)
-    this.displayfiltersTarget.classList.toggle(this.hiddenClass, !this.visibleValue)
-    this.visibleValue = !this.visibleValue
+
   }
 
-  submitForm(event) {
-    let isValid = this.validateForm(this.formTarget);
-    if (!isValid) {
-      this.system_deviceTarget.append("Add serial number or hostname");
-      event.preventDefault();
-    }
+  clearFilters() {
+    console.log("clear")
+    // this.filter_displayedTarget.value = "1"
+    // console.log(this.filter_displayedTarget.value)
   }
 
 }

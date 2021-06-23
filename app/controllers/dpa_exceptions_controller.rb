@@ -8,9 +8,17 @@ class DpaExceptionsController < InheritedResources::Base
 
   def index
     # @dpa_exceptions = DpaException.active
+    if params[:q].present?
+      @filter_displayed = params[:q][:filter_displayed]
+      logger.debug "**************filter_displayed #{@filter_displayed}"
+    else
+      @filter_displayed = "0"
+    end
+
     if params[:q].nil?
       @q = DpaException.active.ransack(params[:q])
     else
+      params[:q].delete(:filter_displayed)
       @q = DpaException.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
 
@@ -118,7 +126,7 @@ class DpaExceptionsController < InheritedResources::Base
                     :lsa_security_approval, :lsa_technology_services_approval, 
                     :exception_approval_date_exception_renewal_date_due, 
                     :review_date_exception_review_date, :notes, :sla_agreement,
-                    :sla_attachment, :data_type_id, :incomplete, :m,
+                    :sla_attachment, :data_type_id, :incomplete, :m, :filter_displayed,
                     attachments: [], tdx_ticket: [:ticket_link]
                   )
     end
