@@ -51,8 +51,8 @@
                   <td><%= it_security_incident.remediation_steps %></td>
                   <td><%= it_security_incident.estimated_financial_cost %></td>
                   <td><%= it_security_incident.notes %></td>
-                  <td><%= it_security_incident.it_security_incident_status_id %></td>
-                  <td><%= it_security_incident.data_type_id %></td>
+                  <td><%= show_it_security_incident_status(it_security_incident) %></td>
+                  <td><%= show_data_type_name(it_security_incident) %></td>
                 </tr>
               <% end %>
             </tbody>

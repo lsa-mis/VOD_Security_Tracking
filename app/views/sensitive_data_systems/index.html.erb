@@ -64,11 +64,9 @@
                   <td><%= sensitive_data_system.review_date %></td>
                   <td><%= sensitive_data_system.review_contact %></td>
                   <td><%= sensitive_data_system.notes %></td>
-                  <td><%= sensitive_data_system.storage_location_id %></td>
-                  <td><%= sensitive_data_system.data_type_id %></td>
-                  <% if sensitive_data_system.device_id.present? %>
-                    <td><%= sensitive_data_system.device.display_name %></td>
-                  <% end %>
+                  <td><%= show_data_type_name(sensitive_data_system) %></td>
+                  <td><%= show_storage_location(sensitive_data_system) %></td>
+                  <td><%= show_device(sensitive_data_system) %></td>
                 </tr>
               <% end %>
             </tbody>

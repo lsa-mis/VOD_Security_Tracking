@@ -67,7 +67,7 @@
                   <td><%= dpa_exception.review_date_exception_review_date %></td>
                   <td><%= truncate(dpa_exception.notes, length: 25) %></td>
                   <td><%= dpa_exception.sla_agreement %></td>
-                  <td><%= dpa_exception.data_type_id %></td>
+                  <td><%= show_data_type_name(dpa_exception) %></td>
                 </tr>
               <% end %>
             </tbody>

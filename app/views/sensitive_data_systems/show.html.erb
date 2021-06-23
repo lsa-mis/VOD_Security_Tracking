@@ -162,7 +162,7 @@
         Storage Location
       </dt>
       <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @sensitive_data_system.storage_location_id %></span>
+        <span class="flex-grow"><%= show_storage_location(@sensitive_data_system) %></span>
       </dd>
     </div>
 
@@ -171,17 +171,17 @@
         Data Type
       </dt>
       <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @sensitive_data_system.data_type_id %></span>
+        <span class="flex-grow"><%= show_data_type_name(@sensitive_data_system) %></span>
       </dd>
     </div>
 
-    <% if @sensitive_data_system.device_id.present? %>
+    <% if @sensitive_data_system.device %>
       <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
         <dt class="text-sm font-medium text-gray-500">
           Device Name
         </dt>
         <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <span class="flex-grow"><%= link_to @sensitive_data_system.device.display_name, device_path(@sensitive_data_system.device_id) %></span>
+          <span class="flex-grow"><%= link_to show_device(@sensitive_data_system), device_path(@sensitive_data_system.device_id) %></span>
         </dd>
       </div>
     <% end %>

@@ -75,8 +75,8 @@
                   <td><%= legacy_os_record.justification %></td>
                   <td><%= legacy_os_record.local_it_support_group %></td>
                   <td><%= legacy_os_record.notes %></td>
-                  <td><%= legacy_os_record.data_type_id %></td>
-                  <td><%= legacy_os_record.device.display_name %></td>
+                  <td><%= show_data_type_name(legacy_os_record) %></td>
+                  <td><%= show_device(legacy_os_record) %></td>
                 </tr>
               <% end %>
             </tbody>

@@ -216,7 +216,7 @@
         Date Type
       </dt>
       <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @legacy_os_record.data_type_id %></span>
+        <span class="flex-grow"><%= show_data_type_name(@legacy_os_record) %></span>
       </dd>
     </div>
 
@@ -225,7 +225,7 @@
         Device Name
       </dt>
       <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= link_to @legacy_os_record.device.display_name, device_path(@legacy_os_record.device_id) %></span>
+        <span class="flex-grow"><%= link_to show_device(@legacy_os_record), device_path(@legacy_os_record.device_id) %></span>
       </dd>
     </div>
 
