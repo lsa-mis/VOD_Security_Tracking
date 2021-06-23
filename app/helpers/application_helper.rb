@@ -26,6 +26,30 @@ module ApplicationHelper
     end
   end
 
+  def show_it_security_incident_status(resource)
+    if resource.it_security_incident_status
+      resource.it_security_incident_status.name
+    else
+      "No status has been selected"
+    end
+  end
+
+  def show_device(resource)
+    if resource.device
+      resource.device.display_name
+    else
+      ""
+    end
+  end
+
+  def show_storage_location(resource)
+    if resource.storage_location
+      resource.storage_location.display_name
+    else
+      "No storage location has been selected"
+    end
+  end
+
   def user_name_email(id)
     User.find(id).display_name
   end
