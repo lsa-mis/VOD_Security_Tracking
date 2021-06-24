@@ -50,6 +50,10 @@ module ApplicationHelper
     end
   end
 
+  def show_date(field)
+    field.strftime("%m/%d/%Y") unless field.blank?
+  end
+
   def user_name_email(id)
     User.find(id).display_name
   end

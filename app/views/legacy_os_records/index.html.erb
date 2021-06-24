@@ -67,10 +67,10 @@
                   <td><%= legacy_os_record.legacy_os %></td>
                   <td><%= legacy_os_record.unique_app %></td>
                   <td><%= legacy_os_record.unique_hardware %></td>
-                  <td><%= legacy_os_record.unique_date %></td>
+                  <td><%= show_date(legacy_os_record.unique_date) %></td>
                   <td><%= legacy_os_record.remediation %></td>
-                  <td><%= legacy_os_record.exception_approval_date %></td>
-                  <td><%= legacy_os_record.review_date %></td>
+                  <td><%= show_date(legacy_os_record.exception_approval_date) %></td>
+                  <td><%= show_date(legacy_os_record.review_date) %></td>
                   <td><%= legacy_os_record.review_contact %></td>
                   <td><%= legacy_os_record.justification %></td>
                   <td><%= legacy_os_record.local_it_support_group %></td>

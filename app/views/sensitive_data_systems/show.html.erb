@@ -133,7 +133,7 @@
         Review Date
       </dt>
       <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @sensitive_data_system.review_date.strftime("%m/%d/%Y") unless @sensitive_data_system.review_date.blank? %></span>
+        <span class="flex-grow"><%= show_date(@sensitive_data_system.review_date) %></span>
       </dd>
     </div>
 

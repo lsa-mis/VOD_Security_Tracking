@@ -144,7 +144,7 @@
         Unique Date
       </dt>
       <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @legacy_os_record.unique_date.strftime("%m/%d/%Y") unless @legacy_os_record.unique_date.blank? %></span>
+        <span class="flex-grow"><%= show_date(@legacy_os_record.unique_date) %></span>
       </dd>
     </div>
 
@@ -162,7 +162,7 @@
         Exception Approval Date
       </dt>
       <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @legacy_os_record.exception_approval_date.strftime("%m/%d/%Y") unless @legacy_os_record.exception_approval_date.blank?%></span>
+        <span class="flex-grow"><%= show_date(@legacy_os_record.exception_approval_date) %></span>
       </dd>
     </div>
 
@@ -171,7 +171,7 @@
         Review Date
       </dt>
       <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @legacy_os_record.review_date.strftime("%m/%d/%Y") unless @legacy_os_record.review_date.blank? %></span>
+        <span class="flex-grow"><%= show_date(@legacy_os_record.review_date) %></span>
       </dd>
     </div>
   
