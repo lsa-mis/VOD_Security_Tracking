@@ -101,10 +101,35 @@
       </div>
 
       <div class="field">
-        <%= form.label :storage_location_id%>
-        <%= form.collection_select :storage_location_id, StorageLocation.all, :id, :name, {include_blank: "Select"}, required: true %>
-
+        <%= form.label :storage_location_id %>
+        <%= form.collection_select :storage_location_id, StorageLocation.all, :id, :display_name, {include_blank: "Select"},
+                  :"data-sensitiveds-target" => "storage_location", :"data-action" => "input->sensitiveds#checkIfDeviceIsRequired" %>
       </div>
+
+      <div class="field device--hide" data-sensitiveds-target="system_device">
+      <%= form.label 'Device' %>
+      <div class="flex flex-row flex-nowrap justify-items-start items-center" data-sensitiveds-target="system_device">
+        <%= form.fields_for :device, @device do |device_attributes| %>
+          <div class="w-1/3 pr-4">
+            <%= form.label :serial %>
+            <%= device_attributes.text_field :serial, :"data-sensitiveds-target" => "serial" %>
+            <span class="device-error--hide" data-sensitiveds-target="serial_error">
+              Add serial number
+            </span>
+            <p class="help-text">Help text if needed</p>
+          </div>
+
+          <div class="w-1/3">
+            <%= form.label :hostname %>
+            <%= device_attributes.text_field :hostname, :"data-sensitiveds-target" => "hostname" %>
+            <span class="device-error--hide" data-sensitiveds-target="hostname_error">
+              or hostname
+            </span>
+            <p class="help-text">Help text if needed</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
 
       <div class="field">
         <%= form.label :data_type_id%>
@@ -126,30 +151,6 @@
         </div>
       <% end %>
 
-        <div class="field">
-          <%= form.label :sensitive_data_system_type_id %><font color="red">**</font>
-          <%= form.collection_select :sensitive_data_system_type_id, SensitiveDataSystemType.all, :id, :name, {include_blank: "Select"}, required: true, :"data-sensitiveds-target" => "sensitive_data_system_type", :"data-action" => "input->sensitiveds#display_device" %>
-        </div>
-
-        <div id="device_input" class="field device--hide" data-sensitiveds-target="system_device">
-          <%= form.label 'Device' %>
-          <div class="flex flex-row flex-nowrap justify-items-start items-center" >
-            <%= form.fields_for :device, @device do |device_attributes| %>
-              <div class="w-1/3 pr-4">
-                <%= form.label :serial %>
-                <%= device_attributes.text_field :serial, :"data-sensitiveds-target" => "serial" %>
-                <p class="help-text">Help text if needed</p>
-              </div>
-
-              <div class="w-1/3">
-                <%= form.label :hostname %>
-                <%= device_attributes.text_field :hostname, :"data-sensitiveds-target" => "hostname" %>
-                <p class="help-text">Help text if needed</p>
-              </div>
-            <% end %>
-          </div>
-        </div>
-
       <div class="field">
         <%= form.label :attachments %>
         <%= form.file_field :attachments, multiple: true %>
@@ -162,7 +163,7 @@
 
   <div class="action-area">
     <div class="actions">
-      <%= form.submit 'Create Sensitive Data System', data: { disable_with: false } %>
+      <%= form.submit 'Sensitive Data System', data: { disable_with: false } %>
     </div>
   </div>
 <% end %>

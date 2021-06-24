@@ -7,7 +7,7 @@ RSpec.describe "it_security_incidents/index", type: :view do
         people_involved: "MyText",
         equipment_involved: "MyText",
         remediation_steps: "MyText",
-        estimated_finacial_cost: 2,
+        estimated_financial_cost: 2,
         notes: "MyText",
         it_security_incident_status: nil,
         data_type: nil
@@ -16,7 +16,7 @@ RSpec.describe "it_security_incidents/index", type: :view do
         people_involved: "MyText",
         equipment_involved: "MyText",
         remediation_steps: "MyText",
-        estimated_finacial_cost: 2,
+        estimated_financial_cost: 2,
         notes: "MyText",
         it_security_incident_status: nil,
         data_type: nil

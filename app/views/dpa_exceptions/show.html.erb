@@ -55,7 +55,7 @@
         Review date exception first approval date
       </dt>
       <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @dpa_exception.review_date_exception_first_approval_date.strftime("%m/%d/%Y") unless @dpa_exception.review_date_exception_first_approval_date.blank? %></span>
+        <span class="flex-grow"><%= show_date(@dpa_exception.review_date_exception_first_approval_date) %></span>
       </dd>
     </div>
     <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
@@ -127,7 +127,7 @@
         Exception approval date exception renewal date due
       </dt>
       <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @dpa_exception.exception_approval_date_exception_renewal_date_due.strftime("%m/%d/%Y") unless @dpa_exception.exception_approval_date_exception_renewal_date_due.nil? %></span>
+        <span class="flex-grow"><%= show_date(@dpa_exception.exception_approval_date_exception_renewal_date_due) %></span>
       </dd>
     </div>
     <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
@@ -135,7 +135,7 @@
         Review date exception review date
       </dt>
       <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @dpa_exception.review_date_exception_review_date unless @dpa_exception.review_date_exception_review_date.blank? %></span>
+        <span class="flex-grow"><%= show_date(@dpa_exception.review_date_exception_review_date) %></span>
       </dd>
     </div>
     <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">

@@ -21,7 +21,7 @@
                 <th scope="col">People involved</th>
                 <th scope="col">Equipment involved</th>
                 <th scope="col">Remediation steps</th>
-                <th scope="col">Estimated finacial cost</th>
+                <th scope="col">Estimated financial cost</th>
                 <th scope="col">Notes</th>
                 <th scope="col">It security incident status</th>
                 <th scope="col">Data type</th>
@@ -45,14 +45,14 @@
                       <% end %>
                     </ul>
                   </td> 
-                  <td><%= it_security_incident.date %></td>
+                  <td><%= show_date(it_security_incident.date) %></td>
                   <td><%= it_security_incident.people_involved %></td>
                   <td><%= it_security_incident.equipment_involved %></td>
                   <td><%= it_security_incident.remediation_steps %></td>
-                  <td><%= it_security_incident.estimated_finacial_cost %></td>
+                  <td><%= it_security_incident.estimated_financial_cost %></td>
                   <td><%= it_security_incident.notes %></td>
-                  <td><%= it_security_incident.it_security_incident_status_id %></td>
-                  <td><%= it_security_incident.data_type_id %></td>
+                  <td><%= show_it_security_incident_status(it_security_incident) %></td>
+                  <td><%= show_data_type_name(it_security_incident) %></td>
                 </tr>
               <% end %>
             </tbody>
