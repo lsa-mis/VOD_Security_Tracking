@@ -25,7 +25,13 @@ class DpaExceptionsController < InheritedResources::Base
     @dpa_exceptions = @q.result
     @total = @dpa_exceptions.count
     @used_by = @dpa_exceptions.uniq.pluck(:used_by)
+    
     authorize @dpa_exceptions
+    # Rendering code will go here
+    render turbo_stream: turbo_stream.replace(
+      :dpa_exceptionListing,
+      partial: "dpa_exceptions/listing"
+    )
   end
 
   def show
