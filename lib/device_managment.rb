@@ -52,8 +52,6 @@ class DeviceManagment
     end
   end
 
-  private
-
   def device_exist?
     if self.serial.present?
       if Device.find_by(serial: self.serial).present?
@@ -72,6 +70,8 @@ class DeviceManagment
     end
     return false
   end
+
+  private
 
   def search_tdx(serial, hostname)
     result = false
