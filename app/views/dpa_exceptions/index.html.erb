@@ -4,17 +4,16 @@
   DPA exceptions - Data Protection Addendums (<%= link_to 'https://it.umich.edu/information-technology-policies/general-policies/DS-20' %>)
 </p>
 
-<div data-controller='filters' data-filters-visible-value="this.visibleValue" data-filters-hidden-class="hidden" class="m-2">
+<div data-controller='toggle' class="m-2">
   <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-    data-action='click->filters#updateHiddenClass'>
+    data-action='click->toggle#toggle touch->toggle#toggle' >
   Filters
   </button>
   
-  <div data-filters-target='displayfilters' class="m-4 hidden">
+  <div data-toggle-target='toggleable' class="m-4 hidden">
     <div class="form-container">
       <div class="field-container">
         <%= search_form_for @q do |f| %>
-          <%= f.hidden_field :filter_displayed, value: @filter_displayed, :"data-filters-target" => "filter_displayed" %>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
             
             <%= f.label "Group searching conditions by:" %>
@@ -54,14 +53,14 @@
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
             <%= f.label :used_by %>
             <div class="w-1/2 pl-2">
-              <%= f.select :used_by_cont, @used_by, placeholder: "Contains", class: 'form-control' %>
+              <%= f.select :used_by_cont, @used_by, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
 
 
             
             </div>
           </div>
           <%= link_to "Clear", request.path, class: "btn btn-default", :"data-action" => "click->filters#clearFilters" %>
-          <%= f.submit class: 'btn btn-primary' %>
+          <%= f.submit 'Search', data: { disable_with: false }, class: 'btn btn-primary' %>
         <% end %>
       </div>
     </div>
