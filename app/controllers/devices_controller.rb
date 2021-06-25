@@ -27,12 +27,12 @@ class DevicesController < InheritedResources::Base
     hostname = params[:device][:hostname] 
     device_class = DeviceManagment.new(serial, hostname)
     if device_class.create_device
-      $note ||= device_class.message || ""
+      @note ||= device_class.message || ""
       @device = device_class.device
       respond_to do |format|
         if @device.save
           format.turbo_stream { redirect_to @device,
-            notice: 'Device record was successfully created.' + $note
+            notice: 'Device record was successfully created.' + @note
           }
         else
           format.turbo_stream
