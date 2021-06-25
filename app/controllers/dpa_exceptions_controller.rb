@@ -28,10 +28,12 @@ class DpaExceptionsController < InheritedResources::Base
     
     authorize @dpa_exceptions
     # Rendering code will go here
-    render turbo_stream: turbo_stream.replace(
+    unless params[:q].nil?
+      render turbo_stream: turbo_stream.replace(
       :dpa_exceptionListing,
       partial: "dpa_exceptions/listing"
     )
+    end
   end
 
   def show

@@ -103,9 +103,7 @@
                 <th scope="col">Data type</th>
               </tr>
             </thead>
-            <%= turbo_frame_tag :search_result do %>
-              <%= render "search_result", dpa_exceptions: @dpa_exceptions %>
-            <% end %>
+            <%= render partial: "dpa_exceptions/listing" %>
           </table>
         </div>
 
