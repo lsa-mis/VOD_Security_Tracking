@@ -16,23 +16,37 @@
 #  model        :string(255)
 #
 class Device < ApplicationRecord
-    has_many :sensitive_data_systems
-    has_many :legacy_os_records
-    audited
+  has_many :sensitive_data_systems
+  has_many :legacy_os_records
+  before_destroy :no_referenced_records
 
-    # validates :serial, :hostname, uniqueness: true
+  audited
 
-    scope :incomplete, -> { Device.where("(serial = '' or serial IS NULL)  AND (mac is null or owner is null)").or(Device.where("(hostname = '' or hostname IS NULL)  AND (mac is null or owner is null)")) }
+  # validates :serial, :hostname, uniqueness: true
 
-    def complete?
-      if ((self.serial.blank? && (self.mac.blank? || self.owner.blank?)) || (self.hostname.blank? && (self.mac.blank? || self.owner.blank?)))
-        false
-      else 
-        true
-      end
+  scope :incomplete, -> { Device.where("(serial = '' or serial IS NULL)  AND (mac is null or owner is null)").or(Device.where("(hostname = '' or hostname IS NULL)  AND (mac is null or owner is null)")) }
+
+  def complete?
+    if ((self.serial.blank? && (self.mac.blank? || self.owner.blank?)) || (self.hostname.blank? && (self.mac.blank? || self.owner.blank?)))
+      false
+    else 
+      true
     end
+  end
 
-    def display_name
-      "#{self.serial} - #{self.hostname}" # or whatever column you want
+  def display_name
+    "#{self.serial} - #{self.hostname}" # or whatever column you want
+  end
+
+  def no_referenced_records
+    if LegacyOsRecord.find_by(device_id: self)
+      errors.add(:base, "Can't destroy this device")
+      throw :abort 
+    elsif SensitiveDataSystem.find_by(device_id: self)
+      errors.add(:base, "Can't destroy this device")
+      throw :abort 
+    else
+      return true
     end
+  end
 end
