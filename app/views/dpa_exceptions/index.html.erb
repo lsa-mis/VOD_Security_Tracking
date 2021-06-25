@@ -13,7 +13,8 @@
   <div data-toggle-target='toggleable' class="m-4 hidden">
     <div class="form-container">
       <div class="field-container">
-        <%= search_form_for @q do |f| %>
+        <%= search_form_for @q, 
+          data:{ controller: "filters"} do |f| %>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
             
             <%= f.label "Group searching conditions by:" %>
@@ -59,7 +60,10 @@
             
             </div>
           </div>
-          <%= link_to "Clear", request.path, class: "btn btn-default", :"data-action" => "click->filters#clearFilters" %>
+          <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            data-action='click->filters#clearFilters'>
+            Clear
+          </button>
           <%= f.submit 'Search', data: { disable_with: false }, class: 'btn btn-primary' %>
         <% end %>
       </div>
