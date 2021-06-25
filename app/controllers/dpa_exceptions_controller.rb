@@ -7,18 +7,10 @@ class DpaExceptionsController < InheritedResources::Base
   before_action :set_membership
 
   def index
-    # @dpa_exceptions = DpaException.active
-    if params[:q].present?
-      @filter_displayed = params[:q][:filter_displayed]
-      logger.debug "**************filter_displayed #{@filter_displayed}"
-    else
-      @filter_displayed = "0"
-    end
 
     if params[:q].nil?
       @q = DpaException.active.ransack(params[:q])
     else
-      params[:q].delete(:filter_displayed)
       @q = DpaException.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
 

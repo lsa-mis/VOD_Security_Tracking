@@ -24,40 +24,40 @@ export default class extends Controller {
   initialize() {
     console.log("connect")
     // this.updateHiddenClass()
-    var filter_displayed = this.filter_displayedTarget.value
-    console.log(filter_displayed)
-    if (filter_displayed == 1) {
-      console.log("here - true")
-      this.displayfiltersTarget.classList.remove("hidden")
-      this.filter_displayedTarget.value = "1"
-    }
-    else {
-      console.log("here - false")
-      this.displayfiltersTarget.classList.add("hidden")
-      this.filter_displayedTarget.value = "0"
-    }
+    // var filter_displayed = this.filter_displayedTarget.value
+    // console.log(filter_displayed)
+    // if (filter_displayed == 1) {
+    //   console.log("here - true")
+    //   this.displayfiltersTarget.classList.remove("hidden")
+    //   this.filter_displayedTarget.value = "1"
+    // }
+    // else {
+    //   console.log("here - false")
+    //   this.displayfiltersTarget.classList.add("hidden")
+    //   this.filter_displayedTarget.value = "0"
+    // }
 
 
   }
-  updateHiddenClass() {
-    console.log("updateHiddenClass")
-    // console.log(this.displayfiltersTarget.classList)
-    // console.log(this.hiddenClass)
-    console.log(this.filter_displayedTarget.value)
+  // updateHiddenClass() {
+  //   console.log("updateHiddenClass")
+  //   // console.log(this.displayfiltersTarget.classList)
+  //   // console.log(this.hiddenClass)
+  //   console.log(this.filter_displayedTarget.value)
 
-    this.displayfiltersTarget.classList.toggle(this.hiddenClass)
-    if (this.filter_displayedTarget.value == "1") {
-      this.filter_displayedTarget.value = "0"
-    }
-    else {
-      this.filter_displayedTarget.value = "1"
-    }
-    // this.filter_displayedTarget.value = !this.filter_displayedTarget.value
-    console.log("toggle")
-    console.log(this.filter_displayedTarget.value)
-    // console.log(this.visibleValue)
+  //   this.displayfiltersTarget.classList.toggle(this.hiddenClass)
+  //   if (this.filter_displayedTarget.value == "1") {
+  //     this.filter_displayedTarget.value = "0"
+  //   }
+  //   else {
+  //     this.filter_displayedTarget.value = "1"
+  //   }
+  //   // this.filter_displayedTarget.value = !this.filter_displayedTarget.value
+  //   console.log("toggle")
+  //   console.log(this.filter_displayedTarget.value)
+  //   // console.log(this.visibleValue)
 
-  }
+  // }
 
   clearFilters() {
     console.log("clear")
