@@ -11,7 +11,7 @@
       <span>Report Issue</span>
     </div>
   </div>
-  <% if session[:current_user_id] && session[:user_memberships].include?('lsa-vod-devs-unprivileged') %>
+  <% if session[:user_memberships] && session[:user_memberships].include?('lsa-vod-devs-unprivileged') %>
     <div class="footer-right">
       <div class="inline-block">
         <%= link_to 'Admin Dashboard', admin_root_path, class: "footer-link mt-2 pr-4" %>
