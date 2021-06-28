@@ -35,7 +35,7 @@ class Device < ApplicationRecord
   end
 
   def display_name
-    "#{self.serial} - #{self.hostname}" # or whatever column you want
+    "#{self.serial} #{self.hostname}" # or whatever column you want
   end
 
   def no_referenced_records

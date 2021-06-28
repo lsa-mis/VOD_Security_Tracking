@@ -39,55 +39,12 @@
         <%= form.text_field :hostname %>
         <p class="help-text">Help text if needed</p>
       </div>
-
-      <div class="field">
-        <%= form.label :mac %>
-        <%= form.text_field :mac %>
-        <p class="help-text">Help text if needed</p>
-      </div>
-
-      <div class="field">
-        <%= form.label :manufacturer %>
-        <%= form.text_field :manufacturer %>
-        <p class="help-text">Help text if needed</p>
-      </div>
-
-      <div class="field">
-        <%= form.label :model %>
-        <%= form.text_field :model %>
-        <p class="help-text">Help text if needed</p>
-      </div>
-
-      <div class="field">
-        <%= form.label :owner %>
-        <%= form.text_field :owner %>
-        <p class="help-text">Help text if needed</p>
-      </div>
-
-      <div class="field">
-        <%= form.label :department %>
-        <%= form.text_field :department %>
-        <p class="help-text">Help text if needed</p>
-      </div>
-
-      <div class="field">
-        <%= form.label :building %>
-        <%= form.text_field :building %>
-        <p class="help-text">Help text if needed</p>
-      </div>
-
-      <div class="field">
-        <%= form.label :room %>
-        <%= form.text_field :room %>
-        <p class="help-text">Help text if needed</p>
-      </div>
-
     </div>
   </div>
 
   <div class="action-area">
     <div class="actions">
-      <%= form.submit %>
+      <%= form.submit 'Device', data: { disable_with: false } %>
     </div>
   </div>
 <% end %>

@@ -26,18 +26,27 @@ class LegacyOsRecordsController < InheritedResources::Base
   end
 
   def create
-    @legacy_os_record = LegacyOsRecord.new(legacy_os_record_params.except(:tdx_ticket))
+    @legacy_os_record = LegacyOsRecord.new(legacy_os_record_params.except(:tdx_ticket, :device_attributes))
     if legacy_os_record_params[:tdx_ticket][:ticket_link].present?
       @legacy_os_record.tdx_tickets.new(ticket_link: legacy_os_record_params[:tdx_ticket][:ticket_link])
     end
-    @device = @legacy_os_record.build_device(legacy_os_record_params[:device_attributes])
     serial = legacy_os_record_params[:device_attributes][:serial]
     hostname = legacy_os_record_params[:device_attributes][:hostname]
+    device_class = DeviceManagment.new(serial, hostname)
+    
+    if device_class.create_device || device_class.device_exist?
+      @legacy_os_record.device = device_class.device
+      @note ||= device_class.message || ""
+    else
+      flash.now[:alert] = device_class.message
+      render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+      return
+    end
 
     respond_to do |format|
       if @legacy_os_record.save 
         format.turbo_stream { redirect_to legacy_os_record_path(@legacy_os_record), 
-        notice: 'Legacy OS record was successfully created. ' 
+        notice: 'Legacy OS record was successfully created. ' + @note
       }
       else
         format.turbo_stream
@@ -50,7 +59,7 @@ class LegacyOsRecordsController < InheritedResources::Base
     add_breadcrumb(@legacy_os_record.display_name, 
       dpa_exception_path(@legacy_os_record)
     )
-add_breadcrumb('Edit')
+    add_breadcrumb('Edit')
     authorize @legacy_os_record
   end
 
@@ -58,9 +67,33 @@ add_breadcrumb('Edit')
     if legacy_os_record_params[:tdx_ticket][:ticket_link].present?
       @legacy_os_record.tdx_tickets.create(ticket_link: legacy_os_record_params[:tdx_ticket][:ticket_link])
     end
+    serial = legacy_os_record_params[:device_attributes][:serial]
+    hostname = legacy_os_record_params[:device_attributes][:hostname]
+    device_class = DeviceManagment.new(serial, hostname)
+
+    if device_class.device_exist?
+      @legacy_os_record.device_id = device_class.device.id
+      @note = ""
+    elsif device_class.create_device
+      # need to save device
+      device = device_class.device
+      @note ||= device_class.message || ""
+      if device.save
+        @legacy_os_record.device_id = device.id
+      else
+        flash.now[:alert] = "Error saving device"
+        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+        return
+      end
+    else
+      flash.now[:alert] = device_class.message
+      render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+      return
+    end
+
     respond_to do |format|
-      if @legacy_os_record.update(legacy_os_record_params.except(:tdx_ticket))
-        format.turbo_stream { redirect_to legacy_os_record_path(@legacy_os_record), notice: 'Legacy OS record was successfully updated.' }
+      if @legacy_os_record.update(legacy_os_record_params.except(:tdx_ticket, :device_attributes))
+        format.turbo_stream { redirect_to legacy_os_record_path(@legacy_os_record), notice: 'Legacy OS record was successfully updated.' + @note }
       else
         format.turbo_stream
       end
