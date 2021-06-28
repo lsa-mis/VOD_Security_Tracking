@@ -96,7 +96,7 @@ class ItSecurityIncidentsController < InheritedResources::Base
     end
 
     def it_security_incident_params
-      params.require(:it_security_incident).permit(:date, :people_involved, :equipment_involved, :remediation_steps, :estimated_finacial_cost, :notes, :it_security_incident_status_id, :data_type_id, :incomplete, attachments: [], tdx_ticket: [:ticket_link])
+      params.require(:it_security_incident).permit(:date, :people_involved, :equipment_involved, :remediation_steps, :estimated_financial_cost, :notes, :it_security_incident_status_id, :data_type_id, :incomplete, attachments: [], tdx_ticket: [:ticket_link])
     end
 
 end

@@ -23,7 +23,8 @@ class AccessLookup < ApplicationRecord
     :dpa_exceptions,
     :it_security_incidents,
     :legacy_os_records,
-    :sensitive_data_systems
+    :sensitive_data_systems,
+    :devices
   ]
 
   validates :ldap_group, presence: true

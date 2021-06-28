@@ -31,8 +31,9 @@
                   <td>
                     <ul>
                       <li><%= link_to 'Show', device, class: "action-link" %></li>
-                      <li><%= link_to 'Edit', edit_device_path(device), class: "action-link" %></li>
-                      <li><%= link_to 'Destroy', device, class: "action-link", method: :delete, data: { confirm: 'Are you sure?' } %></li>
+                      <% if has_ad_access?(current_user, "devices", "archive_action") %>
+                        <li><%= link_to 'Destroy', device, class: "action-link", method: :delete, data: { confirm: 'Are you sure?' } %></li>
+                      <% end %>
                     </ul>
                   </td>
                   <td><%= device.serial %></td>
