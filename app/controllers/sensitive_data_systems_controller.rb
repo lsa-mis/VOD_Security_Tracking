@@ -26,16 +26,26 @@ class SensitiveDataSystemsController < InheritedResources::Base
   end
 
   def create
-    # not adding a device yet
-    # serial = sensitive_data_system_params[:device_attributes][:serial]
-    # hostname = sensitive_data_system_params[:device_attributes][:hostname]
     @sensitive_data_system = SensitiveDataSystem.new(sensitive_data_system_params.except(:device_attributes, :tdx_ticket))
     if sensitive_data_system_params[:tdx_ticket][:ticket_link].present?
       @sensitive_data_system.tdx_tickets.new(ticket_link: sensitive_data_system_params[:tdx_ticket][:ticket_link])
     end
+    serial = sensitive_data_system_params[:device_attributes][:serial]
+    hostname = sensitive_data_system_params[:device_attributes][:hostname]
+    if serial.present? || hostname.present?
+      device_class = DeviceManagment.new(serial, hostname)
+      if device_class.create_device || device_class.device_exist?
+        @sensitive_data_system.device = device_class.device
+        @note ||= device_class.message || ""
+      else
+        flash.now[:alert] = device_class.message
+        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+        return
+      end
+    end
     respond_to do |format|
       if @sensitive_data_system.save 
-        format.turbo_stream { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Sensitive Data System record was successfully created.' }
+        format.turbo_stream { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Sensitive Data System record was successfully created. ' + @note }
       else
         format.turbo_stream
       end
@@ -58,9 +68,35 @@ class SensitiveDataSystemsController < InheritedResources::Base
     if sensitive_data_system_params[:tdx_ticket][:ticket_link].present?
       @sensitive_data_system.tdx_tickets.create(ticket_link: sensitive_data_system_params[:tdx_ticket][:ticket_link])
     end
+    @note = ""
+    if StorageLocation.find(sensitive_data_system_params[:storage_location_id]).device_is_required
+      serial = sensitive_data_system_params[:device_attributes][:serial]
+      hostname = sensitive_data_system_params[:device_attributes][:hostname]
+      device_class = DeviceManagment.new(serial, hostname)
+      if device_class.device_exist?
+        @sensitive_data_system.device_id = device_class.device.id
+      elsif device_class.create_device
+        # need to save device
+        device = device_class.device
+        @note ||= device_class.message || ""
+        if device.save
+          @sensitive_data_system.device_id = device.id
+        else
+          flash.now[:alert] = "Error saving device"
+          render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+          return
+        end
+      else
+        flash.now[:alert] = device_class.message
+        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+        return
+      end
+    else
+      @sensitive_data_system.device_id = nil
+    end
     respond_to do |format|
       if @sensitive_data_system.update(sensitive_data_system_params.except(:device_attributes, :tdx_ticket))
-        format.turbo_stream { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Sensitive Data System record was successfully updated.' }
+        format.turbo_stream { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Sensitive Data System record was successfully updated. ' + @note }
       else
         format.turbo_stream
       end
