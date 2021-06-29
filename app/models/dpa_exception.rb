@@ -22,6 +22,7 @@
 #  deleted_at                                         :datetime
 #  incomplete                                         :boolean          default(FALSE)
 #  review_date_exception_review_date                  :datetime
+#  dpa_status                                         :integer          default(0), not null
 #
 class DpaException < ApplicationRecord
   belongs_to :data_type, optional: true
@@ -30,8 +31,11 @@ class DpaException < ApplicationRecord
   has_one_attached :sla_attachment
   audited
 
+  enum dpa_status: [ :in_process, :approved, :denied, :not_pursued ]
+
   validates :review_date_exception_first_approval_date, :third_party_product_service,
             :used_by, presence: true
+  validates :dpa_status, presence: true
 
   scope :active, -> { where(deleted_at: nil) }
   scope :archived, -> { where("#{self.table_name}.deleted_at IS NOT NULL") }
