@@ -54,23 +54,26 @@ a
 .btn-login
   @apply inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
 
-table
-  @apply min-w-full divide-y divide-gray-200 table-fixed
+.fixed_header_container
+  @apply shadow overflow-hidden border-b border-gray-200 sm:rounded-lg
 
-  thead
-    @apply bg-gray-50 
-
-    th
-      @apply px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider
+.fixed_header
+  @apply table-fixed border-collapse divide-y divide-gray-200
 
   tbody
-    @apply bg-white divide-y divide-gray-200
-    
-    td
-      @apply px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900
+    @apply block w-full overflow-auto h-96 divide-y divide-gray-200
 
-      &.audit_table
-        @apply text-xs
+  thead, tr
+    @apply block
+
+  thead 
+    @apply bg-gray-50
+
+  td, th
+    @apply p-5 text-left w-40 
+
+  th 
+    @apply text-xs
 
 .footer-grid-container
   display: grid
