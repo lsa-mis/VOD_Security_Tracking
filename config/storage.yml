@@ -18,7 +18,7 @@ local:
 google:
   service: GCS
   project: lsa-was-base
-  credentials: <%= Rails.root.join("config/lsa-was-base-240171981f12.json") %>
+  credentials: <%= Rails.root.join("config/lsa-was-base-c096c776ead3.json") %>
   bucket: lsa-vod-data
 
 # Use rails credentials:edit to set the Azure Storage secret (as azure_storage:storage_access_key)
