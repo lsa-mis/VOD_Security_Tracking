@@ -46,7 +46,7 @@
 
       <div class="field">
         <%= form.label :dpa_status %>
-        <%= form.select :dpa_status, options_for_select(DpaException.dpa_statuses.map {|key, value| [key.titleize, DpaException.dpa_statuses.key(value)]}, @dpa_exception.dpa_status) %>
+        <%= form.select :dpa_status, options_for_select(DpaException.dpa_statuses.map {|key, value| [key.titleize, DpaException.dpa_statuses.key(value)]}, @dpa_exception.dpa_status), required: true %>
         <p class="help-text">Help text if needed</p>
       </div>
 
