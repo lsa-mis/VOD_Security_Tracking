@@ -3,61 +3,58 @@
 <p class="text-gray-500 text-sm mx-4">
   DPA exceptions - Data Protection Addendums (<%= link_to 'https://it.umich.edu/information-technology-policies/general-policies/DS-20' %>)
 </p>
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+<div>
   <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
     <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
       <%= link_to 'New Dpa Exception', new_dpa_exception_path %>
     </div>
   <% end %>
 
-  <div class="flex flex-col">
-    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">Actions</th>
-                <th scope="col">Status</th>
-                <th scope="col">Review date exception first approval date</th>
-                <th scope="col">Third party product service</th>
-                <th scope="col">Used by</th>
-                <th scope="col">Data type</th>
-                <th scope="col">Last Reviewed Date</th>
-                <th scope="col">Next Review Due Date</th>             
-              </tr>
-            </thead>
+  <div class="flex flex-nowrap justify-center">
+    <div class="fixed_header_container">
+      <table class="fixed_header">
+        <thead>
+          <tr>
+            <th scope="col">Actions</th>
+            <th scope="col">Status</th>
+            <th scope="col">Review date exception first approval date</th>
+            <th scope="col">Third party product service</th>
+            <th scope="col">Used by</th>
+            <th scope="col">Data type</th>
+            <th scope="col">Last Reviewed Date</th>
+            <th scope="col">Next Review Due Date</th>             
+          </tr>
+        </thead>
 
-            <tbody>
-              <% @dpa_exceptions.each do |dpa_exception| %>
-                <tr>
-                  <td>
-                    <ul>
-                      <li><%= link_to 'Show', dpa_exception, class: "action-link" %></li>
-                      <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
-                        <li><%= link_to 'Edit', edit_dpa_exception_path(dpa_exception), class: "action-link" %></li>
-                      <% end %>
-                      <% if has_ad_access?(current_user, "dpa_exceptions", "archive_action") %>
-                        <li><%= link_to 'Archive', archive_dpa_exception_path(dpa_exception), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
-                      <% end %>
-                      <% if has_ad_access?(current_user, "dpa_exceptions", "audit_action") %>
-                        <li><%= link_to 'Audit', dpa_exception_audit_log_path(dpa_exception), class: "action-link" %></li>
-                      <% end %>
-                    </ul>
-                  </td> 
-                  <td><%= dpa_exception.dpa_status.titleize %></td>
-                  <td><%= show_date(dpa_exception.review_date_exception_first_approval_date) %></td>
-                  <td><%= dpa_exception.third_party_product_service %></td>
-                  <td><%= dpa_exception.used_by %></td>
-                  <td><%= show_data_type_name(dpa_exception) %></td>
-                  <td><%= show_date(dpa_exception.exception_approval_date_exception_renewal_date_due) %></td>
-                  <td><%= show_date(dpa_exception.review_date_exception_review_date) %></td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      </div>
+        <tbody>
+          <% @dpa_exceptions.each do |dpa_exception| %>
+            <tr>
+              <td>
+                <ul>
+                  <li><%= link_to 'Show', dpa_exception, class: "action-link" %></li>
+                  <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
+                    <li><%= link_to 'Edit', edit_dpa_exception_path(dpa_exception), class: "action-link" %></li>
+                  <% end %>
+                  <% if has_ad_access?(current_user, "dpa_exceptions", "archive_action") %>
+                    <li><%= link_to 'Archive', archive_dpa_exception_path(dpa_exception), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
+                  <% end %>
+                  <% if has_ad_access?(current_user, "dpa_exceptions", "audit_action") %>
+                    <li><%= link_to 'Audit', dpa_exception_audit_log_path(dpa_exception), class: "action-link" %></li>
+                  <% end %>
+                </ul>
+              </td> 
+              <td><%= dpa_exception.dpa_status.titleize %></td>
+              <td><%= show_date(dpa_exception.review_date_exception_first_approval_date) %></td>
+              <td><%= dpa_exception.third_party_product_service %></td>
+              <td><%= dpa_exception.used_by %></td>
+              <td><%= show_data_type_name(dpa_exception) %></td>
+              <td><%= show_date(dpa_exception.exception_approval_date_exception_renewal_date_due) %></td>
+              <td><%= show_date(dpa_exception.review_date_exception_review_date) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

@@ -25,8 +25,8 @@
       <div class="w-full block flex sm:items-center sm:w-auto">
         <div class= "flex justify-end">
           <% if user_signed_in? %>
-            <div >
-              <%= link_to current_user.username, edit_user_registration_path, class: "text-um_yellow mr-4", title: "Edit profile" %>
+            <div class= "text-um_yellow mr-4">
+              <%= current_user.username %>
             </div>
             <div>
               <%= link_to 'Sign out', destroy_user_session_path, method: :delete, class: "btn-login" %>

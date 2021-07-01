@@ -1,64 +1,61 @@
 <h1>It Security Incidents</h1>
+
 <p class="text-gray-500 text-sm mx-4">
   It Security Incidents
 </p>
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div>
   <% if has_ad_access?(current_user, "it_security_incidents", "newedit_action") %>
     <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
       <%= link_to 'New It Security Incident', new_it_security_incident_path %>
     </div>
   <% end %>
 
-  <div class="flex flex-col">
-    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">Actions</th>
-                <th scope="col">Date</th>
-                <th scope="col">People involved</th>
-                <th scope="col">Equipment involved</th>
-                <th scope="col">Remediation steps</th>
-                <th scope="col">Estimated financial cost</th>
-                <th scope="col">Notes</th>
-                <th scope="col">It security incident status</th>
-                <th scope="col">Data type</th>
-              </tr>
-            </thead>
+  <div class="flex flex-nowrap justify-center">
+    <div class="fixed_header_container">
+      <table class="fixed_header">
+        <thead>
+          <tr>
+            <th scope="col">Actions</th>
+            <th scope="col">Date</th>
+            <th scope="col">People involved</th>
+            <th scope="col">Equipment involved</th>
+            <th scope="col">Remediation steps</th>
+            <th scope="col">Estimated financial cost</th>
+            <th scope="col">Notes</th>
+            <th scope="col">It security incident status</th>
+            <th scope="col">Data type</th>
+          </tr>
+        </thead>
 
-            <tbody>
-              <% @it_security_incidents.each do |it_security_incident| %>
-                <tr>
-                  <td>
-                    <ul>
-                      <li><%= link_to 'Show', it_security_incident, class: "action-link" %></li>
-                      <% if has_ad_access?(current_user, "it_security_incidents", "newedit_action") %>
-                        <li><%= link_to 'Edit', edit_it_security_incident_path(it_security_incident), class: "action-link" %></li>
-                      <% end %>
-                      <% if has_ad_access?(current_user, "it_security_incidents", "archive_action") %>
-                        <li><%= link_to 'Archive', archive_it_security_incident_path(it_security_incident), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
-                      <% end %>
-                      <% if has_ad_access?(current_user, "it_security_incidents", "audit_action") %>
-                        <li><%= link_to 'Audit', it_security_incident_audit_log_path(it_security_incident), class: "action-link" %></li>
-                      <% end %>
-                    </ul>
-                  </td> 
-                  <td><%= show_date(it_security_incident.date) %></td>
-                  <td><%= it_security_incident.people_involved %></td>
-                  <td><%= it_security_incident.equipment_involved %></td>
-                  <td><%= it_security_incident.remediation_steps %></td>
-                  <td><%= it_security_incident.estimated_financial_cost %></td>
-                  <td><%= it_security_incident.notes %></td>
-                  <td><%= show_it_security_incident_status(it_security_incident) %></td>
-                  <td><%= show_data_type_name(it_security_incident) %></td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      </div>
+        <tbody>
+          <% @it_security_incidents.each do |it_security_incident| %>
+            <tr>
+              <td>
+                <ul>
+                  <li><%= link_to 'Show', it_security_incident, class: "action-link" %></li>
+                  <% if has_ad_access?(current_user, "it_security_incidents", "newedit_action") %>
+                    <li><%= link_to 'Edit', edit_it_security_incident_path(it_security_incident), class: "action-link" %></li>
+                  <% end %>
+                  <% if has_ad_access?(current_user, "it_security_incidents", "archive_action") %>
+                    <li><%= link_to 'Archive', archive_it_security_incident_path(it_security_incident), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
+                  <% end %>
+                  <% if has_ad_access?(current_user, "it_security_incidents", "audit_action") %>
+                    <li><%= link_to 'Audit', it_security_incident_audit_log_path(it_security_incident), class: "action-link" %></li>
+                  <% end %>
+                </ul>
+              </td> 
+              <td><%= show_date(it_security_incident.date) %></td>
+              <td><%= it_security_incident.people_involved %></td>
+              <td><%= it_security_incident.equipment_involved %></td>
+              <td><%= it_security_incident.remediation_steps %></td>
+              <td><%= it_security_incident.estimated_financial_cost %></td>
+              <td><%= it_security_incident.notes %></td>
+              <td><%= show_it_security_incident_status(it_security_incident) %></td>
+              <td><%= show_data_type_name(it_security_incident) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
