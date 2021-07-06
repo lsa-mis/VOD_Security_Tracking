@@ -15,6 +15,7 @@
 #  updated_at                     :datetime         not null
 #  deleted_at                     :datetime
 #  incomplete                     :boolean          default(FALSE)
+#  title                          :string(255)      not null
 #
 class ItSecurityIncident < ApplicationRecord
   belongs_to :it_security_incident_status
@@ -39,7 +40,7 @@ class ItSecurityIncident < ApplicationRecord
   end
 
   def display_name
-    "#{self.id}"
+    "#{self.title} - #{self.id}"
   end
   
 end

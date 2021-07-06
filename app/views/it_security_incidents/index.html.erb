@@ -16,6 +16,7 @@
         <thead>
           <tr>
             <th scope="col">Actions</th>
+            <th scope="col">Title</th>
             <th scope="col">Date</th>
             <th scope="col">People involved</th>
             <th scope="col">Equipment involved</th>
@@ -43,7 +44,8 @@
                     <li><%= link_to 'Audit', it_security_incident_audit_log_path(it_security_incident), class: "action-link" %></li>
                   <% end %>
                 </ul>
-              </td> 
+              </td>
+              <td><%= it_security_incident.title %></td>
               <td><%= show_date(it_security_incident.date) %></td>
               <td><%= it_security_incident.people_involved %></td>
               <td><%= it_security_incident.equipment_involved %></td>

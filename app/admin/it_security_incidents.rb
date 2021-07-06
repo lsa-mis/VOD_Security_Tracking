@@ -6,7 +6,7 @@ ActiveAdmin.register ItSecurityIncident do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :date, :people_involved, :equipment_involved, :remediation_steps, :estimated_financial_cost, :notes, :it_security_incident_status_id, :data_type_id, :incomplete
+  permit_params :title, :date, :people_involved, :equipment_involved, :remediation_steps, :estimated_financial_cost, :notes, :it_security_incident_status_id, :data_type_id, :incomplete
   #
   # or
   #
