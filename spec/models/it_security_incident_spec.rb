@@ -15,6 +15,7 @@
 #  updated_at                     :datetime         not null
 #  deleted_at                     :datetime
 #  incomplete                     :boolean          default(FALSE)
+#  title                          :string(255)      not null
 #
 require 'rails_helper'
 

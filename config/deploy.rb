@@ -27,7 +27,7 @@ set :tmp_dir, '/home/deployer/tmp'
 set :keep_releases, 3
 
 ## Linked Files & Directories (Default None):
-set :linked_files, %w{config/puma.rb config/nginx.conf config/master.key config/puma.service}
+set :linked_files, %w{config/puma.rb config/nginx.conf config/master.key config/puma.service config/lsa-was-base-008e5e92455f.json}
 set :linked_dirs,  %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 set :linked_dirs, fetch(:linked_dirs, []).push('public/packs', 'node_modules')
 
