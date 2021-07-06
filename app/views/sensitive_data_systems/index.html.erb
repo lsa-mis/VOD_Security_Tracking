@@ -1,80 +1,75 @@
 <h1>Sensitive Data Systems</h1>
+
 <p class="text-gray-500 text-sm mx-4">
   Sensitive Data Systems
 </p>
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div>
   <% if has_ad_access?(current_user, "sensitive_data_systems", "newedit_action") %>
     <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
       <%= link_to 'New Sensitive Data System', new_sensitive_data_system_path %>
     </div>
   <% end %>
 
-  <div class="flex flex-col">
-    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">Actions</th>
-                <th scope="col">Owner username</th>
-                <th scope="col">Owner full name</th>
-                <th scope="col">Dept</th>
-                <th scope="col">Phone</th>
-                <th scope="col">Additional dept contact</th>
-                <th scope="col">Additional dept contact phone</th>
-                <th scope="col">Support poc</th>
-                <th scope="col">Expected duration of data retention</th>
-                <th scope="col">Agreements related to data types</th>
-                <th scope="col">Review date</th>
-                <th scope="col">Review contact</th>
-                <th scope="col">Notes</th>
-                <th scope="col">Storage location</th>
-                <th scope="col">Data type</th>
-                <th scope="col">Device</th>
-              </tr>
-            </thead>
+  <div class="flex flex-nowrap justify-center">
+    <div class="fixed_header_container">
+      <table class="fixed_header">
+        <thead>
+          <tr>
+            <th scope="col">Actions</th>
+            <th scope="col">Owner username</th>
+            <th scope="col">Owner full name</th>
+            <th scope="col">Dept</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Additional dept contact</th>
+            <th scope="col">Additional dept contact phone</th>
+            <th scope="col">Support poc</th>
+            <th scope="col">Expected duration of data retention</th>
+            <th scope="col">Agreements related to data types</th>
+            <th scope="col">Review date</th>
+            <th scope="col">Review contact</th>
+            <th scope="col">Notes</th>
+            <th scope="col">Data type</th>
+            <th scope="col">Storage location</th>
+            <th scope="col">Device</th>
+          </tr>
+        </thead>
 
-            <tbody>
-              <% @sensitive_data_systems.each do |sensitive_data_system| %>
-                <tr>
-                  <td>
-                    <ul>
-                      <li><%= link_to 'Show', sensitive_data_system, class: "action-link" %></li>
-                      <% if has_ad_access?(current_user, "sensitive_data_systems", "newedit_action") %>
-                        <li><%= link_to 'Edit', edit_sensitive_data_system_path(sensitive_data_system), class: "action-link" %></li>
-                      <% end %>
-                      <% if has_ad_access?(current_user, "sensitive_data_systems", "archive_action") %>
-                        <li><%= link_to 'Archive', archive_sensitive_data_system_path(sensitive_data_system), class: "action-link", method: :post, data: { confirm: 'Are you sure?' } %></li>
-                      <% end %>
-                      <% if has_ad_access?(current_user, "sensitive_data_systems", "audit_action") %>
-                        <li><%= link_to 'Audit', sensitive_data_system_audit_log_path(sensitive_data_system), class: "action-link" %></li>
-                      <% end %>
-                      </ul>
-                  </td>
-                  <td><%= sensitive_data_system.owner_username %></td>
-                  <td><%= sensitive_data_system.owner_full_name %></td>
-                  <td><%= sensitive_data_system.dept %></td>
-                  <td><%= sensitive_data_system.phone %></td>
-                  <td><%= sensitive_data_system.additional_dept_contact %></td>
-                  <td><%= sensitive_data_system.additional_dept_contact_phone %></td>
-                  <td><%= sensitive_data_system.support_poc %></td>
-                  <td><%= sensitive_data_system.expected_duration_of_data_retention %></td>
-                  <td><%= sensitive_data_system.agreements_related_to_data_types %></td>
-                  <td><%= sensitive_data_system.review_date %></td>
-                  <td><%= sensitive_data_system.review_contact %></td>
-                  <td><%= sensitive_data_system.notes %></td>
-                  <td><%= sensitive_data_system.storage_location_id %></td>
-                  <td><%= sensitive_data_system.data_type_id %></td>
-                  <% if sensitive_data_system.device_id.present? %>
-                    <td><%= sensitive_data_system.device.display_name %></td>
+        <tbody>
+          <% @sensitive_data_systems.each do |sensitive_data_system| %>
+            <tr>
+              <td>
+                <ul>
+                  <li><%= link_to 'Show', sensitive_data_system, class: "action-link" %></li>
+                  <% if has_ad_access?(current_user, "sensitive_data_systems", "newedit_action") %>
+                    <li><%= link_to 'Edit', edit_sensitive_data_system_path(sensitive_data_system), class: "action-link" %></li>
                   <% end %>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      </div>
+                  <% if has_ad_access?(current_user, "sensitive_data_systems", "archive_action") %>
+                    <li><%= link_to 'Archive', archive_sensitive_data_system_path(sensitive_data_system), class: "action-link", method: :post, data: { confirm: 'Are you sure?' } %></li>
+                  <% end %>
+                  <% if has_ad_access?(current_user, "sensitive_data_systems", "audit_action") %>
+                    <li><%= link_to 'Audit', sensitive_data_system_audit_log_path(sensitive_data_system), class: "action-link" %></li>
+                  <% end %>
+                  </ul>
+              </td>
+              <td><%= sensitive_data_system.owner_username %></td>
+              <td><%= sensitive_data_system.owner_full_name %></td>
+              <td><%= sensitive_data_system.dept %></td>
+              <td><%= sensitive_data_system.phone %></td>
+              <td><%= sensitive_data_system.additional_dept_contact %></td>
+              <td><%= sensitive_data_system.additional_dept_contact_phone %></td>
+              <td><%= sensitive_data_system.support_poc %></td>
+              <td><%= sensitive_data_system.expected_duration_of_data_retention %></td>
+              <td><%= sensitive_data_system.agreements_related_to_data_types %></td>
+              <td><%= show_date(sensitive_data_system.review_date) %></td>
+              <td><%= sensitive_data_system.review_contact %></td>
+              <td><%= sensitive_data_system.notes %></td>
+              <td><%= show_data_type_name(sensitive_data_system) %></td>
+              <td><%= show_storage_location(sensitive_data_system) %></td>
+              <td><%= show_device(sensitive_data_system) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

@@ -1,4 +1,5 @@
 class ItSecurityIncidentsController < InheritedResources::Base
+  before_action :verify_duo_authentication
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
   before_action :set_it_security_incident, only: [:show, :edit, :update, :archive, :audit_log]
@@ -86,11 +87,6 @@ class ItSecurityIncidentsController < InheritedResources::Base
 
   private
 
-    def set_membership
-      current_user.membership = session[:user_memberships]
-      # logger.debug "************ in it_security_incident current_user.membership ***** #{current_user.membership}"
-    end
-
     def set_it_security_incident
       @it_security_incident = ItSecurityIncident.find(params[:id])
     end
@@ -100,7 +96,7 @@ class ItSecurityIncidentsController < InheritedResources::Base
     end
 
     def it_security_incident_params
-      params.require(:it_security_incident).permit(:date, :people_involved, :equipment_involved, :remediation_steps, :estimated_finacial_cost, :notes, :it_security_incident_status_id, :data_type_id, :incomplete, attachments: [], tdx_ticket: [:ticket_link])
+      params.require(:it_security_incident).permit(:date, :people_involved, :equipment_involved, :remediation_steps, :estimated_financial_cost, :notes, :it_security_incident_status_id, :data_type_id, :incomplete, attachments: [], tdx_ticket: [:ticket_link])
     end
 
 end

@@ -1,26 +1,24 @@
 import { Controller } from "stimulus"
 
 export default class LegacyosController extends Controller {
-    static targets = ["form", "system_device", "serial", "hostname"]
+    static targets = ["form", "system_device", "serial", "hostname", "serial_error", "hostname_error"]
 
     submitForm(event) {
-        let isValid = this.validateForm(this.formTarget);
-        if (!isValid) {
-            this.system_deviceTarget.append("Add serial number or hostname");
-            event.preventDefault();
+        var serial = this.serialTarget.value
+        var hostname = this.hostnameTarget.value
+        if (serial == "" && hostname == "") {
+            this.serial_errorTarget.classList.add("device-error--display")
+            this.serial_errorTarget.classList.remove("device-error--hide")
+            this.hostname_errorTarget.classList.add("device-error--display")
+            this.hostname_errorTarget.classList.remove("device-error--hide")
+            event.preventDefault()
+        }
+        else {
+            this.serial_errorTarget.classList.add("device-error--hide")
+            this.serial_errorTarget.classList.remove("device-error--display")
+            this.hostname_errorTarget.classList.add("device-error--hide")
+            this.hostname_errorTarget.classList.remove("device-error--display")
         }
     }
 
-    validateForm() {
-        let isValid = true;
-        var serial = this.serialTarget.value
-        var hostname = this.hostnameTarget.value
-        if ((serial == "" && hostname != "") || (serial != "" && hostname == "")) {
-            isValid = true;
-        }
-        else {
-            isValid = false;
-        }
-        return isValid;
-    }
 }

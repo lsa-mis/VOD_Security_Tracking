@@ -1,112 +1,241 @@
-<p>
 <% if @legacy_os_record.incomplete %>
-  <strong>This record is incomplete!!!!!</strong>
-  <% end %>
-</p>
+  <div class="inset-x-0 pb-2 sm:pb-5">
+    <div class="max-w-xl mx-auto px-2 sm:px-6 lg:px-8">
+      <div class="p-2 rounded-lg bg-yellow-400 shadow-lg sm:p-3">
+        <div class="flex items-center justify-between flex-wrap">
+          <div class="w-0 flex-1 flex items-center">
+            <span class="flex p-2 rounded-lg bg-yellow-600">
+              <!-- Heroicon name: outline/speakerphone -->
+              <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+              </svg>
+            </span>
+            <p class="ml-3 font-medium text-white truncate">
+              <span>
+                  This record is incomplete!
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
 
-<p>
-  <strong>Owner username:</strong>
-  <%= @legacy_os_record.owner_username %>
-</p>
+<div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+  <div class="text-lg leading-6 font-medium text-gray-900">
+    <%= @legacy_os_record.display_name %>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">
+        IT Security Incident details.
+      </p>
+  </div>
+  <div class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+    <span class="flex-grow"></span>
+    <span class="ml-4 flex-shrink-0">
+      <ul>
+        <% if has_ad_access?(current_user, "it_security_incidents", "newedit_action") %>
+          <li><%= link_to 'Edit', edit_legacy_os_record_path(@legacy_os_record), class: "action-link" %></li>
+        <% end %>
+        <% if has_ad_access?(current_user, "it_security_incidents", "archive_action") %>
+          <li><%= link_to 'Archive', archive_legacy_os_record_path(@legacy_os_record), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
+        <% end %>
+        <% if has_ad_access?(current_user, "it_security_incidents", "audit_action") %>
+          <li><%= link_to 'Audit', legacy_os_record_audit_log_path(@legacy_os_record), class: "action-link" %></li>
+        <% end %>
+      </ul>
+    </span>
+  </div>
+</div>
 
-<p>
-  <strong>Owner full name:</strong>
-  <%= @legacy_os_record.owner_full_name %>
-</p>
+<div class="mt-5 border-t border-gray-200">
+  <dl class="divide-y divide-gray-200">  
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Owner Name
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @legacy_os_record.owner_username %></span>
+      </dd>
+    </div>
 
-<p>
-  <strong>Dept:</strong>
-  <%= @legacy_os_record.dept %>
-</p>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Owner Full Name
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @legacy_os_record.owner_full_name %></span>
+      </dd>
+    </div>
 
-<p>
-  <strong>Phone:</strong>
-  <%= @legacy_os_record.phone %>
-</p>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Department
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @legacy_os_record.dept %></span>
+      </dd>
+    </div>
+    
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Phone
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @legacy_os_record.phone %></span>
+      </dd>
+    </div>
+    
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Additional Department Contact
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @legacy_os_record.additional_dept_contact %></span>
+      </dd>
+    </div>
 
-<p>
-  <strong>Additional dept contact:</strong>
-  <%= @legacy_os_record.additional_dept_contact %>
-</p>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Additional Department Contact Phone
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @legacy_os_record.additional_dept_contact_phone %></span>
+      </dd>
+    </div>
 
-<p>
-  <strong>Additional dept contact phone:</strong>
-  <%= @legacy_os_record.additional_dept_contact_phone %>
-</p>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Support Point of Contact
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @legacy_os_record.support_poc %></span>
+      </dd>
+    </div>
 
-<p>
-  <strong>Support poc:</strong>
-  <%= @legacy_os_record.support_poc %>
-</p>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Legacy OS
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @legacy_os_record.legacy_os %></span>
+      </dd>
+    </div>
 
-<p>
-  <strong>Legacy os:</strong>
-  <%= @legacy_os_record.legacy_os %>
-</p>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Unique App
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @legacy_os_record.unique_app %></span>
+      </dd>
+    </div>
+ 
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Unique Hardware
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @legacy_os_record.unique_hardware %></span>
+      </dd>
+    </div>
 
-<p>
-  <strong>Unique app:</strong>
-  <%= @legacy_os_record.unique_app %>
-</p>
+    <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Unique Date
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= show_date(@legacy_os_record.unique_date) %></span>
+      </dd>
+    </div>
 
-<p>
-  <strong>Unique hardware:</strong>
-  <%= @legacy_os_record.unique_hardware %>
-</p>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Remediation
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @legacy_os_record.remediation %></span>
+      </dd>
+    </div>
 
-<p>
-  <strong>Unique date:</strong>
-  <%= @legacy_os_record.unique_date %>
-</p>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Exception Approval Date
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= show_date(@legacy_os_record.exception_approval_date) %></span>
+      </dd>
+    </div>
 
-<p>
-  <strong>Remediation:</strong>
-  <%= @legacy_os_record.remediation %>
-</p>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Review Date
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= show_date(@legacy_os_record.review_date) %></span>
+      </dd>
+    </div>
+  
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Review Contact
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @legacy_os_record.review_contact %></span>
+      </dd>
+    </div>
+  
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Justification
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @legacy_os_record.justification %></span>
+      </dd>
+    </div>
 
-<p>
-  <strong>Exception approval date:</strong>
-  <%= @legacy_os_record.exception_approval_date %>
-</p>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Local IT Group
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @legacy_os_record.local_it_support_group %></span>
+      </dd>
+    </div>
 
-<p>
-  <strong>Review date:</strong>
-  <%= @legacy_os_record.review_date %>
-</p>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Notes
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @legacy_os_record.notes %></span>
+      </dd>
+    </div>
 
-<p>
-  <strong>Review contact:</strong>
-  <%= @legacy_os_record.review_contact %>
-</p>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Date Type
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= show_data_type_name(@legacy_os_record) %></span>
+      </dd>
+    </div>
 
-<p>
-  <strong>Justification:</strong>
-  <%= @legacy_os_record.justification %>
-</p>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Device Name
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= link_to show_device(@legacy_os_record), device_path(@legacy_os_record.device_id) %></span>
+      </dd>
+    </div>
 
-<p>
-  <strong>Local it support group:</strong>
-  <%= @legacy_os_record.local_it_support_group %>
-</p>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <%= render partial: "tdx_tickets/tdx_tickets", locals: { tdx_ticket_resource: @legacy_os_record } %>
+    </div>
+    
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <%= render partial: "partials/show_attachments", locals: { attached_files_resource: @legacy_os_record } %>
+    </div>
 
-<p>
-  <strong>Notes:</strong>
-  <%= @legacy_os_record.notes %>
-</p>
-
-<p>
-  <strong>Data type:</strong>
-  <%= @legacy_os_record.data_type_id %>
-</p>
-
-<p>
-  <strong>Device:</strong>
-  <%= @legacy_os_record.device.display_name %>
-</p>
-
-<%= render partial: "partials/show_attachments", locals: {attached_files: @legacy_os_record}, show_p: "legacy_os_record" %>
-
-<%= render partial: "tdx_tickets/tdx_tickets", locals: {record_to_tdx: @legacy_os_record, destroy_p: "legacy_os_record"} %>
-<%= render partial: "tdx_tickets/form", locals: {record_to_tdx: @legacy_os_record} %>
-
-<%= link_to 'Edit', edit_legacy_os_record_path(@legacy_os_record) %>
+  </dl>
+</div>

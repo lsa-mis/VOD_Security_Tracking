@@ -1,48 +1,64 @@
 import { Controller } from "stimulus"
 
 export default class SensitivedsController extends Controller {
-  static targets = ["sensitive_data_system_type", "system_device", "form", "serial", "hostname"]
+  static targets = ["storage_location", "system_device", "form", "serial", "hostname", "serial_error", "hostname_error"]
 
-  connect() {
-    this.display_device()
+  initialize() {
+    this.checkIfDeviceIsRequired()
   }
 
-  display_device() {
-    var type = this.sensitive_data_system_typeTarget.value
-    if (type == 1) {
-      this.system_deviceTarget.classList.add("device--display")
-      this.system_deviceTarget.classList.remove("device--hide")
+  checkIfDeviceIsRequired() {
+    let id = this.storage_locationTarget.value;
+    if (id) {
+      fetch(`/storage_locations/is_device_required/${id}`)
+        .then((response) => response.json())
+        .then((data) => this.display_device(data)
+        );
+    }
+  }
+
+  display_device(data) {
+    this.device_is_required = data
+    var val = this.system_deviceTarget.classList.value
+
+    if (data) {
+      if (val.includes("device--hide")) {
+        val = val.replace("device--hide", "device--display")
+        this.system_deviceTarget.classList.value = val
+      }
     }
     else {
-      this.system_deviceTarget.classList.add("device--hide")
-      this.system_deviceTarget.classList.remove("device--display")
+      if (val.includes("device--display")) {
+        val = val.replace("device--display", "device--hide")
+        this.system_deviceTarget.classList.value = val
+        if (this.serialTarget) {
+          this.serialTarget.value = ""
+        }
+        if (this.hostnameTarget) {
+          this.hostnameTarget.value = ""
+        }
+      }
     }
   }
 
   submitForm(event) {
-    var type = this.sensitive_data_system_typeTarget.value
-    if (type == 1) {
-      let isValid = this.validateForm(this.formTarget);
-      if (!isValid) {
-        this.system_deviceTarget.append("Add serial number or hostname");
-        event.preventDefault();
+    if (this.device_is_required) {
+      var serial = this.serialTarget.value
+      var hostname = this.hostnameTarget.value
+      if (serial == "" && hostname == "") {
+        this.serial_errorTarget.classList.add("device-error--display")
+        this.serial_errorTarget.classList.remove("device-error--hide")
+        this.hostname_errorTarget.classList.add("device-error--display")
+        this.hostname_errorTarget.classList.remove("device-error--hide")
+        event.preventDefault()
+      }
+      else {
+        this.serial_errorTarget.classList.add("device-error--hide")
+        this.serial_errorTarget.classList.remove("device-error--display")
+        this.hostname_errorTarget.classList.add("device-error--hide")
+        this.hostname_errorTarget.classList.remove("device-error--display")
       }
     }
   }
 
-  validateForm() {
-    let isValid = true;
-    var system_type = this.sensitive_data_system_typeTarget.value
-    var serial = this.serialTarget.value
-    var hostname = this.hostnameTarget.value
-    if (system_type == 1) {
-      if (serial == "" && hostname == "") {
-        isValid = false;
-      }
-      else {
-        isValid = true;
-      }
-      return isValid;
-    }
-  }
 }

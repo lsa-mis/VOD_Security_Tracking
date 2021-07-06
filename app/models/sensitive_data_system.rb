@@ -14,21 +14,19 @@
 #  agreements_related_to_data_types    :string(255)
 #  review_date                         :datetime
 #  review_contact                      :string(255)
-#  notes                               :string(255)
-#  storage_location_id                 :bigint           not null
+#  notes                               :text(65535)
+#  storage_location_id                 :bigint
 #  data_type_id                        :bigint
 #  device_id                           :bigint
 #  created_at                          :datetime         not null
 #  updated_at                          :datetime         not null
 #  deleted_at                          :datetime
 #  incomplete                          :boolean          default(FALSE)
-#  sensitive_data_system_type_id       :bigint           not null
 #
 class SensitiveDataSystem < ApplicationRecord
-  belongs_to :storage_location
+  belongs_to :storage_location, optional: true
   belongs_to :data_type, optional: true
   belongs_to :device, optional: true
-  belongs_to :sensitive_data_system_type
   has_many :tdx_tickets, as: :records_to_tdx
   accepts_nested_attributes_for :device
 
@@ -46,6 +44,10 @@ class SensitiveDataSystem < ApplicationRecord
 
   def archived?
     self.deleted_at.present?
+  end
+
+  def display_name
+    "#{self.id} - #{self.owner_username}"
   end
 
 end

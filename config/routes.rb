@@ -7,6 +7,11 @@ Rails.application.routes.draw do
     # root to: 'users/sessions#new'
     get 'sign_in', to: 'users/sessions#new'
     get '/users/sign_out', to: 'users/sessions#destroy'
+    post 'registrations/duo_verify', to: 'registrations#duo_verify', as: :duo_verify
+    get 'registrations/duo', to: 'registrations#duo', as: :duo
+    authenticated do
+     root :to => "registrations#duo", as: :new_root
+    end
   end
 
   get 'it_security_incidents/audit_log/:id', to: 'it_security_incidents#audit_log', as: :it_security_incident_audit_log
@@ -19,6 +24,8 @@ Rails.application.routes.draw do
     resources :tdx_tickets, module: :sensitive_data_systems
   end
 
+  get 'storage_locations/is_device_required/:id', to: 'storage_locations#is_device_required?'
+
   get 'legacy_os_records/audit_log/:id', to: 'legacy_os_records#audit_log', as: :legacy_os_record_audit_log
   resources :legacy_os_records do
     resources :tdx_tickets, module: :legacy_os_records
@@ -29,6 +36,12 @@ Rails.application.routes.draw do
   resources :dpa_exceptions do
     resources :tdx_tickets, module: :dpa_exceptions
   end
+
+  resources :tdx_tickets
+
+  get 'dpa_exceptions/audit_log', to: 'dpa_exceptions#audit_log'
+  get 'application/delete_file_attachment/:id', to: 'application#delete_file_attachment', as: :delete_file
+
   
   post 'archive_it_security_incident/:id', to: 'it_security_incidents#archive', as: :archive_it_security_incident
   post 'archive_sensitive_data_system/:id', to: 'sensitive_data_systems#archive', as: :archive_sensitive_data_system

@@ -19,4 +19,3 @@ ActiveStorage.start()
 
 const images = require.context('../images', true)
 
-

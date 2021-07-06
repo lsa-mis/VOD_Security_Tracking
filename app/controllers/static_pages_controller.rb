@@ -1,5 +1,6 @@
 class StaticPagesController < ApplicationController
-  
+  before_action :verify_duo_authentication, only: [:dashboard]
+
   def home
     add_breadcrumb('', root_path)
   end

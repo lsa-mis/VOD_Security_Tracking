@@ -1,4 +1,14 @@
 ActiveAdmin.register_page "Dashboard" do
+
+  controller do
+    before_action :check_access
+    def check_access
+      unless session[:user_memberships] && (session[:user_memberships] & ['lsa-vod-admins', 'lsa-vod-devs']).any?
+        redirect_to root_path, notice: "You are not authorized to perform this action."
+      end
+    end
+  end
+
   menu priority: 1, label: proc { I18n.t("active_admin.dashboard") }
 
   content title: proc { I18n.t("active_admin.dashboard") } do

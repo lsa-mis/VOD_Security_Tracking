@@ -6,7 +6,7 @@ RSpec.describe "it_security_incidents/new", type: :view do
       people_involved: "MyText",
       equipment_involved: "MyText",
       remediation_steps: "MyText",
-      estimated_finacial_cost: 1,
+      estimated_financial_cost: 1,
       notes: "MyText",
       it_security_incident_status: nil,
       data_type: nil
@@ -24,7 +24,7 @@ RSpec.describe "it_security_incidents/new", type: :view do
 
       assert_select "textarea[name=?]", "it_security_incident[remediation_steps]"
 
-      assert_select "input[name=?]", "it_security_incident[estimated_finacial_cost]"
+      assert_select "input[name=?]", "it_security_incident[estimated_financial_cost]"
 
       assert_select "textarea[name=?]", "it_security_incident[notes]"
 

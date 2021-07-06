@@ -16,20 +16,32 @@
       <h3 class="instruction-header">
         Form Instructions
       </h3>
-      <p>lsndn lksnsdj snnrew9ioqw\9, c diojslkmsdp odew-mw,mp owlf=w-9ke w,[osdk</p>
+      <p>Ipsum voluptate aliquip adipisicing labore sint amet officia commodo 
+      duis laboris do sit. Labore veniam mollit commodo quis nisi esse aute 
+      fugiat. Amet exercitation aliquip labore ullamco irure magna tempor ad 
+      sit aliqua culpa. Aliquip occaecat dolore Lorem officia incididunt amet 
+      nisi nulla amet aute ex aute. Proident labore fugiat commodo ipsum ut 
+      Lorem aliquip officia reprehenderit. Laboris dolore amet non irure do 
+      voluptate nisi ex. Magna ullamco veniam exercitation duis esse officia 
+      duis labore tempor sunt mollit.</p>
     </div>
 
     <div class="field-container">
       <div class="field">
         <%= form.label :date %>
-        <%= form.text_field :date,
-          data: {
-            controller: "flatpickr",
-            flatpickr_date_format: "Y-m-d",
-            flatpickr_min_date: Time.zone.now
-          },
-          required: true 
-        %>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <i class="fas fa-calendar-day text-gray-400"></i>
+            </div>
+            <%= form.text_field :date,
+              data: {
+                controller: "flatpickr",
+                flatpickr_date_format: "Y-m-d",
+                flatpickr_min_date: Time.zone.now
+              },
+              required: true
+            %>
+        </div>
       </div>
 
       <div class="field">
@@ -61,8 +73,8 @@
       </div>
 
       <div class="field">
-        <%= form.label :estimated_finacial_cost %>
-        <%= form.number_field :estimated_finacial_cost %>
+        <%= form.label :estimated_financial_cost %>
+        <%= form.number_field :estimated_financial_cost %>
         <p class="help-text">Help text if needed</p>
       </div>
 
@@ -72,24 +84,60 @@
         <p class="help-text">Help text if needed</p>
       </div>
 
-      <%= form.fields_for @it_security_incident.tdx_tickets.new do |f| %>
-        <div class="field">
-            <%= f.label :ticket_link, "Add a ticket link" %>
-            <%= f.text_field :ticket_link %>
-        </div>
-      <% end %>
-
-      <% if @it_security_incident.tdx_tickets.present? %>
-        <div>
-          <% @it_security_incident.tdx_tickets.each do |tdx| %>
-            <%= tdx.ticket_link %>
-          <% end %>
-        </div>
-      <% end %>
+      <div class="field">
+        <%= form.fields_for @it_security_incident.tdx_tickets.new do |f| %>
+          <%= f.label :ticket_link, "Add a TDX ticket link" %>
+          <%= f.text_field :ticket_link %>
+        <% end %>
+        <% if @it_security_incident.tdx_tickets.present? %>
+          <div class="py-4 pl-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+            <dt class="text-sm font-medium text-gray-500">
+              TDX tickets connected to this record: 
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+                <% @it_security_incident.tdx_tickets.each do |tdx| %>
+                  <% if tdx.persisted? %>
+                    <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                      <div class="w-0 flex-1 flex items-center">
+                        <i class="fas fa-link text-gray-400"></i>
+                        <span class="ml-2 flex-1 w-0 truncate">
+                          <%= link_to tdx.ticket_link, url_for(tdx.ticket_link) %>
+                        </span>
+                      </div>
+                    </li>
+                  <% end %>
+                <% end %>
+              </ul>
+            </dd>
+          </div>
+        <% end %>
+      </div>
 
       <div class="field">
         <%= form.label :attachments %>
         <%= form.file_field :attachments, multiple: true %>
+        <% if @it_security_incident.attachments.attached? %>
+          <div class="py-4 pl-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+            <dt class="text-sm font-medium text-gray-500">
+              Other files currently connected to this record:
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+                <% @it_security_incident.attachments.each do |ma| %>
+                  <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                    <div class="w-0 flex-1 flex items-center">
+                      <i class="fas fa-paperclip text-gray-400"></i>
+                      <span class="ml-2 flex-1 w-0 truncate">
+                        <%= link_to ma.filename, url_for(ma) %>
+                      </span>
+                    </div>
+                  </li>
+                <% end %>
+              </ul>
+            </dd>
+          </div>
+        <% end %>
       </div>
 
       <%= form.hidden_field :incomplete %>

@@ -15,14 +15,31 @@ class ApplicationController < ActionController::Base
     }
   end
 
+  def verify_duo_authentication
+    if !session[:duo_auth]
+      redirect_to duo_path
+    end
+  end
+
+  def delete_file_attachment
+    @delete_file = ActiveStorage::Attachment.find(params[:id])
+    @delete_file.purge
+    redirect_back(fallback_location: request.referer)
+  end
+
   private
+
+    def set_membership
+      current_user.membership = session[:user_memberships]
+    end
 
     def set_breadcrumbs
       @breadcrumbs = []
     end
 
     def after_sign_in_path_for(resource)
-      dashboard_path
+      duo_path
+      # dashboard_path
     end  
 
     def user_not_authorized

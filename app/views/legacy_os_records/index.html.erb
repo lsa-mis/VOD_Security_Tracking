@@ -1,88 +1,85 @@
 <h1>Legacy Os Records</h1>
+
 <p class="text-gray-500 text-sm mx-4">
   Legacy Os Record
 </p>
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div>
   <% if has_ad_access?(current_user, "legacy_os_records", "newedit_action") %>
     <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
       <%= link_to 'New Legacy Os Record', new_legacy_os_record_path %>
     </div>
   <% end %>
 
-  <div class="flex flex-col">
-    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">Actions</th>
-                <th scope="col">Owner username</th>
-                <th scope="col">Owner full name</th>
-                <th scope="col">Dept</th>
-                <th scope="col">Phone</th>
-                <th scope="col">Additional dept contact</th>
-                <th scope="col">Additional dept contact phone</th>
-                <th scope="col">Support poc</th>
-                <th scope="col">Legacy os</th>
-                <th scope="col">Unique app</th>
-                <th scope="col">Unique hardware</th>
-                <th scope="col">Unique date</th>
-                <th scope="col">Remediation</th>
-                <th scope="col">Exception approval date</th>
-                <th scope="col">Review date</th>
-                <th scope="col">Review contact</th>
-                <th scope="col">Justification</th>
-                <th scope="col">Local it support group</th>
-                <th scope="col">Notes</th>
-                <th scope="col">Data type</th>
-                <th scope="col">Device</th>
-              </tr>
-            </thead>
+  <div class="flex flex-nowrap justify-center">
+    <div class="fixed_header_container">
+      <table class="fixed_header">
+        <thead>
+          <tr>
+            <th scope="col">Actions</th>
+            <th scope="col">Owner username</th>
+            <th scope="col">Owner full name</th>
+            <th scope="col">Dept</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Additional dept contact</th>
+            <th scope="col">Additional dept contact phone</th>
+            <th scope="col">Support poc</th>
+            <th scope="col">Legacy os</th>
+            <th scope="col">Unique app</th>
+            <th scope="col">Unique hardware</th>
+            <th scope="col">Unique date</th>
+            <th scope="col">Remediation</th>
+            <th scope="col">Exception approval date</th>
+            <th scope="col">Review date</th>
+            <th scope="col">Review contact</th>
+            <th scope="col">Justification</th>
+            <th scope="col">Local it support group</th>
+            <th scope="col">Notes</th>
+            <th scope="col">Data type</th>
+            <th scope="col">Device</th>
+          </tr>
+        </thead>
 
-            <tbody>
-              <% @legacy_os_records.each do |legacy_os_record| %>
-                <tr>
-                  <td>
-                    <ul>
-                      <li><%= link_to 'Show', legacy_os_record, class: "action-link" %></li>
-                      <% if has_ad_access?(current_user, "legacy_os_records", "newedit_action") %>
-                        <li><%= link_to 'Edit', edit_legacy_os_record_path(legacy_os_record), class: "action-link" %></li>
-                      <% end %>
-                      <% if has_ad_access?(current_user, "legacy_os_records", "archive_action") %>
-                        <li><%= link_to 'Archive', archive_legacy_os_record_path(legacy_os_record), class: "action-link", method: :post, data: { confirm: 'Are you sure?' } %></li>
-                      <% end %>
-                      <% if has_ad_access?(current_user, "legacy_os_records", "audit_action") %>
-                        <li><%= link_to 'Audit', legacy_os_record_audit_log_path(legacy_os_record), class: "action-link" %></li>
-                      <% end %>
-                    </ul>
-                  </td>
-                  <td><%= legacy_os_record.owner_username %></td>
-                  <td><%= legacy_os_record.owner_full_name %></td>
-                  <td><%= legacy_os_record.dept %></td>
-                  <td><%= legacy_os_record.phone %></td>
-                  <td><%= legacy_os_record.additional_dept_contact %></td>
-                  <td><%= legacy_os_record.additional_dept_contact_phone %></td>
-                  <td><%= legacy_os_record.support_poc %></td>
-                  <td><%= legacy_os_record.legacy_os %></td>
-                  <td><%= legacy_os_record.unique_app %></td>
-                  <td><%= legacy_os_record.unique_hardware %></td>
-                  <td><%= legacy_os_record.unique_date %></td>
-                  <td><%= legacy_os_record.remediation %></td>
-                  <td><%= legacy_os_record.exception_approval_date %></td>
-                  <td><%= legacy_os_record.review_date %></td>
-                  <td><%= legacy_os_record.review_contact %></td>
-                  <td><%= legacy_os_record.justification %></td>
-                  <td><%= legacy_os_record.local_it_support_group %></td>
-                  <td><%= legacy_os_record.notes %></td>
-                  <td><%= legacy_os_record.data_type_id %></td>
-                  <td><%= legacy_os_record.device.display_name %></td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      </div>
+        <tbody>
+          <% @legacy_os_records.each do |legacy_os_record| %>
+            <tr>
+              <td>
+                <ul>
+                  <li><%= link_to 'Show', legacy_os_record, class: "action-link" %></li>
+                  <% if has_ad_access?(current_user, "legacy_os_records", "newedit_action") %>
+                    <li><%= link_to 'Edit', edit_legacy_os_record_path(legacy_os_record), class: "action-link" %></li>
+                  <% end %>
+                  <% if has_ad_access?(current_user, "legacy_os_records", "archive_action") %>
+                    <li><%= link_to 'Archive', archive_legacy_os_record_path(legacy_os_record), class: "action-link", method: :post, data: { confirm: 'Are you sure?' } %></li>
+                  <% end %>
+                  <% if has_ad_access?(current_user, "legacy_os_records", "audit_action") %>
+                    <li><%= link_to 'Audit', legacy_os_record_audit_log_path(legacy_os_record), class: "action-link" %></li>
+                  <% end %>
+                </ul>
+              </td>
+              <td><%= legacy_os_record.owner_username %></td>
+              <td><%= legacy_os_record.owner_full_name %></td>
+              <td><%= legacy_os_record.dept %></td>
+              <td><%= legacy_os_record.phone %></td>
+              <td><%= legacy_os_record.additional_dept_contact %></td>
+              <td><%= legacy_os_record.additional_dept_contact_phone %></td>
+              <td><%= legacy_os_record.support_poc %></td>
+              <td><%= legacy_os_record.legacy_os %></td>
+              <td><%= legacy_os_record.unique_app %></td>
+              <td><%= legacy_os_record.unique_hardware %></td>
+              <td><%= show_date(legacy_os_record.unique_date) %></td>
+              <td><%= legacy_os_record.remediation %></td>
+              <td><%= show_date(legacy_os_record.exception_approval_date) %></td>
+              <td><%= show_date(legacy_os_record.review_date) %></td>
+              <td><%= legacy_os_record.review_contact %></td>
+              <td><%= legacy_os_record.justification %></td>
+              <td><%= legacy_os_record.local_it_support_group %></td>
+              <td><%= legacy_os_record.notes %></td>
+              <td><%= show_data_type_name(legacy_os_record) %></td>
+              <td><%= show_device(legacy_os_record) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

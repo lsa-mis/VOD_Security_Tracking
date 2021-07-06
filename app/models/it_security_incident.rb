@@ -7,7 +7,7 @@
 #  people_involved                :text(65535)      not null
 #  equipment_involved             :text(65535)      not null
 #  remediation_steps              :text(65535)      not null
-#  estimated_finacial_cost        :integer
+#  estimated_financial_cost       :integer
 #  notes                          :text(65535)
 #  it_security_incident_status_id :bigint
 #  data_type_id                   :bigint           not null
@@ -36,6 +36,10 @@ class ItSecurityIncident < ApplicationRecord
 
   def archived?
     self.deleted_at.present?
+  end
+
+  def display_name
+    "#{self.id}"
   end
   
 end

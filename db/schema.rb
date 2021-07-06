@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_09_211530) do
+ActiveRecord::Schema.define(version: 2021_06_29_130354) do
 
   create_table "access_lookups", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "ldap_group"
@@ -145,7 +145,7 @@ ActiveRecord::Schema.define(version: 2021_06_09_211530) do
     t.string "lsa_security_approval"
     t.string "lsa_technology_services_approval"
     t.datetime "exception_approval_date_exception_renewal_date_due"
-    t.string "notes"
+    t.text "notes"
     t.string "sla_agreement"
     t.bigint "data_type_id"
     t.datetime "created_at", precision: 6, null: false
@@ -153,6 +153,7 @@ ActiveRecord::Schema.define(version: 2021_06_09_211530) do
     t.datetime "deleted_at"
     t.boolean "incomplete", default: false
     t.datetime "review_date_exception_review_date"
+    t.integer "dpa_status", default: 0, null: false
     t.index ["data_type_id"], name: "index_dpa_exceptions_on_data_type_id"
   end
 
@@ -168,7 +169,7 @@ ActiveRecord::Schema.define(version: 2021_06_09_211530) do
     t.text "people_involved", null: false
     t.text "equipment_involved", null: false
     t.text "remediation_steps", null: false
-    t.integer "estimated_finacial_cost"
+    t.integer "estimated_financial_cost"
     t.text "notes"
     t.bigint "it_security_incident_status_id"
     t.bigint "data_type_id", null: false
@@ -209,13 +210,6 @@ ActiveRecord::Schema.define(version: 2021_06_09_211530) do
     t.index ["device_id"], name: "index_legacy_os_records_on_device_id"
   end
 
-  create_table "sensitive_data_system_types", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "name"
-    t.string "description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "sensitive_data_systems", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "owner_username", null: false
     t.string "owner_full_name", null: false
@@ -228,18 +222,16 @@ ActiveRecord::Schema.define(version: 2021_06_09_211530) do
     t.string "agreements_related_to_data_types"
     t.datetime "review_date"
     t.string "review_contact"
-    t.string "notes"
-    t.bigint "storage_location_id", null: false
+    t.text "notes"
+    t.bigint "storage_location_id"
     t.bigint "data_type_id"
     t.bigint "device_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "deleted_at"
     t.boolean "incomplete", default: false
-    t.bigint "sensitive_data_system_type_id", null: false
     t.index ["data_type_id"], name: "index_sensitive_data_systems_on_data_type_id"
     t.index ["device_id"], name: "index_sensitive_data_systems_on_device_id"
-    t.index ["sensitive_data_system_type_id"], name: "index_sensitive_data_systems_on_sensitive_data_system_type_id"
     t.index ["storage_location_id"], name: "index_sensitive_data_systems_on_storage_location_id"
   end
 
@@ -249,6 +241,7 @@ ActiveRecord::Schema.define(version: 2021_06_09_211530) do
     t.string "description_link"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "device_is_required", default: false
   end
 
   create_table "tdx_tickets", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -291,6 +284,5 @@ ActiveRecord::Schema.define(version: 2021_06_09_211530) do
   add_foreign_key "legacy_os_records", "devices"
   add_foreign_key "sensitive_data_systems", "data_types"
   add_foreign_key "sensitive_data_systems", "devices"
-  add_foreign_key "sensitive_data_systems", "sensitive_data_system_types"
   add_foreign_key "sensitive_data_systems", "storage_locations"
 end
