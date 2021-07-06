@@ -9,8 +9,23 @@ class LegacyOsRecordsController < InheritedResources::Base
   include SaveRecordWithDevice
 
   def index
-    @legacy_os_records = LegacyOsRecord.active
+    if params[:q].nil?
+      @q = LegacyOsRecord.active.ransack(params[:q])
+    else
+      @q = LegacyOsRecord.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
+    end
+    @legacy_os_records = @q.result
+    @total = @legacy_os_records.count
+
+    @owner_username = @legacy_os_records.uniq.pluck(:owner_username)
     authorize @legacy_os_records
+
+    unless params[:q].nil?
+      render turbo_stream: turbo_stream.replace(
+      :legacy_os_recordListing,
+      partial: "legacy_os_records/listing"
+    )
+    end
   end
 
   def show
