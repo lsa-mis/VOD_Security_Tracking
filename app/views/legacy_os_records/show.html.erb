@@ -33,13 +33,13 @@
     <span class="flex-grow"></span>
     <span class="ml-4 flex-shrink-0">
       <ul>
-        <% if has_ad_access?(current_user, "it_security_incidents", "newedit_action") %>
+        <% if has_ad_access?(current_user, "legacy_os_records", "newedit_action") %>
           <li><%= link_to 'Edit', edit_legacy_os_record_path(@legacy_os_record), class: "action-link" %></li>
         <% end %>
-        <% if has_ad_access?(current_user, "it_security_incidents", "archive_action") %>
+        <% if has_ad_access?(current_user, "legacy_os_records", "archive_action") %>
           <li><%= link_to 'Archive', archive_legacy_os_record_path(@legacy_os_record), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
         <% end %>
-        <% if has_ad_access?(current_user, "it_security_incidents", "audit_action") %>
+        <% if has_ad_access?(current_user, "legacy_os_records", "audit_action") %>
           <li><%= link_to 'Audit', legacy_os_record_audit_log_path(@legacy_os_record), class: "action-link" %></li>
         <% end %>
       </ul>
