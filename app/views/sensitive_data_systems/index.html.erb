@@ -146,8 +146,7 @@
   </div>  
 </div>
 
-
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div>
   <% if has_ad_access?(current_user, "sensitive_data_systems", "newedit_action") %>
     <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
       <%= link_to 'New Sensitive Data System', new_sensitive_data_system_path %>

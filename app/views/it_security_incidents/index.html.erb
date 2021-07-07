@@ -96,16 +96,13 @@
           </button>
           <%= f.submit 'Search', data: { disable_with: false }, class: 'btn btn-primary' %>
 
-
-
         <% end %>
       </div>
     </div>
   </div> 
 </div>
 
-
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div>
   <% if has_ad_access?(current_user, "it_security_incidents", "newedit_action") %>
     <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
       <%= link_to 'New It Security Incident', new_it_security_incident_path %>
