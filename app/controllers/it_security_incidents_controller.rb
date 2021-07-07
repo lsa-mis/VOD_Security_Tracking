@@ -1,4 +1,5 @@
 class ItSecurityIncidentsController < InheritedResources::Base
+  before_action :verify_duo_authentication
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
   before_action :set_it_security_incident, only: [:show, :edit, :update, :archive, :audit_log]
@@ -30,7 +31,7 @@ class ItSecurityIncidentsController < InheritedResources::Base
   end
 
   def show
-    add_breadcrumb(@it_security_incident.id)
+    add_breadcrumb(@it_security_incident.display_name)
     authorize @it_security_incident
   end
 
@@ -57,7 +58,7 @@ class ItSecurityIncidentsController < InheritedResources::Base
   end
 
   def edit
-    add_breadcrumb(@it_security_incident.id, 
+    add_breadcrumb(@it_security_incident.display_name, 
         it_security_incident_path(@it_security_incident)
       )
     add_breadcrumb('Edit')
@@ -95,7 +96,7 @@ class ItSecurityIncidentsController < InheritedResources::Base
   
   def audit_log
     authorize @it_security_incident
-    add_breadcrumb(@it_security_incident.id, 
+    add_breadcrumb(@it_security_incident.display_name, 
       it_security_incident_path(@it_security_incident)
                   )
     add_breadcrumb('Audit')
@@ -114,7 +115,7 @@ class ItSecurityIncidentsController < InheritedResources::Base
     end
 
     def it_security_incident_params
-      params.require(:it_security_incident).permit(:date, :people_involved,
+      params.require(:it_security_incident).permit(:title, :date, :people_involved,
                     :equipment_involved, :remediation_steps, :estimated_financial_cost,
                     :notes, :it_security_incident_status_id, :data_type_id, :incomplete,
                     :m, attachments: [], tdx_ticket: [:ticket_link])

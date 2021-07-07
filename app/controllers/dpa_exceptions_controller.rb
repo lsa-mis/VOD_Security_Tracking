@@ -1,5 +1,6 @@
 class DpaExceptionsController < InheritedResources::Base
 
+  before_action :verify_duo_authentication
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
   before_action :set_dpa_exception, only: [:show, :edit, :update, :archive, :audit_log]
@@ -119,7 +120,7 @@ class DpaExceptionsController < InheritedResources::Base
 
     def dpa_exception_params
       params.require(:dpa_exception).permit(
-                    :review_date_exception_first_approval_date, 
+                    :dpa_status, :review_date_exception_first_approval_date, 
                     :third_party_product_service, :used_by, 
                     :point_of_contact, :review_findings, :review_summary, 
                     :lsa_security_recommendation, :lsa_security_determination, 

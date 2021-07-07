@@ -14,7 +14,7 @@
 #  lsa_security_approval                              :string(255)
 #  lsa_technology_services_approval                   :string(255)
 #  exception_approval_date_exception_renewal_date_due :datetime
-#  notes                                              :string(255)
+#  notes                                              :text(65535)
 #  sla_agreement                                      :string(255)
 #  data_type_id                                       :bigint
 #  created_at                                         :datetime         not null
@@ -22,6 +22,7 @@
 #  deleted_at                                         :datetime
 #  incomplete                                         :boolean          default(FALSE)
 #  review_date_exception_review_date                  :datetime
+#  dpa_status                                         :integer          default(0), not null
 #
 FactoryBot.define do
   factory :dpa_exception do

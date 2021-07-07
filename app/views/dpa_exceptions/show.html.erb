@@ -1,187 +1,195 @@
-
 <% if @dpa_exception.incomplete %>
-  <div class="inset-x-0 pb-2 sm:pb-5">
-    <div class="max-w-xl mx-auto px-2 sm:px-6 lg:px-8">
-      <div class="p-2 rounded-lg bg-yellow-400 shadow-lg sm:p-3">
-        <div class="flex items-center justify-between flex-wrap">
-          <div class="w-0 flex-1 flex items-center">
-            <span class="flex p-2 rounded-lg bg-yellow-600">
-              <!-- Heroicon name: outline/speakerphone -->
-              <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
-              </svg>
+<div class="inset-x-0 pb-2 sm:pb-5">
+  <div class="max-w-xl mx-auto px-2 sm:px-6 lg:px-8">
+    <div class="p-2 rounded-lg bg-yellow-400 shadow-lg sm:p-3">
+      <div class="flex items-center justify-between flex-wrap">
+        <div class="w-0 flex-1 flex items-center">
+          <span class="flex p-2 rounded-lg bg-yellow-600">
+            <!-- Heroicon name: outline/speakerphone -->
+            <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+            </svg>
+          </span>
+          <p class="ml-3 font-medium text-white truncate">
+            <span>
+                This record is incomplete!
             </span>
-            <p class="ml-3 font-medium text-white truncate">
-              <span>
-                  This record is incomplete!
-              </span>
-            </p>
-          </div>
+          </p>
         </div>
       </div>
     </div>
   </div>
+</div>
 <% end %>
 
 <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-  <div class="text-lg leading-6 font-medium text-gray-900">
-    <%= @dpa_exception.display_name %>
-      <p class="mt-1 max-w-2xl text-sm text-gray-500">
-        Exception details.
-      </p>
-  </div>
-  <div class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-    <span class="flex-grow"></span>
-    <span class="ml-4 flex-shrink-0">
-      <ul>
-        <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
-          <li><%= link_to 'Edit', edit_dpa_exception_path(@dpa_exception), class: "action-link" %></li>
-        <% end %>
-        <% if has_ad_access?(current_user, "dpa_exceptions", "archive_action") %>
-          <li><%= link_to 'Archive', archive_dpa_exception_path(@dpa_exception), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
-        <% end %>
-        <% if has_ad_access?(current_user, "dpa_exceptions", "audit_action") %>
-          <li><%= link_to 'Audit', dpa_exception_audit_log_path(@dpa_exception), class: "action-link" %></li>
-        <% end %>
-      </ul>
-    </span>
-  </div>
+<div class="text-lg leading-6 font-medium text-gray-900">
+  <%= @dpa_exception.display_name %>
+    <p class="mt-1 max-w-2xl text-sm text-gray-500">
+      Exception details.
+    </p>
+</div>
+<div class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+  <span class="flex-grow"></span>
+  <span class="ml-4 flex-shrink-0">
+    <ul>
+      <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
+        <li><%= link_to 'Edit', edit_dpa_exception_path(@dpa_exception), class: "action-link" %></li>
+      <% end %>
+      <% if has_ad_access?(current_user, "dpa_exceptions", "archive_action") %>
+        <li><%= link_to 'Archive', archive_dpa_exception_path(@dpa_exception), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
+      <% end %>
+      <% if has_ad_access?(current_user, "dpa_exceptions", "audit_action") %>
+        <li><%= link_to 'Audit', dpa_exception_audit_log_path(@dpa_exception), class: "action-link" %></li>
+      <% end %>
+    </ul>
+  </span>
+</div>
 </div>
 
 <div class="mt-5 border-t border-gray-200">
-  <dl class="divide-y divide-gray-200">
-    <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-      <dt class="text-sm font-medium text-gray-500">
-        Review date exception first approval date
-      </dt>
-      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @dpa_exception.review_date_exception_first_approval_date.strftime("%m/%d/%Y") unless @dpa_exception.review_date_exception_first_approval_date.blank? %></span>
-      </dd>
-    </div>
-    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-      <dt class="text-sm font-medium text-gray-500">
-        Used by
-      </dt>
-      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @dpa_exception.used_by %></span>
-      </dd>
-    </div>
-    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-      <dt class="text-sm font-medium text-gray-500">
-        Point of contact
-      </dt>
-      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @dpa_exception.point_of_contact %></span>
-      </dd>
-    </div>
-    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-      <dt class="text-sm font-medium text-gray-500">
-        Review findings
-      </dt>
-      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @dpa_exception.review_findings %></span>
-      </dd>
-    </div>
-    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-      <dt class="text-sm font-medium text-gray-500">
-        Review summary
-      </dt>
-      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @dpa_exception.review_summary %></span>
-      </dd>
-    </div>
-    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-      <dt class="text-sm font-medium text-gray-500">
-        Lsa security recommendation
-      </dt>
-      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @dpa_exception.lsa_security_recommendation %></span>
-      </dd>
-    </div>
-    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-      <dt class="text-sm font-medium text-gray-500">
-        Lsa security determination
-      </dt>
-      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @dpa_exception.lsa_security_determination %></span>
-      </dd>
-    </div>
-    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-      <dt class="text-sm font-medium text-gray-500">
-        Lsa security approval
-      </dt>
-      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @dpa_exception.lsa_security_approval %></span>
-      </dd>
-    </div>
-    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-      <dt class="text-sm font-medium text-gray-500">
-        Lsa technology services approval
-      </dt>
-      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @dpa_exception.lsa_technology_services_approval %></span>
-      </dd>
-    </div>
-    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-      <dt class="text-sm font-medium text-gray-500">
-        Exception approval date exception renewal date due
-      </dt>
-      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @dpa_exception.exception_approval_date_exception_renewal_date_due.strftime("%m/%d/%Y") unless @dpa_exception.exception_approval_date_exception_renewal_date_due.nil? %></span>
-      </dd>
-    </div>
-    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-      <dt class="text-sm font-medium text-gray-500">
-        Review date exception review date
-      </dt>
-      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @dpa_exception.review_date_exception_review_date unless @dpa_exception.review_date_exception_review_date.blank? %></span>
-      </dd>
-    </div>
-    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-      <dt class="text-sm font-medium text-gray-500">
-        Notes
-      </dt>
-      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @dpa_exception.notes %></span>
-      </dd>
-    </div>
-    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-      <dt class="text-sm font-medium text-gray-500">
-        Data type
-      </dt>
-      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= show_data_type_name(@dpa_exception) %></span>
-      </dd>
-    </div>
-    
-    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-      <%= render partial: "tdx_tickets/tdx_tickets", locals: { tdx_ticket_resource: @dpa_exception } %>
-    </div>
+<dl class="divide-y divide-gray-200">
+  <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+    <dt class="text-sm font-medium text-gray-500">
+      Status
+    </dt>
+    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+      <span class="flex-grow"><%= @dpa_exception.dpa_status.titleize %></span>
+    </dd>
+  </div>
+  <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+    <dt class="text-sm font-medium text-gray-500">
+      Review date exception first approval date
+    </dt>
+    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+      <span class="flex-grow"><%= show_date(@dpa_exception.review_date_exception_first_approval_date) %></span>
+    </dd>
+  </div>
+  <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+    <dt class="text-sm font-medium text-gray-500">
+      Used by
+    </dt>
+    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+      <span class="flex-grow"><%= @dpa_exception.used_by %></span>
+    </dd>
+  </div>
+  <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+    <dt class="text-sm font-medium text-gray-500">
+      Point of contact
+    </dt>
+    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+      <span class="flex-grow"><%= @dpa_exception.point_of_contact %></span>
+    </dd>
+  </div>
+  <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+    <dt class="text-sm font-medium text-gray-500">
+      Review findings
+    </dt>
+    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+      <span class="flex-grow"><%= @dpa_exception.review_findings %></span>
+    </dd>
+  </div>
+  <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+    <dt class="text-sm font-medium text-gray-500">
+      Review summary
+    </dt>
+    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+      <span class="flex-grow"><%= @dpa_exception.review_summary %></span>
+    </dd>
+  </div>
+  <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+    <dt class="text-sm font-medium text-gray-500">
+      Lsa security recommendation
+    </dt>
+    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+      <span class="flex-grow"><%= @dpa_exception.lsa_security_recommendation %></span>
+    </dd>
+  </div>
+  <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+    <dt class="text-sm font-medium text-gray-500">
+      Lsa security determination
+    </dt>
+    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+      <span class="flex-grow"><%= @dpa_exception.lsa_security_determination %></span>
+    </dd>
+  </div>
+  <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+    <dt class="text-sm font-medium text-gray-500">
+      Lsa security approval
+    </dt>
+    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+      <span class="flex-grow"><%= @dpa_exception.lsa_security_approval %></span>
+    </dd>
+  </div>
+  <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+    <dt class="text-sm font-medium text-gray-500">
+      Lsa technology services approval
+    </dt>
+    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+      <span class="flex-grow"><%= @dpa_exception.lsa_technology_services_approval %></span>
+    </dd>
+  </div>
+  <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+    <dt class="text-sm font-medium text-gray-500">
+      Last Reviewed Date
+    </dt>
+    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+      <span class="flex-grow"><%= show_date(@dpa_exception.exception_approval_date_exception_renewal_date_due) %></span>
+    </dd>
+  </div>
+  <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+    <dt class="text-sm font-medium text-gray-500">
+      Next Review Due Date
+    </dt>
+    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+      <span class="flex-grow"><%= show_date(@dpa_exception.review_date_exception_review_date) %></span>
+    </dd>
+  </div>
+  <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+    <dt class="text-sm font-medium text-gray-500">
+      Notes
+    </dt>
+    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+      <span class="flex-grow"><%= @dpa_exception.notes %></span>
+    </dd>
+  </div>
+  <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+    <dt class="text-sm font-medium text-gray-500">
+      Data type
+    </dt>
+    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+      <span class="flex-grow"><%= show_data_type_name(@dpa_exception) %></span>
+    </dd>
+  </div>
+  
+  <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+    <%= render partial: "tdx_tickets/tdx_tickets", locals: { tdx_ticket_resource: @dpa_exception } %>
+  </div>
 
-    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-      <dt class="text-sm font-medium text-gray-500">
-        SLA Agreement 
-      </dt>
-      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @dpa_exception.sla_agreement %></span>
-      </dd>
-    </div>
+  <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+    <dt class="text-sm font-medium text-gray-500">
+      SLA Agreement 
+    </dt>
+    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+      <span class="flex-grow"><%= @dpa_exception.sla_agreement %></span>
+    </dd>
+  </div>
 
-    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-      <dt class="text-sm font-medium text-gray-500">
-        SLA Agreement Uploaded File
-      </dt>
-      <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
-          <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-            <% if @dpa_exception.sla_attachment.attached? %>
-              <div class="w-0 flex-1 flex items-center">
-                <i class="fas fa-paperclip text-gray-400"></i>
-                <span class="ml-2 flex-1 w-0 truncate">
-                  <%= link_to @dpa_exception.sla_attachment.filename, url_for(@dpa_exception.sla_attachment) %>
-                </span>
-              </div>
+  <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+    <dt class="text-sm font-medium text-gray-500">
+      SLA Agreement Uploaded File
+    </dt>
+    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+      <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+        <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+          <% if @dpa_exception.sla_attachment.attached? %>
+            <div class="w-0 flex-1 flex items-center">
+              <i class="fas fa-paperclip text-gray-400"></i>
+              <span class="ml-2 flex-1 w-0 truncate">
+                <%= link_to @dpa_exception.sla_attachment.filename, url_for(@dpa_exception.sla_attachment) %>
+              </span>
+            </div>
+            <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
               <div class="ml-4 flex-shrink-0 flex space-x-4">
                 <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   <%= link_to 'Update', edit_dpa_exception_path(@dpa_exception) %>
@@ -191,25 +199,28 @@
                   <%= link_to 'Remove', delete_file_path(@dpa_exception.sla_attachment.id), data: { confirm: "Are sure you?"} %>
                 </button>
               </div>
-            <% else %>
-              <div class="w-0 flex-1 flex items-center">
-                <span class="ml-2 flex-1 w-0 truncate">
-                  you currently do not have an SLA Agreement attached.
-                </span>
-              </div>
+            <% end %>
+          <% else %>
+            <div class="w-0 flex-1 flex items-center">
+              <span class="ml-2 flex-1 w-0 truncate">
+                you currently do not have an SLA Agreement attached.
+              </span>
+            </div>
+            <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
               <div class="ml-4 flex-shrink-0 flex space-x-4">
                 <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   <%= link_to 'Add', edit_dpa_exception_path(@dpa_exception) %>
                 </button>
               </div>
             <% end %>
-          </li>
-        </ul>
-      </dd>
-    </div>
+          <% end %>
+        </li>
+      </ul>
+    </dd>
+  </div>
 
-    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-      <%= render partial: "partials/show_attachments", locals: { attached_files_resource: @dpa_exception } %>
-    </div>
-  </dl>
+  <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+    <%= render partial: "partials/show_attachments", locals: { attached_files_resource: @dpa_exception } %>
+  </div>
+</dl>
 </div>

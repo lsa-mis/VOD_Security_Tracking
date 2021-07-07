@@ -12,15 +12,17 @@
               <%= link_to file.filename, url_for(file) %>
             </span>
           </div>
-          <div class="ml-4 flex-shrink-0 flex space-x-4">
-            <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              <%= link_to "Update", "#{attached_files_resource.id}/edit" %>
-            </button>
-            <span class="text-gray-300" aria-hidden="true">|</span>
-            <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              <%= link_to 'Remove', delete_file_path(file.id), data: { confirm: "Are sure you?"} %>
-            </button>
-          </div>
+          <% if has_ad_access?(current_user, attached_files_resource.class.table_name, "newedit_action") %>
+            <div class="ml-4 flex-shrink-0 flex space-x-4">
+              <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <%= link_to "Update", "#{attached_files_resource.id}/edit" %>
+              </button>
+              <span class="text-gray-300" aria-hidden="true">|</span>
+              <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <%= link_to 'Remove', delete_file_path(file.id), data: { confirm: "Are sure you?"} %>
+              </button>
+            </div>
+          <% end %>
         </li>
       <% end %>
     <% else %>
@@ -30,11 +32,13 @@
             you currently do not have an attached files.
           </span>
         </div>
-        <div class="ml-4 flex-shrink-0 flex space-x-4">
-          <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            <%= link_to "Edit", "#{attached_files_resource.id}/edit" %>
-          </button>
-        </div>
+        <% if has_ad_access?(current_user, attached_files_resource.class.table_name, "newedit_action") %>
+          <div class="ml-4 flex-shrink-0 flex space-x-4">
+            <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <%= link_to "Add", "#{attached_files_resource.id}/edit" %>
+            </button>
+          </div>
+        <% end %>
       </li>
     <% end %>
   </ul>

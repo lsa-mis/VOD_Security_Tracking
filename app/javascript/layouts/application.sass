@@ -2,7 +2,8 @@
 @import "tailwindcss/components"
 @import "tailwindcss/utilities"
 
-.device--display 
+// this is a good candidate for a partial
+.device--display
   @apply block
   
 .device--hide
@@ -11,23 +12,34 @@
 .filters--hide
   @apply hidden
 
+// main
+//  @apply bg-white m-4 flex-1
+//  @apply hidden
+
+.device-error--display
+  @apply block
+  
+.device-error--hide
+  @apply hidden 
+/////////////////////////////////////////
+ 	@layer base 
+    h1 
+      @apply text-xl font-bold leading-relaxed font-sans uppercase
+
+    h2 
+      @apply text-lg
+
+    h3 
+      @apply text-base
+
+    h4 
+      @apply text-sm
+​ 	
 main
   @apply bg-white m-4 flex-1
 
-h1 
-  @apply text-xl font-bold leading-relaxed font-sans uppercase
-
-h2 
-  @apply text-lg
-
-h3 
-  @apply text-base
-
-h4 
-  @apply text-sm
-
 p
-  @apply text-base font-light text-base
+  @apply text-base font-light
 
 a 
   &.action-link
@@ -51,41 +63,23 @@ a
 .btn-login
   @apply inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
 
-table
-  @apply min-w-full divide-y divide-gray-200 table-fixed
+.fixed_header_container
+  @apply shadow overflow-hidden border-b border-gray-200 sm:rounded-lg
 
-  thead
-    @apply bg-gray-50 
-
-    th
-      @apply px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider
+.fixed_header
+  @apply table-fixed border-collapse divide-y divide-gray-200
 
   tbody
-    @apply bg-white divide-y divide-gray-200
-    
-    td
-      @apply px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900
+    @apply block w-full overflow-auto h-96 divide-y divide-gray-200
 
-      &.audit_table
-        @apply text-xs
+  thead, tr
+    @apply block
 
-.footer-grid-container
-  display: grid
-  grid-template-columns: 1fr 2fr 1fr
-  grid-template-rows: 1fr max-content
-  gap: 0px 0px
-  grid-template-areas: "footer-left footer-center footer-right" ". footer-copyright ."
+  thead 
+    @apply bg-gray-50
 
-.footer-center
-  grid-area: footer-center
-  justify-self: center
+  td, th
+    @apply p-5 text-left w-40 
 
-.footer-left
-  grid-area: footer-left
-
-.footer-right
-  grid-area: footer-right
-  justify-self: end
-
-.footer-copyright
-  grid-area: footer-copyright
+  th 
+    @apply text-xs

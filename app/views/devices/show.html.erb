@@ -1,45 +1,82 @@
-<p>
-  <strong>Serial:</strong>
-  <%= @device.serial %>
-</p>
+<div class="mt-5 border-t border-gray-200">
+  <dl class="divide-y divide-gray-200">
+    <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Serial
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @device.serial %></span>
+      </dd>
+    </div>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Hostname
+        </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @device.hostname %></span>
+      </dd>
+    </div>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Mac:
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @device.mac %></span>
+      </dd>
+    </div>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Manufacturer
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @device.manufacturer %></span>
+      </dd>
+    </div>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Model
+      </dt>
+    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+      <span class="flex-grow"><%= @device.model %></span>
+      </dd>
+    </div>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Owner
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @device.owner %></span>
+      </dd>
+    </div>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Department
+        </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @device.department %></span>
+      </dd>
+    </div>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Building
+      </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @device.building %></span>
+      </dd>
+    </div>
+    <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Room
+        </dt>
+      <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <span class="flex-grow"><%= @device.room %></span>
+      </dd>
+    </div>
+  </dl>
+</div>
 
-<p>
-  <strong>Hostname:</strong>
-  <%= @device.hostname %>
-</p>
+<% if has_ad_access?(current_user, "devices", "newedit_action") %>
+  <%= link_to 'Update', update_device_path(@device), class: "action-link" %>
+<% end %>
 
-<p>
-  <strong>Mac:</strong>
-  <%= @device.mac %>
-</p>
-
-<p>
-  <strong>Manufacturer:</strong>
-  <%= @device.manufacturer %>
-</p>
-
-<p>
-  <strong>Model:</strong>
-  <%= @device.model %>
-</p>
-
-<p>
-  <strong>Owner:</strong>
-  <%= @device.owner %>
-</p>
-<p>
-  <strong>Department:</strong>
-  <%= @device.department %>
-</p>
-
-<p>
-  <strong>Building:</strong>
-  <%= @device.building %>
-</p>
-
-<p>
-  <strong>Room:</strong>
-  <%= @device.room %>
-</p>
-
-<%= link_to 'Update', update_device_path(@device) %>
+</div>

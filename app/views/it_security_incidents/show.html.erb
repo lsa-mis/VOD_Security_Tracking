@@ -47,6 +47,14 @@
   </div>
 </div>
 
+<div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+  <dt class="text-sm font-medium text-gray-500">
+    Title
+  </dt>
+  <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+    <span class="flex-grow"><%= @it_security_incident.title %></span>
+  </dd>
+</div>
 <div class="mt-5 border-t border-gray-200">
   <dl class="divide-y divide-gray-200">
     <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
@@ -54,7 +62,7 @@
         Date:
       </dt>
       <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @it_security_incident.date.strftime("%m/%d/%Y") unless @it_security_incident.date.blank? %></span>
+        <span class="flex-grow"><%= show_date(@it_security_incident.date) %></span>
       </dd>
     </div>
 
@@ -108,7 +116,7 @@
         IT Security Incident Status
       </dt>
       <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @it_security_incident.it_security_incident_status_id %></span>
+        <span class="flex-grow"><%= show_it_security_incident_status(@it_security_incident) %></span>
       </dd>
     </div>
   

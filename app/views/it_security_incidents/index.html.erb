@@ -1,4 +1,5 @@
 <h1>It Security Incidents</h1>
+
 <p class="text-gray-500 text-sm mx-4">
   It Security Incidents
 </p>
@@ -84,8 +85,6 @@
               <%= f.collection_select :data_type_id_eq, @data_type, :id, :name, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
             </div>
           </div>
-
-
 
           <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             data-action='click->filters#clearFilters'>
