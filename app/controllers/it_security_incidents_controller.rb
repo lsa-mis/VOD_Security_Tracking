@@ -12,12 +12,10 @@ class ItSecurityIncidentsController < InheritedResources::Base
     else
       @q = ItSecurityIncident.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
-    @it_security_incidents = @q.result
+    @pagy, @it_security_incidents = pagy(@q.result)
     @total = @it_security_incidents.count
     @data_type = DataType.where(id: ItSecurityIncident.pluck(:data_type_id).uniq)
     @it_security_incident_status = ItSecurityIncidentStatus.where(id: ItSecurityIncident.pluck(:data_type_id).uniq)
-
-
 
     authorize @it_security_incidents
 

@@ -15,7 +15,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
     else
       @q = SensitiveDataSystem.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
-    @sensitive_data_systems = @q.result
+    @pagy, @sensitive_data_systems = pagy(@q.result)
     @total = @sensitive_data_systems.count
     @owner_username = @sensitive_data_systems.uniq.pluck(:owner_username)
     @dept = @sensitive_data_systems.uniq.pluck(:dept)

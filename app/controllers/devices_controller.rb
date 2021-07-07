@@ -7,7 +7,7 @@ class DevicesController < InheritedResources::Base
   before_action :set_membership
 
   def index
-    @devices = Device.all
+    @pagy, @devices = pagy(Device.all)
     authorize @devices
   end
 

@@ -15,7 +15,7 @@ class LegacyOsRecordsController < InheritedResources::Base
     else
       @q = LegacyOsRecord.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
-    @legacy_os_records = @q.result
+    @pagy, @legacy_os_records = pagy(@q.result)
     @total = @legacy_os_records.count
     @owner_username = @legacy_os_records.uniq.pluck(:owner_username)
     @dept = @legacy_os_records.uniq.pluck(:dept)
