@@ -36,6 +36,8 @@ class DpaException < ApplicationRecord
   validates :review_date_exception_first_approval_date, :third_party_product_service,
             :used_by, presence: true
   validates :dpa_status, presence: true
+  validate :acceptable_attachments
+  validate :acceptable_sla_attachment
 
   scope :active, -> { where(deleted_at: nil) }
   scope :archived, -> { where("#{self.table_name}.deleted_at IS NOT NULL") }
@@ -46,6 +48,53 @@ class DpaException < ApplicationRecord
 
   def archived?
     self.deleted_at.present?
+  end
+
+  def acceptable_attachments
+    return unless attachments.attached?
+  
+    acceptable_types = [
+      "application/pdf", "text/plain" "image/jpg", 
+      "image/jpeg", "image/png", 
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "application/vnd.apple.pages",
+      "application/vnd.apple.numbers",
+      "application/x-tar"
+    ]
+
+    attachments.each do |att|
+      unless att.byte_size <= 20.megabyte
+        errors.add(:attachments, "is too big")
+      end
+
+      unless acceptable_types.include?(att.content_type)
+        errors.add(:attachments, "must be an acceptable file type")
+      end
+    end
+  end
+
+  def acceptable_sla_attachment
+    return unless sla_attachment.attached?
+  
+    acceptable_types = [
+      "application/pdf", "text/plain" "image/jpg", 
+      "image/jpeg", "image/png", 
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "application/vnd.apple.pages",
+      "application/vnd.apple.numbers",
+      "application/x-tar"
+    ]
+
+    unless sla_attachment.byte_size <= 20.megabyte
+      errors.add(:sla_attachment, "is too big")
+    end
+
+    unless acceptable_types.include?(sla_attachment.content_type)
+      errors.add(:sla_attachment, "must be an acceptable file type")
+    end
+
   end
 
   def display_name
