@@ -11,25 +11,25 @@
             <thead>
               <tr>
               <th scope="col">Actions</th>
-              <th scope="col">Owner username</th>
+              <th scope="col"><%= sort_link(@q, :owner_username, 'Owner username') %></th>
               <th scope="col">Owner full name</th>
-              <th scope="col">Dept</th>
+              <th scope="col"><%= sort_link(@q, :dept, 'Dept') %></th>
               <th scope="col">Phone</th>
               <th scope="col">Additional dept contact</th>
               <th scope="col">Additional dept contact phone</th>
               <th scope="col">Support poc</th>
-              <th scope="col">Legacy os</th>
+              <th scope="col"><%= sort_link(@q, :legacy_os, 'Legacy os') %></th>
               <th scope="col">Unique app</th>
               <th scope="col">Unique hardware</th>
-              <th scope="col">Unique date</th>
+              <th scope="col"><%= sort_link(@q, :unique_date, 'Unique date') %></th>
               <th scope="col">Remediation</th>
-              <th scope="col">Exception approval date</th>
-              <th scope="col">Review date</th>
+              <th scope="col"><%= sort_link(@q, :exception_approval_date, 'Exception approval date') %></th>
+              <th scope="col"><%= sort_link(@q, :review_date, 'Review date') %></th>
               <th scope="col">Review contact</th>
               <th scope="col">Justification</th>
               <th scope="col">Local it support group</th>
               <th scope="col">Notes</th>
-              <th scope="col">Data type</th>
+              <th scope="col"><%= sort_link(@q, :data_type_id, 'Data type', default_order: :desc) %></th>
               <th scope="col">Device</th>
               </tr>
             </thead>

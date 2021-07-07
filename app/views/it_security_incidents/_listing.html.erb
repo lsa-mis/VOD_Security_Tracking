@@ -18,9 +18,9 @@
                 <th scope="col"><%= sort_link(@q, :remediation_steps, 'Remediation steps') %></th>
                 <th scope="col"><%= sort_link(@q, :estimated_financial_cost, 'Estimated finacial cost') %></th>
                 <th scope="col">Notes</th>
-                <th scope="col"><%= sort_link(@q, :it_security_incident_status, 'It security incident status') %></th>
-                <th scope="col"><%= sort_link(@q, :idata_type, 'Data type') %></th>
-              </tr>
+                <th scope="col"><%= sort_link(@q, :it_security_incident_status_id, 'It security incident status') %></th>
+                <th scope="col"><%= sort_link(@q, :data_type_id, 'Data type', default_order: :desc) %></th>
+                </tr>
             </thead>
 
             <tbody>

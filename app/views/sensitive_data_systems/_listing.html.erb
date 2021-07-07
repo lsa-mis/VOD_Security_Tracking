@@ -11,20 +11,21 @@
             <thead>
               <tr>
                 <th scope="col">Actions</th>
-                <th scope="col">Owner username</th>
+                <th scope="col"><%= sort_link(@q, :owner_username, 'Owner username') %></th>
                 <th scope="col">Owner full name</th>
-                <th scope="col">Dept</th>
+                <th scope="col"><%= sort_link(@q, :dept, 'Dept') %></th>
                 <th scope="col">Phone</th>
                 <th scope="col">Additional dept contact</th>
                 <th scope="col">Additional dept contact phone</th>
                 <th scope="col">Support poc</th>
                 <th scope="col">Expected duration of data retention</th>
                 <th scope="col">Agreements related to data types</th>
-                <th scope="col">Review date</th>
+                <th scope="col"><%= sort_link(@q, :review_date, 'Review date') %></th>
                 <th scope="col">Review contact</th>
                 <th scope="col">Notes</th>
-                <th scope="col">Data type</th>
-                <th scope="col">Storage location</th>
+                <th scope="col"><%= sort_link(@q, :data_type_id, 'Data type', default_order: :desc) %></th>
+                <th scope="col"><%= sort_link(@q, :storage_location_id, 'Storage location', default_order: :desc) %></th>
+
                 <th scope="col">Device</th>
               </tr>
             </thead>
