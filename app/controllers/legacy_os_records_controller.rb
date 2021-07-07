@@ -16,8 +16,15 @@ class LegacyOsRecordsController < InheritedResources::Base
     end
     @legacy_os_records = @q.result
     @total = @legacy_os_records.count
-
     @owner_username = @legacy_os_records.uniq.pluck(:owner_username)
+    @dept = @legacy_os_records.uniq.pluck(:dept)
+    @additional_dept_contact = @legacy_os_records.uniq.pluck(:additional_dept_contact)
+    @legacy_os = @legacy_os_records.uniq.pluck(:legacy_os)
+    @review_contact = @legacy_os_records.uniq.pluck(:review_contact)
+    @local_it_support_group = @legacy_os_records.uniq.pluck(:local_it_support_group)
+    @data_type = DataType.where(id: LegacyOsRecord.pluck(:data_type_id).uniq)
+    @device = Device.where(id: LegacyOsRecord.pluck(:device_id).uniq)
+    
     authorize @legacy_os_records
 
     unless params[:q].nil?
