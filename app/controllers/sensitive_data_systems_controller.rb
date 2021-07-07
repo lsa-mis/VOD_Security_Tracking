@@ -9,8 +9,29 @@ class SensitiveDataSystemsController < InheritedResources::Base
   include SaveRecordWithDevice
 
   def index
-    @sensitive_data_systems = SensitiveDataSystem.active
+    if params[:q].nil?
+      @q = SensitiveDataSystem.active.ransack(params[:q])
+    else
+      @q = SensitiveDataSystem.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
+    end
+    @sensitive_data_systems = @q.result
+    @total = @sensitive_data_systems.count
+    @owner_username = @sensitive_data_systems.uniq.pluck(:owner_username)
+    @dept = @sensitive_data_systems.uniq.pluck(:dept)
+    @additional_dept_contact = @sensitive_data_systems.uniq.pluck(:additional_dept_contact)
+    @data_type = DataType.where(id: SensitiveDataSystem.pluck(:data_type_id).uniq)
+    @data_type = StorageLocation.where(id: SensitiveDataSystem.pluck(:data_type_id).uniq)
+    @device = Device.where(id: SensitiveDataSystem.pluck(:device_id).uniq)
+    
+
     authorize @sensitive_data_systems
+
+    unless params[:q].nil?
+      render turbo_stream: turbo_stream.replace(
+      :sensitive_data_systemListing,
+      partial: "sensitive_data_systems/listing"
+    )
+    end
   end
 
   def show
@@ -145,7 +166,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
                                                     :agreements_related_to_data_types, 
                                                     :review_date, :review_contact, :notes, 
                                                     :storage_location_id, :data_type_id, 
-                                                    :sensitive_data_system_type_id, :incomplete, 
+                                                    :sensitive_data_system_type_id, :incomplete, :m,
                                                     attachments: [], 
                                                     device_attributes: [:serial, :hostname], 
                                                     tdx_ticket: [:ticket_link]
