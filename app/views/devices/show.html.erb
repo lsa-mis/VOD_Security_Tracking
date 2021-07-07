@@ -67,11 +67,51 @@
     <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
       <dt class="text-sm font-medium text-gray-500">
         Room
-        </dt>
+      </dt>
       <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
         <span class="flex-grow"><%= @device.room %></span>
       </dd>
     </div>
+    <% if @legacy_os_records.present? %>
+      <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+        <dt class="text-sm font-medium text-gray-500">
+          Legacy OS records - Notes
+        </dt>
+        <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+          <ul>
+            <% @legacy_os_records.each do |l| %>
+              <li>
+                <div>
+                  <span>
+                    <%= link_to l.display_name, legacy_os_record_path(l) %>: <%= l.notes %>
+                  </span>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </dd>
+      </div>
+    <% end %>
+    <% if @sensitive_data_systems.present? %>
+      <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+        <dt class="text-sm font-medium text-gray-500">
+          Sensitive data systems - Notes
+        </dt>
+        <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+          <ul>
+            <% @sensitive_data_systems.each do |s| %>
+              <li>
+                <div>
+                  <span>
+                    <%= link_to s.display_name, sensitive_data_system_path(s) %>: <%= s.notes %>
+                  </span>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </dd>
+      </div>
+    <% end %>
   </dl>
 </div>
 

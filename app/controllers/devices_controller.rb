@@ -13,6 +13,8 @@ class DevicesController < InheritedResources::Base
 
   def show
     add_breadcrumb(@device.display_name)
+    @legacy_os_records = LegacyOsRecord.where(device_id: @device)
+    @sensitive_data_systems = SensitiveDataSystem.where(device_id: @device)
     authorize @device
   end
 
