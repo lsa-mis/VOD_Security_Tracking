@@ -21,7 +21,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
     @dept = @sensitive_data_systems.uniq.pluck(:dept)
     @additional_dept_contact = @sensitive_data_systems.uniq.pluck(:additional_dept_contact)
     @data_type = DataType.where(id: SensitiveDataSystem.pluck(:data_type_id).uniq)
-    @data_type = StorageLocation.where(id: SensitiveDataSystem.pluck(:data_type_id).uniq)
+    @storage_location = StorageLocation.where(id: SensitiveDataSystem.pluck(:storage_location_id).uniq)
     @device = Device.where(id: SensitiveDataSystem.pluck(:device_id).uniq)
     
 

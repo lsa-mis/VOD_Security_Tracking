@@ -118,7 +118,7 @@
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
             <%= f.label :storage_location_id %>
             <div class="w-1/2 pl-2">
-              <%= f.collection_select :storage_location_id_eq, @data_type, :id, :name, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
+              <%= f.collection_select :storage_location_id_eq, @storage_location, :id, :name, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
