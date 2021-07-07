@@ -17,6 +17,7 @@ class DpaExceptionsController < InheritedResources::Base
 
     @dpa_exceptions = @q.result
     @total = @dpa_exceptions.count
+    @dpa_status = @dpa_exceptions.uniq.pluck(:data_type_id)
     @used_by = @dpa_exceptions.uniq.pluck(:used_by)
     
     authorize @dpa_exceptions

@@ -26,6 +26,12 @@
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label :dpa_status %>
+            <div class="w-1/2 pl-2">
+              <%= f.select :dpa_status_eq, @dpa_status, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
             <%= f.label :review_date_exception_first_approval_date %>
             <div class="w-1/3 pr-4 pl-2">
               <%= f.text_field :review_date_exception_first_approval_date_gteq, placeholder: "From",
