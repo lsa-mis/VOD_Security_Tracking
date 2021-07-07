@@ -6,17 +6,16 @@ class ItSecurityIncidentsController < InheritedResources::Base
   before_action :set_membership
 
   def index
-    # if params[:q].nil?
-    #   @q = ItSecurityIncident.active.ransack(params[:q])
-    # else
-    #   @q = ItSecurityIncident.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
-    # end
-    # @it_security_incidents = @q.result
-    # @total = @it_security_incidens.count
-
-    @q = ItSecurityIncident.active.ransack(params[:q])
-    logger.debug "**************ItSecurityIncident q #{params[:q]}"
+    if params[:q].nil?
+      @q = ItSecurityIncident.active.ransack(params[:q])
+    else
+      @q = ItSecurityIncident.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
+    end
     @it_security_incidents = @q.result
+    @total = @it_security_incidents.count
+    @data_type = DataType.where(id: ItSecurityIncident.pluck(:data_type_id).uniq)
+    @it_security_incident_status = ItSecurityIncidentStatus.where(id: ItSecurityIncident.pluck(:data_type_id).uniq)
+
 
 
     authorize @it_security_incidents
@@ -25,7 +24,7 @@ class ItSecurityIncidentsController < InheritedResources::Base
     unless params[:q].nil?
       render turbo_stream: turbo_stream.replace(
       :it_security_incidentListing,
-      partial: "it_security_incidens/listing"
+      partial: "it_security_incidents/listing"
     )
     end
   end
@@ -115,7 +114,10 @@ class ItSecurityIncidentsController < InheritedResources::Base
     end
 
     def it_security_incident_params
-      params.require(:it_security_incident).permit(:date, :people_involved, :equipment_involved, :remediation_steps, :estimated_financial_cost, :notes, :it_security_incident_status_id, :data_type_id, :incomplete, :m, attachments: [], tdx_ticket: [:ticket_link])
+      params.require(:it_security_incident).permit(:date, :people_involved,
+                    :equipment_involved, :remediation_steps, :estimated_financial_cost,
+                    :notes, :it_security_incident_status_id, :data_type_id, :incomplete,
+                    :m, attachments: [], tdx_ticket: [:ticket_link])
     end
 
 end
