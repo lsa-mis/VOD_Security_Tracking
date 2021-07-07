@@ -38,8 +38,8 @@ class LegacyOsRecord < ApplicationRecord
   audited
 
   validates :owner_username, :owner_full_name, :dept, :phone, presence: true
-
   validate :unique_app_or_unique_hardware
+  validate :acceptable_attachments
 
   scope :active, -> { where(deleted_at: nil) }
   scope :archived, -> { where("#{self.table_name}.deleted_at IS NOT NULL") }
@@ -54,6 +54,30 @@ class LegacyOsRecord < ApplicationRecord
   
   def unique_app_or_unique_hardware
     errors.add(:unique_app, "or Unique Hardware needs a value") unless unique_app.present? || unique_hardware.present?
+  end
+
+  def acceptable_attachments
+    return unless attachments.attached?
+  
+    acceptable_types = [
+      "application/pdf", "text/plain" "image/jpg", 
+      "image/jpeg", "image/png", 
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "application/vnd.apple.pages",
+      "application/vnd.apple.numbers",
+      "application/x-tar"
+    ]
+
+    attachments.each do |att|
+      unless att.byte_size <= 20.megabyte
+        errors.add(:attachments, "is too big")
+      end
+
+      unless acceptable_types.include?(att.content_type)
+        errors.add(:attachments, "must be an acceptable file type")
+      end
+    end
   end
 
   def display_name

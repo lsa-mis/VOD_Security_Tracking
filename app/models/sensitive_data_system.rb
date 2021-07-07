@@ -34,6 +34,7 @@ class SensitiveDataSystem < ApplicationRecord
   audited
 
   validates :owner_username, :owner_full_name, :dept, presence: true
+  validate :acceptable_attachments
 
   scope :active, -> { where(deleted_at: nil) }
   scope :archived, -> { where("#{self.table_name}.deleted_at IS NOT NULL") }
@@ -44,6 +45,30 @@ class SensitiveDataSystem < ApplicationRecord
 
   def archived?
     self.deleted_at.present?
+  end
+
+  def acceptable_attachments
+    return unless attachments.attached?
+  
+    acceptable_types = [
+      "application/pdf", "text/plain" "image/jpg", 
+      "image/jpeg", "image/png", 
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "application/vnd.apple.pages",
+      "application/vnd.apple.numbers",
+      "application/x-tar"
+    ]
+
+    attachments.each do |att|
+      unless att.byte_size <= 20.megabyte
+        errors.add(:attachments, "is too big")
+      end
+
+      unless acceptable_types.include?(att.content_type)
+        errors.add(:attachments, "must be an acceptable file type")
+      end
+    end
   end
 
   def display_name
