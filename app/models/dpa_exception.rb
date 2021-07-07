@@ -29,6 +29,8 @@ class DpaException < ApplicationRecord
   has_many :tdx_tickets, as: :records_to_tdx
   has_many_attached :attachments
   has_one_attached :sla_attachment
+  before_save :if_not_complete
+
   audited
 
   enum dpa_status: [ :in_process, :approved, :denied, :not_pursued ]
@@ -95,6 +97,18 @@ class DpaException < ApplicationRecord
       errors.add(:sla_attachment, "must be an acceptable file type")
     end
 
+  end
+
+  def if_not_complete
+    if self.not_completed?
+      self.incomplete = true
+    else
+      self.incomplete = false
+    end
+  end
+
+  def not_completed?
+    self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete").all? {|k, v| v.present?} ? false : true
   end
 
   def display_name
