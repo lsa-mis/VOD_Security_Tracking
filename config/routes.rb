@@ -47,6 +47,8 @@ Rails.application.routes.draw do
   post 'archive_sensitive_data_system/:id', to: 'sensitive_data_systems#archive', as: :archive_sensitive_data_system
   post 'archive_legacy_os_record/:id', to: 'legacy_os_records#archive', as: :archive_legacy_os_record
   post 'archive_dpa_exception/:id', to: 'dpa_exceptions#archive', as: :archive_dpa_exception
+  post 'archive_device/:id', to: 'devices#archive', as: :archive_device
+
   
   resources :devices
   get 'update_device/:id', to: 'devices#update', as: :update_device
