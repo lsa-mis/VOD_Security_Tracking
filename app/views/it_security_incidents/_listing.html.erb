@@ -11,15 +11,15 @@
             <thead>
               <tr>
                 <th scope="col">Actions</th>
-                <th scope="col">Title</th>
-                <th scope="col">Date</th>
-                <th scope="col">People involved</th>
-                <th scope="col">Equipment involved</th>
-                <th scope="col">Remediation steps</th>
-                <th scope="col">Estimated finacial cost</th>
+                <th scope="col"><%= sort_link(@q, :title, 'Title') %></th>
+                <th scope="col"><%= sort_link(@q, :date, 'Date') %></th>
+                <th scope="col"><%= sort_link(@q, :people_involved, 'People involved') %></th>
+                <th scope="col"><%= sort_link(@q, :equipment_involved, 'Equipment involved') %></th>
+                <th scope="col"><%= sort_link(@q, :remediation_steps, 'Remediation steps') %></th>
+                <th scope="col"><%= sort_link(@q, :estimated_financial_cost, 'Estimated finacial cost') %></th>
                 <th scope="col">Notes</th>
-                <th scope="col">It security incident status</th>
-                <th scope="col">Data type</th>
+                <th scope="col"><%= sort_link(@q, :it_security_incident_status, 'It security incident status') %></th>
+                <th scope="col"><%= sort_link(@q, :idata_type, 'Data type') %></th>
               </tr>
             </thead>
 
