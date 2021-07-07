@@ -6,6 +6,7 @@
   <div class="flex flex-nowrap justify-center">
     <div class="fixed_header_container">
       <table class="fixed_header">
+
         <thead>
           <tr>
             <th scope="col">Actions</th>
@@ -58,4 +59,5 @@
       </table>
     </div>
   </div>
+  <%= render partial: "partials/pagination", locals: { pagy: @pagy } %>
 </div>
