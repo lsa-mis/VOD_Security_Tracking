@@ -27,7 +27,7 @@
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
             <%= f.label :owner_username %>
             <div class="w-1/2 pl-2">
-              <%= f.select :owner_username_cont, @owner_username, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
+              <%= f.select :owner_username_eq, @owner_username, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
@@ -39,7 +39,7 @@
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
             <%= f.label :dept %>
             <div class="w-1/2 pl-2">
-              <%= f.select :dept_cont, @dept, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
+              <%= f.select :dept_eq, @dept, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
@@ -51,7 +51,7 @@
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
             <%= f.label :additional_dept_contact %>
             <div class="w-1/2 pl-2">
-              <%= f.select :additional_dept_contact_cont, @additional_dept_contact, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
+              <%= f.select :additional_dept_contact_eq, @additional_dept_contact, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
@@ -69,7 +69,7 @@
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
             <%= f.label :legacy_os %>
             <div class="w-1/2 pl-2">
-              <%= f.select :legacy_os_cont, @legacy_os, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
+              <%= f.select :legacy_os_eq, @legacy_os, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
@@ -147,7 +147,7 @@
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
             <%= f.label :review_contact %>
             <div class="w-1/2 pl-2">
-              <%= f.select :review_contact_cont, @review_contact, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
+              <%= f.select :review_contact_eq, @review_contact, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
@@ -159,7 +159,7 @@
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
             <%= f.label :local_it_support_group %>
             <div class="w-1/2 pl-2">
-              <%= f.select :local_it_support_group_cont, @local_it_support_group, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
+              <%= f.select :local_it_support_group_eq, @local_it_support_group, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
@@ -183,7 +183,7 @@
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
             <%= f.label "Hostname" %>
             <div class="w-1/2 pl-2">
-              <%= f.collection_select :device_id_eq, @device, :id, :hostname, { include_hidden: false, include_blank: false }, placeholder: "Contains", class: 'form-control' %>
+              <%= f.collection_select :device_id_eq, @device, :id, :hostname, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
             </div>
           </div>
           
