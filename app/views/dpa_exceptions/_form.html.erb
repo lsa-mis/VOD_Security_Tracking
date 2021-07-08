@@ -177,7 +177,7 @@
         <% end %>
       </div>
 
-      <div class="field">
+      <div id="sla_agreement_file" class="field">
         <%= form.label :sla_agreement, "SLA Agreement" %>
         <%= form.text_field :sla_agreement %>
         <p class="help-text">Help text if needed</p>
@@ -208,7 +208,7 @@
         <% end %>
       </div>
 
-      <div class="field">
+      <div id="attached_files" class="field">
         <%= form.label :attachments %>
         <%= form.file_field :attachments, multiple: true %>
         <% if @dpa_exception.attachments.attached? %>

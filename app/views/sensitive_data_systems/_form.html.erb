@@ -143,17 +143,60 @@
         </div>
       <% end %>
 
-      <% if @sensitive_data_system.tdx_tickets.present? %>
-        <div>
-          <% @sensitive_data_system.tdx_tickets.each do |tdx| %>
-            <%= tdx.ticket_link %>
-          <% end %>
-        </div>
-      <% end %>
-
       <div class="field">
+        <%= form.fields_for @sensitive_data_system.tdx_tickets.new do |f| %>
+          <%= f.label :ticket_link, "Add a TDX ticket link" %>
+          <%= f.text_field :ticket_link %>
+        <% end %>
+        <% if @sensitive_data_system.tdx_tickets.present? %>
+          <div class="py-4 pl-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+            <dt class="text-sm font-medium text-gray-500">
+              TDX tickets connected to this record: 
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+                <% @sensitive_data_system.tdx_tickets.each do |tdx| %>
+                  <% if tdx.persisted? %>
+                    <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                      <div class="w-0 flex-1 flex items-center">
+                        <i class="fas fa-link text-gray-400"></i>
+                        <span class="ml-2 flex-1 w-0 truncate">
+                          <%= link_to tdx.ticket_link, url_for(tdx.ticket_link) %>
+                        </span>
+                      </div>
+                    </li>
+                  <% end %>
+                <% end %>
+              </ul>
+            </dd>
+          </div>
+        <% end %>
+      </div>
+
+      <div id="attached_files" class="field">
         <%= form.label :attachments %>
         <%= form.file_field :attachments, multiple: true %>
+        <% if @sensitive_data_system.attachments.attached? %>
+          <div class="py-4 pl-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+            <dt class="text-sm font-medium text-gray-500">
+              Other files currently connected to this record:
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+                <% @sensitive_data_system.attachments.each do |ma| %>
+                  <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                    <div class="w-0 flex-1 flex items-center">
+                      <i class="fas fa-paperclip text-gray-400"></i>
+                      <span class="ml-2 flex-1 w-0 truncate">
+                        <%= link_to ma.filename, url_for(ma) %>
+                      </span>
+                    </div>
+                  </li>
+                <% end %>
+              </ul>
+            </dd>
+          </div>
+        <% end %>
       </div>
 
       <%= form.hidden_field :incomplete %>

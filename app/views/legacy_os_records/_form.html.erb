@@ -235,7 +235,7 @@
         </div>
       </div>
 
-      <div class="field">
+      <div id="attached_files" class="field">
         <%= form.label :attachments %>
         <%= form.file_field :attachments, multiple: true %>
         <% if @legacy_os_record.attachments.attached? %>

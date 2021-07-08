@@ -119,7 +119,7 @@
         <% end %>
       </div>
 
-      <div class="field">
+      <div id="attached_files" class="field">
         <%= form.label :attachments %>
         <%= form.file_field :attachments, multiple: true %>
         <% if @it_security_incident.attachments.attached? %>
