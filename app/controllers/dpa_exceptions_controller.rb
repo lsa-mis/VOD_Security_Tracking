@@ -8,17 +8,21 @@ class DpaExceptionsController < InheritedResources::Base
   before_action :set_membership
 
   def index
-
+    
     if params[:q].nil?
       @q = DpaException.active.ransack(params[:q])
     else
+      if params[:q][:data_type_id_blank].present? && params[:q][:data_type_id_blank] == "0"
+        params[:q] = params[:q].except("data_type_id_blank")
+      end
       @q = DpaException.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
-
+    @q.sorts = ["id asc"] if @q.sorts.empty?
     @dpa_exceptions = @q.result
     @total = @dpa_exceptions.count
     @dpa_status = @dpa_exceptions.pluck(:dpa_status).uniq
-    @used_by = @dpa_exceptions.uniq.pluck(:used_by)
+    @used_by = @dpa_exceptions.pluck(:used_by).uniq
+    @data_type = DataType.where(id: DpaException.pluck(:data_type_id).uniq)
     
     authorize @dpa_exceptions
     # Rendering code will go here

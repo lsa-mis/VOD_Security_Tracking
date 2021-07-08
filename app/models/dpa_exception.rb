@@ -22,7 +22,7 @@
 #  deleted_at                                         :datetime
 #  incomplete                                         :boolean          default(FALSE)
 #  review_date_exception_review_date                  :datetime
-#  dpa_status                                         :integer          default(0), not null
+#  dpa_status                                         :string(255)      default("in_process"), not null
 #
 class DpaException < ApplicationRecord
   belongs_to :data_type, optional: true
@@ -31,7 +31,7 @@ class DpaException < ApplicationRecord
   has_one_attached :sla_attachment
   audited
 
-  enum dpa_status: { in_process: 0, approved: 1, denied: 2, not_pursued: 3 }
+  enum dpa_status: { in_process: "in_process", approved: "approved", denied: "denied", not_pursued: "not_pursued" }
 
   validates :review_date_exception_first_approval_date, :third_party_product_service,
             :used_by, presence: true
