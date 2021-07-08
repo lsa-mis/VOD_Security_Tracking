@@ -72,46 +72,53 @@
         <span class="flex-grow"><%= @device.room %></span>
       </dd>
     </div>
+
     <% if @legacy_os_records.present? %>
       <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
         <dt class="text-sm font-medium text-gray-500">
           Legacy OS records - Notes
         </dt>
         <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <ul>
+          <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
             <% @legacy_os_records.each do |l| %>
-              <li>
-                <div>
-                  <span>
-                    <%= link_to l.display_name, legacy_os_record_path(l) %>: <%= l.notes %>
+              <li class="pl-3 pr-4 py-3 flex flex-col items-start justify-between text-sm">
+                <div class="flex-1 flex items-center">
+                  <i class="fas fa-link text-gray-400"></i>
+                  <span class="ml-2 flex-1">
+                    <%= link_to l.display_name, legacy_os_record_path(l) %>:
                   </span>
                 </div>
+                <div class="ml-2 flex-2"><%= l.notes %></div>
               </li>
             <% end %>
           </ul>
         </dd>
       </div>
     <% end %>
+
     <% if @sensitive_data_systems.present? %>
       <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
         <dt class="text-sm font-medium text-gray-500">
           Sensitive data systems - Notes
         </dt>
         <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <ul>
+          <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
             <% @sensitive_data_systems.each do |s| %>
-              <li>
-                <div>
-                  <span>
-                    <%= link_to s.display_name, sensitive_data_system_path(s) %>: <%= s.notes %>
+              <li class="pl-3 pr-4 py-3 flex flex-col items-start justify-between text-sm">
+                <div class="flex-1 flex items-center">
+                  <i class="fas fa-link text-gray-400"></i>
+                  <span class="ml-2 flex-1">
+                    <%= link_to s.display_name, sensitive_data_system_path(s) %>:
                   </span>
                 </div>
+                <div class="ml-2 flex-2"><%= s.notes %></div>
               </li>
             <% end %>
           </ul>
         </dd>
       </div>
     <% end %>
+
   </dl>
 </div>
 
