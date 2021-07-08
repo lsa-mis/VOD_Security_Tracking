@@ -22,7 +22,7 @@
 #  deleted_at                                         :datetime
 #  incomplete                                         :boolean          default(FALSE)
 #  review_date_exception_review_date                  :datetime
-#  dpa_status                                         :integer          default(0), not null
+#  dpa_status                                         :integer          default("in_process"), not null
 #
 require 'rails_helper'
 
