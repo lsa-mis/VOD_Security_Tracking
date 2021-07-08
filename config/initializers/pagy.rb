@@ -116,6 +116,13 @@ Pagy::VARS[:items]  = 3                                 # default
 # set to false if you want to make :enable_items_extra an opt-in variable
 # Pagy::VARS[:enable_items_extra] = false    # default true
 
+require 'pagy/extras/items'
+
+Pagy::VARS[:enable_items_extra] = true
+Pagy::VARS[:items_param] = :items
+Pagy::VARS[:max_items]   = 100
+
+
 # Overflow extra: Allow for easy handling of overflowing pages
 # See https://ddnexus.github.io/pagy/extras/overflow
 # require 'pagy/extras/overflow'
