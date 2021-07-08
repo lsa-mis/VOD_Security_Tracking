@@ -27,7 +27,6 @@
             <th scope="col">Agreements related to data types</th>
             <th scope="col">Review date</th>
             <th scope="col">Review contact</th>
-            <th scope="col">Notes</th>
             <th scope="col">Data type</th>
             <th scope="col">Storage location</th>
             <th scope="col">Device</th>
@@ -62,7 +61,6 @@
               <td><%= sensitive_data_system.agreements_related_to_data_types %></td>
               <td><%= show_date(sensitive_data_system.review_date) %></td>
               <td><%= sensitive_data_system.review_contact %></td>
-              <td><%= sensitive_data_system.notes %></td>
               <td><%= show_data_type_name(sensitive_data_system) %></td>
               <td><%= show_storage_location(sensitive_data_system) %></td>
               <td><%= show_device(sensitive_data_system) %></td>
