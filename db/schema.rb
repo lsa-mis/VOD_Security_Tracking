@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_06_154856) do
+ActiveRecord::Schema.define(version: 2021_07_08_151430) do
 
   create_table "access_lookups", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "ldap_group"
@@ -131,6 +131,7 @@ ActiveRecord::Schema.define(version: 2021_07_06_154856) do
     t.string "department"
     t.string "manufacturer"
     t.string "model"
+    t.datetime "deleted_at"
   end
 
   create_table "dpa_exception_searches", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -162,7 +163,7 @@ ActiveRecord::Schema.define(version: 2021_07_06_154856) do
     t.datetime "deleted_at"
     t.boolean "incomplete", default: false
     t.datetime "review_date_exception_review_date"
-    t.integer "dpa_status", default: 0, null: false
+    t.string "dpa_status", default: "in_process", null: false
     t.index ["data_type_id"], name: "index_dpa_exceptions_on_data_type_id"
   end
 
