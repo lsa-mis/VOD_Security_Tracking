@@ -20,7 +20,7 @@ class DpaExceptionsController < InheritedResources::Base
     @q.sorts = ["id asc"] if @q.sorts.empty?
 
     @pagy, @dpa_exceptions = pagy(@q.result)
-    @total = @dpa_exceptions.count
+    @total = @q.result.count
     @dpa_status = @dpa_exceptions.pluck(:dpa_status).uniq
     @used_by = @dpa_exceptions.pluck(:used_by).uniq
     @data_type = DataType.where(id: DpaException.pluck(:data_type_id).uniq)
