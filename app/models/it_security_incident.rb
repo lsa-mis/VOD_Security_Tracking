@@ -22,6 +22,8 @@ class ItSecurityIncident < ApplicationRecord
   belongs_to :data_type
   has_many :tdx_tickets, as: :records_to_tdx
   has_many_attached :attachments
+  before_save :if_not_complete
+
   audited
 
   validates :date, :people_involved, :equipment_involved, :remediation_steps,
@@ -63,6 +65,18 @@ class ItSecurityIncident < ApplicationRecord
         errors.add(:attachments, "must be an acceptable file type")
       end
     end
+  end
+
+  def if_not_complete
+    if self.not_completed?
+      self.incomplete = true
+    else
+      self.incomplete = false
+    end
+  end
+
+  def not_completed?
+    self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete").all? {|k, v| v.present?} ? false : true
   end
 
   def display_name

@@ -35,6 +35,8 @@ class LegacyOsRecord < ApplicationRecord
   accepts_nested_attributes_for :device
 
   has_many_attached :attachments
+  before_save :if_not_complete
+
   audited
 
   validates :owner_username, :owner_full_name, :dept, :phone, presence: true
@@ -78,6 +80,22 @@ class LegacyOsRecord < ApplicationRecord
         errors.add(:attachments, "must be an acceptable file type")
       end
     end
+  end
+
+  def if_not_complete
+    if self.not_completed?
+      self.incomplete = true
+    else
+      self.incomplete = false
+    end
+  end
+
+  def not_completed?
+    not_completed = self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete", "unique_app", "unique_hardware").all? {|k, v| v.present?} ? false : true
+    if not_completed
+      not_completed = false unless unique_app.present? || unique_hardware.present?
+    end
+    return not_completed
   end
 
   def display_name

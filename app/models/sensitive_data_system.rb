@@ -31,6 +31,8 @@ class SensitiveDataSystem < ApplicationRecord
   accepts_nested_attributes_for :device
 
   has_many_attached :attachments
+  before_save :if_not_complete
+
   audited
 
   validates :owner_username, :owner_full_name, :dept, presence: true
@@ -69,6 +71,24 @@ class SensitiveDataSystem < ApplicationRecord
         errors.add(:attachments, "must be an acceptable file type")
       end
     end
+  end
+
+  def if_not_complete
+    if self.not_completed?
+      self.incomplete = true
+    else
+      self.incomplete = false
+    end
+  end
+
+  def not_completed?
+    not_completed = self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete", "device_id").all? {|k, v| v.present?} ? false : true
+    if not_completed
+      if self.storage_location_id.present?
+        not_completed = false unless StorageLocation.find(id: self.storage_location_id).device_is_required && self.device_id.present?
+      end
+    end
+    return not_completed
   end
 
   def display_name
