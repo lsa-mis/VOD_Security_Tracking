@@ -31,7 +31,7 @@ class DpaException < ApplicationRecord
   has_one_attached :sla_attachment
   audited
 
-  enum dpa_status: [ :in_process, :approved, :denied, :not_pursued ]
+  enum dpa_status: { in_process: 0, approved: 1, denied: 2, not_pursued: 3 }
 
   validates :review_date_exception_first_approval_date, :third_party_product_service,
             :used_by, presence: true
