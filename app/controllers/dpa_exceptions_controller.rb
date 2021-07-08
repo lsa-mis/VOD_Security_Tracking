@@ -18,7 +18,8 @@ class DpaExceptionsController < InheritedResources::Base
       @q = DpaException.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
     @q.sorts = ["id asc"] if @q.sorts.empty?
-    @dpa_exceptions = @q.result
+
+    @pagy, @dpa_exceptions = pagy(@q.result)
     @total = @dpa_exceptions.count
     @dpa_status = @dpa_exceptions.pluck(:dpa_status).uniq
     @used_by = @dpa_exceptions.pluck(:used_by).uniq

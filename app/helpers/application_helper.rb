@@ -1,4 +1,6 @@
 module ApplicationHelper
+  
+  include Pagy::Frontend
 
   def has_ad_access?(user, table, action=nil)
     user.membership = session[:user_memberships]

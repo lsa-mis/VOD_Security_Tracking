@@ -22,7 +22,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
       @q = SensitiveDataSystem.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
     @q.sorts = ["id asc"] if @q.sorts.empty?
-    @sensitive_data_systems = @q.result
+    @pagy, @sensitive_data_systems = pagy(@q.result)
     @total = @sensitive_data_systems.count
     @owner_username = @sensitive_data_systems.pluck(:owner_username).uniq
     @dept = @sensitive_data_systems.pluck(:dept).uniq
