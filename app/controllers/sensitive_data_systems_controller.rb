@@ -13,16 +13,25 @@ class SensitiveDataSystemsController < InheritedResources::Base
     if params[:q].nil?
       @q = SensitiveDataSystem.active.ransack(params[:q])
     else
+      if params[:q][:data_type_id_blank].present? && params[:q][:data_type_id_blank] == "0"
+        params[:q] = params[:q].except("data_type_id_blank")
+      end
+      if params[:q][:storage_location_id_blank].present? && params[:q][:storage_location_id_blank] == "0"
+        params[:q] = params[:q].except("storage_location_id_blank")
+      end
       @q = SensitiveDataSystem.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
+    @q.sorts = ["id asc"] if @q.sorts.empty?
     @sensitive_data_systems = @q.result
     @total = @sensitive_data_systems.count
-    @owner_username = @sensitive_data_systems.uniq.pluck(:owner_username)
-    @dept = @sensitive_data_systems.uniq.pluck(:dept)
-    @additional_dept_contact = @sensitive_data_systems.uniq.pluck(:additional_dept_contact)
+    @owner_username = @sensitive_data_systems.pluck(:owner_username).uniq
+    @dept = @sensitive_data_systems.pluck(:dept).uniq
+    @additional_dept_contact = @sensitive_data_systems.pluck(:additional_dept_contact).uniq.compact_blank
     @data_type = DataType.where(id: SensitiveDataSystem.pluck(:data_type_id).uniq)
     @storage_location = StorageLocation.where(id: SensitiveDataSystem.pluck(:storage_location_id).uniq)
-    @device = Device.where(id: SensitiveDataSystem.pluck(:device_id).uniq)
+    @device_serial = Device.where(id: SensitiveDataSystem.pluck(:device_id).uniq).where.not(serial: [nil, ""])
+    @device_hostname = Device.where(id: SensitiveDataSystem.pluck(:device_id).uniq).where.not(hostname: [nil, ""])
+
     
 
     authorize @sensitive_data_systems
