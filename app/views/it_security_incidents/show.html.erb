@@ -98,7 +98,7 @@
         Estimated Financial Cost
       </dt>
       <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= @it_security_incident.estimated_financial_cost %></span>
+        <span class="flex-grow"><%= number_to_currency(@it_security_incident.estimated_financial_cost, precision: 0) %></span>
       </dd>
     </div>
   
