@@ -13,18 +13,23 @@ class LegacyOsRecordsController < InheritedResources::Base
     if params[:q].nil?
       @q = LegacyOsRecord.active.ransack(params[:q])
     else
+      if params[:q][:data_type_id_blank].present? && params[:q][:data_type_id_blank] == "0"
+        params[:q] = params[:q].except("data_type_id_blank")
+      end
       @q = LegacyOsRecord.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
+    @q.sorts = ["id asc"] if @q.sorts.empty?
     @legacy_os_records = @q.result
     @total = @legacy_os_records.count
-    @owner_username = @legacy_os_records.uniq.pluck(:owner_username)
-    @dept = @legacy_os_records.uniq.pluck(:dept)
-    @additional_dept_contact = @legacy_os_records.uniq.pluck(:additional_dept_contact)
-    @legacy_os = @legacy_os_records.uniq.pluck(:legacy_os)
-    @review_contact = @legacy_os_records.uniq.pluck(:review_contact)
-    @local_it_support_group = @legacy_os_records.uniq.pluck(:local_it_support_group)
+    @owner_username = @legacy_os_records.pluck(:owner_username).uniq.compact
+    @dept = @legacy_os_records.pluck(:dept).uniq
+    @additional_dept_contact = @legacy_os_records.pluck(:additional_dept_contact).uniq.compact_blank
+    @legacy_os = @legacy_os_records.pluck(:legacy_os).uniq.compact_blank
+    @review_contact = @legacy_os_records.pluck(:review_contact).uniq.compact_blank
+    @local_it_support_group = @legacy_os_records.pluck(:local_it_support_group).uniq.compact_blank
     @data_type = DataType.where(id: LegacyOsRecord.pluck(:data_type_id).uniq)
-    @device = Device.where(id: LegacyOsRecord.pluck(:device_id).uniq)
+    @device_serial = Device.where(id: LegacyOsRecord.pluck(:device_id).uniq).where.not(serial: [nil, ""])
+    @device_hostname = Device.where(id: LegacyOsRecord.pluck(:device_id).uniq).where.not(hostname: [nil, ""])
     
     authorize @legacy_os_records
 
