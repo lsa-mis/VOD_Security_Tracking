@@ -71,6 +71,12 @@
               <td><%= show_device(legacy_os_record) %></td>
             </tr>
           <% end %>
+          <!-- Blank state -->
+          <% if @legacy_os_records.empty? %>
+            <tr>
+              <td><em>No matching Legacy OS Records</em></td>
+            </tr>
+          <% end %>
         </tbody>
       </table>
     </div>

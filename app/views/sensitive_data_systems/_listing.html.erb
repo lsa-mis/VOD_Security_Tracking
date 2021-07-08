@@ -64,6 +64,11 @@
               <% end %>
             </tr>
           <% end %>
+          <% if @sensitive_data_systems.empty? %>
+            <tr>
+              <td><em>No matching Sensitive Data Systems</em></td>
+            </tr>
+          <% end %>
         </tbody>
       </table>
     </div>
