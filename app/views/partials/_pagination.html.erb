@@ -21,5 +21,8 @@
 <% end                         -%>
 <div>
 <%== pagy_items_selector_js(@pagy, item_name: 'Record'.pluralize(@pagy.count)) %>
+
+<%== pagy_nav_js(@pagy) %>
+<%== pagy_combo_nav_js(@pagy) %>
 </div>
 <%#                            -%></nav>
