@@ -7,8 +7,6 @@ class SensitiveDataSystemsController < InheritedResources::Base
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_membership
 
-  include SaveRecordWithDevice
-
   def index
     @sensitive_data_systems = SensitiveDataSystem.active
     authorize @sensitive_data_systems
