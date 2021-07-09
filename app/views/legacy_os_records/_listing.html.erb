@@ -26,7 +26,6 @@
           <th scope="col">Review contact</th>
           <th scope="col">Justification</th>
           <th scope="col">Local it support group</th>
-          <th scope="col">Notes</th>
           <th scope="col"><%= sort_link(@q, :data_type_id, 'Data type', default_order: :desc) %></th>
           <th scope="col">Device</th>
           </tr>
@@ -66,7 +65,6 @@
               <td><%= legacy_os_record.review_contact %></td>
               <td><%= legacy_os_record.justification %></td>
               <td><%= legacy_os_record.local_it_support_group %></td>
-              <td><%= legacy_os_record.notes %></td>
               <td><%= show_data_type_name(legacy_os_record) %></td>
               <td><%= show_device(legacy_os_record) %></td>
             </tr>

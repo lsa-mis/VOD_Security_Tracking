@@ -20,7 +20,6 @@
             <th scope="col">Agreements related to data types</th>
             <th scope="col"><%= sort_link(@q, :review_date, 'Review date') %></th>
             <th scope="col">Review contact</th>
-            <th scope="col">Notes</th>
             <th scope="col"><%= sort_link(@q, :data_type_id, 'Data type', default_order: :desc) %></th>
             <th scope="col"><%= sort_link(@q, :storage_location_id, 'Storage location', default_order: :desc) %></th>
 
@@ -56,7 +55,6 @@
               <td><%= sensitive_data_system.agreements_related_to_data_types %></td>
               <td><%= show_date(sensitive_data_system.review_date) %></td>
               <td><%= sensitive_data_system.review_contact %></td>
-              <td><%= sensitive_data_system.notes %></td>
               <td><%= show_data_type_name(sensitive_data_system) %></td>
               <td><%= show_storage_location(sensitive_data_system) %></td>
               <% if sensitive_data_system.device_id.present? %>

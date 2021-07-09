@@ -15,7 +15,6 @@
             <th scope="col"><%= sort_link(@q, :equipment_involved, 'Equipment involved') %></th>
             <th scope="col"><%= sort_link(@q, :remediation_steps, 'Remediation steps') %></th>
             <th scope="col"><%= sort_link(@q, :estimated_financial_cost, 'Estimated finacial cost') %></th>
-            <th scope="col">Notes</th>
             <th scope="col"><%= sort_link(@q, :it_security_incident_status_id, 'It security incident status') %></th>
             <th scope="col"><%= sort_link(@q, :data_type_id, 'Data type', default_order: :desc) %></th>
             </tr>
@@ -44,7 +43,6 @@
               <td><%= it_security_incident.equipment_involved %></td>
               <td><%= it_security_incident.remediation_steps %></td>
               <td><%= it_security_incident.estimated_financial_cost %></td>
-              <td><%= it_security_incident.notes %></td>
               <td><%= show_it_security_incident_status(it_security_incident) %></td>
               <td><%= show_data_type_name(it_security_incident) %></td>
             </tr>
