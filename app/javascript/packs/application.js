@@ -14,8 +14,9 @@ import "../layouts/application.sass"
 import "../layouts/forms.sass"
 import "@fortawesome/fontawesome-free/css/all"
 
+import './pagy.js.erb'
+
 Rails.start()
 ActiveStorage.start()
 
 const images = require.context('../images', true)
-
