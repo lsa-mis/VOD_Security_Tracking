@@ -11,6 +11,7 @@
     "@rails/webpacker": "5.2.1",
     "@tailwindcss/forms": "^0.3.2",
     "flatpickr": "^4.6.9",
+    "rails-erb-loader": "^5.5.2",
     "stimulus": "^2.0.0",
     "stimulus-flatpickr": "^1.4.0",
     "tailwindcss-stimulus-components": "^2.2.0"
