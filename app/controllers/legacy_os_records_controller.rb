@@ -10,6 +10,11 @@ class LegacyOsRecordsController < InheritedResources::Base
   include SaveRecordWithDevice
 
   def index
+
+    if params[:items].present?
+      session[:items] = params[:items]
+    end
+
     if params[:q].nil?
       @q = LegacyOsRecord.active.ransack(params[:q])
     else
@@ -19,7 +24,11 @@ class LegacyOsRecordsController < InheritedResources::Base
       @q = LegacyOsRecord.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
     @q.sorts = ["id asc"] if @q.sorts.empty?
-    @pagy, @legacy_os_records = pagy(@q.result)
+    if session[:items].present?
+      @pagy, @legacy_os_records = pagy(@q.result, items: session[:items])
+    else
+      @pagy, @legacy_os_records = pagy(@q.result)
+    end
     @owner_username = @legacy_os_records.pluck(:owner_username).uniq.compact
     @dept = @legacy_os_records.pluck(:dept).uniq
     @additional_dept_contact = @legacy_os_records.pluck(:additional_dept_contact).uniq.compact_blank

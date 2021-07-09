@@ -7,13 +7,22 @@ class ItSecurityIncidentsController < InheritedResources::Base
   before_action :set_membership
 
   def index
+
+    if params[:items].present?
+      session[:items] = params[:items]
+    end
+
     if params[:q].nil?
       @q = ItSecurityIncident.active.ransack(params[:q])
     else
       @q = ItSecurityIncident.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
     @q.sorts = ["id asc"] if @q.sorts.empty?
-    @pagy, @it_security_incidents = pagy(@q.result)
+    if session[:items].present?
+      @pagy, @it_security_incidents = pagy(@q.result, items: session[:items])
+    else
+      @pagy, @it_security_incidents = pagy(@q.result)
+    end
     @data_type = DataType.where(id: ItSecurityIncident.pluck(:data_type_id).uniq)
     @it_security_incident_status = ItSecurityIncidentStatus.where(id: ItSecurityIncident.pluck(:it_security_incident_status_id).uniq)
 

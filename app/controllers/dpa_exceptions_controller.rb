@@ -8,6 +8,10 @@ class DpaExceptionsController < InheritedResources::Base
   before_action :set_membership
 
   def index
+
+    if params[:items].present?
+      session[:items] = params[:items]
+    end
     
     if params[:q].nil?
       @q = DpaException.active.ransack(params[:q])
@@ -19,7 +23,12 @@ class DpaExceptionsController < InheritedResources::Base
     end
     @q.sorts = ["id asc"] if @q.sorts.empty?
 
-    @pagy, @dpa_exceptions = pagy(@q.result)
+    if session[:items].present?
+      @pagy, @dpa_exceptions = pagy(@q.result, items: session[:items])
+    else
+      @pagy, @dpa_exceptions = pagy(@q.result)
+    end
+
     @dpa_status = @dpa_exceptions.pluck(:dpa_status).uniq
     @dpa_status.each_with_index do |element, index| 
       @dpa_status[index] = element.titleize

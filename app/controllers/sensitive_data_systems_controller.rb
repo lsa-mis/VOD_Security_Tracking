@@ -10,6 +10,11 @@ class SensitiveDataSystemsController < InheritedResources::Base
   include SaveRecordWithDevice
 
   def index
+
+    if params[:items].present?
+      session[:items] = params[:items]
+    end
+
     if params[:q].nil?
       @q = SensitiveDataSystem.active.ransack(params[:q])
     else
@@ -22,7 +27,11 @@ class SensitiveDataSystemsController < InheritedResources::Base
       @q = SensitiveDataSystem.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
     @q.sorts = ["id asc"] if @q.sorts.empty?
-    @pagy, @sensitive_data_systems = pagy(@q.result)
+    if session[:items].present?
+      @pagy, @sensitive_data_systems = pagy(@q.result, items: session[:items])
+    else
+      @pagy, @sensitive_data_systems = pagy(@q.result)
+    end
     @owner_username = @sensitive_data_systems.pluck(:owner_username).uniq
     @dept = @sensitive_data_systems.pluck(:dept).uniq
     @additional_dept_contact = @sensitive_data_systems.pluck(:additional_dept_contact).uniq.compact_blank
