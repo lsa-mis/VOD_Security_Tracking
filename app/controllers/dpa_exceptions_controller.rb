@@ -22,6 +22,9 @@ class DpaExceptionsController < InheritedResources::Base
     @pagy, @dpa_exceptions = pagy(@q.result)
     @total = @q.result.count
     @dpa_status = @dpa_exceptions.pluck(:dpa_status).uniq
+    @dpa_status.each_with_index do |element, index| 
+      @dpa_status[index] = element.titleize
+    end
     @used_by = @dpa_exceptions.pluck(:used_by).uniq
     @data_type = DataType.where(id: DpaException.pluck(:data_type_id).uniq)
     
