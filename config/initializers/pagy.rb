@@ -78,6 +78,8 @@ Pagy::VARS[:items]  = 3                                 # default
 # See https://ddnexus.github.io/pagy/extras/materialize
 # require 'pagy/extras/materialize'
 
+require 'pagy/extras/navs'
+
 # Navs extra: Add nav_js and combo_nav_js javascript helpers
 # Notice: the other frontend extras add their own framework-styled versions,
 # so require this extra only if you need the unstyled version
