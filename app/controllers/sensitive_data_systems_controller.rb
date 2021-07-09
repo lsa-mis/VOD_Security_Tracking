@@ -23,7 +23,6 @@ class SensitiveDataSystemsController < InheritedResources::Base
     end
     @q.sorts = ["id asc"] if @q.sorts.empty?
     @pagy, @sensitive_data_systems = pagy(@q.result)
-    @total = @q.result.count
     @owner_username = @sensitive_data_systems.pluck(:owner_username).uniq
     @dept = @sensitive_data_systems.pluck(:dept).uniq
     @additional_dept_contact = @sensitive_data_systems.pluck(:additional_dept_contact).uniq.compact_blank

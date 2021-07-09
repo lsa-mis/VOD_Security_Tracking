@@ -14,7 +14,6 @@ class ItSecurityIncidentsController < InheritedResources::Base
     end
     @q.sorts = ["id asc"] if @q.sorts.empty?
     @pagy, @it_security_incidents = pagy(@q.result)
-    @total = @q.result.count
     @data_type = DataType.where(id: ItSecurityIncident.pluck(:data_type_id).uniq)
     @it_security_incident_status = ItSecurityIncidentStatus.where(id: ItSecurityIncident.pluck(:it_security_incident_status_id).uniq)
 

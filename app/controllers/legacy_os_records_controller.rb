@@ -20,7 +20,6 @@ class LegacyOsRecordsController < InheritedResources::Base
     end
     @q.sorts = ["id asc"] if @q.sorts.empty?
     @pagy, @legacy_os_records = pagy(@q.result)
-    @total = @q.result.count
     @owner_username = @legacy_os_records.pluck(:owner_username).uniq.compact
     @dept = @legacy_os_records.pluck(:dept).uniq
     @additional_dept_contact = @legacy_os_records.pluck(:additional_dept_contact).uniq.compact_blank

@@ -20,7 +20,6 @@ class DpaExceptionsController < InheritedResources::Base
     @q.sorts = ["id asc"] if @q.sorts.empty?
 
     @pagy, @dpa_exceptions = pagy(@q.result)
-    @total = @q.result.count
     @dpa_status = @dpa_exceptions.pluck(:dpa_status).uniq
     @dpa_status.each_with_index do |element, index| 
       @dpa_status[index] = element.titleize
