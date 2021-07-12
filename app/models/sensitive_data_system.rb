@@ -93,7 +93,7 @@ class SensitiveDataSystem < ApplicationRecord
   end
 
   def display_name
-    "#{self.id} - #{self.owner_username}"
+    "#{self.name} - #{self.id}"
   end
 
 end
