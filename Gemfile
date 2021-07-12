@@ -20,7 +20,6 @@ gem 'puma', '~> 5.3'
 gem 'pundit', '~> 2.1'
 gem 'redis', '~> 4.0'
 gem 'ransack', '~> 2.4', '>= 2.4.2'
-gem 'ransack-enum', '~> 0.3.0'
 gem 'sass-rails', '>= 6'
 # Allows puma to use notify in systemd
 gem 'sd_notify', '~> 0.1.1'
