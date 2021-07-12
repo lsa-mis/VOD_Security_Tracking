@@ -1,4 +1,8 @@
 <div id="it_security_incidentListing">
+  <div>
+    <!-- Display number of item per page at the bottom of the screen -->
+    <%== pagy_items_selector_js(@pagy, item_name: 'Record'.pluralize(@pagy.count)) %>
+  </div>
   <span class="display-filters-result">
       Total number of records: <%= "#{@pagy.count}" %>
   </span>

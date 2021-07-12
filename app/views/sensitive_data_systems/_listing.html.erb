@@ -1,4 +1,8 @@
 <div id="sensitive_data_systemListing">
+  <div>
+    <!-- Display number of item per page at the bottom of the screen -->
+    <%== pagy_items_selector_js(@pagy, item_name: 'Record'.pluralize(@pagy.count)) %>
+  </div>
   <span>
     Total number of records: <%= "#{@pagy.count}" %>
   </span>

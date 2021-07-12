@@ -176,7 +176,6 @@
       <%= link_to 'New Dpa Exception', new_dpa_exception_path %>
     </div>
   <% end %>
-  <%== pagy_items_selector_js(@pagy, item_name: 'Record'.pluralize(@pagy.count)) %>
 
   <%= render partial: "dpa_exceptions/listing" %>
 </div>
