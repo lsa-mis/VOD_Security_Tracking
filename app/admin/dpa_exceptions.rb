@@ -21,7 +21,9 @@ ActiveAdmin.register DpaException do
   
   show do
     attributes_table do
-      row :dpa_exception_status_id
+      row "Status" do |dps|
+        show_dpa_exception_status(dps)
+      end
       row :incomplete
       row :review_date_exception_first_approval_date
       row :third_party_product_service
