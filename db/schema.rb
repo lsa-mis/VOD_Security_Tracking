@@ -113,14 +113,11 @@ ActiveRecord::Schema.define(version: 2021_07_12_183517) do
     t.string "department"
     t.string "manufacturer"
     t.string "model"
-    t.datetime "deleted_at"
   end
 
-  create_table "dpa_exception_searches", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.datetime "review_date_exception_first_approval_date"
-    t.string "third_party_product_service"
-    t.string "used_by"
-    t.string "point_of_contact"
+  create_table "dpa_exception_statuses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -145,8 +142,9 @@ ActiveRecord::Schema.define(version: 2021_07_12_183517) do
     t.datetime "deleted_at"
     t.boolean "incomplete", default: false
     t.datetime "review_date_exception_review_date"
-    t.string "dpa_status", default: "in_process", null: false
+    t.bigint "dpa_exception_status_id", null: false
     t.index ["data_type_id"], name: "index_dpa_exceptions_on_data_type_id"
+    t.index ["dpa_exception_status_id"], name: "index_dpa_exceptions_on_dpa_exception_status_id"
   end
 
   create_table "it_security_incident_statuses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -201,15 +199,6 @@ ActiveRecord::Schema.define(version: 2021_07_12_183517) do
     t.boolean "incomplete", default: false
     t.index ["data_type_id"], name: "index_legacy_os_records_on_data_type_id"
     t.index ["device_id"], name: "index_legacy_os_records_on_device_id"
-  end
-
-  create_table "search_dpa_exceptions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.datetime "review_date_exception_first_approval_date"
-    t.string "third_party_product_service"
-    t.string "used_by"
-    t.string "point_of_contact"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "sensitive_data_systems", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
