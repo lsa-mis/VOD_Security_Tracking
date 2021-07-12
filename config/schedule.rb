@@ -19,6 +19,8 @@
 
 # Learn more: http://github.com/javan/whenever
 set :environment, "development"
-every 1.day, at: '6:09 pm' do
+set :output, "/Users/rsmoke/RailsApps/VOD_Security_Tracking/log/cron_log.log"
+
+every 1.day, at: '6:17 pm' do
   rake "devicinator"
 end
