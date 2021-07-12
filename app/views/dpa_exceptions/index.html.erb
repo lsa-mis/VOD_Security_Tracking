@@ -29,7 +29,7 @@
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
             <%= f.label :dpa_status %>
             <div class="w-1/2 pl-2">
-              <%= f.select :dpa_status_eq, @dpa_status, include_blank: "Select ...", class: 'form-control' %>
+              <%= f.collection_select :dpa_exception_status_id_eq, @dpa_status, :id, :name, include_blank: "Select ...", class: 'form-control' %>
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">

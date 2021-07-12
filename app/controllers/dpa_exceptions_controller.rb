@@ -19,7 +19,7 @@ class DpaExceptionsController < InheritedResources::Base
       if params[:q][:data_type_id_blank].present? && params[:q][:data_type_id_blank] == "0"
         params[:q] = params[:q].except("data_type_id_blank")
       end
-      @q = DpaException.active.ransack(params[:q].try(:merge, m: params[:q][s]))
+      @q = DpaException.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
     @q.sorts = ["id asc"] if @q.sorts.empty?
 
@@ -29,11 +29,7 @@ class DpaExceptionsController < InheritedResources::Base
       @pagy, @dpa_exceptions = pagy(@q.result)
     end
 
-    status = @dpa_exceptions.pluck(:dpa_status).uniq
-    @dpa_status = {}
-    status.each_with_index do |element, index| 
-      @dpa_status[element.titleize] = element
-    end
+    @dpa_status = DpaExceptionStatus.where(id: DpaException.pluck(:dpa_exception_status_id).uniq)
     @used_by = @dpa_exceptions.pluck(:used_by).uniq
     @data_type = DataType.where(id: DpaException.pluck(:data_type_id).uniq)
     
