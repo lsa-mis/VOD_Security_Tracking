@@ -68,23 +68,6 @@ class DevicesController < InheritedResources::Base
         render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
     end
   end
-
-  # def destroy
-  #   authorize @device
-  #   respond_to do |format|
-  #     if @device.destroy
-  #       format.turbo_stream { redirect_to devices_path, 
-  #                     notice: 'Device record was successfully destroyed.' 
-  #                   }
-  #     else
-  #       Rails.logger.info(@device.errors.inspect) 
-  #       format.turbo_stream { redirect_to devices_path, 
-  #                     alert: 'Can not destroy this device, it might be referenced in sensitive_data_systems
-  #                     or legacy_os_records.' 
-  #                   }
-  #     end
-  #   end
-  # end
   
   private
 
