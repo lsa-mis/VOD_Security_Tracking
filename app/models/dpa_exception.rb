@@ -22,10 +22,11 @@
 #  deleted_at                                         :datetime
 #  incomplete                                         :boolean          default(FALSE)
 #  review_date_exception_review_date                  :datetime
-#  dpa_status                                         :integer          default("in_process"), not null
+#  dpa_exception_status_id                            :bigint           not null
 #
 class DpaException < ApplicationRecord
   belongs_to :data_type, optional: true
+  belongs_to :dpa_exception_status
   has_many :tdx_tickets, as: :records_to_tdx
   has_many_attached :attachments
   has_one_attached :sla_attachment
@@ -33,11 +34,9 @@ class DpaException < ApplicationRecord
 
   audited
 
-  enum dpa_status: [ :in_process, :approved, :denied, :not_pursued ]
-
   validates :review_date_exception_first_approval_date, :third_party_product_service,
             :used_by, presence: true
-  validates :dpa_status, presence: true
+  validates :dpa_exception_status_id, presence: true
   validate :acceptable_attachments
   validate :acceptable_sla_attachment
 

@@ -91,4 +91,11 @@ DataType.create!([
 SensitiveDataSystemType.create!([ 
   {name: 'Computer', description: 'computer thing'},
   {name: 'Google Drive', description: 'Cloud storage'}
-   ])
+  ])
+
+DpaExceptionStatus.create!([ 
+  {name: 'In Process', description: 'pending operations to complete'},
+  {name: 'Approved', description: 'approval applied'},
+  {name: 'Denied', description: 'declined exception'},
+  {name: 'Not Pursued', description: 'will not follow up on processing'}
+  ])
