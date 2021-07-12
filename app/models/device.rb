@@ -24,7 +24,7 @@ class Device < ApplicationRecord
 
   validates :serial, :hostname, uniqueness: true, allow_blank: true
 
-  scope :incomplete, -> { Device.where("(serial = '' or serial IS NULL)  AND (mac is null or owner is null)").or(Device.where("(hostname = '' or hostname IS NULL)  AND (mac is null or owner is null)")) }
+  scope :incomplete, -> { Device.where("(serial = '' or serial IS NULL)  AND (mac is null or mac = '' or owner is null or owner = '')").or(Device.where("(hostname = '' or hostname IS NULL)  AND (mac is null or mac = '' or owner is null or owner = '')")) }
 
   def complete?
     if ((self.serial.blank? && (self.mac.blank? || self.owner.blank?)) || (self.hostname.blank? && (self.mac.blank? || self.owner.blank?)))

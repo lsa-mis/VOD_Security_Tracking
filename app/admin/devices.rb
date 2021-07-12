@@ -16,5 +16,26 @@ ActiveAdmin.register Device do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
+
+  actions :index, :show
+  scope :incomplete
+  scope :all, :default => true
+
+  index do
+    selectable_column
+    actions
+    column "Link to update" do |device|
+      link_to device.id, device_path(device)
+    end    
+    column :serial
+    column :hostname
+    column :mac
+    column :building
+    column :room
+    column :owner
+    column :department
+    column :manufacturer
+    column :model
+  end
   
 end
