@@ -34,6 +34,14 @@ module ApplicationHelper
     end
   end
 
+  def show_dpa_exception_status(resource)
+    if resource.dpa_exception_status
+      resource.dpa_exception_status.name
+    else
+      "No status has been selected"
+    end
+  end
+
   def show_device(resource)
     if resource.device
       resource.device.display_name

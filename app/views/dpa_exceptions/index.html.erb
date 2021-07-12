@@ -44,7 +44,7 @@
                   <% end %>
                 </ul>
               </td> 
-              <td><%= dpa_exception.dpa_status.titleize %></td>
+              <td><%= show_dpa_exception_status(dpa_exception) %></td>
               <td><%= show_date(dpa_exception.review_date_exception_first_approval_date) %></td>
               <td><%= dpa_exception.third_party_product_service %></td>
               <td><%= dpa_exception.used_by %></td>

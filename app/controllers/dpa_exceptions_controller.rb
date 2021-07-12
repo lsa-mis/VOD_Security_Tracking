@@ -103,7 +103,7 @@ class DpaExceptionsController < InheritedResources::Base
 
     def dpa_exception_params
       params.require(:dpa_exception).permit(
-                    :dpa_status, :review_date_exception_first_approval_date, 
+                    :review_date_exception_first_approval_date, 
                     :third_party_product_service, :used_by, 
                     :point_of_contact, :review_findings, :review_summary, 
                     :lsa_security_recommendation, :lsa_security_determination, 
@@ -111,6 +111,7 @@ class DpaExceptionsController < InheritedResources::Base
                     :exception_approval_date_exception_renewal_date_due, 
                     :review_date_exception_review_date, :notes, :sla_agreement,
                     :sla_attachment, :data_type_id, :incomplete,
+                    :dpa_exception_status_id,
                     attachments: [], tdx_ticket: [:ticket_link]
                   )
     end

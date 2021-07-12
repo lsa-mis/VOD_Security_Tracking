@@ -6,7 +6,7 @@ ActiveAdmin.register DpaException do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :dpa_status, :review_date_exception_first_approval_date, :third_party_product_service, :used_by, :point_of_contact, :review_findings, :review_summary, :lsa_security_recommendation, :lsa_security_determination, :lsa_security_approval, :lsa_technology_services_approval, :exception_approval_date_exception_renewal_date_due, :notes, :sla_agreement, :data_type_id, :incomplete, :review_date_exception_review_date
+  permit_params :review_date_exception_first_approval_date, :third_party_product_service, :used_by, :point_of_contact, :review_findings, :review_summary, :lsa_security_recommendation, :lsa_security_determination, :lsa_security_approval, :lsa_technology_services_approval, :exception_approval_date_exception_renewal_date_due, :notes, :sla_agreement, :data_type_id, :incomplete, :review_date_exception_review_date, :dpa_exception_status_id
   #
   # or
   #
@@ -21,9 +21,7 @@ ActiveAdmin.register DpaException do
   
   show do
     attributes_table do
-      row "DPA Status" do |ds|
-        ds.dpa_status.titleize
-      end
+      row :dpa_exception_status_id
       row :incomplete
       row :review_date_exception_first_approval_date
       row :third_party_product_service
