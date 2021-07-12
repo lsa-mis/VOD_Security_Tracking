@@ -19,10 +19,15 @@
 <% if pagy.next                -%>  <span class="page next"><%== link.call(pagy.next, pagy_t('pagy.nav.next'), 'aria-label="next"') %></span>
 <% else                        -%>  <span class="page next disabled"><%== pagy_t('pagy.nav.next') %></span>
 <% end                         -%>
+<!--
+Display number of item per page at the bottom of the screen 
 <div>
 <%== pagy_items_selector_js(@pagy, item_name: 'Record'.pluralize(@pagy.count)) %>
-
-<%== pagy_nav_js(@pagy) %>
-<%== pagy_combo_nav_js(@pagy) %>
 </div>
+-->
+<%#
+Use these helpers to display pagination with tailwind
+-%>
+<%#== pagy_nav_js(@pagy) %>
+<%#== pagy_combo_nav_js(@pagy) %>
 <%#                            -%></nav>
