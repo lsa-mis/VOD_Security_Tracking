@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_12_145029) do
+ActiveRecord::Schema.define(version: 2021_07_12_183517) do
 
   create_table "access_lookups", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "ldap_group"
@@ -221,6 +221,7 @@ ActiveRecord::Schema.define(version: 2021_07_12_145029) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "deleted_at"
     t.boolean "incomplete", default: false
+    t.string "name", null: false
     t.index ["data_type_id"], name: "index_sensitive_data_systems_on_data_type_id"
     t.index ["device_id"], name: "index_sensitive_data_systems_on_device_id"
     t.index ["storage_location_id"], name: "index_sensitive_data_systems_on_storage_location_id"

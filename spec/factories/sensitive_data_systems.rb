@@ -22,6 +22,7 @@
 #  updated_at                          :datetime         not null
 #  deleted_at                          :datetime
 #  incomplete                          :boolean          default(FALSE)
+#  name                                :string(255)      not null
 #
 FactoryBot.define do
   factory :sensitive_data_system do
