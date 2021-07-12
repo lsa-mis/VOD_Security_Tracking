@@ -142,7 +142,9 @@ ActiveRecord::Schema.define(version: 2021_07_12_145029) do
     t.datetime "deleted_at"
     t.boolean "incomplete", default: false
     t.datetime "review_date_exception_review_date"
+    t.bigint "dpa_exception_status_id", null: false
     t.index ["data_type_id"], name: "index_dpa_exceptions_on_data_type_id"
+    t.index ["dpa_exception_status_id"], name: "index_dpa_exceptions_on_dpa_exception_status_id"
   end
 
   create_table "it_security_incident_statuses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
