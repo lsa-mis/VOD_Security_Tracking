@@ -27,6 +27,12 @@
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label :name %>
+            <div class="w-1/2 pl-2">
+              <%= f.text_field :name_cont, placeholder: "Contains", class: 'form-control' %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
             <%= f.label :owner_username %>
             <div class="w-1/2 pl-2">
               <%= f.select :owner_username_eq, @owner_username, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>

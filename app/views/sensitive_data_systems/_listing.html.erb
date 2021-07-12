@@ -13,6 +13,7 @@
         <thead>
           <tr>
             <th scope="col">Actions</th>
+            <th scope="col"><%= sort_link(@q, :name, 'Name') %></th>
             <th scope="col"><%= sort_link(@q, :owner_username, 'Owner username') %></th>
             <th scope="col">Owner full name</th>
             <th scope="col"><%= sort_link(@q, :dept, 'Dept') %></th>
@@ -47,6 +48,7 @@
                   <% end %>
                   </ul>
               </td>
+              <td><%= sensitive_data_system.name %></td>
               <td><%= sensitive_data_system.owner_username %></td>
               <td><%= sensitive_data_system.owner_full_name %></td>
               <td><%= sensitive_data_system.dept %></td>
