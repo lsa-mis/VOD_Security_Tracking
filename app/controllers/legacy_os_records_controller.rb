@@ -8,8 +8,43 @@ class LegacyOsRecordsController < InheritedResources::Base
   before_action :set_membership
 
   def index
-    @legacy_os_records = LegacyOsRecord.active
+
+    if params[:items].present?
+      session[:items] = params[:items]
+    end
+
+    if params[:q].nil?
+      @q = LegacyOsRecord.active.ransack(params[:q])
+    else
+      if params[:q][:data_type_id_blank].present? && params[:q][:data_type_id_blank] == "0"
+        params[:q] = params[:q].except("data_type_id_blank")
+      end
+      @q = LegacyOsRecord.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
+    end
+    @q.sorts = ["id asc"] if @q.sorts.empty?
+    if session[:items].present?
+      @pagy, @legacy_os_records = pagy(@q.result, items: session[:items])
+    else
+      @pagy, @legacy_os_records = pagy(@q.result)
+    end
+    @owner_username = @legacy_os_records.pluck(:owner_username).uniq.compact
+    @dept = @legacy_os_records.pluck(:dept).uniq
+    @additional_dept_contact = @legacy_os_records.pluck(:additional_dept_contact).uniq.compact_blank
+    @legacy_os = @legacy_os_records.pluck(:legacy_os).uniq.compact_blank
+    @review_contact = @legacy_os_records.pluck(:review_contact).uniq.compact_blank
+    @local_it_support_group = @legacy_os_records.pluck(:local_it_support_group).uniq.compact_blank
+    @data_type = DataType.where(id: LegacyOsRecord.pluck(:data_type_id).uniq)
+    @device_serial = Device.where(id: LegacyOsRecord.pluck(:device_id).uniq).where.not(serial: [nil, ""])
+    @device_hostname = Device.where(id: LegacyOsRecord.pluck(:device_id).uniq).where.not(hostname: [nil, ""])
+    
     authorize @legacy_os_records
+
+    unless params[:q].nil?
+      render turbo_stream: turbo_stream.replace(
+      :legacy_os_recordListing,
+      partial: "legacy_os_records/listing"
+    )
+    end
   end
 
   def show
@@ -155,7 +190,7 @@ class LegacyOsRecordsController < InheritedResources::Base
                                                 :justification, 
                                                 :local_it_support_group, :notes, 
                                                 :data_type_id, :device_id, 
-                                                :incomplete, attachments: [], 
+                                                :incomplete, :m, attachments: [], 
                                                 device_attributes: [:serial, :hostname],
                                                 tdx_ticket: [:ticket_link]
                                               )

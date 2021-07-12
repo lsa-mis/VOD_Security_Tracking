@@ -7,8 +7,34 @@ class ItSecurityIncidentsController < InheritedResources::Base
   before_action :set_membership
 
   def index
-    @it_security_incidents = ItSecurityIncident.active
+
+    if params[:items].present?
+      session[:items] = params[:items]
+    end
+
+    if params[:q].nil?
+      @q = ItSecurityIncident.active.ransack(params[:q])
+    else
+      @q = ItSecurityIncident.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
+    end
+    @q.sorts = ["id asc"] if @q.sorts.empty?
+    if session[:items].present?
+      @pagy, @it_security_incidents = pagy(@q.result, items: session[:items])
+    else
+      @pagy, @it_security_incidents = pagy(@q.result)
+    end
+    @data_type = DataType.where(id: ItSecurityIncident.pluck(:data_type_id).uniq)
+    @it_security_incident_status = ItSecurityIncidentStatus.where(id: ItSecurityIncident.pluck(:it_security_incident_status_id).uniq)
+
     authorize @it_security_incidents
+
+    # Rendering code will go here
+    unless params[:q].nil?
+      render turbo_stream: turbo_stream.replace(
+      :it_security_incidentListing,
+      partial: "it_security_incidents/listing"
+    )
+    end
   end
 
   def show
@@ -96,7 +122,10 @@ class ItSecurityIncidentsController < InheritedResources::Base
     end
 
     def it_security_incident_params
-      params.require(:it_security_incident).permit(:title, :date, :people_involved, :equipment_involved, :remediation_steps, :estimated_financial_cost, :notes, :it_security_incident_status_id, :data_type_id, :incomplete, attachments: [], tdx_ticket: [:ticket_link])
+      params.require(:it_security_incident).permit(:title, :date, :people_involved,
+                    :equipment_involved, :remediation_steps, :estimated_financial_cost,
+                    :notes, :it_security_incident_status_id, :data_type_id, :incomplete,
+                    :m, attachments: [], tdx_ticket: [:ticket_link])
     end
 
 end

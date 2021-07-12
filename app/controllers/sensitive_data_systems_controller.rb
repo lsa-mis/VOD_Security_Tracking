@@ -8,12 +8,50 @@ class SensitiveDataSystemsController < InheritedResources::Base
   before_action :set_membership
 
   def index
-    @sensitive_data_systems = SensitiveDataSystem.active
+
+    if params[:items].present?
+      session[:items] = params[:items]
+    end
+
+    if params[:q].nil?
+      @q = SensitiveDataSystem.active.ransack(params[:q])
+    else
+      if params[:q][:data_type_id_blank].present? && params[:q][:data_type_id_blank] == "0"
+        params[:q] = params[:q].except("data_type_id_blank")
+      end
+      if params[:q][:storage_location_id_blank].present? && params[:q][:storage_location_id_blank] == "0"
+        params[:q] = params[:q].except("storage_location_id_blank")
+      end
+      @q = SensitiveDataSystem.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
+    end
+    @q.sorts = ["id asc"] if @q.sorts.empty?
+    if session[:items].present?
+      @pagy, @sensitive_data_systems = pagy(@q.result, items: session[:items])
+    else
+      @pagy, @sensitive_data_systems = pagy(@q.result)
+    end
+    @owner_username = @sensitive_data_systems.pluck(:owner_username).uniq
+    @dept = @sensitive_data_systems.pluck(:dept).uniq
+    @additional_dept_contact = @sensitive_data_systems.pluck(:additional_dept_contact).uniq.compact_blank
+    @data_type = DataType.where(id: SensitiveDataSystem.pluck(:data_type_id).uniq)
+    @storage_location = StorageLocation.where(id: SensitiveDataSystem.pluck(:storage_location_id).uniq)
+    @device_serial = Device.where(id: SensitiveDataSystem.pluck(:device_id).uniq).where.not(serial: [nil, ""])
+    @device_hostname = Device.where(id: SensitiveDataSystem.pluck(:device_id).uniq).where.not(hostname: [nil, ""])
+
+    
+
     authorize @sensitive_data_systems
+
+    unless params[:q].nil?
+      render turbo_stream: turbo_stream.replace(
+      :sensitive_data_systemListing,
+      partial: "sensitive_data_systems/listing"
+    )
+    end
   end
 
   def show
-    add_breadcrumb(@sensitive_data_system.id)
+    add_breadcrumb(@sensitive_data_system.display_name)
     authorize @sensitive_data_system
   end
 
@@ -152,7 +190,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
                                                     :agreements_related_to_data_types, 
                                                     :review_date, :review_contact, :notes, 
                                                     :storage_location_id, :data_type_id, 
-                                                    :sensitive_data_system_type_id, :incomplete, 
+                                                    :sensitive_data_system_type_id, :incomplete, :m,
                                                     attachments: [], 
                                                     device_attributes: [:serial, :hostname], 
                                                     tdx_ticket: [:ticket_link]

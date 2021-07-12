@@ -8,8 +8,39 @@ class DpaExceptionsController < InheritedResources::Base
   before_action :set_membership
 
   def index
-    @dpa_exceptions = DpaException.active
+
+    if params[:items].present?
+      session[:items] = params[:items]
+    end
+    
+    if params[:q].nil?
+      @q = DpaException.active.ransack(params[:q])
+    else
+      if params[:q][:data_type_id_blank].present? && params[:q][:data_type_id_blank] == "0"
+        params[:q] = params[:q].except("data_type_id_blank")
+      end
+      @q = DpaException.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
+    end
+    @q.sorts = ["id asc"] if @q.sorts.empty?
+
+    if session[:items].present?
+      @pagy, @dpa_exceptions = pagy(@q.result, items: session[:items])
+    else
+      @pagy, @dpa_exceptions = pagy(@q.result)
+    end
+
+    @dpa_status = DpaExceptionStatus.where(id: DpaException.pluck(:dpa_exception_status_id).uniq)
+    @used_by = @dpa_exceptions.pluck(:used_by).uniq
+    @data_type = DataType.where(id: DpaException.pluck(:data_type_id).uniq)
+    
     authorize @dpa_exceptions
+    # Rendering code will go here
+    unless params[:q].nil?
+      render turbo_stream: turbo_stream.replace(
+      :dpa_exceptionListing,
+      partial: "dpa_exceptions/listing"
+    )
+    end
   end
 
   def show
@@ -110,7 +141,7 @@ class DpaExceptionsController < InheritedResources::Base
                     :lsa_security_approval, :lsa_technology_services_approval, 
                     :exception_approval_date_exception_renewal_date_due, 
                     :review_date_exception_review_date, :notes, :sla_agreement,
-                    :sla_attachment, :data_type_id, :incomplete,
+                    :sla_attachment, :data_type_id, :incomplete, :m,
                     :dpa_exception_status_id,
                     attachments: [], tdx_ticket: [:ticket_link]
                   )

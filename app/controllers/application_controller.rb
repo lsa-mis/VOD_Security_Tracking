@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   before_action :set_breadcrumbs
 
+  include Pagy::Backend
+
   include Pundit
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -30,7 +32,11 @@ class ApplicationController < ActionController::Base
   private
 
     def set_membership
-      current_user.membership = session[:user_memberships]
+      if user_signed_in?
+        current_user.membership = session[:user_memberships]
+      else
+        new_user_session_path
+      end
     end
 
     def set_breadcrumbs

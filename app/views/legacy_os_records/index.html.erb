@@ -3,82 +3,222 @@
 <p class="text-gray-500 text-sm mx-4">
   Legacy Os Record
 </p>
-<div>
+
+<div data-controller='toggle' class="m-2">
+  <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+    data-action='click->toggle#toggle touch->toggle#toggle' >
+  Filters
+  </button>
+
+  <div data-toggle-target='toggleable' class="m-4 hidden">
+    <div class="form-container">
+      <div class="field-container">
+        <%= search_form_for @q, 
+          data:{ controller: "filters"} do |f| %>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label "Group searching conditions by:" %>
+            <div class="pl-4">
+              <%= f.radio_button :m, 'and', :checked => true %>
+              <%= f.label :m, 'and', value: 'and' %>
+            </div>
+            <div class="pl-4">
+              <%= f.radio_button :m, 'or' %>
+              <%= f.label :m, 'or', value: 'or' %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label :owner_username %>
+            <div class="w-1/2 pl-2">
+              <%= f.select :owner_username_eq, @owner_username, include_blank: "Select ...", class: 'form-control' %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label :owner_full_name %>
+            <div class="w-1/2 pl-2">
+              <%= f.text_field :owner_full_name_cont, placeholder: "Contains", class: 'form-control' %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label :dept %>
+            <div class="w-1/2 pl-2">
+              <%= f.select :dept_eq, @dept, include_blank: "Select ...", class: 'form-control' %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label :phone %>
+            <div class="w-1/2 pl-2">
+              <%= f.text_field :phone_cont, placeholder: "Contains", class: 'form-control' %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label :additional_dept_contact %>
+            <div class="w-1/2 pl-2">
+              <%= f.select :additional_dept_contact_eq, @additional_dept_contact, include_blank: "Select ...", class: 'form-control' %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label :additional_dept_contact_phone %>
+            <div class="w-1/2 pl-2">
+              <%= f.text_field :additional_dept_contact_phone_cont, placeholder: "Contains", class: 'form-control' %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label :support_poc %>
+            <div class="w-1/2 pl-2">
+              <%= f.text_field :support_poc_cont, placeholder: "Contains", class: 'form-control' %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label :legacy_os %>
+            <div class="w-1/2 pl-2">
+              <%= f.select :legacy_os_eq, @legacy_os, include_blank: "Select ...", class: 'form-control' %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label :unique_app %>
+            <div class="w-1/2 pl-2">
+              <%= f.text_field :unique_app_cont, placeholder: "Contains", class: 'form-control' %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label :unique_hardware %>
+            <div class="w-1/2 pl-2">
+              <%= f.text_field :unique_hardware_cont, placeholder: "Contains", class: 'form-control' %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label :unique_date %>
+            <div class="w-1/3 pr-4 pl-2">
+              <%= f.text_field :unique_date_gteq, placeholder: "From",
+              data: {
+                controller: "flatpickr",
+                flatpickr_date_format: "Y-m-d"
+              } %>
+            </div>
+
+            <div class="w-1/3">
+              <%= f.text_field :unique_date_lteq, placeholder: "To",
+              data: {
+                controller: "flatpickr",
+                flatpickr_date_format: "Y-m-d"
+              } %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label :remediation %>
+            <div class="w-1/2 pl-2">
+              <%= f.text_field :remediation_cont, placeholder: "Contains", class: 'form-control' %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label :exception_approval_date %>
+            <div class="w-1/3 pr-4 pl-2">
+              <%= f.text_field :exception_approval_date_gteq, placeholder: "From",
+              data: {
+                controller: "flatpickr",
+                flatpickr_date_format: "Y-m-d"
+              } %>
+            </div>
+
+            <div class="w-1/3">
+              <%= f.text_field :exception_approval_date_lteq, placeholder: "To",
+              data: {
+                controller: "flatpickr",
+                flatpickr_date_format: "Y-m-d"
+              } %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label :review_date %>
+            <div class="w-1/3 pr-4 pl-2">
+              <%= f.text_field :review_date_gteq, placeholder: "From",
+              data: {
+                controller: "flatpickr",
+                flatpickr_date_format: "Y-m-d"
+              } %>
+            </div>
+
+            <div class="w-1/3">
+              <%= f.text_field :review_date_lteq, placeholder: "To",
+              data: {
+                controller: "flatpickr",
+                flatpickr_date_format: "Y-m-d"
+              } %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label :review_contact %>
+            <div class="w-1/2 pl-2">
+              <%= f.select :review_contact_eq, @review_contact, include_blank: "Select ...", class: 'form-control' %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label :justification %>
+            <div class="w-1/2 pl-2">
+              <%= f.text_field :justification_cont, placeholder: "Contains", class: 'form-control' %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label :local_it_support_group %>
+            <div class="w-1/2 pl-2">
+              <%= f.select :local_it_support_group_eq, @local_it_support_group, include_blank: "Select ...", class: 'form-control' %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label :notes %>
+            <div class="w-1/2 pl-2">
+              <%= f.text_field :notes_cont, placeholder: "Contains", class: 'form-control' %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label :data_type_id %>
+            <div class="w-1/3 pr-4 pl-2">
+              <%= f.collection_select :data_type_id_eq, @data_type, :id, :name, include_blank: "Select ...", class: 'form-control' %>
+            </div>
+            <%= f.label :data_type_id_blank %>
+            <div class="w-1/3 pl-2">
+              <%= f.check_box :data_type_id_blank %>
+            </div>
+          </div>
+
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label "Serial" %>
+            <div class="w-1/2 pl-2">
+              <%= f.collection_select :device_id_eq, @device_serial, :id, :serial, include_blank: "Select ...", class: 'form-control' %>
+            </div>
+          </div>
+          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+            <%= f.label "Hostname" %>
+            <div class="w-1/2 pl-2">
+              <%= f.collection_select :device_id_eq, @device_hostname, :id, :hostname, include_blank: "Select ...", class: 'form-control' %>
+            </div>
+          </div>
+          
+
+
+          <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            data-action='click->filters#clearFilters'>
+            Clear
+          </button>
+          <%= f.submit 'Search', data: { disable_with: false }, class: 'btn btn-primary' %>
+        <% end %>
+      </div>
+    </div>
+  </div>  
+</div>
+
+
+</div>
+
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
   <% if has_ad_access?(current_user, "legacy_os_records", "newedit_action") %>
     <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
       <%= link_to 'New Legacy Os Record', new_legacy_os_record_path %>
     </div>
   <% end %>
 
-  <div class="flex flex-nowrap justify-center">
-    <div class="fixed_header_container">
-      <table class="fixed_header">
-        <thead>
-          <tr>
-            <th scope="col">Actions</th>
-            <th scope="col">Owner username</th>
-            <th scope="col">Owner full name</th>
-            <th scope="col">Dept</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Additional dept contact</th>
-            <th scope="col">Additional dept contact phone</th>
-            <th scope="col">Support poc</th>
-            <th scope="col">Legacy os</th>
-            <th scope="col">Unique app</th>
-            <th scope="col">Unique hardware</th>
-            <th scope="col">Unique date</th>
-            <th scope="col">Remediation</th>
-            <th scope="col">Exception approval date</th>
-            <th scope="col">Review date</th>
-            <th scope="col">Review contact</th>
-            <th scope="col">Justification</th>
-            <th scope="col">Local it support group</th>
-            <th scope="col">Data type</th>
-            <th scope="col">Device</th>
-          </tr>
-        </thead>
+  <%= render partial: "legacy_os_records/listing" %>
 
-        <tbody>
-          <% @legacy_os_records.each do |legacy_os_record| %>
-            <tr>
-              <td>
-                <ul>
-                  <li><%= link_to 'Show', legacy_os_record, class: "action-link" %></li>
-                  <% if has_ad_access?(current_user, "legacy_os_records", "newedit_action") %>
-                    <li><%= link_to 'Edit', edit_legacy_os_record_path(legacy_os_record), class: "action-link" %></li>
-                  <% end %>
-                  <% if has_ad_access?(current_user, "legacy_os_records", "archive_action") %>
-                    <li><%= link_to 'Archive', archive_legacy_os_record_path(legacy_os_record), class: "action-link", method: :post, data: { confirm: 'Are you sure?' } %></li>
-                  <% end %>
-                  <% if has_ad_access?(current_user, "legacy_os_records", "audit_action") %>
-                    <li><%= link_to 'Audit', legacy_os_record_audit_log_path(legacy_os_record), class: "action-link" %></li>
-                  <% end %>
-                </ul>
-              </td>
-              <td><%= legacy_os_record.owner_username %></td>
-              <td><%= legacy_os_record.owner_full_name %></td>
-              <td><%= legacy_os_record.dept %></td>
-              <td><%= legacy_os_record.phone %></td>
-              <td><%= legacy_os_record.additional_dept_contact %></td>
-              <td><%= legacy_os_record.additional_dept_contact_phone %></td>
-              <td><%= legacy_os_record.support_poc %></td>
-              <td><%= legacy_os_record.legacy_os %></td>
-              <td><%= legacy_os_record.unique_app %></td>
-              <td><%= legacy_os_record.unique_hardware %></td>
-              <td><%= show_date(legacy_os_record.unique_date) %></td>
-              <td><%= legacy_os_record.remediation %></td>
-              <td><%= show_date(legacy_os_record.exception_approval_date) %></td>
-              <td><%= show_date(legacy_os_record.review_date) %></td>
-              <td><%= legacy_os_record.review_contact %></td>
-              <td><%= legacy_os_record.justification %></td>
-              <td><%= legacy_os_record.local_it_support_group %></td>
-              <td><%= show_data_type_name(legacy_os_record) %></td>
-              <td><%= show_device(legacy_os_record) %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-  </div>
 </div>
 
