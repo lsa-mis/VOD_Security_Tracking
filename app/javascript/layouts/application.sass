@@ -2,6 +2,19 @@
 @import "tailwindcss/components"
 @import "tailwindcss/utilities"
 
+@layer base
+  h1 
+    @apply text-xl font-bold leading-relaxed font-sans uppercase
+
+  h2 
+    @apply text-lg
+
+  h3 
+    @apply text-base
+
+  h4 
+    @apply text-sm
+
 // this is a good candidate for a partial
 .device--display
   @apply block
@@ -15,18 +28,6 @@
 .device-error--hide
   @apply hidden 
 /////////////////////////////////////////
- 	@layer base 
-    h1 
-      @apply text-xl font-bold leading-relaxed font-sans uppercase
-
-    h2 
-      @apply text-lg
-
-    h3 
-      @apply text-base
-
-    h4 
-      @apply text-sm
 ​ 	
 main
   @apply bg-white m-4 flex-1
@@ -48,7 +49,7 @@ a
     @apply text-blue-900
 
 .btn-new
-  @apply mt-2 -mr-1 mb-4 w-40 rounded-md shadow-lg py-1 bg-green-500 text-sm text-white text-center ring-1 ring-black ring-opacity-5 focus:outline-none
+  @apply mt-2 -mr-1 mb-4 w-40 rounded-md shadow-lg py-1 bg-green-500 text-sm text-white text-center ring-1 ring-black ring-opacity-5 focus:outline-none 
 
   &.btn-blue
     @apply bg-laitan_blue

@@ -22,10 +22,13 @@ class ItSecurityIncident < ApplicationRecord
   belongs_to :data_type
   has_many :tdx_tickets, as: :records_to_tdx
   has_many_attached :attachments
+  before_save :if_not_complete
+
   audited
 
   validates :date, :people_involved, :equipment_involved, :remediation_steps,
             :data_type_id, :it_security_incident_status_id, presence: true
+  validate :acceptable_attachments
 
 
   scope :active, -> { where(deleted_at: nil) }
@@ -37,6 +40,43 @@ class ItSecurityIncident < ApplicationRecord
 
   def archived?
     self.deleted_at.present?
+  end
+
+
+  def acceptable_attachments
+    return unless attachments.attached?
+  
+    acceptable_types = [
+      "application/pdf", "text/plain" "image/jpg", 
+      "image/jpeg", "image/png", 
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "application/vnd.apple.pages",
+      "application/vnd.apple.numbers",
+      "application/x-tar"
+    ]
+
+    attachments.each do |att|
+      unless att.byte_size <= 20.megabyte
+        errors.add(:attachments, "is too big")
+      end
+
+      unless acceptable_types.include?(att.content_type)
+        errors.add(:attachments, "must be an acceptable file type")
+      end
+    end
+  end
+
+  def if_not_complete
+    if self.not_completed?
+      self.incomplete = true
+    else
+      self.incomplete = false
+    end
+  end
+
+  def not_completed?
+    self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete").all? {|k, v| v.present?} ? false : true
   end
 
   def display_name

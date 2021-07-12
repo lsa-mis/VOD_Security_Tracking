@@ -22,7 +22,7 @@ class Device < ApplicationRecord
 
   audited
 
-  # validates :serial, :hostname, uniqueness: true
+  validates :serial, :hostname, uniqueness: true, allow_blank: true
 
   scope :incomplete, -> { Device.where("(serial = '' or serial IS NULL)  AND (mac is null or owner is null)").or(Device.where("(hostname = '' or hostname IS NULL)  AND (mac is null or owner is null)")) }
 

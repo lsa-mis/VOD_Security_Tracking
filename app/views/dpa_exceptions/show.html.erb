@@ -192,7 +192,7 @@
             <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
               <div class="ml-4 flex-shrink-0 flex space-x-4">
                 <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                  <%= link_to 'Update', edit_dpa_exception_path(@dpa_exception) %>
+                  <%= link_to 'Update', edit_dpa_exception_path(@dpa_exception, anchor: "sla_agreement_file") %>
                 </button>
                 <span class="text-gray-300" aria-hidden="true">|</span>
                 <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">

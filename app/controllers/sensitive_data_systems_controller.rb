@@ -68,6 +68,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
     if sensitive_data_system_params[:tdx_ticket][:ticket_link].present?
       @sensitive_data_system.tdx_tickets.new(ticket_link: sensitive_data_system_params[:tdx_ticket][:ticket_link])
     end
+    @note = ""
     serial = sensitive_data_system_params[:device_attributes][:serial]
     hostname = sensitive_data_system_params[:device_attributes][:hostname]
     if serial.present? || hostname.present?
@@ -107,7 +108,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
       @sensitive_data_system.tdx_tickets.create(ticket_link: sensitive_data_system_params[:tdx_ticket][:ticket_link])
     end
     @note = ""
-    if StorageLocation.find(sensitive_data_system_params[:storage_location_id]).device_is_required
+    if sensitive_data_system_params[:storage_location_id].present? && StorageLocation.find(sensitive_data_system_params[:storage_location_id]).device_is_required
       serial = sensitive_data_system_params[:device_attributes][:serial]
       hostname = sensitive_data_system_params[:device_attributes][:hostname]
       device_class = DeviceManagment.new(serial, hostname)

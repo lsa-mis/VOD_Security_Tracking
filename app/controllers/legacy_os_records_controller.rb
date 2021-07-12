@@ -92,7 +92,7 @@ class LegacyOsRecordsController < InheritedResources::Base
 
   def edit
     add_breadcrumb(@legacy_os_record.display_name, 
-      dpa_exception_path(@legacy_os_record)
+      legacy_os_record_path(@legacy_os_record)
     )
     add_breadcrumb('Edit')
     authorize @legacy_os_record
