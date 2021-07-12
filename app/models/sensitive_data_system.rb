@@ -22,6 +22,7 @@
 #  updated_at                          :datetime         not null
 #  deleted_at                          :datetime
 #  incomplete                          :boolean          default(FALSE)
+#  name                                :string(255)      not null
 #
 class SensitiveDataSystem < ApplicationRecord
   belongs_to :storage_location, optional: true
@@ -92,7 +93,7 @@ class SensitiveDataSystem < ApplicationRecord
   end
 
   def display_name
-    "#{self.id} - #{self.owner_username}"
+    "#{self.name} - #{self.id}"
   end
 
 end

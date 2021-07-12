@@ -22,7 +22,7 @@
 #  deleted_at                                         :datetime
 #  incomplete                                         :boolean          default(FALSE)
 #  review_date_exception_review_date                  :datetime
-#  dpa_status                                         :string(255)      default("in_process"), not null
+#  dpa_exception_status_id                            :bigint           not null
 #
 FactoryBot.define do
   factory :dpa_exception do

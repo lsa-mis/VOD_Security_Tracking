@@ -7,8 +7,6 @@ class SensitiveDataSystemsController < InheritedResources::Base
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_membership
 
-  include SaveRecordWithDevice
-
   def index
 
     if params[:items].present?
@@ -185,7 +183,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
     end
 
     def sensitive_data_system_params
-      params.require(:sensitive_data_system).permit(:owner_username, :owner_full_name, 
+      params.require(:sensitive_data_system).permit(:name, :owner_username, :owner_full_name, 
                                                     :dept, :phone, :additional_dept_contact, 
                                                     :additional_dept_contact_phone, :support_poc, 
                                                     :expected_duration_of_data_retention, 

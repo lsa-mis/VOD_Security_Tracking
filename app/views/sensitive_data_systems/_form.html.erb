@@ -35,6 +35,11 @@
 
     <div class="field-container">
       <div class="field">
+        <%= form.label :name%>
+        <%= form.text_field :name, required: true %>
+      </div>
+
+      <div class="field">
         <%= form.label :owner_username%>
         <%= form.text_field :owner_username, required: true %>
       </div>

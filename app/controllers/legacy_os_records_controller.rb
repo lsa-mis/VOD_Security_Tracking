@@ -7,8 +7,6 @@ class LegacyOsRecordsController < InheritedResources::Base
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_membership
 
-  include SaveRecordWithDevice
-
   def index
 
     if params[:items].present?
@@ -72,6 +70,7 @@ class LegacyOsRecordsController < InheritedResources::Base
     if device_class.create_device || device_class.device_exist?
       @legacy_os_record.device = device_class.device
       @note ||= device_class.message || ""
+      @note = "" if device_class.device_exist?
     else
       flash.now[:alert] = device_class.message
       render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")

@@ -2,7 +2,7 @@ class DevicesController < InheritedResources::Base
   before_action :verify_duo_authentication
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
-  before_action :set_device, only: [:show, :edit, :update, :destroy]
+  before_action :set_device, only: [:show, :edit, :update]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
   before_action :set_membership
 
@@ -66,23 +66,6 @@ class DevicesController < InheritedResources::Base
     else
       flash.now[:alert] = device_class.message
         render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
-    end
-  end
-
-  def destroy
-    authorize @device
-    respond_to do |format|
-      if @device.destroy
-        format.turbo_stream { redirect_to devices_path, 
-                      notice: 'Device record was successfully destroyed.' 
-                    }
-      else
-        Rails.logger.info(@device.errors.inspect) 
-        format.turbo_stream { redirect_to devices_path, 
-                      alert: 'Can not destroy this device, it might be referenced in sensitive_data_systems
-                      or legacy_os_records.' 
-                    }
-      end
     end
   end
   

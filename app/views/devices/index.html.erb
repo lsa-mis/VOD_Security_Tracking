@@ -4,9 +4,6 @@
   Devices
 </p>
 <div>
-  <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
-    <%= link_to 'New Device', new_device_path %>
-  </div>
 
   <div class="flex flex-nowrap justify-center">
     <div class="fixed_header_container">
@@ -31,9 +28,6 @@
               <td>
                 <ul>
                   <li><%= link_to 'Show', device, class: "action-link" %></li>
-                  <% if has_ad_access?(current_user, "devices", "archive_action") %>
-                    <li><%= link_to 'Destroy', device, class: "action-link", method: :delete, data: { confirm: 'Are you sure?' } %></li>
-                  <% end %>
                 </ul>
               </td>
               <td><%= device.serial %></td>
