@@ -252,6 +252,12 @@
                       <span class="ml-2 flex-1 w-0 truncate">
                         <%= link_to ma.filename, url_for(ma) %>
                       </span>
+                      <% unless ma.id.nil? %>
+                        <span class="text-gray-300" aria-hidden="true">|</span>
+                        <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                          <%= link_to 'Remove', delete_file_path(ma), data: { confirm: "Are sure you?" } %>
+                        </button>
+                      <% end %>
                     </div>
                   </li>
                 <% end %>
