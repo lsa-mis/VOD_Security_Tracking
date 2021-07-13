@@ -40,7 +40,7 @@ RSpec.describe "Device Controller", type: :system do
         click_on 'Create Device'
         sleep(inspection_time=5)
 
-        expect(page).to have_content('More then one result returned for serial or hostname [nick].')
+        expect(page).to have_content('More than one result returned for serial or hostname [nick].')
     end
 
     scenario 'get no auth token from AuthTokenApi class' do
