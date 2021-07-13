@@ -8,7 +8,7 @@
 # https://medium.com/@pawlkris/scheduling-tasks-in-rails-with-cron-and-using-the-whenever-gem-34aa68b992e3
 
 desc "This will update all the devices in the system"
-task :devicinator do
+task devicinator: :environment do
   Device.all.each do |dev|
     device_class = DeviceManagment.new(dev.serial, dev.hostname)
     device_class.update_device
