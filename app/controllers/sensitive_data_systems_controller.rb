@@ -90,7 +90,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
   end
 
   def edit
-    add_breadcrumb(@sensitive_data_system.id, 
+    add_breadcrumb(@sensitive_data_system.display_name, 
         sensitive_data_system_path(@sensitive_data_system)
       )
     add_breadcrumb('Edit')
