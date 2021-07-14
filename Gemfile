@@ -5,6 +5,7 @@ ruby '3.0.1'
 gem 'rails', '~> 6.1.3'
 
 gem 'activeadmin', '~> 2.9'
+gem 'activeadmin_quill_editor', '~> 0.3.4'
 gem 'audited', '~> 4.10'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'devise', '~> 4.7', '>= 4.7.3'
