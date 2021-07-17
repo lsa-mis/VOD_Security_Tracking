@@ -146,13 +146,6 @@
         <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"} %>
       </div>
 
-      <%= form.fields_for @sensitive_data_system.tdx_tickets.new do |f| %>
-        <div class="field">
-            <%= f.label :ticket_link, "Add a ticket link" %>
-            <%= f.text_field :ticket_link %>
-        </div>
-      <% end %>
-
       <div class="field">
         <%= form.fields_for @sensitive_data_system.tdx_tickets.new do |f| %>
           <%= f.label :ticket_link, "Add a TDX ticket link" %>
