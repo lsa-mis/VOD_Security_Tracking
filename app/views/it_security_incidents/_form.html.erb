@@ -73,7 +73,7 @@
       </div>
 
       <div class="field">
-        <%= form.label :it_security_incident_status_id %>
+        <%= form.label :it_security_incident_status_id, "IT security incident status" %>
         <%= form.collection_select :it_security_incident_status_id, ItSecurityIncidentStatus.all, :id, :name, {include_blank: "Select"}, required: true %>
       </div>
 
