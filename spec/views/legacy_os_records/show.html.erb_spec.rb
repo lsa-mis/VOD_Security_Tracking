@@ -10,7 +10,7 @@ RSpec.describe "legacy_os_records/show", type: :view do
       additional_dept_contact: "Additional Dept Contact",
       additional_dept_contact_phone: "Additional Dept Contact Phone",
       support_poc: "Support Poc",
-      legacy_os: "Legacy Os",
+      legacy_os: "Legacy OS",
       unique_app: "Unique App",
       unique_hardware: "Unique Hardware",
       remediation: "Remediation",
@@ -32,7 +32,7 @@ RSpec.describe "legacy_os_records/show", type: :view do
     expect(rendered).to match(/Additional Dept Contact/)
     expect(rendered).to match(/Additional Dept Contact Phone/)
     expect(rendered).to match(/Support Poc/)
-    expect(rendered).to match(/Legacy Os/)
+    expect(rendered).to match(/Legacy OS/)
     expect(rendered).to match(/Unique App/)
     expect(rendered).to match(/Unique Hardware/)
     expect(rendered).to match(/Remediation/)
