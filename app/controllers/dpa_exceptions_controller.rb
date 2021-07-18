@@ -129,7 +129,8 @@ class DpaExceptionsController < InheritedResources::Base
     end
 
     def add_index_breadcrumb
-      add_breadcrumb(controller_name.titleize, dpa_exceptions_path)
+      # add_breadcrumb(controller_name.titleize, dpa_exceptions_path)
+      add_breadcrumb("DPA Exception", dpa_exceptions_path)
     end
 
     def dpa_exception_params
