@@ -27,7 +27,7 @@
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :dpa_status %>
+            <%= f.label :dpa_status, "Status" %>
             <div class="w-1/2 pl-2">
               <%= f.collection_select :dpa_exception_status_id_eq, @dpa_status, :id, :name, include_blank: "Select ...", class: 'form-control' %>
             </div>
@@ -81,26 +81,26 @@
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :lsa_security_recommendation %>
+            <%= f.label :lsa_security_recommendation, "LSA security recommendation" %>
             <div class="w-1/2 pl-2">
               <%= f.text_field :lsa_security_recommendation_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :lsa_security_determination %>
+            <%= f.label :lsa_security_determination, "LSA security determination" %>
             <div class="w-1/2 pl-2">
               <%= f.text_field :lsa_security_determination_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
           </div>
 
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :lsa_security_approval %>
+            <%= f.label :lsa_security_approval, "LSA security approval" %>
             <div class="w-1/2 pl-2">
               <%= f.text_field :lsa_security_approval_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :lsa_technology_services_approval %>
+            <%= f.label :lsa_technology_services_approval, "LSA technology services approval" %>
             <div class="w-1/2 pl-2">
               <%= f.text_field :lsa_technology_services_approval_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
