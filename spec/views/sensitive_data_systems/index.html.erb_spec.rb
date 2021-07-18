@@ -6,10 +6,10 @@ RSpec.describe "sensitive_data_systems/index", type: :view do
       SensitiveDataSystem.create!(
         owner_username: "Owner Username",
         owner_full_name: "Owner Full Name",
-        dept: "Dept",
+        dept: "Department",
         phone: "Phone",
-        additional_dept_contact: "Additional Dept Contact",
-        additional_dept_contact_phone: "Additional Dept Contact Phone",
+        additional_dept_contact: "Additional Department Contact",
+        additional_dept_contact_phone: "Additional Department Contact Phone",
         support_poc: "Support Poc",
         expected_duration_of_data_retention: "MyText",
         agreements_related_to_data_types: "Agreements Related To Data Types",
@@ -22,10 +22,10 @@ RSpec.describe "sensitive_data_systems/index", type: :view do
       SensitiveDataSystem.create!(
         owner_username: "Owner Username",
         owner_full_name: "Owner Full Name",
-        dept: "Dept",
+        dept: "Department",
         phone: "Phone",
-        additional_dept_contact: "Additional Dept Contact",
-        additional_dept_contact_phone: "Additional Dept Contact Phone",
+        additional_dept_contact: "Additional Department Contact",
+        additional_dept_contact_phone: "Additional Department Contact Phone",
         support_poc: "Support Poc",
         expected_duration_of_data_retention: "MyText",
         agreements_related_to_data_types: "Agreements Related To Data Types",
@@ -42,10 +42,10 @@ RSpec.describe "sensitive_data_systems/index", type: :view do
     render
     assert_select "tr>td", text: "Owner Username".to_s, count: 2
     assert_select "tr>td", text: "Owner Full Name".to_s, count: 2
-    assert_select "tr>td", text: "Dept".to_s, count: 2
+    assert_select "tr>td", text: "Department".to_s, count: 2
     assert_select "tr>td", text: "Phone".to_s, count: 2
-    assert_select "tr>td", text: "Additional Dept Contact".to_s, count: 2
-    assert_select "tr>td", text: "Additional Dept Contact Phone".to_s, count: 2
+    assert_select "tr>td", text: "Additional Department Contact".to_s, count: 2
+    assert_select "tr>td", text: "Additional Department Contact Phone".to_s, count: 2
     assert_select "tr>td", text: "Support Poc".to_s, count: 2
     assert_select "tr>td", text: "MyText".to_s, count: 2
     assert_select "tr>td", text: "Agreements Related To Data Types".to_s, count: 2

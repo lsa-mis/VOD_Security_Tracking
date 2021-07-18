@@ -38,7 +38,7 @@ RSpec.describe LegacyOsRecord, type: :model do
 
   it "is valid with valid attributes" do
     expect(LegacyOsRecord.new(owner_username: "brita", owner_full_name: "Rita Barvinok",
-                              dept: "Dept", phone: "123-345-6789",
+                              dept: "Department", phone: "123-345-6789",
                               unique_app: "unique_app",
                               device: device)).to be_valid
     # legacy_os_record = FactoryBot.build(:legacy_os_record)
@@ -50,14 +50,14 @@ RSpec.describe LegacyOsRecord, type: :model do
     # legacy_os_record.device_id = nil
     # expect(legacy_os_record).to_not be_valid
     expect(LegacyOsRecord.new(owner_username: "brita", owner_full_name: "Rita Barvinok", remediation: "remediation", 
-                              review_contact: "review_contact", dept: "Dept", phone: "123-345-6789", support_poc: "support_poc",
+                              review_contact: "review_contact", dept: "Department", phone: "123-345-6789", support_poc: "support_poc",
                               unique_date: "2021-03-19 16:50:16", unique_app: "unique_app",
                               data_type: data_type)).to_not be_valid
   end
 
   # it "is not valid without a data_type" do
   #   expect(LegacyOsRecord.new(owner_username: "brita", owner_full_name: "Rita Barvinok", remediation: "remediation", 
-  #                             review_contact: "review_contact", dept: "Dept", phone: "123-345-6789", support_poc: "support_poc",
+  #                             review_contact: "review_contact", dept: "Department", phone: "123-345-6789", support_poc: "support_poc",
   #                             unique_date: "2021-03-19 16:50:16", unique_app: "unique_app",
   #                             device: device)).to_not be_valid
   # end
