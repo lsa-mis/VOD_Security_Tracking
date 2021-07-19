@@ -1,22 +1,12 @@
-<%= form_with(model: @sensitive_data_system, html: {
-  local: true
-},
- data: {
-  controller: "sensitiveds",
-  target: "sensitiveds.form",
-  action: "submit->sensitiveds#submitForm"
-}) do |form| %>
-  <% if @sensitive_data_system.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@sensitive_data_system.errors.count, "error") %> prohibited this sensitive_data_system from being saved:</h2>
-
-      <ul>
-        <% @sensitive_data_system.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= form_with(model: @sensitive_data_system, 
+              html: {local: true },
+              data: {
+                controller: "sensitiveds",
+                target: "sensitiveds.form",
+                action: "submit->sensitiveds#submitForm"
+              }
+  ) do |form| %>
+  <%= render "partials/errors", object: @sensitive_data_system %>
 
   <div class="form-container">
     <div>
@@ -50,7 +40,7 @@
       </div>
 
       <div class="field">
-        <%= form.label :dept%>
+        <%= form.label :dept, "Department" %>
         <%= form.text_field :dept, required: true %>
       </div>
 
@@ -60,12 +50,12 @@
       </div>
 
       <div class="field">
-        <%= form.label :additional_dept_contact %>
+        <%= form.label :additional_dept_contact, "Additional department contact" %>
         <%= form.text_field :additional_dept_contact %>
       </div>
 
       <div class="field">
-        <%= form.label :additional_dept_contact_phone %>
+        <%= form.label :additional_dept_contact_phone, "Additional department contact phone" %>
         <%= form.text_field :additional_dept_contact_phone %>
       </div>
 
@@ -146,13 +136,6 @@
         <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"} %>
       </div>
 
-      <%= form.fields_for @sensitive_data_system.tdx_tickets.new do |f| %>
-        <div class="field">
-            <%= f.label :ticket_link, "Add a ticket link" %>
-            <%= f.text_field :ticket_link %>
-        </div>
-      <% end %>
-
       <div class="field">
         <%= form.fields_for @sensitive_data_system.tdx_tickets.new do |f| %>
           <%= f.label :ticket_link, "Add a TDX ticket link" %>
@@ -214,15 +197,12 @@
           </div>
         <% end %>
       </div>
-
-      <%= form.hidden_field :incomplete %>
-
     </div>
   </div>
 
   <div class="action-area">
     <div class="actions">
-      <%= form.submit 'Sensitive Data System', data: { disable_with: false } %>
+      <%= form.submit t('helpers.sensitivedatasystem'), data: { disable_with: false } %>
     </div>
   </div>
 <% end %>

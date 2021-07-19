@@ -173,7 +173,7 @@ class LegacyOsRecordsController < InheritedResources::Base
     end
       
     def add_index_breadcrumb
-      add_breadcrumb(controller_name.titleize, legacy_os_records_path)
+      add_breadcrumb("Legacy OS Records", legacy_os_records_path)
     end
 
     def legacy_os_record_params

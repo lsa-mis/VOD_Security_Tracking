@@ -45,7 +45,7 @@
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :dept %>
+            <%= f.label :dept, "Department"  %>
             <div class="w-1/2 pl-2">
               <%= f.select :dept_eq, @dept, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
             </div>
@@ -57,13 +57,13 @@
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :additional_dept_contact %>
+            <%= f.label :additional_dept_contact, "Additional department contact" %>
             <div class="w-1/2 pl-2">
               <%= f.select :additional_dept_contact_eq, @additional_dept_contact, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :additional_dept_contact_phone %>
+            <%= f.label :additional_dept_contact_phone, "Additional department contact phone" %>
             <div class="w-1/2 pl-2">
               <%= f.text_field :additional_dept_contact_phone_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
