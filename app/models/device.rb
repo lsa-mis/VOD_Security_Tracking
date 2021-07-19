@@ -38,6 +38,10 @@ class Device < ApplicationRecord
     "#{self.serial} #{self.hostname}" # or whatever column you want
   end
 
+  def display_hostname
+    "#{self.hostname}" # or whatever column you want
+  end
+
   def no_referenced_records
     if LegacyOsRecord.find_by(device_id: self)
       errors.add(:base, "Can't destroy this device")
