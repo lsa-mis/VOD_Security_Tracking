@@ -104,7 +104,7 @@
 </div>
 
 <div>
-  <% if has_ad_access?(current_user, "it_security_incidents", "newedit_action") %>
+  <% if policy(@it_security_incidents).new? %>
     <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
       <%= link_to 'New IT Security Incident', new_it_security_incident_path %>
     </div>

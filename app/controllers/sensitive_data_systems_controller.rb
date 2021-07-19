@@ -5,7 +5,6 @@ class SensitiveDataSystemsController < InheritedResources::Base
   before_action :set_sensitive_data_system, only: [:show, :edit, :update, :archive, :audit_log]
   before_action :get_access_token, only: [:create, :update]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
-  before_action :set_membership
 
   def index
 

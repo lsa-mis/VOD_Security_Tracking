@@ -35,4 +35,10 @@ class DpaExceptionPolicy < ApplicationPolicy
       get_ldap_groups('dpa_exceptions', 'audit_action')
       (user.membership & @ldap_groups).any?
     end
+
+    def any_action?
+      get_ldap_groups('dpa_exceptions')
+      (user.membership & @ldap_groups).any?
+    end
+
   end

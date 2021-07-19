@@ -5,7 +5,6 @@ class LegacyOsRecordsController < InheritedResources::Base
   before_action :set_legacy_os_record, only: [:show, :edit, :update, :archive, :audit_log]
   before_action :get_access_token, only: [:create, :update]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
-  before_action :set_membership
 
   def index
 

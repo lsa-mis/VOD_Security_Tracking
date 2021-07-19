@@ -41,14 +41,14 @@
               <td>
               <ul>
                 <li><%= link_to 'Show', legacy_os_record, class: "action-link" %></li>
-                <% if has_ad_access?(current_user, "legacy_os_records", "newedit_action") %>
-                <li><%= link_to 'Edit', edit_legacy_os_record_path(legacy_os_record), class: "action-link" %></li>
+                <% if policy(legacy_os_record).edit? %>
+                  <li><%= link_to 'Edit', edit_legacy_os_record_path(legacy_os_record), class: "action-link" %></li>
                 <% end %>
-                <% if has_ad_access?(current_user, "legacy_os_records", "archive_action") %>
-                <li><%= link_to 'Archive', archive_legacy_os_record_path(legacy_os_record), class: "action-link", method: :post, data: { confirm: 'Are you sure?' } %></li>
+                <% if policy(legacy_os_record).archive? %>
+                  <li><%= link_to 'Archive', archive_legacy_os_record_path(legacy_os_record), class: "action-link", method: :post, data: { confirm: 'Are you sure?' } %></li>
                 <% end %>
-                <% if has_ad_access?(current_user, "legacy_os_records", "audit_action") %>
-                <li><%= link_to 'Audit', legacy_os_record_audit_log_path(legacy_os_record), class: "action-link" %></li>
+                <% if policy(legacy_os_record).audit_log? %>
+                  <li><%= link_to 'Audit', legacy_os_record_audit_log_path(legacy_os_record), class: "action-link" %></li>
                 <% end %>
               </ul>
               </td>

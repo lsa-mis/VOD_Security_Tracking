@@ -4,7 +4,6 @@ class DevicesController < InheritedResources::Base
   before_action :authenticate_logged_in!
   before_action :set_device, only: [:show, :edit, :update]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
-  before_action :set_membership
 
   def index
     @pagy, @devices = pagy(Device.all)

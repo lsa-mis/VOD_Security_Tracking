@@ -163,7 +163,7 @@
 </div>
 
 <div>
-  <% if has_ad_access?(current_user, "sensitive_data_systems", "newedit_action") %>
+  <% if policy(@sensitive_data_systems).edit? %>
     <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
       <%= link_to 'New Sensitive Data System', new_sensitive_data_system_path %>
     </div>

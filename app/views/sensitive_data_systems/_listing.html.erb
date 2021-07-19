@@ -37,13 +37,13 @@
               <td>
                 <ul>
                   <li><%= link_to 'Show', sensitive_data_system, class: "action-link" %></li>
-                  <% if has_ad_access?(current_user, "sensitive_data_systems", "newedit_action") %>
+                  <% if policy(sensitive_data_system).edit? %>
                     <li><%= link_to 'Edit', edit_sensitive_data_system_path(sensitive_data_system), class: "action-link" %></li>
                   <% end %>
-                  <% if has_ad_access?(current_user, "sensitive_data_systems", "archive_action") %>
+                  <% if policy(sensitive_data_system).archive? %>
                     <li><%= link_to 'Archive', archive_sensitive_data_system_path(sensitive_data_system), class: "action-link", method: :post, data: { confirm: 'Are you sure?' } %></li>
                   <% end %>
-                  <% if has_ad_access?(current_user, "sensitive_data_systems", "audit_action") %>
+                  <% if policy(sensitive_data_system).audit_log? %>
                     <li><%= link_to 'Audit', sensitive_data_system_audit_log_path(sensitive_data_system), class: "action-link" %></li>
                   <% end %>
                   </ul>

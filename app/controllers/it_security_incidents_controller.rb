@@ -4,7 +4,6 @@ class ItSecurityIncidentsController < InheritedResources::Base
   before_action :authenticate_logged_in!
   before_action :set_it_security_incident, only: [:show, :edit, :update, :archive, :audit_log]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
-  before_action :set_membership
 
   def index
 

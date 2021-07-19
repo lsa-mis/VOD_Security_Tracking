@@ -122,7 +122,7 @@
   </dl>
 </div>
 
-<% if has_ad_access?(current_user, "devices", "newedit_action") %>
+<% if policy(@device).edit? %>
   <%= link_to 'Update', update_device_path(@device), class: "action-link" %>
 <% end %>
 

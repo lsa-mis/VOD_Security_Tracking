@@ -212,7 +212,7 @@
 
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-  <% if has_ad_access?(current_user, "legacy_os_records", "newedit_action") %>
+  <% if policy(@legacy_os_records).edit? %>
     <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
       <%= link_to 'New Legacy OS Record', new_legacy_os_record_path %>
     </div>
