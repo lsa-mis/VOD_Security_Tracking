@@ -1,23 +1,12 @@
-<%= form_with(model: @legacy_os_record, html: {
-        local: true
-      },
-      data: {
-        controller: "legacyos",
-        target: "legacyos.form",
-        action: "submit->legacyos#submitForm"
-      }
+<%= form_with(model: @legacy_os_record, 
+              html: { local: true },
+              data: {
+                controller: "legacyos",
+                target: "legacyos.form",
+                action: "submit->legacyos#submitForm"
+              }
     ) do |form| %>
-  <% if @legacy_os_record.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@legacy_os_record.errors.count, "error") %> prohibited this legacy_os_record from being saved:</h2>
-
-      <ul>
-        <% @legacy_os_record.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render "partials/errors", object: @legacy_os_record %>
 
   <div class="form-container">
     <div>
