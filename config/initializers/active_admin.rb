@@ -64,15 +64,17 @@ ActiveAdmin.setup do |config|
   # CanCanAdapter or make your own. Please refer to documentation.
   # config.authorization_adapter = ActiveAdmin::CanCanAdapter
 
+  config.authorization_adapter = ActiveAdmin::PunditAdapter
   # In case you prefer Pundit over other solutions you can here pass
   # the name of default policy class. This policy will be used in every
   # case when Pundit is unable to find suitable policy.
-  # config.pundit_default_policy = "MyDefaultPunditPolicy"
+  config.pundit_default_policy = "ActiveAdmin::AdminPolicy"
+  # config.pundit_default_policy = "ApplicationPolicy"
 
   # If you wish to maintain a separate set of Pundit policies for admin
   # resources, you may set a namespace here that Pundit will search
   # within when looking for a resource's policy.
-  # config.pundit_policy_namespace = :admin
+  config.pundit_policy_namespace = :active_admin
 
   # You can customize your CanCan Ability class name here.
   # config.cancan_ability_class = "Ability"
@@ -151,6 +153,22 @@ ActiveAdmin.setup do |config|
   # Active Admin resources and pages from here.
   #
   # config.before_action :do_something_awesome
+
+  # def set_memberdship
+  #   if user_signed_in?
+  #     current_user.membership = session[:user_memberships]
+  #   end
+  # end
+
+  # config.before_filter :set_membership
+
+  # controller do
+  #   def set_memberdship
+  #     if user_signed_in?
+  #       current_user.membership = session[:user_memberships]
+  #     end
+  #   end
+  # end
 
   # == Attribute Filters
   #
@@ -332,4 +350,5 @@ ActiveAdmin.setup do |config|
   # You can switch to using Webpacker here.
   #
   config.use_webpacker = true
+
 end

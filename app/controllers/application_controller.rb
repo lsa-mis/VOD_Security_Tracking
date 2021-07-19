@@ -1,9 +1,12 @@
 class ApplicationController < ActionController::Base
   before_action :set_breadcrumbs
+  before_action :set_membership
 
   include Pagy::Backend
 
   include Pundit
+  after_action :verify_authorized, except: :index, unless: :active_admin_controller?
+  after_action :verify_policy_scoped, except: :index, unless: :active_admin_controller?
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   rescue_from DeviseLdapAuthenticatable::LdapException do |exception|
@@ -34,6 +37,7 @@ class ApplicationController < ActionController::Base
     def set_membership
       if user_signed_in?
         current_user.membership = session[:user_memberships]
+        $membership = session[:user_memberships]
       else
         new_user_session_path
       end
@@ -51,5 +55,9 @@ class ApplicationController < ActionController::Base
     def user_not_authorized
       flash[:alert] = "You are not authorized to perform this action."
       redirect_to(request.referrer || root_path)
+    end
+
+    def active_admin_controller?
+      is_a?(ActiveAdmin::BaseController) || is_a?(StaticPagesController) || is_a?(DeviseController)
     end
 end
