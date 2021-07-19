@@ -35,4 +35,10 @@ class SensitiveDataSystemPolicy < ApplicationPolicy
       get_ldap_groups('sensitive_data_systems', 'audit_action')
       (user.membership & @ldap_groups).any?
     end
+
+    def any_action?
+      get_ldap_groups('sensitive_data_systems')
+      (user.membership & @ldap_groups).any?
+    end
+
   end
