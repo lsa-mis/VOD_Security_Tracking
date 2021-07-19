@@ -7,16 +7,16 @@
       <div class="lg:flex-grow">
         <% if user_signed_in? %>
             <%= link_to "Dashboard", dashboard_path, class: "mr-4" %>
-            <% if has_ad_access?(current_user, "dpa_exceptions") %>
+            <% if policy(DpaException).any_action? %>
               <%= link_to "DPA Exceptions", dpa_exceptions_path, class: "mr-4" %>
             <% end %>
-            <% if has_ad_access?(current_user, "it_security_incidents") %>
+            <% if policy(ItSecurityIncident).any_action? %>
               <%= link_to "It Security Incidents", it_security_incidents_path, class: "mr-4" %>
             <% end %>
-            <% if has_ad_access?(current_user, "legacy_os_records") %>
+            <% if policy(LegacyOsRecord).any_action? %>
               <%= link_to "Legacy Os Record", legacy_os_records_path, class: "mr-4" %>
             <% end %>
-            <% if has_ad_access?(current_user, "sensitive_data_systems") %>
+            <% if policy(SensitiveDataSystem).any_action? %>
               <%= link_to "Sensitive Data System", sensitive_data_systems_path, class: "mr-4" %>
             <% end %>
         <% end %>

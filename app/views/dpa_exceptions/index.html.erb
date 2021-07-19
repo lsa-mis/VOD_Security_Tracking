@@ -171,7 +171,7 @@
 </div>
 
 <div>
-  <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
+  <% if policy(@dpa_exceptions).new?  %>
     <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
       <%= link_to 'New Dpa Exception', new_dpa_exception_path %>
     </div>
