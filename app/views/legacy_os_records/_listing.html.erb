@@ -13,25 +13,12 @@
         <thead>
           <tr>
           <th scope="col">Actions</th>
-          <th scope="col"><%= sort_link(@q, :owner_username, 'Owner username') %></th>
           <th scope="col">Owner full name</th>
-          <th scope="col"><%= sort_link(@q, :dept, 'Department') %></th>
-          <th scope="col">Phone</th>
-          <th scope="col">Additional department contact</th>
-          <th scope="col">Additional department contact phone</th>
-          <th scope="col">Support poc</th>
-          <th scope="col"><%= sort_link(@q, :legacy_os, 'Legacy OS') %></th>
-          <th scope="col">Unique app</th>
-          <th scope="col">Unique hardware</th>
-          <th scope="col"><%= sort_link(@q, :unique_date, 'Unique date') %></th>
-          <th scope="col">Remediation</th>
-          <th scope="col"><%= sort_link(@q, :exception_approval_date, 'Exception approval date') %></th>
-          <th scope="col"><%= sort_link(@q, :review_date, 'Review date') %></th>
-          <th scope="col">Review contact</th>
-          <th scope="col">Justification</th>
-          <th scope="col">Local IT support group</th>
-          <th scope="col"><%= sort_link(@q, :data_type_id, 'Data type', default_order: :desc) %></th>
           <th scope="col">Device</th>
+          <th scope="col"><%= sort_link(@q, :legacy_os, 'Legacy OS') %></th>
+          <th scope="col"><%= sort_link(@q, :updated_at, 'Last Modified') %></th>
+          <th scope="col"><%= sort_link(@q, :data_type_id, 'Data type', default_order: :desc) %></th>
+          <th scope="col"><%= sort_link(@q, :review_date, 'Review date') %></th>
           </tr>
         </thead>
 
@@ -52,25 +39,12 @@
                 <% end %>
               </ul>
               </td>
-              <td><%= legacy_os_record.owner_username %></td>
               <td><%= legacy_os_record.owner_full_name %></td>
-              <td><%= legacy_os_record.dept %></td>
-              <td><%= legacy_os_record.phone %></td>
-              <td><%= legacy_os_record.additional_dept_contact %></td>
-              <td><%= legacy_os_record.additional_dept_contact_phone %></td>
-              <td><%= legacy_os_record.support_poc %></td>
-              <td><%= legacy_os_record.legacy_os %></td>
-              <td><%= legacy_os_record.unique_app %></td>
-              <td><%= legacy_os_record.unique_hardware %></td>
-              <td><%= show_date(legacy_os_record.unique_date) %></td>
-              <td><%= legacy_os_record.remediation %></td>
-              <td><%= show_date(legacy_os_record.exception_approval_date) %></td>
-              <td><%= show_date(legacy_os_record.review_date) %></td>
-              <td><%= legacy_os_record.review_contact %></td>
-              <td><%= legacy_os_record.justification %></td>
-              <td><%= legacy_os_record.local_it_support_group %></td>
-              <td><%= show_data_type_name(legacy_os_record) %></td>
               <td><%= show_device(legacy_os_record) %></td>
+              <td><%= legacy_os_record.legacy_os %></td>
+              <td><%= show_date(legacy_os_record.updated_at) %></td>
+              <td><%= show_data_type_name(legacy_os_record) %></td>
+              <td><%= show_date(legacy_os_record.review_date) %></td>
             </tr>
           <% end %>
           <!-- Blank state -->
