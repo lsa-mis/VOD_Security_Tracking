@@ -1,7 +1,7 @@
-<h1>It Security Incidents</h1>
+<h1>IT Security Incidents</h1>
 
 <p class="text-gray-500 text-sm mx-4">
-  It Security Incidents
+  IT Security Incidents
 </p>
 
 <div data-controller='toggle' class="m-2">
@@ -79,7 +79,7 @@
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :it_security_incident_status_id %>
+            <%= f.label :it_security_incident_status_id, "IT security incident status" %>
             <div class="w-1/2 pl-2">
               <%= f.collection_select :it_security_incident_status_id_eq, @it_security_incident_status, :id, :name, include_blank: "Select ...", class: 'form-control' %>
             </div>
@@ -106,7 +106,7 @@
 <div>
   <% if has_ad_access?(current_user, "it_security_incidents", "newedit_action") %>
     <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
-      <%= link_to 'New It Security Incident', new_it_security_incident_path %>
+      <%= link_to 'New IT Security Incident', new_it_security_incident_path %>
     </div>
   <% end %>
   <%= render partial: "it_security_incidents/listing" %>

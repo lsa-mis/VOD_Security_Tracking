@@ -118,7 +118,7 @@ class ItSecurityIncidentsController < InheritedResources::Base
     end
 
     def add_index_breadcrumb
-      add_breadcrumb(controller_name.titleize, it_security_incidents_path)
+      add_breadcrumb("IT Security Incidents", it_security_incidents_path)
     end
 
     def it_security_incident_params

@@ -37,7 +37,7 @@
       </div>
 
       <div class="field">
-        <%= form.label :dept%>
+        <%= form.label :dept, "Department" %>
         <%= form.text_field :dept, required: true %>
         <p class="help-text">Help text if needed</p>
       </div>
@@ -49,13 +49,13 @@
       </div>
 
       <div class="field">
-        <%= form.label :additional_dept_contact %>
+        <%= form.label :additional_dept_contact, "Additional department contact" %>
         <%= form.text_field :additional_dept_contact %>
         <p class="help-text">Help text if needed</p>
       </div>
 
       <div class="field">
-        <%= form.label :additional_dept_contact_phone %>
+        <%= form.label :additional_dept_contact_phone, "Additional department contact phone" %>
         <%= form.text_field :additional_dept_contact_phone %>
         <p class="help-text">Help text if needed</p>
       </div>
@@ -67,7 +67,7 @@
       </div>
 
       <div class="field">
-        <%= form.label :legacy_os%>
+        <%= form.label :legacy_os, "Legacy OS" %>
         <%= form.text_field :legacy_os%>
         <p class="help-text">Help text if needed</p>
       </div>
@@ -153,7 +153,7 @@
       </div>
 
       <div class="field">
-        <%= form.label :local_it_support_group%>
+        <%= form.label :local_it_support_group, "Local IT support group" %>
         <%= form.text_field :local_it_support_group %>
         <p class="help-text">Help text if needed</p>
       </div>
@@ -255,15 +255,12 @@
           </div>
         <% end %>
       </div>
-
-      <%= form.hidden_field :incomplete %>
-
     </div>
   </div>
 
   <div class="action-area">
     <div class="actions">
-      <%= form.submit 'Legacy Os Record', data: { disable_with: false } %>
+      <%= form.submit t('helpers.legacyos'), data: { disable_with: false } %>
     </div>
   </div>
 <% end %>
