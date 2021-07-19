@@ -15,6 +15,17 @@
   h4 
     @apply text-sm
 
+  // error styles
+  section
+    &.errors
+      @apply m-1 p-1.5 rounded bg-yellow-100 border-2 border-red-700
+
+      h2 
+        @apply text-red-700 text-lg
+
+      h3 
+        @apply text-base mt-1 font-semibold
+
 // this is a good candidate for a partial
 .device--display
   @apply block

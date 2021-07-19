@@ -1,15 +1,5 @@
 <%= form_with(model: @dpa_exception, local: true) do |form| %>
-  <% if @dpa_exception.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@dpa_exception.errors.count, "error") %> prohibited this
-       dpa_exception from being saved:</h2>
-      <ul>
-        <% @dpa_exception.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render "partials/errors", object: @dpa_exception %>
 
   <div class="form-container">
     <div>
