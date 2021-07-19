@@ -193,9 +193,6 @@
               <%= f.collection_select :device_id_eq, @device_hostname, :id, :hostname, include_blank: "Select ...", class: 'form-control' %>
             </div>
           </div>
-          
-
-
           <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             data-action='click->filters#clearFilters'>
             Clear
@@ -207,18 +204,12 @@
   </div>  
 </div>
 
-
-</div>
-
-
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-  <% if policy(@legacy_os_records).edit? %>
+<div>
+  <% if policy(@legacy_os_records).new? %>
     <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
       <%= link_to 'New Legacy OS Record', new_legacy_os_record_path %>
     </div>
   <% end %>
-
   <%= render partial: "legacy_os_records/listing" %>
-
 </div>
 

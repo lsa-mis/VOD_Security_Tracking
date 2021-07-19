@@ -47,7 +47,7 @@ class LegacyOsRecordsController < InheritedResources::Base
   end
 
   def show
-    add_breadcrumb(@legacy_os_record.display_name)
+    add_breadcrumb(@legacy_os_record.device.display_hostname)
     authorize @legacy_os_record
   end
 
