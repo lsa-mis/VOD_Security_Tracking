@@ -1,22 +1,12 @@
-<%= form_with(model: @sensitive_data_system, html: {
-  local: true
-},
- data: {
-  controller: "sensitiveds",
-  target: "sensitiveds.form",
-  action: "submit->sensitiveds#submitForm"
-}) do |form| %>
-  <% if @sensitive_data_system.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@sensitive_data_system.errors.count, "error") %> prohibited this sensitive_data_system from being saved:</h2>
-
-      <ul>
-        <% @sensitive_data_system.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= form_with(model: @sensitive_data_system, 
+              html: {local: true },
+              data: {
+                controller: "sensitiveds",
+                target: "sensitiveds.form",
+                action: "submit->sensitiveds#submitForm"
+              }
+  ) do |form| %>
+  <%= render "partials/errors", object: @sensitive_data_system %>
 
   <div class="form-container">
     <div>
