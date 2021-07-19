@@ -45,7 +45,7 @@
       </div>
 
       <div class="field">
-        <%= form.label :dpa_exception_status_id %>
+        <%= form.label :dpa_exception_status_id, "Status" %>
         <%= form.collection_select :dpa_exception_status_id, DpaExceptionStatus.all, :id, :name, {include_blank: "Select"}, required: true %>
         <p class="help-text">Help text if needed</p>
       </div>
