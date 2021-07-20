@@ -88,14 +88,14 @@ DataType.create!([
   {name: 'OSID', description: 'Other Sensitive Institutional Data', description_link: 'https://safecomputing.umich.edu/dataguide/?q=node/150', data_classification_level_id: DataClassificationLevel.find_by(name: 'Moderate').id}
   ])
 
-SensitiveDataSystemType.create!([ 
-  {name: 'Computer', description: 'computer thing'},
-  {name: 'Google Drive', description: 'Cloud storage'}
-  ])
-
 DpaExceptionStatus.create!([ 
   {name: 'In Process', description: 'pending operations to complete'},
   {name: 'Approved', description: 'approval applied'},
   {name: 'Denied', description: 'declined exception'},
   {name: 'Not Pursued', description: 'will not follow up on processing'}
+  ])
+
+  AccessLookup.create!([
+    {ldap_group: 'lsa-vod-admins', table: 'admin_interface', action: 'all_actions'},
+    {ldap_group: 'lsa-vod-devs', table: 'admin_interface', action: 'all_actions'}
   ])
