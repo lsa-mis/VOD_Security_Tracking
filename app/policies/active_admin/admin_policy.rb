@@ -6,8 +6,7 @@ module ActiveAdmin
       raise Pundit::NotAuthorizedError, "must be logged in" unless user
       @user = user
       @record = record
-      # @admins_groups = ['lsa-vod-admins', 'lsa-vod-devs']
-      @admins_groups = ['lsa-vod-devs-unprivileged']
+      get_admin_groups
       # Rails.logger.debug "************************** membership #{$membership}"
     end
 
@@ -39,6 +38,11 @@ module ActiveAdmin
 
     def destroy?
       ($membership & @admins_groups).any?
+    end
+
+    def get_admin_groups
+      @admins_groups = ['lsa-vod-devs-unprivileged']
+      # @admins_groups = ['lsa-vod-admins', 'lsa-vod-devs']
     end
 
 
