@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
   end
 
   def admin_access_denied(exception)
-    flash[:allert] = "You are not authorized to perform this action."
+    flash[:alert] = "You are not authorized to perform this action."
     # render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
     redirect_to(request.referrer || root_path)
   end
@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
     def set_membership
       if user_signed_in?
         current_user.membership = session[:user_memberships]
-        $membership = session[:user_memberships]
+        # $membership = session[:user_memberships]
       else
         new_user_session_path
       end

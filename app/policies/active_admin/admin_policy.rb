@@ -7,20 +7,18 @@ module ActiveAdmin
       @user = user
       @record = record
       get_admin_groups
-      # Rails.logger.debug "************************** membership #{$membership}"
     end
 
     def index?
-      true
-      # ($membership & @admins_groups).any?
+      (user.membership & @admins_groups).any?
     end
 
     def show?
-      ($membership & @admins_groups).any?
+      (user.membership & @admins_groups).any?
     end
 
     def create?
-      ($membership & @admins_groups).any?
+      (user.membership & @admins_groups).any?
     end
 
     def new?
@@ -28,8 +26,7 @@ module ActiveAdmin
     end
 
     def update?
-      # ($membership & @admins_groups).any?
-      true
+      (user.membership & @admins_groups).any?
     end
 
     def edit?
@@ -37,14 +34,12 @@ module ActiveAdmin
     end
 
     def destroy?
-      ($membership & @admins_groups).any?
+      (user.membership & @admins_groups).any?
     end
 
     def get_admin_groups
-      @admins_groups = ['lsa-vod-devs-unprivileged']
-      # @admins_groups = ['lsa-vod-admins', 'lsa-vod-devs']
+      @admins_groups = AccessLookup.where(table: 'admin_interface').pluck(:ldap_group)
     end
-
 
     class Scope < Struct.new(:user, :scope)
       def resolve
