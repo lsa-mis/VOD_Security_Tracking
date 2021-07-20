@@ -5,8 +5,8 @@ class ApplicationController < ActionController::Base
   include Pagy::Backend
 
   include Pundit
-  after_action :verify_authorized, except: :index, unless: :active_admin_controller?
-  after_action :verify_policy_scoped, except: :index, unless: :active_admin_controller?
+  # after_action :verify_authorized, except: :index, unless: :active_admin_controller?
+  # after_action :verify_policy_scoped, except: :index, unless: :active_admin_controller?
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   rescue_from DeviseLdapAuthenticatable::LdapException do |exception|
@@ -30,6 +30,12 @@ class ApplicationController < ActionController::Base
     @delete_file = ActiveStorage::Attachment.find(params[:id])
     @delete_file.purge
     redirect_back(fallback_location: request.referer)
+  end
+
+  def admin_access_denied(exception)
+    flash[:allert] = "You are not authorized to perform this action."
+    # render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+    redirect_to(request.referrer || root_path)
   end
 
   private
@@ -57,7 +63,7 @@ class ApplicationController < ActionController::Base
       redirect_to(request.referrer || root_path)
     end
 
-    def active_admin_controller?
-      is_a?(ActiveAdmin::BaseController) || is_a?(StaticPagesController) || is_a?(DeviseController)
-    end
+    # def active_admin_controller?
+    #   is_a?(ActiveAdmin::BaseController) || is_a?(StaticPagesController) || is_a?(DeviseController)
+    # end
 end

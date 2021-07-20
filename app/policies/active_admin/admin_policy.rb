@@ -12,7 +12,8 @@ module ActiveAdmin
     end
 
     def index?
-      ($membership & @admins_groups).any?
+      true
+      # ($membership & @admins_groups).any?
     end
 
     def show?
@@ -28,7 +29,8 @@ module ActiveAdmin
     end
 
     def update?
-      ($membership & @admins_groups).any?
+      # ($membership & @admins_groups).any?
+      true
     end
 
     def edit?
