@@ -8,6 +8,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
   before_action :set_membership
 
   def index
+    @index_instruction = ApplicationSetting.find_by(page: "Sensitive Data System").index_description
 
     if params[:items].present?
       session[:items] = params[:items]
@@ -56,6 +57,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
   end
 
   def new
+    @form_instruction = ApplicationSetting.find_by(page: "Sensitive Data System").form_instruction
     @sensitive_data_system = SensitiveDataSystem.new
     @device = Device.new
     authorize @sensitive_data_system

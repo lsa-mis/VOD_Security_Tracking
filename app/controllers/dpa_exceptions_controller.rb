@@ -8,6 +8,7 @@ class DpaExceptionsController < InheritedResources::Base
   before_action :set_membership
 
   def index
+    @index_instruction = ApplicationSetting.find_by(page: "DPA Exception").index_description
 
     if params[:items].present?
       session[:items] = params[:items]
@@ -49,6 +50,7 @@ class DpaExceptionsController < InheritedResources::Base
   end
 
   def new
+    @form_instruction = ApplicationSetting.find_by(page: "DPA Exception").form_instruction
     @dpa_exception = DpaException.new
     authorize @dpa_exception
   end

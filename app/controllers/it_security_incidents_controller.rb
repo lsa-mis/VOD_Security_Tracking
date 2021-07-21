@@ -7,6 +7,7 @@ class ItSecurityIncidentsController < InheritedResources::Base
   before_action :set_membership
 
   def index
+    @index_instruction = ApplicationSetting.find_by(page: "IT Security Incident").index_description
 
     if params[:items].present?
       session[:items] = params[:items]
@@ -44,6 +45,7 @@ class ItSecurityIncidentsController < InheritedResources::Base
 
   def new
     @it_security_incident = ItSecurityIncident.new
+    @form_instruction = ApplicationSetting.find_by(page: "IT Security Incident").form_instruction
     authorize @it_security_incident
   end
 

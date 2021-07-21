@@ -8,6 +8,7 @@ class LegacyOsRecordsController < InheritedResources::Base
   before_action :set_membership
 
   def index
+    @index_instruction = ApplicationSetting.find_by(page: "Legacy OS Record").index_description
 
     if params[:items].present?
       session[:items] = params[:items]
@@ -53,6 +54,7 @@ class LegacyOsRecordsController < InheritedResources::Base
   end
 
   def new
+    @form_instruction = ApplicationSetting.find_by(page: "Legacy OS Record").form_instruction
     @legacy_os_record = LegacyOsRecord.new
     @device = Device.new
     authorize @legacy_os_record
