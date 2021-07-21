@@ -37,11 +37,11 @@ RUN ssh-keyscan -t rsa github.com \
   | grep 'SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8'
 
 # install yarn, required by webpacker
-ARG YARN_VERSION=1.22.5
+ARG YARN_VERSION=1.22.10
 RUN npm install -g yarn@${YARN_VERSION}
 
 # install specific bundler version
-ARG BUNDLER_VERSION=2.2.14
+ARG BUNDLER_VERSION=2.2.15
 RUN gem install bundler -v "${BUNDLER_VERSION}"
 
 # install gems
