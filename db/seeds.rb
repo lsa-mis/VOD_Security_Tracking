@@ -99,3 +99,12 @@ DpaExceptionStatus.create!([
   {name: 'Denied', description: 'declined exception'},
   {name: 'Not Pursued', description: 'will not follow up on processing'}
   ])
+
+ApplicationSetting.create!([
+  {page: 'Home', description: 'Add Text to the application Home page', index_description: 'Some text'},
+  {page: 'Dashboard', description: 'Add some text to the Dashboard', index_description: 'Some text'},
+  {page: 'DPA Exception', description: 'Add descriptions to the DPA Exception index page and new form', index_description: 'Some text', form_instruction: 'Some text'},
+  {page: 'IT Security Incident', description: 'Add descriptions to the IT Security Incident index page and new form', index_description: 'Some text', form_instruction: 'Some text'},
+  {page: 'Legacy OS Record', description: 'Add descriptions to the DPA Exception index page and new form', index_description: 'Some text', form_instruction: 'Some text'},
+  {page: 'Sensitive Data System', description: 'Add descriptions to the Sensitive Data System index page and new form', index_description: 'Some text', form_instruction: 'Some text'}
+])

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_12_183517) do
+ActiveRecord::Schema.define(version: 2021_07_21_134929) do
 
   create_table "access_lookups", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "ldap_group"
@@ -60,6 +60,15 @@ ActiveRecord::Schema.define(version: 2021_07_12_183517) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "application_settings", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "page"
+    t.string "description"
+    t.text "index_description"
+    t.text "form_instruction"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "audits", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -113,6 +122,16 @@ ActiveRecord::Schema.define(version: 2021_07_12_183517) do
     t.string "department"
     t.string "manufacturer"
     t.string "model"
+    t.datetime "deleted_at"
+  end
+
+  create_table "dpa_exception_searches", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.datetime "review_date_exception_first_approval_date"
+    t.string "third_party_product_service"
+    t.string "used_by"
+    t.string "point_of_contact"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "dpa_exception_statuses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -199,6 +218,15 @@ ActiveRecord::Schema.define(version: 2021_07_12_183517) do
     t.boolean "incomplete", default: false
     t.index ["data_type_id"], name: "index_legacy_os_records_on_data_type_id"
     t.index ["device_id"], name: "index_legacy_os_records_on_device_id"
+  end
+
+  create_table "search_dpa_exceptions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.datetime "review_date_exception_first_approval_date"
+    t.string "third_party_product_service"
+    t.string "used_by"
+    t.string "point_of_contact"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "sensitive_data_systems", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
