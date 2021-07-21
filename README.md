@@ -9,7 +9,7 @@
 ![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-A way to track resources or systems involving sensitive data. The ability to monitor, track and act on items that are in the scope of this project. System reports will be available to support the goal of providing a secure computing environment. 
+A way to track resources or systems involving sensitive data. Increase the ability to monitor, track and act on items that are in the scope of this project. System reports will be available to support the goal of providing a secure computing environment. 
 
 
 
