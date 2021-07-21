@@ -11,4 +11,7 @@
 #  updated_at        :datetime         not null
 #
 class ApplicationSetting < ApplicationRecord
+
+  validates :page, uniqueness: true, presence: true
+
 end

@@ -15,6 +15,9 @@ ActiveAdmin.register ApplicationSetting do
   #   permitted
   # end
 
+  actions :index, :show, :update, :edit
+  config.filters = false
+
   index do
     selectable_column
     actions
