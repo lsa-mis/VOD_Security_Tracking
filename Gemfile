@@ -10,6 +10,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem 'devise', '~> 4.7', '>= 4.7.3'
 gem 'devise_ldap_authenticatable'
 gem 'duo_web', '~> 1.0'
+gem 'rack-cors'
 gem 'google-cloud-storage', require: false
 gem 'hotwire-rails'
 gem 'jbuilder', '~> 2.7'
