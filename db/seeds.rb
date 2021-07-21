@@ -10,8 +10,8 @@ AccessLookup.create!([
   {ldap_group: 'lsa-vod-admins', table: 'admin_interface', action: 'all_actions'},
   {ldap_group: 'lsa-vod-devs', table: 'admin_interface', action: 'all_actions'},
   {ldap_group: 'lsa-vod-devs', table: 'dpa_exceptions', action: 'all_actions'},
-  {ldap_group: 'lsa-vod-devs', table: 'legacy_os_records,', action: 'all_actions'},
-  {ldap_group: 'lsa-vod-devs', table: 'devices,', action: 'all_actions'}
+  {ldap_group: 'lsa-vod-devs', table: 'legacy_os_records', action: 'all_actions'},
+  {ldap_group: 'lsa-vod-devs', table: 'devices', action: 'all_actions'}
 ])
 
 DataClassificationLevel.create!([
