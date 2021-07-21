@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.0.1'
-gem 'rails', '~> 6.1.3'
+gem 'rails', '~> 6.1.4'
 
 gem 'activeadmin', '~> 2.9'
 gem 'activeadmin_quill_editor', '~> 0.3.4'

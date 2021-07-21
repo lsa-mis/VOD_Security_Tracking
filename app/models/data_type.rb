@@ -19,6 +19,6 @@ class DataType < ApplicationRecord
   audited
 
   def display_name
-    "#{self.name}"
+    "#{self.name} - #{DataClassificationLevel.find(data_classification_level_id).name}"
   end
 end

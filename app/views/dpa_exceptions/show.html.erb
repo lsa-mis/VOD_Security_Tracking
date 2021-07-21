@@ -26,20 +26,20 @@
 <div class="text-lg leading-6 font-medium text-gray-900">
   <%= @dpa_exception.display_name %>
     <p class="mt-1 max-w-2xl text-sm text-gray-500">
-      Exception details.
+      DPA Exception details.
     </p>
 </div>
 <div class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
   <span class="flex-grow"></span>
   <span class="ml-4 flex-shrink-0">
     <ul>
-      <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
+      <% if policy(@dpa_exception).edit? %>
         <li><%= link_to 'Edit', edit_dpa_exception_path(@dpa_exception), class: "action-link" %></li>
       <% end %>
-      <% if has_ad_access?(current_user, "dpa_exceptions", "archive_action") %>
+      <% if policy(@dpa_exception).archive? %>
         <li><%= link_to 'Archive', archive_dpa_exception_path(@dpa_exception), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
       <% end %>
-      <% if has_ad_access?(current_user, "dpa_exceptions", "audit_action") %>
+      <% if policy(@dpa_exception).audit_log? %>
         <li><%= link_to 'Audit', dpa_exception_audit_log_path(@dpa_exception), class: "action-link" %></li>
       <% end %>
     </ul>
@@ -99,7 +99,7 @@
   </div>
   <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
     <dt class="text-sm font-medium text-gray-500">
-      Lsa security recommendation
+      LSA security recommendation
     </dt>
     <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
       <span class="flex-grow"><%= @dpa_exception.lsa_security_recommendation %></span>
@@ -107,7 +107,7 @@
   </div>
   <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
     <dt class="text-sm font-medium text-gray-500">
-      Lsa security determination
+      LSA security determination
     </dt>
     <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
       <span class="flex-grow"><%= @dpa_exception.lsa_security_determination %></span>
@@ -115,7 +115,7 @@
   </div>
   <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
     <dt class="text-sm font-medium text-gray-500">
-      Lsa security approval
+      LSA security approval
     </dt>
     <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
       <span class="flex-grow"><%= @dpa_exception.lsa_security_approval %></span>
@@ -123,7 +123,7 @@
   </div>
   <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
     <dt class="text-sm font-medium text-gray-500">
-      Lsa technology services approval
+      LSA technology services approval
     </dt>
     <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
       <span class="flex-grow"><%= @dpa_exception.lsa_technology_services_approval %></span>
@@ -189,7 +189,7 @@
                 <%= link_to @dpa_exception.sla_attachment.filename, url_for(@dpa_exception.sla_attachment) %>
               </span>
             </div>
-            <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
+            <% if policy(@dpa_exception).edit? %>
               <div class="ml-4 flex-shrink-0 flex space-x-4">
                 <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   <%= link_to 'Update', edit_dpa_exception_path(@dpa_exception, anchor: "sla_agreement_file") %>
@@ -206,7 +206,7 @@
                 you currently do not have an SLA Agreement attached.
               </span>
             </div>
-            <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
+            <% if policy(@dpa_exception).edit? %>
               <div class="ml-4 flex-shrink-0 flex space-x-4">
                 <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   <%= link_to 'Add', edit_dpa_exception_path(@dpa_exception) %>

@@ -69,7 +69,6 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.default_options = {from: 'lsats-vod-support@umich.edu'}
 
-
   # Devise setting - Ensure you have defined default url options
   config.action_mailer.default_url_options = { host: 'vodsecurityproduction.miserver.it.umich.edu' }
 

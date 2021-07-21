@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :set_breadcrumbs
+  before_action :set_membership
 
   include Pagy::Backend
 

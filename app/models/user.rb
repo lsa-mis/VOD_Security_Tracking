@@ -25,13 +25,19 @@ class User < ApplicationRecord
   devise :ldap_authenticatable, :rememberable, :trackable, :timeoutable,
          :lockable
 
+  scope :recent, -> { where("current_sign_in_at > ?", 2.days.ago) }
+  
   def display_name
     "#{self.username} - #{email}"
+  end
+
+  def display_login_info
+    "#{self.username} - #{email} Last logged in at: #{self.current_sign_in_at}"
   end
 
   private
  
   def set_email_address
-   self.email = Devise::LDAP::Adapter.get_ldap_param(self.username,"mail")
+   self.email = Devise::LDAP::Adapter.get_ldap_param(self.username,"mail")[0]
   end
 end

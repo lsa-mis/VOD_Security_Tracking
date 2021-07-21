@@ -31,14 +31,14 @@
                 <td>
                 <ul>
                     <li><%= link_to 'Show', dpa_exception, class: "action-link" %></li>
-                    <% if has_ad_access?(current_user, "dpa_exceptions", "newedit_action") %>
-                    <li><%= link_to 'Edit', edit_dpa_exception_path(dpa_exception), class: "action-link" %></li>
+                    <% if policy(dpa_exception).edit? %>
+                      <li><%= link_to 'Edit', edit_dpa_exception_path(dpa_exception), class: "action-link" %></li>
                     <% end %>
-                    <% if has_ad_access?(current_user, "dpa_exceptions", "archive_action") %>
-                    <li><%= link_to 'Archive', archive_dpa_exception_path(dpa_exception), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
+                    <% if policy(dpa_exception).archive? %>
+                      <li><%= link_to 'Archive', archive_dpa_exception_path(dpa_exception), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
                     <% end %>
-                    <% if has_ad_access?(current_user, "dpa_exceptions", "audit_action") %>
-                    <li><%= link_to 'Audit', dpa_exception_audit_log_path(dpa_exception), class: "action-link" %></li>
+                    <% if policy(dpa_exception).audit_log? %>
+                      <li><%= link_to 'Audit', dpa_exception_audit_log_path(dpa_exception), class: "action-link" %></li>
                     <% end %>
                 </ul>
                 </td> 

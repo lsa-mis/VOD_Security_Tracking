@@ -4,7 +4,6 @@ class ItSecurityIncidentsController < InheritedResources::Base
   before_action :authenticate_logged_in!
   before_action :set_it_security_incident, only: [:show, :edit, :update, :archive, :audit_log]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
-  before_action :set_membership
 
   def index
     @index_instruction = ApplicationSetting.find_by(page: "IT Security Incident").index_description
@@ -120,7 +119,7 @@ class ItSecurityIncidentsController < InheritedResources::Base
     end
 
     def add_index_breadcrumb
-      add_breadcrumb(controller_name.titleize, it_security_incidents_path)
+      add_breadcrumb("IT Security Incidents", it_security_incidents_path)
     end
 
     def it_security_incident_params

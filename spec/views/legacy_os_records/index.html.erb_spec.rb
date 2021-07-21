@@ -6,12 +6,12 @@ RSpec.describe "legacy_os_records/index", type: :view do
       LegacyOsRecord.create!(
         owner_username: "Owner Username",
         owner_full_name: "Owner Full Name",
-        dept: "Dept",
+        dept: "Department",
         phone: "Phone",
-        additional_dept_contact: "Additional Dept Contact",
-        additional_dept_contact_phone: "Additional Dept Contact Phone",
+        additional_dept_contact: "Additional Department Contact",
+        additional_dept_contact_phone: "Additional Department Contact Phone",
         support_poc: "Support Poc",
-        legacy_os: "Legacy Os",
+        legacy_os: "Legacy OS",
         unique_app: "Unique App",
         unique_hardware: "Unique Hardware",
         remediation: "Remediation",
@@ -25,12 +25,12 @@ RSpec.describe "legacy_os_records/index", type: :view do
       LegacyOsRecord.create!(
         owner_username: "Owner Username",
         owner_full_name: "Owner Full Name",
-        dept: "Dept",
+        dept: "Department",
         phone: "Phone",
-        additional_dept_contact: "Additional Dept Contact",
-        additional_dept_contact_phone: "Additional Dept Contact Phone",
+        additional_dept_contact: "Additional Department Contact",
+        additional_dept_contact_phone: "Additional Department Contact Phone",
         support_poc: "Support Poc",
-        legacy_os: "Legacy Os",
+        legacy_os: "Legacy OS",
         unique_app: "Unique App",
         unique_hardware: "Unique Hardware",
         remediation: "Remediation",
@@ -48,12 +48,12 @@ RSpec.describe "legacy_os_records/index", type: :view do
     render
     assert_select "tr>td", text: "Owner Username".to_s, count: 2
     assert_select "tr>td", text: "Owner Full Name".to_s, count: 2
-    assert_select "tr>td", text: "Dept".to_s, count: 2
+    assert_select "tr>td", text: "Department".to_s, count: 2
     assert_select "tr>td", text: "Phone".to_s, count: 2
-    assert_select "tr>td", text: "Additional Dept Contact".to_s, count: 2
-    assert_select "tr>td", text: "Additional Dept Contact Phone".to_s, count: 2
+    assert_select "tr>td", text: "Additional Department Contact".to_s, count: 2
+    assert_select "tr>td", text: "Additional Department Contact Phone".to_s, count: 2
     assert_select "tr>td", text: "Support Poc".to_s, count: 2
-    assert_select "tr>td", text: "Legacy Os".to_s, count: 2
+    assert_select "tr>td", text: "Legacy OS.to_s, count: 2
     assert_select "tr>td", text: "Unique App".to_s, count: 2
     assert_select "tr>td", text: "Unique Hardware".to_s, count: 2
     assert_select "tr>td", text: "Remediation".to_s, count: 2

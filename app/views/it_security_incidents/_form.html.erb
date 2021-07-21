@@ -1,15 +1,5 @@
 <%= form_with(model: @it_security_incident, local: true) do |form| %>
-  <% if @it_security_incident.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@it_security_incident.errors.count, "error") %> prohibited this it_security_incident from being saved:</h2>
-
-      <ul>
-        <% @it_security_incident.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render "partials/errors", object: @it_security_incident %>
 
   <div class="form-container">
     <div class="form-instruction">
@@ -68,7 +58,7 @@
       </div>
 
       <div class="field">
-        <%= form.label :it_security_incident_status_id %>
+        <%= form.label :it_security_incident_status_id, "IT security incident status" %>
         <%= form.collection_select :it_security_incident_status_id, ItSecurityIncidentStatus.all, :id, :name, {include_blank: "Select"}, required: true %>
       </div>
 
@@ -145,9 +135,6 @@
           </div>
         <% end %>
       </div>
-
-      <%= form.hidden_field :incomplete %>
-
     </div>
   </div>
 

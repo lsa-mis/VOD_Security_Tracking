@@ -35,4 +35,10 @@ class LegacyOsRecordPolicy < ApplicationPolicy
       get_ldap_groups('legacy_os_records', 'audit_action')
       (user.membership & @ldap_groups).any?
     end
+
+    def any_action?
+      get_ldap_groups('legacy_os_records')
+      (user.membership & @ldap_groups).any?
+    end
+
   end

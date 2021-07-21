@@ -1,4 +1,4 @@
-<h1>Legacy Os Records</h1>
+<h1>Legacy OS Records</h1>
 
 <div class="index-instruction" >
     <%== @index_instruction %>
@@ -39,7 +39,7 @@
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :dept %>
+            <%= f.label :dept, "Department" %>
             <div class="w-1/2 pl-2">
               <%= f.select :dept_eq, @dept, include_blank: "Select ...", class: 'form-control' %>
             </div>
@@ -51,13 +51,13 @@
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :additional_dept_contact %>
+            <%= f.label :additional_dept_contact, "Additional Department Contact" %>
             <div class="w-1/2 pl-2">
               <%= f.select :additional_dept_contact_eq, @additional_dept_contact, include_blank: "Select ...", class: 'form-control' %>
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :additional_dept_contact_phone %>
+            <%= f.label :additional_dept_contact_phone, "Additional Department Contact Phone" %>
             <div class="w-1/2 pl-2">
               <%= f.text_field :additional_dept_contact_phone_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
@@ -69,7 +69,7 @@
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :legacy_os %>
+            <%= f.label :legacy_os, "Legacy OS" %>
             <div class="w-1/2 pl-2">
               <%= f.select :legacy_os_eq, @legacy_os, include_blank: "Select ...", class: 'form-control' %>
             </div>
@@ -159,7 +159,7 @@
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :local_it_support_group %>
+            <%= f.label :local_it_support_group, "Local IT support group" %>
             <div class="w-1/2 pl-2">
               <%= f.select :local_it_support_group_eq, @local_it_support_group, include_blank: "Select ...", class: 'form-control' %>
             </div>
@@ -193,9 +193,6 @@
               <%= f.collection_select :device_id_eq, @device_hostname, :id, :hostname, include_blank: "Select ...", class: 'form-control' %>
             </div>
           </div>
-          
-
-
           <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             data-action='click->filters#clearFilters'>
             Clear
@@ -207,18 +204,12 @@
   </div>  
 </div>
 
-
-</div>
-
-
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-  <% if has_ad_access?(current_user, "legacy_os_records", "newedit_action") %>
+<div>
+  <% if policy(@legacy_os_records).new? %>
     <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
-      <%= link_to 'New Legacy Os Record', new_legacy_os_record_path %>
+      <%= link_to 'New Legacy OS Record', new_legacy_os_record_path %>
     </div>
   <% end %>
-
   <%= render partial: "legacy_os_records/listing" %>
-
 </div>
 

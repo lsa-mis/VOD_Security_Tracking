@@ -5,10 +5,10 @@ RSpec.describe "sensitive_data_systems/show", type: :view do
     @sensitive_data_system = assign(:sensitive_data_system, SensitiveDataSystem.create!(
       owner_username: "Owner Username",
       owner_full_name: "Owner Full Name",
-      dept: "Dept",
+      dept: "Department",
       phone: "Phone",
-      additional_dept_contact: "Additional Dept Contact",
-      additional_dept_contact_phone: "Additional Dept Contact Phone",
+      additional_dept_contact: "Additional Department Contact",
+      additional_dept_contact_phone: "Additional Department Contact Phone",
       support_poc: "Support Poc",
       expected_duration_of_data_retention: "MyText",
       agreements_related_to_data_types: "Agreements Related To Data Types",
@@ -24,10 +24,10 @@ RSpec.describe "sensitive_data_systems/show", type: :view do
     render
     expect(rendered).to match(/Owner Username/)
     expect(rendered).to match(/Owner Full Name/)
-    expect(rendered).to match(/Dept/)
+    expect(rendered).to match(/Department/)
     expect(rendered).to match(/Phone/)
-    expect(rendered).to match(/Additional Dept Contact/)
-    expect(rendered).to match(/Additional Dept Contact Phone/)
+    expect(rendered).to match(/Additional Department Contact/)
+    expect(rendered).to match(/Additional Department Contact Phone/)
     expect(rendered).to match(/Support Poc/)
     expect(rendered).to match(/MyText/)
     expect(rendered).to match(/Agreements Related To Data Types/)

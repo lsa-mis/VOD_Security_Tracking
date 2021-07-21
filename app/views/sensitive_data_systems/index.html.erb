@@ -45,7 +45,7 @@
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :dept %>
+            <%= f.label :dept, "Department"  %>
             <div class="w-1/2 pl-2">
               <%= f.select :dept_eq, @dept, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
             </div>
@@ -57,13 +57,13 @@
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :additional_dept_contact %>
+            <%= f.label :additional_dept_contact, "Additional department contact" %>
             <div class="w-1/2 pl-2">
               <%= f.select :additional_dept_contact_eq, @additional_dept_contact, include_blank: "Select ...", placeholder: "Contains", class: 'form-control' %>
             </div>
           </div>
           <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :additional_dept_contact_phone %>
+            <%= f.label :additional_dept_contact_phone, "Additional department contact phone" %>
             <div class="w-1/2 pl-2">
               <%= f.text_field :additional_dept_contact_phone_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
@@ -163,7 +163,7 @@
 </div>
 
 <div>
-  <% if has_ad_access?(current_user, "sensitive_data_systems", "newedit_action") %>
+  <% if policy(@sensitive_data_systems).edit? %>
     <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
       <%= link_to 'New Sensitive Data System', new_sensitive_data_system_path %>
     </div>

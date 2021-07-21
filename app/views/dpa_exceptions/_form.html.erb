@@ -1,15 +1,5 @@
 <%= form_with(model: @dpa_exception, local: true) do |form| %>
-  <% if @dpa_exception.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@dpa_exception.errors.count, "error") %> prohibited this
-       dpa_exception from being saved:</h2>
-      <ul>
-        <% @dpa_exception.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render "partials/errors", object: @dpa_exception %>
 
   <div class="form-container">
     <div class="form-instruction">
@@ -40,7 +30,7 @@
       </div>
 
       <div class="field">
-        <%= form.label :dpa_exception_status_id %>
+        <%= form.label :dpa_exception_status_id, "Status" %>
         <%= form.collection_select :dpa_exception_status_id, DpaExceptionStatus.all, :id, :name, {include_blank: "Select"}, required: true %>
         <p class="help-text">Help text if needed</p>
       </div>
@@ -76,25 +66,25 @@
       </div>
 
       <div class="field">
-        <%= form.label :lsa_security_recommendation %>
+        <%= form.label :lsa_security_recommendation, "LSA security recommendation" %>
         <%= form.text_area :lsa_security_recommendation %>
         <p class="help-text">Help text if needed</p>
       </div>
 
       <div class="field">
-        <%= form.label :lsa_security_determination %>
+        <%= form.label :lsa_security_determination, "LSA security determination" %>
         <%= form.text_area :lsa_security_determination %>
         <p class="help-text">Help text if needed</p>
       </div>
 
       <div class="field">
-        <%= form.label :lsa_security_approval%>
+        <%= form.label :lsa_security_approval, "LSA security approval"%>
         <%= form.text_field :lsa_security_approval %>
         <p class="help-text">Help text if needed</p>
       </div>
 
       <div class="field">
-        <%= form.label :lsa_technology_services_approval%>
+        <%= form.label :lsa_technology_services_approval, "LSA technology services approval" %>
         <%= form.text_field :lsa_technology_services_approval %>
         <p class="help-text">Help text if needed</p>
       </div>
@@ -234,9 +224,6 @@
           </div>
         <% end %>
       </div>
-
-      <%= form.hidden_field :incomplete %>
-
     </div>
   </div>
 

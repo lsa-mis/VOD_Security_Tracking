@@ -5,7 +5,6 @@ class LegacyOsRecordsController < InheritedResources::Base
   before_action :set_legacy_os_record, only: [:show, :edit, :update, :archive, :audit_log]
   before_action :get_access_token, only: [:create, :update]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
-  before_action :set_membership
 
   def index
     @index_instruction = ApplicationSetting.find_by(page: "Legacy OS Record").index_description
@@ -49,7 +48,7 @@ class LegacyOsRecordsController < InheritedResources::Base
   end
 
   def show
-    add_breadcrumb(@legacy_os_record.display_name)
+    add_breadcrumb(@legacy_os_record.device.display_hostname)
     authorize @legacy_os_record
   end
 
@@ -176,7 +175,7 @@ class LegacyOsRecordsController < InheritedResources::Base
     end
       
     def add_index_breadcrumb
-      add_breadcrumb(controller_name.titleize, legacy_os_records_path)
+      add_breadcrumb("Legacy OS Records", legacy_os_records_path)
     end
 
     def legacy_os_record_params
