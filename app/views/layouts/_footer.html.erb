@@ -2,13 +2,13 @@
   <div class="col-span-1 justify-self-start">
   </div>
   <div class="col-span-2 justify-self-center">
-    <div class="inline-block">
+    <div class="inline-block" data-controller="feedback">
       <i class="ml-2 inline-block fa fa-phone" aria-hidden="true""></i>
       <span>734.615.0100</span>
       <i class="ml-2 inline-block fa fa-envelope" aria-hidden="true""></i>
       <span><%= mail_to "LSATechnologyServices@umich.edu", "LSATechnologyServices@umich.edu", class: "footer-link" %></span>
       <i class="ml-2 inline-block fa fa-comments" aria-hidden="true""></i>
-      <span>Report Issue</span>
+      <a id="myCustomTrigger" href="#" data-action="feedback#report">Report Issue</a> 
     </div>
   </div>
   <% if @admin_access %>
