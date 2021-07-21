@@ -12,6 +12,7 @@ import Rails from "@rails/ujs"
 
 import "../layouts/application.sass"
 import "../layouts/forms.sass"
+import "../layouts/instructions.sass"
 import "@fortawesome/fontawesome-free/css/all"
 
 import './pagy.js.erb'
