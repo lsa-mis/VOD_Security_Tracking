@@ -1,5 +1,5 @@
 <h1 class="text-3xl font-bold text-center my-20">VOD Tools</h1>
 
 <div class="home-page-text" >
-    <%== @home_page_text %>
+    <%= safe_join([raw(@home_page_text)]) %>
 </div>

@@ -1,7 +1,7 @@
 <h1>Sensitive Data Systems</h1>
 
 <div class="index-instruction" >
-    <%== @index_instruction %>
+    <%= safe_join([raw(@index_instruction)]) %>
 </div>
 
 <div data-controller='toggle' class="m-2">

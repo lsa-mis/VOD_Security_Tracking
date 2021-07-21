@@ -1,4 +1,4 @@
 <h1>Dashboard</h1>
 <div class="dashboard-text" >
-    <%== @dashboard_text %>
+    <%= safe_join([raw(@dashboard_text)]) %>
 </div>

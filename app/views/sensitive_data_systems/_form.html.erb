@@ -14,7 +14,7 @@
         Form Instructions
       </h3>
       <p>
-        <%== @form_instruction %>
+        <%= safe_join([raw(@form_instruction)]) %>
       </p>
     </div>
 
