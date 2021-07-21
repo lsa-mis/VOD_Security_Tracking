@@ -34,7 +34,6 @@ class ApplicationController < ActionController::Base
 
   def admin_access_denied(exception)
     flash[:alert] = "You are not authorized to perform this action."
-    # render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
     redirect_to(request.referrer || root_path)
   end
 
@@ -43,7 +42,10 @@ class ApplicationController < ActionController::Base
     def set_membership
       if user_signed_in?
         current_user.membership = session[:user_memberships]
-        # $membership = session[:user_memberships]
+        if current_user.membership.present?
+          admins_groups = AccessLookup.where(table: 'admin_interface').pluck(:ldap_group)
+          @admin_access = (current_user.membership & admins_groups).any?
+        end
       else
         new_user_session_path
       end

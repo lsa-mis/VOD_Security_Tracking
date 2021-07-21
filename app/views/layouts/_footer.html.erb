@@ -11,7 +11,7 @@
       <span>Report Issue</span>
     </div>
   </div>
-  <% if session[:user_memberships] && (session[:user_memberships] & ['lsa-vod-admins', 'lsa-vod-devs']).any? %>
+  <% if @admin_access %>
     <div class="col-span-1 justify-self-end justify-items-end">
       <div class="inline-block">
         <%= link_to 'Admin Dashboard', admin_root_path, class: "footer-link mt-2 pr-4" %>
