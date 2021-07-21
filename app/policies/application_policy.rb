@@ -7,43 +7,6 @@ class ApplicationPolicy
     @record = record
   end
 
-  # def index?
-  #   false
-  # end
-
-  # def show?
-  #   false
-  # end
-
-  # def create?
-  #   false
-  # end
-
-  # # def new?
-  # #   create?
-  # # end
-
-  # # def new?
-  # #   ldap_group = AccessLookup.where(table: "dpa_exceptions", action: "new").pluck(:ldap_group)
-  # #   if (user.membership & ldap_group).any?
-  # #     return true
-  # #   else 
-  # #     return false
-  # #   end
-  # # end
-
-  # def update?
-  #   false
-  # end
-
-  # def edit?
-  #   update?
-  # end
-
-  # def destroy?
-  #   false
-  # end
-
   def get_ldap_groups(table, action=nil)
     case action
     when  'newedit_action',
@@ -55,6 +18,11 @@ class ApplicationPolicy
       @ldap_groups = AccessLookup.where(table: table).pluck(:ldap_group)
     else
       @ldap_groups = []
+    end
+  end
+  class Scope < Struct.new(:user, :scope)
+    def resolve
+      scope
     end
   end
 end

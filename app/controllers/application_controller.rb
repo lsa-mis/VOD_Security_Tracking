@@ -3,8 +3,8 @@ class ApplicationController < ActionController::Base
   before_action :set_membership
 
   include Pagy::Backend
-
   include Pundit
+
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   rescue_from DeviseLdapAuthenticatable::LdapException do |exception|
@@ -30,11 +30,20 @@ class ApplicationController < ActionController::Base
     redirect_back(fallback_location: request.referer)
   end
 
+  def admin_access_denied(exception)
+    flash[:alert] = "You are not authorized to perform this action."
+    redirect_to(request.referrer || root_path)
+  end
+
   private
 
     def set_membership
       if user_signed_in?
         current_user.membership = session[:user_memberships]
+        if current_user.membership.present?
+          admins_groups = AccessLookup.where(table: 'admin_interface').pluck(:ldap_group)
+          @admin_access = (current_user.membership & admins_groups).any?
+        end
       else
         new_user_session_path
       end
@@ -46,7 +55,6 @@ class ApplicationController < ActionController::Base
 
     def after_sign_in_path_for(resource)
       duo_path
-      # dashboard_path
     end  
 
     def user_not_authorized

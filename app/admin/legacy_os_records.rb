@@ -15,7 +15,7 @@ ActiveAdmin.register LegacyOsRecord do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
-  
+
   scope :archived
   scope :active, :default => true
   

@@ -18,5 +18,5 @@ ActiveAdmin.register ItSecurityIncident do
   
   scope :archived
   scope :active, :default => true
-  
+
 end
