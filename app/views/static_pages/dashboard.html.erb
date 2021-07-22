@@ -4,7 +4,8 @@
 <div class="dashboard-text">
   <%= @dashbord_text.content %>
 </div>
-
-<div>
- <%= link_to 'Edit', edit_application_setting_path(@dashbord_text), class: "action-link" %>
-</div>
+<% if policy(ApplicationSetting).edit? %>
+  <div>
+  <%= link_to 'Edit', edit_application_setting_path(@dashbord_text), class: "action-link" %>
+  </div>
+<% end %>

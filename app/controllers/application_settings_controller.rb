@@ -1,21 +1,25 @@
 class ApplicationSettingsController < ApplicationController
 
-  before_action :set_application_setting, only: [:show, :edit, :update, :destroy]
+  before_action :set_application_setting, only: [:show, :edit, :update]
 
   def index
     @application_settings = ApplicationSetting.all.with_rich_text_content
+    authorize @application_settings
   end
 
   def show
+    authorize @application_setting
   end
 
   def new
     @application_setting = ApplicationSetting.new
     session[:return_to] = request.referer
+    authorize @application_setting
   end
 
   def edit
     session[:return_to] = request.referer
+    authorize @application_setting
   end
 
   def create
@@ -42,18 +46,6 @@ class ApplicationSettingsController < ApplicationController
       end
     end
   end
-
-  def destroy
-    @application_setting.destroy
-    respond_to do |format|
-      format.html { redirect_to application_settings_url, notice: 'application_setting was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
-
-    def set_application_setting
-      @application_setting = ApplicationSetting.find(params[:id])
-    end
 
   private
 

@@ -25,7 +25,8 @@ class AccessLookup < ApplicationRecord
     :legacy_os_records,
     :sensitive_data_systems,
     :devices,
-    :admin_interface
+    :admin_interface,
+    :application_settings
   ]
 
   validates :ldap_group, presence: true

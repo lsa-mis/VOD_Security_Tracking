@@ -7,7 +7,7 @@
   <div class="mt-1 flex text-sm text-gray-900 sm:mt-0">
     <span class="flex-grow"></span>
     <span class="ml-4 flex-shrink-0">
-      <% if policy(DpaException).edit? %>
+      <% if policy(ApplicationSetting).edit? %>
         <%= link_to 'Edit the description', edit_application_setting_path(@dpa_exception_index_text), class: "action-link" %>
       <% end %>
     </span>

@@ -4,6 +4,10 @@
   <%= @home_text.content %>
 </div>
 
-<div>
- <%= link_to 'Edit', edit_application_setting_path(@home_text), class: "action-link" %>
-</div>
+<% if current_user.present? %>
+  <% if policy(ApplicationSetting).edit? %>
+    <div>
+    <%= link_to 'Edit', edit_application_setting_path(@home_text), class: "action-link" %>
+    </div>
+  <% end %>
+<% end %>
