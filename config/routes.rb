@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :application_settings
   root to: 'static_pages#home'
   devise_for :users, controllers: {
     sessions: 'users/sessions'

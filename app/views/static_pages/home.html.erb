@@ -1,9 +1,9 @@
 <h1 class="text-3xl font-bold text-center my-20">VOD Tools</h1>
 
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin tortor purus platea sit eu id nisi litora libero. Neque vulputate consequat ac amet augue blandit maximus aliquet congue. Pharetra vestibulum posuere ornare faucibus fusce dictumst orci aenean eu facilisis ut volutpat commodo senectus purus himenaeos fames primis convallis nisi.
-</p>
+<div>
+  <%= @home_text.content %>
+</div>
 
-<p> 
-Phasellus fermentum malesuada phasellus netus dictum aenean placerat egestas amet. Ornare taciti semper dolor tristique morbi. Sem leo tincidunt aliquet semper eu lectus scelerisque quis. Sagittis vivamus mollis nisi mollis enim fermentum laoreet.
-</p>
+<div>
+ <%= link_to 'Edit', edit_application_setting_path(@home_text), class: "action-link" %>
+</div>
