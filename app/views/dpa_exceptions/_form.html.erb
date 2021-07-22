@@ -2,18 +2,23 @@
   <%= render "partials/errors", object: @dpa_exception %>
 
   <div class="form-container">
-    <div>
-      <h3 class="instruction-header">
-        Form Instructions
-      </h3>
-      <p>Ipsum voluptate aliquip adipisicing labore sint amet officia commodo 
-      duis laboris do sit. Labore veniam mollit commodo quis nisi esse aute 
-      fugiat. Amet exercitation aliquip labore ullamco irure magna tempor ad 
-      sit aliqua culpa. Aliquip occaecat dolore Lorem officia incididunt amet 
-      nisi nulla amet aute ex aute. Proident labore fugiat commodo ipsum ut 
-      Lorem aliquip officia reprehenderit. Laboris dolore amet non irure do 
-      voluptate nisi ex. Magna ullamco veniam exercitation duis esse officia 
-      duis labore tempor sunt mollit.</p>
+    <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+      <div class="form-instruction sm:col-span-2">
+        <h3 class="instruction-header">
+          Form Instructions
+        </h3>
+        <p>
+          <%= @dpa_exception_form_text.content %>
+        </p>
+      </div>
+      <div class="mt-1 flex text-sm text-gray-900 sm:mt-0">
+        <span class="flex-grow"></span>
+        <span class="ml-4 flex-shrink-0">
+          <% if policy(@dpa_exception).edit? %>
+            <%= link_to 'Edit the instruction', edit_application_setting_path(@dpa_exception_form_text), class: "action-link" %>
+          <% end %>
+        </span>
+      </div>
     </div>
 
     <div class="field-container">

@@ -7,6 +7,7 @@ class DpaExceptionsController < InheritedResources::Base
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
 
   def index
+    @dpa_exception_index_text = ApplicationSetting.find_by(title: "dpa_exception_index")
 
     if params[:items].present?
       session[:items] = params[:items]
@@ -49,6 +50,7 @@ class DpaExceptionsController < InheritedResources::Base
 
   def new
     @dpa_exception = DpaException.new
+    @dpa_exception_form_text = ApplicationSetting.find_by(title: "dpa_exception_form")
     authorize @dpa_exception
   end
 
