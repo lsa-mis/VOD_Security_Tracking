@@ -13,9 +13,6 @@ form
   .instruction-container
     @apply mt-1 text-sm text-gray-500
 
-  .required
-    @apply text-red-600
-
   .mandatory
     @apply text-yellow-600
 
@@ -51,3 +48,9 @@ form
 
   .action-area
     @apply pt-5 flex justify-start
+
+  .required
+    @apply text-red-600 mt-2 text-sm
+
+    &:before
+      content: "This field is required "
