@@ -23,28 +23,28 @@
 <% end %>
 
 <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-<div class="text-lg leading-6 font-medium text-gray-900">
-  <%= @dpa_exception.display_name %>
-    <p class="mt-1 max-w-2xl text-sm text-gray-500">
-      DPA Exception details.
-    </p>
-</div>
-<div class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-  <span class="flex-grow"></span>
-  <span class="ml-4 flex-shrink-0">
-    <ul>
-      <% if policy(@dpa_exception).edit? %>
-        <li><%= link_to 'Edit', edit_dpa_exception_path(@dpa_exception), class: "action-link" %></li>
-      <% end %>
-      <% if policy(@dpa_exception).archive? %>
-        <li><%= link_to 'Archive', archive_dpa_exception_path(@dpa_exception), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
-      <% end %>
-      <% if policy(@dpa_exception).audit_log? %>
-        <li><%= link_to 'Audit', dpa_exception_audit_log_path(@dpa_exception), class: "action-link" %></li>
-      <% end %>
-    </ul>
-  </span>
-</div>
+  <div class="text-lg leading-6 font-medium text-gray-900">
+    <%= @dpa_exception.display_name %>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">
+        DPA Exception details.
+      </p>
+  </div>
+  <div class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+    <span class="flex-grow"></span>
+    <span class="ml-4 flex-shrink-0">
+      <ul>
+        <% if policy(@dpa_exception).edit? %>
+          <li><%= link_to 'Edit', edit_dpa_exception_path(@dpa_exception), class: "action-link" %></li>
+        <% end %>
+        <% if policy(@dpa_exception).archive? %>
+          <li><%= link_to 'Archive', archive_dpa_exception_path(@dpa_exception), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
+        <% end %>
+        <% if policy(@dpa_exception).audit_log? %>
+          <li><%= link_to 'Audit', dpa_exception_audit_log_path(@dpa_exception), class: "action-link" %></li>
+        <% end %>
+      </ul>
+    </span>
+  </div>
 </div>
 
 <div class="mt-5 border-t border-gray-200">
