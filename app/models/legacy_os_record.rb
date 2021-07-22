@@ -62,7 +62,7 @@ class LegacyOsRecord < ApplicationRecord
     return unless attachments.attached?
   
     acceptable_types = [
-      "application/pdf", "text/plain" "image/jpg", 
+      "application/pdf", "text/plain", "image/jpg", 
       "image/jpeg", "image/png", 
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
