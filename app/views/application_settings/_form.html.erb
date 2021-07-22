@@ -1,0 +1,24 @@
+
+<%= form_with(model: application_setting) do |form| %>
+  <%= render "partials/errors", object: @application_setting %>
+
+  <div class="form-container">
+    <div class="field-container">
+      <div class="field">
+        <%= form.label :title %>
+        <%= form.text_field :title %>
+      </div>
+
+      <div class="field">
+        <%= form.label :content %>
+        <%= form.rich_text_area :content %>
+      </div>
+    </div>
+  </div>
+
+  <div class="action-area">
+    <div class="actions">
+      <%= form.button :submit %>
+    </div>
+  </div>
+<% end %>

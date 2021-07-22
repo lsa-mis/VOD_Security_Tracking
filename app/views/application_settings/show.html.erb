@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @application_setting.title %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @application_setting.content %>
+</p>
+
+<%= link_to 'Edit', edit_application_setting_path(@application_setting) %> |
+<%= link_to 'Back', application_settings_path %>
