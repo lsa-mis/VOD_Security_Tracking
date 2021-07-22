@@ -3,6 +3,8 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
+require("trix")
+require("@rails/actiontext")
 
 import "@hotwired/turbo-rails"
 import "channels"
@@ -12,6 +14,7 @@ import Rails from "@rails/ujs"
 
 import "../layouts/application.sass"
 import "../layouts/forms.sass"
+import "../../assets/stylesheets/actiontext.scss"
 import "@fortawesome/fontawesome-free/css/all"
 
 import './pagy.js.erb'
