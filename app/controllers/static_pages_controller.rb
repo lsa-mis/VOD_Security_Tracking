@@ -9,7 +9,7 @@ class StaticPagesController < ApplicationController
 
   def dashboard
     @current_username = current_user.nil? ? current_admin_user.username : current_user.username
-    @dashbord_text = ApplicationSetting.find_by(title: "dashbord")
+    @dashboard_text = ApplicationSetting.find_by(title: "dashboard")
     add_breadcrumb(action_name.titleize)
   end
 
