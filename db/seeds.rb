@@ -107,3 +107,18 @@ StorageLocation.create!([
   {name: 'Yottabyte', description: 'Yottabyte Research Cloud', description_link: 'https://safecomputing.umich.edu/dataguide/?q=node/239'},
   {name: 'Zoom', description: 'Zoom at U-M', description_link: 'https://safecomputing.umich.edu/dataguide/?q=node/248'}
   ])
+
+ApplicationSetting.create!([ 
+  {title: 'dashboard', content: 'some text'},
+  {title: 'home', content: 'some text'},
+  {title: 'dpa_exception_index', content: 'some text'},
+  {title: 'dpa_exception_form', content: 'some text'},
+  {title: 'it_security_incident_index', content: 'some text'},
+  {title: 'it_security_incident_form', content: 'some text'},
+  {title: 'legacy_os_record_index', content: 'some text'},
+  {title: 'legacy_os_record_form', content: 'some text'},
+  {title: 'sensitive_data_system_index', content: 'some text'},
+  {title: 'sensitive_data_system_form', content: 'some text'},
+  {title: 'device_index', content: 'some text'},
+  {title: 'device_form', content: 'some text'}
+  ])
