@@ -107,7 +107,7 @@ class ItSecurityIncidentsController < InheritedResources::Base
                   )
     add_breadcrumb('Audit')
 
-    @it_si_item_audit_log = @it_security_incident.audits.all.reorder(created_at: :desc)
+    @it_security_incident_audit_log = @it_security_incident.audits.all.reorder(created_at: :desc)
   end
 
   private
