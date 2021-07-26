@@ -118,7 +118,7 @@ class DpaExceptionsController < InheritedResources::Base
                   )
     add_breadcrumb('Audit')
 
-    @dpa_item_audit_log = @dpa_exception.audits.all.reorder(created_at: :desc)
+    @dpa_exception_audit_log = @dpa_exception.audits.all.reorder(created_at: :desc)
   end
 
   private
