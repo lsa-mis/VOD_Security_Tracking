@@ -54,3 +54,21 @@ form
 
     &:before
       content: "This field is required "
+
+// error styles
+.field_with_errors
+  @apply p-px bg-red-700 table
+
+  label
+    @apply px-2 text-white
+
+section
+  &.errors
+    @apply m-1 p-1.5 rounded bg-yellow-100 border-2 border-red-700
+
+    h2 
+      @apply text-red-700 text-lg
+
+    h3 
+      @apply text-base mt-1 font-semibold
+
