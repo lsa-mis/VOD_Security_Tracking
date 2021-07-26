@@ -22,7 +22,7 @@
           <% if breadcrumb[:path].nil? %>
               <%= breadcrumb[:label] %>
           <% else %>
-              <%= link_to breadcrumb[:label], breadcrumb[:path] %>
+              <%= link_to breadcrumb[:label], breadcrumb[:path], class: "hover:text-gray-700 underline" %>
           <% end %>
           </span>
         </div>
