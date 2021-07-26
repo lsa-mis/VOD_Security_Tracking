@@ -1,43 +1,44 @@
-<p id="notice"><%= notice %></p>
+<h1>IT Security Incident Audit Log for: <span class="bg-blue-50 px-2 rounded-sm"> <%= @it_security_incident.display_name %></span></h1>
 
-<h3>IT Security Incidents Audit Log</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Action</th>
-      <th>When</th>
-      <th>Who(user_id)</th>
-      <th>What changed</th>
-      <th>IP Address</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @it_si_item_audit_log.each do |audit| %>
+<div class="flex flex-col h-2/3">
+  <div class="flex-grow overflow-auto shadow rounded-md">
+    <table class="relative w-full">
+      <thead>
         <tr>
-          <td class="audit_table"><%= audit.action %></td>
-          <td class="audit_table"><%= audit.created_at.strftime('%c - %Z') %></td>
-          <% if User.find_by(id: audit.user_id).present? %>
-            <td class="audit_table"><%= user_name_email(audit.user_id) %></td>
-          <% else %> 
-            <td><%= audit.user_id %></td>
-          <% end %>
-          <td class="audit_table">
-              <% audit.audited_changes.each do |k, v| %>
-                  <%= k.titleize %>
-                  <% if v.is_a? Array %>
-                    <strong>from:</strong> <%= v[0] %>
-                    <strong>to:</strong> <%= v[1] %>
-                  <% else %>
-                    <strong>to:</strong> <%= v %>
-                  <% end %>
-                  <br>
-              <% end %>
-          </td>
-          <td class="audit_table"><%= audit.remote_address %></td>
+          <th scope="col" class="audit-th">Action</th>
+          <th scope="col" class="audit-th">When</th>
+          <th scope="col" class="audit-th">Who(user_id)</th>
+          <th scope="col" class="audit-th">IP Address</th>
+          <th scope="col" class="audit-th">What changed</th>
         </tr>
-    <% end %>
-</tbody>
-</table>
- 
+      </thead>
+
+      <tbody class="divide-y bg-white">
+        <% @it_security_incident_audit_log.each do |audit| %>
+            <tr>
+              <td class="audit-td"><%= audit.action %></td>
+              <td class="audit-td"><%= audit.created_at.strftime('%c - %Z') %></td>
+              <% if User.find_by(id: audit.user_id).present? %>
+                <td><%= user_name_email(audit.user_id) %></td>
+              <% else %> 
+                <td class="audit-td"><%= audit.user_id %></td>
+              <% end %>
+              <td class="audit-td"><%= audit.remote_address %></td>
+              <td class="px-6 py-4 text-left">
+                  <% audit.audited_changes.each do |k, v| %>
+                      <%= k.titleize %>
+                      <% if v.is_a? Array %>
+                        <strong>from:</strong> <%= v[0] %>
+                        <strong>to:</strong> <%= v[1] %>
+                      <% else %>
+                        <strong>to:</strong> <%= v %>
+                      <% end %>
+                      <br>
+                  <% end %>
+              </td>
+            </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
