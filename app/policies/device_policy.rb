@@ -17,27 +17,27 @@ class DevicePolicy < ApplicationPolicy
     end  
 
     def new?
-      get_ldap_groups('devices', 'newedit_action')
+      get_ldap_groups('devices', 'newedit')
       (user.membership & @ldap_groups).any?
     end
 
     def archive?
-      get_ldap_groups('devices', 'archive_action')
+      get_ldap_groups('devices', 'archive')
       (user.membership & @ldap_groups).any?
     end
 
     def edit?
-      get_ldap_groups('devices', 'newedit_action')
+      get_ldap_groups('devices', 'newedit')
       (user.membership & @ldap_groups).any?
     end
 
     def audit_log?
-      get_ldap_groups('devices', 'audit_action')
+      get_ldap_groups('devices', 'audit')
       (user.membership & @ldap_groups).any?
     end
 
     def destroy?
-      get_ldap_groups('devices', 'archive_action')
+      get_ldap_groups('devices', 'archive')
       (user.membership & @ldap_groups).any?
     end
 

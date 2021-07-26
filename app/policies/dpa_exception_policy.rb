@@ -17,22 +17,22 @@ class DpaExceptionPolicy < ApplicationPolicy
     end  
 
     def new?
-      get_ldap_groups('dpa_exceptions', 'newedit_action')
+      get_ldap_groups('dpa_exceptions', 'newedit')
       (user.membership & @ldap_groups).any?
     end
 
     def archive?
-      get_ldap_groups('dpa_exceptions', 'archive_action')
+      get_ldap_groups('dpa_exceptions', 'archive')
       (user.membership & @ldap_groups).any?
     end
 
     def edit?
-      get_ldap_groups('dpa_exceptions', 'newedit_action')
+      get_ldap_groups('dpa_exceptions', 'newedit')
       (user.membership & @ldap_groups).any?
     end
 
     def audit_log?
-      get_ldap_groups('dpa_exceptions', 'audit_action')
+      get_ldap_groups('dpa_exceptions', 'audit')
       (user.membership & @ldap_groups).any?
     end
 

@@ -6,31 +6,33 @@
 #  ldap_group :string(255)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  table      :integer          default("no_table"), not null
-#  action     :integer          default("show_action"), not null
+#  vod_table  :integer          default(NULL), not null
+#  vod_action :integer          default(NULL), not null
 #
 class AccessLookup < ApplicationRecord
 
-  enum action: [
-    :show_action,
-    :newedit_action,
-    :archive_action,
-    :audit_action,
-    :all_actions
-  ]
-  enum table: [
-    :no_table,
-    :dpa_exceptions,
-    :it_security_incidents,
-    :legacy_os_records,
-    :sensitive_data_systems,
-    :devices,
-    :admin_interface
-  ]
+  enum vod_action: {
+    show: 0,
+    newedit: 1,
+    archive: 2,
+    audit: 3,
+    all: 4
+  }, _prefix: true
+
+  enum vod_table: {
+    none: 0,
+    dpa_exceptions: 1,
+    it_security_incidents: 2,
+    legacy_os_records: 3,
+    sensitive_data_systems: 4,
+    devices: 5,
+    admin_interface: 6
+  }, _prefix: true
 
   validates :ldap_group, presence: true
-  validates :table, exclusion: { in: %w(no_table),
+  validates :vod_table, exclusion: { in: %w(none),
     message: "you must select a table" }
-  validates :action, presence: true
+  validates :vod_table, presence: true
+  validates :vod_action, presence: true
 
 end

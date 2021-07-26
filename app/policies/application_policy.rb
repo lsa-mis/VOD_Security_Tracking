@@ -9,13 +9,13 @@ class ApplicationPolicy
 
   def get_ldap_groups(table, action=nil)
     case action
-    when  'newedit_action',
-          'show_action',
-          'archive_action',
-          'audit_action'
-      @ldap_groups = AccessLookup.where(table: table, action: action).or(AccessLookup.where(table: table, action: 'all_actions')).pluck(:ldap_group)
+    when  'newedit',
+          'show',
+          'archive',
+          'audit'
+      @ldap_groups = AccessLookup.where(vod_table: table, vod_action: action).or(AccessLookup.where(vod_table: table, vod_action: 'all')).pluck(:ldap_group)
     when nil
-      @ldap_groups = AccessLookup.where(table: table).pluck(:ldap_group)
+      @ldap_groups = AccessLookup.where(vod_table: table).pluck(:ldap_group)
     else
       @ldap_groups = []
     end
