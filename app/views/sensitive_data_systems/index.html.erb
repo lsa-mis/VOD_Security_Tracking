@@ -1,8 +1,21 @@
 <h1>Sensitive Data Systems</h1>
 
-<p class="text-gray-500 text-sm mx-4">
-  Sensitive Data Systems
-</p>
+<div class="py-2 sm:grid sm:grid-cols-5 sm:gap-4">
+  <div class="flex flex-grow sm:col-span-4">
+    <p class="text-gray-500 text-sm mx-4">
+      Sensitive Data Systems
+    </p>
+  </div>
+  <div class="mt-1 flex justify-end sm:mt-0">
+    <span class="ml-4 flex-shrink-0">
+      <% if policy(@sensitive_data_systems).edit? %>
+        <div role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
+          <%= link_to 'New Sensitive Data System', new_sensitive_data_system_path, class: "new-record-btn" %>
+        </div>
+      <% end %>
+    </span>
+  </div>
+</div>
 
 <div data-controller='toggle' class="m-2">
   <button type="button" class= "filter-btn"
@@ -163,12 +176,5 @@
 </div>
 
 <div>
-  <% if policy(@sensitive_data_systems).edit? %>
-    <div role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
-      <%= link_to 'New Sensitive Data System', new_sensitive_data_system_path, class: "new-record-btn" %>
-    </div>
-  <% end %>
-
   <%= render partial: "sensitive_data_systems/listing" %>
-
 </div>

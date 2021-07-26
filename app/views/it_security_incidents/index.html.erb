@@ -1,8 +1,21 @@
 <h1>IT Security Incidents</h1>
 
-<p class="text-gray-500 text-sm mx-4">
-  IT Security Incidents
-</p>
+<div class="py-2 sm:grid sm:grid-cols-5 sm:gap-4">
+  <div class="flex flex-grow sm:col-span-4">
+    <p class="text-gray-500 text-sm mx-4">
+      IT Security Incidents
+    </p>
+  </div>
+  <div class="mt-1 flex justify-end sm:mt-0">
+    <span class="ml-4 flex-shrink-0">
+      <% if policy(@it_security_incidents).new? %>
+        <div role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
+          <%= link_to 'New IT Security Incident', new_it_security_incident_path, class: "new-record-btn" %>
+        </div>
+      <% end %>
+    </span>
+  </div>
+</div> 
 
 <div data-controller='toggle' class="m-2">
   <button type="button" class="filter-btn"
@@ -104,10 +117,5 @@
 </div>
 
 <div>
-  <% if policy(@it_security_incidents).new? %>
-    <div role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
-      <%= link_to 'New IT Security Incident', new_it_security_incident_path, class: "new-record-btn" %>
-    </div>
-  <% end %>
   <%= render partial: "it_security_incidents/listing" %>
 </div>
