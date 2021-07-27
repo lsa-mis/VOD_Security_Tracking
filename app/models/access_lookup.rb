@@ -30,8 +30,6 @@ class AccessLookup < ApplicationRecord
   }, _prefix: true
 
   validates :ldap_group, presence: true
-  validates :vod_table, exclusion: { in: %w(none),
-    message: "you must select a table" }
   validates :vod_table, presence: true
   validates :vod_action, presence: true
 
