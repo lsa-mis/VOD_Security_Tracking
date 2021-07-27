@@ -17,12 +17,12 @@ class InfotextPolicy < ApplicationPolicy
     end  
 
     def new?
-      get_ldap_groups('admin_interface', 'newedit_action')
+      get_ldap_groups('admin_interface', 'newedit')
       (user.membership & @ldap_groups).any?
     end
 
     def edit?
-      get_ldap_groups('admin_interface', 'newedit_action')
+      get_ldap_groups('admin_interface', 'newedit')
       a = (user.membership & @ldap_groups).any?
       (user.membership & @ldap_groups).any?
     end
