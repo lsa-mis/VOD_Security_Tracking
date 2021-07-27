@@ -1,16 +1,28 @@
 <h1>Sensitive Data Systems</h1>
 
-<div class="index-instruction p-2">
+
+<div class="py-2 sm:grid sm:grid-cols-5 sm:gap-4">
+  <div class="index-instruction p-2">
     <%= @sensitive_data_system_index_text.content %>
-</div>
-<div>
-  <% if policy(Infotext).edit? %>
-    <%= link_to 'Edit', edit_infotext_path(@sensitive_data_system_index_text), class: "action-link" %>
-  <% end %>
+  </div>
+  <div>
+    <% if policy(Infotext).edit? %>
+      <%= link_to 'Edit', edit_infotext_path(@sensitive_data_system_index_text), class: "action-link" %>
+    <% end %>
+  </div>
+  <div class="mt-1 flex justify-end sm:mt-0">
+    <span class="ml-4 flex-shrink-0">
+      <% if policy(@sensitive_data_systems).edit? %>
+        <div role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
+          <%= link_to 'New Sensitive Data System', new_sensitive_data_system_path, class: "new-record-btn" %>
+        </div>
+      <% end %>
+    </span>
+  </div>
 </div>
 
 <div data-controller='toggle' class="m-2">
-  <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+  <button type="button" class= "filter-btn"
     data-action='click->toggle#toggle touch->toggle#toggle' >
   Filters
   </button>
@@ -168,12 +180,5 @@
 </div>
 
 <div>
-  <% if policy(@sensitive_data_systems).edit? %>
-    <div class="btn-new btn-blue" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
-      <%= link_to 'New Sensitive Data System', new_sensitive_data_system_path %>
-    </div>
-  <% end %>
-
   <%= render partial: "sensitive_data_systems/listing" %>
-
 </div>

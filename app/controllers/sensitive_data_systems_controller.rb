@@ -153,12 +153,12 @@ class SensitiveDataSystemsController < InheritedResources::Base
   
   def audit_log
     authorize @sensitive_data_system
-    add_breadcrumb(@sensitive_data_system.id, 
+    add_breadcrumb(@sensitive_data_system.display_name, 
       sensitive_data_system_path(@sensitive_data_system)
                   )
     add_breadcrumb('Audit')
 
-    @sensitive_ds_item_audit_log = @sensitive_data_system.audits.all.reorder(created_at: :desc)
+    @sensitive_data_system_audit_log = @sensitive_data_system.audits.all.reorder(created_at: :desc)
   end
 
   private

@@ -6,8 +6,8 @@
 #  ldap_group :string(255)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  table      :integer          default("no_table"), not null
-#  action     :integer          default("show_action"), not null
+#  vod_table  :integer          default(NULL), not null
+#  vod_action :integer          default(NULL), not null
 #
 require 'rails_helper'
 

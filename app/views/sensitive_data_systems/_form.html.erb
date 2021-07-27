@@ -25,53 +25,63 @@
 
     <div class="field-container">
       <div class="field">
-        <%= form.label :name%>
+        <%= form.label :name, class: "required" %>
         <%= form.text_field :name, required: true %>
+        <p class="help-text">Descriptive name of the storage location.</p>
       </div>
 
       <div class="field">
-        <%= form.label :owner_username%>
+        <%= form.label :owner_username, class: "required" %>
         <%= form.text_field :owner_username, required: true %>
+        <p class="help-text">Must not be a LSATS person unless LSATS owns the device</p>
       </div>
 
       <div class="field">
-        <%= form.label :owner_full_name%>
+        <%= form.label :owner_full_name, class: "required" %>
         <%= form.text_field :owner_full_name, required: true %>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
-        <%= form.label :dept, "Department" %>
+        <%= form.label :dept, "Department", class: "required"  %>
         <%= form.text_field :dept, required: true %>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
         <%= form.label :phone %>
         <%= form.text_field :phone %>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
         <%= form.label :additional_dept_contact, "Additional department contact" %>
         <%= form.text_field :additional_dept_contact %>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
         <%= form.label :additional_dept_contact_phone, "Additional department contact phone" %>
         <%= form.text_field :additional_dept_contact_phone %>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
         <%= form.label :support_poc%>
         <%= form.text_field :support_poc %>
+        <p class="help-text">LSA TS Service Desk point of contact</p>
       </div>
 
       <div class="field">
         <%= form.label :expected_duration_of_data_retention %>
         <%= form.text_area :expected_duration_of_data_retention %>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
         <%= form.label :agreements_related_to_data_types %>
         <%= form.text_field :agreements_related_to_data_types %>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
@@ -84,20 +94,23 @@
               data: {
                 controller: "flatpickr",
                 flatpickr_date_format: "Y-m-d",
-                flatpickr_min_date: Time.zone.now
+                flatpickr_min_date: 1.year.ago
               }
             %>
         </div>
+        <p class="help-text">Date this record will next be reviewed</p>
       </div>
 
       <div class="field">
         <%= form.label :review_contact%>
         <%= form.text_field :review_contact%>
+        <p class="help-text">Email address for reviewer</p>
       </div>
 
       <div class="field">
         <%= form.label :notes %>
         <%= form.text_area :notes %>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
@@ -134,6 +147,7 @@
       <div class="field">
         <%= form.label :data_type_id%>
         <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"} %>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
@@ -154,7 +168,7 @@
                       <div class="w-0 flex-1 flex items-center">
                         <i class="fas fa-link text-gray-400"></i>
                         <span class="ml-2 flex-1 w-0 truncate">
-                          <%= link_to tdx.ticket_link, url_for(tdx.ticket_link) %>
+                          <%= link_to tdx.ticket_link, url_for(tdx.ticket_link), target: "_blank" %>
                         </span>
                       </div>
                     </li>
@@ -181,7 +195,7 @@
                     <div class="w-0 flex-1 flex items-center">
                       <i class="fas fa-paperclip text-gray-400"></i>
                       <span class="ml-2 flex-1 w-0 truncate">
-                        <%= link_to ma.filename, url_for(ma) %>
+                        <%= link_to ma.filename, url_for(ma), target: "_blank" %>
                       </span>
                       <% unless ma.id.nil? %>
                         <span class="text-gray-300" aria-hidden="true">|</span>

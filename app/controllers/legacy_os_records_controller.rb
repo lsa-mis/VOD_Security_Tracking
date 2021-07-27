@@ -150,12 +150,12 @@ class LegacyOsRecordsController < InheritedResources::Base
   
   def audit_log
     authorize @legacy_os_record
-    add_breadcrumb(@legacy_os_record.id, 
+    add_breadcrumb(@legacy_os_record.display_name, 
       legacy_os_record_path(@legacy_os_record)
                   )
     add_breadcrumb('Audit')
 
-    @legacy_os_item_audit_log = @legacy_os_record.audits.all.reorder(created_at: :desc)
+    @legacy_os_audit_log = @legacy_os_record.audits.all.reorder(created_at: :desc)
   end
 
   private

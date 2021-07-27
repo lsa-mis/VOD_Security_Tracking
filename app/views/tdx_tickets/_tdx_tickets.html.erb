@@ -9,7 +9,7 @@
           <div class="w-0 flex-1 flex items-center">
             <i class="fas fa-link text-gray-400"></i>
             <span class="ml-2 flex-1 w-0 truncate">
-              <%= link_to tdx.ticket_link, url_for(tdx.ticket_link) %>
+              <%= link_to tdx.ticket_link, url_for(tdx.ticket_link), target: "_blank" %>
             </span>
           </div>
           <% if policy(tdx_ticket_resource).edit? %>

@@ -18,12 +18,12 @@
 
     <div class="field-container">
       <div class="field">
-        <%= form.label :title %>
+        <%= form.label :title, class: "required" %>
         <%= form.text_field :title, required: true %>
-        <p class="help-text">Help text if needed</p>
+        <p class="help-text">Short descriptive summary of event</p>
       </div> 
       <div class="field">
-        <%= form.label :date %>
+        <%= form.label :date, class: "required"  %>
           <div class="mt-1 relative rounded-md shadow-sm">
             <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
               <i class="fas fa-calendar-day text-gray-400"></i>
@@ -32,51 +32,54 @@
               data: {
                 controller: "flatpickr",
                 flatpickr_date_format: "Y-m-d",
-                flatpickr_min_date: Time.zone.now
+                flatpickr_min_date: 1.year.ago
               },
               required: true
             %>
         </div>
+        <p class="help-text">Date of incident</p>
       </div>
 
       <div class="field">
-        <%= form.label :people_involved %>
+        <%= form.label :people_involved, class: "required"  %>
         <%= form.text_area :people_involved, required: true %>
-        <p class="help-text">Help text if needed</p>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
-        <%= form.label :equipment_involved %>
+        <%= form.label :equipment_involved, class: "required"  %>
         <%= form.text_area :equipment_involved, required: true %>
-        <p class="help-text">Help text if needed</p>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
-        <%= form.label :remediation_steps %>
+        <%= form.label :remediation_steps, class: "required"  %>
         <%= form.text_area :remediation_steps, required: true %>
-        <p class="help-text">Help text if needed</p>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
-        <%= form.label :data_type_id %>
+        <%= form.label :data_type_id, class: "required"  %>
         <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}, required: true %>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
-        <%= form.label :it_security_incident_status_id, "IT security incident status" %>
+        <%= form.label :it_security_incident_status_id, "IT security incident status", class: "required"  %>
         <%= form.collection_select :it_security_incident_status_id, ItSecurityIncidentStatus.all, :id, :name, {include_blank: "Select"}, required: true %>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
         <%= form.label :estimated_financial_cost %>
         <%= form.number_field :estimated_financial_cost %>
-        <p class="help-text">Help text if needed</p>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
         <%= form.label :notes %>
         <%= form.text_area :notes %>
-        <p class="help-text">Help text if needed</p>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
@@ -97,7 +100,7 @@
                       <div class="w-0 flex-1 flex items-center">
                         <i class="fas fa-link text-gray-400"></i>
                         <span class="ml-2 flex-1 w-0 truncate">
-                          <%= link_to tdx.ticket_link, url_for(tdx.ticket_link) %>
+                          <%= link_to tdx.ticket_link, url_for(tdx.ticket_link), target: "_blank" %>
                         </span>
                       </div>
                     </li>
@@ -124,7 +127,7 @@
                     <div class="w-0 flex-1 flex items-center">
                       <i class="fas fa-paperclip text-gray-400"></i>
                       <span class="ml-2 flex-1 w-0 truncate">
-                        <%= link_to ma.filename, url_for(ma) %>
+                        <%= link_to ma.filename, url_for(ma), target: "_blank" %>
                       </span>
                       <% unless ma.id.nil? %>
                         <span class="text-gray-300" aria-hidden="true">|</span>
