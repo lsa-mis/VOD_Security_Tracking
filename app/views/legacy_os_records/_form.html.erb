@@ -145,7 +145,6 @@
         </div>
         <p class="help-text">Date this record will next be reviewed</p>
       </div>
-    </div>
 
       <div class="field">
         <%= form.label :review_contact%>
@@ -158,14 +157,12 @@
         <%= form.text_field :justification %>
         <p class="help-text"></p>
       </div>
-    </div>
 
       <div class="field">
         <%= form.label :local_it_support_group, "Local IT support group" %>
         <%= form.text_field :local_it_support_group %>
         <p class="help-text"></p>
       </div>
-    </div>
 
       <div class="field">
         <%= form.label :notes %>
@@ -173,11 +170,10 @@
         <p class="help-text"></p>
       </div>
 
-    <div class="field">
-      <%= form.label :justification %>
-      <%= form.text_field :justification %>
-      <p class="help-text">Help text if needed</p>
-    </div>
+      <div class="field">
+        <%= form.label :data_type_id%>
+        <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}%>
+      </div>
 
       <div class="field">
         <%= form.fields_for @legacy_os_record.tdx_tickets.new do |f| %>
@@ -234,91 +230,37 @@
         </div>
       </div>
 
-    <div class="field">
-      <%= form.fields_for @legacy_os_record.tdx_tickets.new do |f| %>
-        <%= f.label :ticket_link, "Add a TDX ticket link" %>
-        <%= f.text_field :ticket_link %>
-      <% end %>
-      <% if @legacy_os_record.tdx_tickets.present? %>
-        <div class="py-4 pl-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-          <dt class="text-sm font-medium text-gray-500">
-            TDX tickets connected to this record: 
-          </dt>
-          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
-              <% @legacy_os_record.tdx_tickets.each do |tdx| %>
-                <% if tdx.persisted? %>
+      <div id="attached_files" class="field">
+        <%= form.label :attachments %>
+        <%= form.file_field :attachments, multiple: true %>
+        <% if @legacy_os_record.attachments.attached? %>
+          <div class="py-4 pl-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+            <dt class="text-sm font-medium text-gray-500">
+              Other files currently connected to this record:
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+                <% @legacy_os_record.attachments.each do |ma| %>
                   <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
                     <div class="w-0 flex-1 flex items-center">
-                      <i class="fas fa-link text-gray-400"></i>
+                      <i class="fas fa-paperclip text-gray-400"></i>
                       <span class="ml-2 flex-1 w-0 truncate">
                         <%= link_to ma.filename, url_for(ma), target: "_blank" %>
                       </span>
+                      <% unless ma.id.nil? %>
+                        <span class="text-gray-300" aria-hidden="true">|</span>
+                        <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                          <%= link_to 'Remove', delete_file_path(ma), data: { confirm: "Are sure you?" } %>
+                        </button>
+                      <% end %>
                     </div>
                   </li>
                 <% end %>
-              <% end %>
-            </ul>
-          </dd>
-        </div>
-      <% end %>
-    </div>
-
-    <div class="field">
-      <%= form.label 'Device' %>
-      <div class="flex flex-row flex-nowrap justify-items-start items-center" data-legacyos-target="system_device">
-        <%= form.fields_for :device, @device do |device_attributes| %>
-          <div class="w-1/3 pr-4">
-            <%= form.label :serial %>
-            <%= device_attributes.text_field :serial, :"data-legacyos-target" => "serial" %>
-            <span class="device-error--hide" data-legacyos-target="serial_error">
-              Add serial number
-            </span>
-            <p class="help-text">Help text if needed</p>
-          </div>
-
-          <div class="w-1/3">
-            <%= form.label :hostname %>
-            <%= device_attributes.text_field :hostname, :"data-legacyos-target" => "hostname" %>
-            <span class="device-error--hide" data-legacyos-target="hostname_error">
-              or hostname
-            </span>
-            <p class="help-text">Help text if needed</p>
+              </ul>
+            </dd>
           </div>
         <% end %>
       </div>
-    </div>
-
-    <div id="attached_files" class="field">
-      <%= form.label :attachments %>
-      <%= form.file_field :attachments, multiple: true %>
-      <% if @legacy_os_record.attachments.attached? %>
-        <div class="py-4 pl-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-          <dt class="text-sm font-medium text-gray-500">
-            Other files currently connected to this record:
-          </dt>
-          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
-              <% @legacy_os_record.attachments.each do |ma| %>
-                <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-                  <div class="w-0 flex-1 flex items-center">
-                    <i class="fas fa-paperclip text-gray-400"></i>
-                    <span class="ml-2 flex-1 w-0 truncate">
-                      <%= link_to ma.filename, url_for(ma) %>
-                    </span>
-                    <% unless ma.id.nil? %>
-                      <span class="text-gray-300" aria-hidden="true">|</span>
-                      <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        <%= link_to 'Remove', delete_file_path(ma), data: { confirm: "Are sure you?" } %>
-                      </button>
-                    <% end %>
-                  </div>
-                </li>
-              <% end %>
-            </ul>
-          </dd>
-        </div>
-      <% end %>
     </div>
   </div>
 
@@ -328,3 +270,4 @@
     </div>
   </div>
 <% end %>
+
