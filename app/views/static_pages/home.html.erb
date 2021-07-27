@@ -5,9 +5,9 @@
 </div>
 
 <% if current_user.present? %>
-  <% if policy(ApplicationSetting).edit? %>
+  <% if policy(Infotext).edit? %>
     <div>
-    <%= link_to 'Edit', edit_application_setting_path(@home_text), class: "action-link" %>
+    <%= link_to 'Edit', edit_infotext_path(@home_text), class: "action-link" %>
     </div>
   <% end %>
 <% end %>

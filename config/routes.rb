@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :application_settings
   root to: 'static_pages#home'
   devise_for :users, controllers: {
     sessions: 'users/sessions'
@@ -52,6 +51,7 @@ Rails.application.routes.draw do
   resources :devices
   get 'update_device/:id', to: 'devices#update', as: :update_device
 
+  resources :infotexts
 
   ActiveAdmin.routes(self)
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

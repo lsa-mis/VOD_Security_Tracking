@@ -1,17 +1,12 @@
 <h1>DPA Exceptions</h1>
 
-<div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
-  <div class="index-instruction sm:col-span-2">
-      <%= @dpa_exception_index_text.content %>
-  </div>
-  <div class="mt-1 flex text-sm text-gray-900 sm:mt-0">
-    <span class="flex-grow"></span>
-    <span class="ml-4 flex-shrink-0">
-      <% if policy(ApplicationSetting).edit? %>
-        <%= link_to 'Edit the description', edit_application_setting_path(@dpa_exception_index_text), class: "action-link" %>
-      <% end %>
-    </span>
-  </div>
+<div class="index-instruction ">
+    <%= @dpa_exception_index_text.content %>
+</div>
+<div>
+  <% if policy(Infotext).edit? %>
+    <%= link_to 'Edit', edit_infotext_path(@dpa_exception_index_text), class: "action-link" %>
+  <% end %>
 </div>
 
 <div data-controller='toggle' class="m-2">

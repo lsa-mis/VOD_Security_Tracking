@@ -10,251 +10,250 @@
 
   <div class="form-container">
     <div>
-      <h3 class="instruction-header">
-        Form Instructions
-      </h3>
-      <p>Ipsum voluptate aliquip adipisicing labore sint amet officia commodo 
-      duis laboris do sit. Labore veniam mollit commodo quis nisi esse aute 
-      fugiat. Amet exercitation aliquip labore ullamco irure magna tempor ad 
-      sit aliqua culpa. Aliquip occaecat dolore Lorem officia incididunt amet 
-      nisi nulla amet aute ex aute. Proident labore fugiat commodo ipsum ut 
-      Lorem aliquip officia reprehenderit. Laboris dolore amet non irure do 
-      voluptate nisi ex. Magna ullamco veniam exercitation duis esse officia 
-      duis labore tempor sunt mollit.</p>
+    <h3 class="instruction-header">
+      Form Instructions
+    </h3>
+    <div class="form-instruction">
+      <%= @legacy_os_record_form_text.content %>
+    </div>
+    <p>
+      <% if policy(Infotext).edit? %>
+        <%= link_to 'Edit', edit_infotext_path(@legacy_os_record_form_text), class: "action-link" %>
+      <% end %>
+    </p>
+  </div>
+
+  <div class="field-container">
+    <div class="field">
+      <%= form.label :owner_username%>
+      <%= form.text_field :owner_username, required: true %>
+      <p class="help-text">Help text if needed</p>
     </div>
 
-    <div class="field-container">
-      <div class="field">
-        <%= form.label :owner_username%>
-        <%= form.text_field :owner_username, required: true %>
-        <p class="help-text">Help text if needed</p>
-      </div>
+    <div class="field">
+      <%= form.label :owner_full_name%>
+      <%= form.text_field :owner_full_name, required: true %>
+      <p class="help-text">Help text if needed</p>
+    </div>
 
-      <div class="field">
-        <%= form.label :owner_full_name%>
-        <%= form.text_field :owner_full_name, required: true %>
-        <p class="help-text">Help text if needed</p>
-      </div>
+    <div class="field">
+      <%= form.label :dept, "Department" %>
+      <%= form.text_field :dept, required: true %>
+      <p class="help-text">Help text if needed</p>
+    </div>
 
-      <div class="field">
-        <%= form.label :dept, "Department" %>
-        <%= form.text_field :dept, required: true %>
-        <p class="help-text">Help text if needed</p>
-      </div>
+    <div class="field">
+      <%= form.label :phone%>
+      <%= form.text_field :phone, required: true %>
+      <p class="help-text">Help text if needed</p>
+    </div>
 
-      <div class="field">
-        <%= form.label :phone%>
-        <%= form.text_field :phone, required: true %>
-        <p class="help-text">Help text if needed</p>
-      </div>
+    <div class="field">
+      <%= form.label :additional_dept_contact, "Additional department contact" %>
+      <%= form.text_field :additional_dept_contact %>
+      <p class="help-text">Help text if needed</p>
+    </div>
 
-      <div class="field">
-        <%= form.label :additional_dept_contact, "Additional department contact" %>
-        <%= form.text_field :additional_dept_contact %>
-        <p class="help-text">Help text if needed</p>
-      </div>
+    <div class="field">
+      <%= form.label :additional_dept_contact_phone, "Additional department contact phone" %>
+      <%= form.text_field :additional_dept_contact_phone %>
+      <p class="help-text">Help text if needed</p>
+    </div>
 
-      <div class="field">
-        <%= form.label :additional_dept_contact_phone, "Additional department contact phone" %>
-        <%= form.text_field :additional_dept_contact_phone %>
-        <p class="help-text">Help text if needed</p>
-      </div>
+    <div class="field">
+      <%= form.label :support_poc%>
+      <%= form.text_field :support_poc %>
+      <p class="help-text">Help text if needed</p>
+    </div>
 
-      <div class="field">
-        <%= form.label :support_poc%>
-        <%= form.text_field :support_poc %>
-        <p class="help-text">Help text if needed</p>
-      </div>
+    <div class="field">
+      <%= form.label :legacy_os, "Legacy OS" %>
+      <%= form.text_field :legacy_os%>
+      <p class="help-text">Help text if needed</p>
+    </div>
 
-      <div class="field">
-        <%= form.label :legacy_os, "Legacy OS" %>
-        <%= form.text_field :legacy_os%>
-        <p class="help-text">Help text if needed</p>
-      </div>
-
-      <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <div class="w-1/3 pr-4">
-              <%= form.label :unique_app%>
-              <%= form.text_field :unique_app %>
-              <p class="help-text">Unique app or Unique Hardware is required</p>
-            </div>
-
-            <div class="w-1/3">
-              <%= form.label :unique_hardware%>
-              <%= form.text_field :unique_hardware %>
-              <p class="help-text">Help text if needed</p>
-            </div>
-      </div>
-
-      <div class="field">
-        <%= form.label :unique_date %>
-          <div class="mt-1 relative rounded-md shadow-sm">
-            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-              <i class="fas fa-calendar-day text-gray-400"></i>
-            </div>
-            <%= form.text_field :unique_date,
-              data: {
-                controller: "flatpickr",
-                flatpickr_date_format: "Y-m-d",
-                flatpickr_min_date: Time.zone.now
-              }
-            %>
-        </div>
-      </div>
-
-      <div class="field">
-        <%= form.label :remediation%>
-        <%= form.text_field :remediation%>
-        <p class="help-text">Help text if needed</p>
-      </div>
-
-      <div class="field">
-        <%= form.label :exception_approval_date %>
-          <div class="mt-1 relative rounded-md shadow-sm">
-            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-              <i class="fas fa-calendar-day text-gray-400"></i>
-            </div>
-            <%= form.text_field :exception_approval_date,
-              data: {
-                controller: "flatpickr",
-                flatpickr_date_format: "Y-m-d",
-                flatpickr_min_date: Time.zone.now
-              }
-            %>
-        </div>
-      </div>
-
-      <div class="field">
-        <%= form.label :review_date %>
-          <div class="mt-1 relative rounded-md shadow-sm">
-            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-              <i class="fas fa-calendar-day text-gray-400"></i>
-            </div>
-            <%= form.text_field :review_date,
-              data: {
-                controller: "flatpickr",
-                flatpickr_date_format: "Y-m-d",
-                flatpickr_min_date: Time.zone.now
-              }
-            %>
-        </div>
-      </div>
-
-      <div class="field">
-        <%= form.label :review_contact%>
-        <%= form.text_field :review_contact%>
-        <p class="help-text">Help text if needed</p>
-      </div>
-
-      <div class="field">
-        <%= form.label :justification %>
-        <%= form.text_field :justification %>
-        <p class="help-text">Help text if needed</p>
-      </div>
-
-      <div class="field">
-        <%= form.label :local_it_support_group, "Local IT support group" %>
-        <%= form.text_field :local_it_support_group %>
-        <p class="help-text">Help text if needed</p>
-      </div>
-
-      <div class="field">
-        <%= form.label :notes %>
-        <%= form.text_area :notes %>
-        <p class="help-text">Help text if needed</p>
-      </div>
-
-      <div class="field">
-        <%= form.label :data_type_id%>
-        <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}%>
-      </div>
-
-      <div class="field">
-        <%= form.fields_for @legacy_os_record.tdx_tickets.new do |f| %>
-          <%= f.label :ticket_link, "Add a TDX ticket link" %>
-          <%= f.text_field :ticket_link %>
-        <% end %>
-        <% if @legacy_os_record.tdx_tickets.present? %>
-          <div class="py-4 pl-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-            <dt class="text-sm font-medium text-gray-500">
-              TDX tickets connected to this record: 
-            </dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
-                <% @legacy_os_record.tdx_tickets.each do |tdx| %>
-                  <% if tdx.persisted? %>
-                    <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-                      <div class="w-0 flex-1 flex items-center">
-                        <i class="fas fa-link text-gray-400"></i>
-                        <span class="ml-2 flex-1 w-0 truncate">
-                          <%= link_to tdx.ticket_link, url_for(tdx.ticket_link) %>
-                        </span>
-                      </div>
-                    </li>
-                  <% end %>
-                <% end %>
-              </ul>
-            </dd>
+    <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+          <div class="w-1/3 pr-4">
+            <%= form.label :unique_app%>
+            <%= form.text_field :unique_app %>
+            <p class="help-text">Unique app or Unique Hardware is required</p>
           </div>
-        <% end %>
+
+          <div class="w-1/3">
+            <%= form.label :unique_hardware%>
+            <%= form.text_field :unique_hardware %>
+            <p class="help-text">Help text if needed</p>
+          </div>
+    </div>
+
+    <div class="field">
+      <%= form.label :unique_date %>
+        <div class="mt-1 relative rounded-md shadow-sm">
+          <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+            <i class="fas fa-calendar-day text-gray-400"></i>
+          </div>
+          <%= form.text_field :unique_date,
+            data: {
+              controller: "flatpickr",
+              flatpickr_date_format: "Y-m-d",
+              flatpickr_min_date: Time.zone.now
+            }
+          %>
       </div>
+    </div>
 
-      <div class="field">
-        <%= form.label 'Device' %>
-        <div class="flex flex-row flex-nowrap justify-items-start items-center" data-legacyos-target="system_device">
-          <%= form.fields_for :device, @device do |device_attributes| %>
-            <div class="w-1/3 pr-4">
-              <%= form.label :serial %>
-              <%= device_attributes.text_field :serial, :"data-legacyos-target" => "serial" %>
-              <span class="device-error--hide" data-legacyos-target="serial_error">
-                Add serial number
-              </span>
-              <p class="help-text">Help text if needed</p>
-            </div>
+    <div class="field">
+      <%= form.label :remediation%>
+      <%= form.text_field :remediation%>
+      <p class="help-text">Help text if needed</p>
+    </div>
 
-            <div class="w-1/3">
-              <%= form.label :hostname %>
-              <%= device_attributes.text_field :hostname, :"data-legacyos-target" => "hostname" %>
-              <span class="device-error--hide" data-legacyos-target="hostname_error">
-                or hostname
-              </span>
-              <p class="help-text">Help text if needed</p>
-            </div>
-          <% end %>
-        </div>
+    <div class="field">
+      <%= form.label :exception_approval_date %>
+        <div class="mt-1 relative rounded-md shadow-sm">
+          <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+            <i class="fas fa-calendar-day text-gray-400"></i>
+          </div>
+          <%= form.text_field :exception_approval_date,
+            data: {
+              controller: "flatpickr",
+              flatpickr_date_format: "Y-m-d",
+              flatpickr_min_date: Time.zone.now
+            }
+          %>
       </div>
+    </div>
 
-      <div id="attached_files" class="field">
-        <%= form.label :attachments %>
-        <%= form.file_field :attachments, multiple: true %>
-        <% if @legacy_os_record.attachments.attached? %>
-          <div class="py-4 pl-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-            <dt class="text-sm font-medium text-gray-500">
-              Other files currently connected to this record:
-            </dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
-                <% @legacy_os_record.attachments.each do |ma| %>
+    <div class="field">
+      <%= form.label :review_date %>
+        <div class="mt-1 relative rounded-md shadow-sm">
+          <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+            <i class="fas fa-calendar-day text-gray-400"></i>
+          </div>
+          <%= form.text_field :review_date,
+            data: {
+              controller: "flatpickr",
+              flatpickr_date_format: "Y-m-d",
+              flatpickr_min_date: Time.zone.now
+            }
+          %>
+      </div>
+    </div>
+
+    <div class="field">
+      <%= form.label :review_contact%>
+      <%= form.text_field :review_contact%>
+      <p class="help-text">Help text if needed</p>
+    </div>
+
+    <div class="field">
+      <%= form.label :justification %>
+      <%= form.text_field :justification %>
+      <p class="help-text">Help text if needed</p>
+    </div>
+
+    <div class="field">
+      <%= form.label :local_it_support_group, "Local IT support group" %>
+      <%= form.text_field :local_it_support_group %>
+      <p class="help-text">Help text if needed</p>
+    </div>
+
+    <div class="field">
+      <%= form.label :notes %>
+      <%= form.text_area :notes %>
+      <p class="help-text">Help text if needed</p>
+    </div>
+
+    <div class="field">
+      <%= form.label :data_type_id%>
+      <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}%>
+    </div>
+
+    <div class="field">
+      <%= form.fields_for @legacy_os_record.tdx_tickets.new do |f| %>
+        <%= f.label :ticket_link, "Add a TDX ticket link" %>
+        <%= f.text_field :ticket_link %>
+      <% end %>
+      <% if @legacy_os_record.tdx_tickets.present? %>
+        <div class="py-4 pl-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+          <dt class="text-sm font-medium text-gray-500">
+            TDX tickets connected to this record: 
+          </dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+              <% @legacy_os_record.tdx_tickets.each do |tdx| %>
+                <% if tdx.persisted? %>
                   <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
                     <div class="w-0 flex-1 flex items-center">
-                      <i class="fas fa-paperclip text-gray-400"></i>
+                      <i class="fas fa-link text-gray-400"></i>
                       <span class="ml-2 flex-1 w-0 truncate">
-                        <%= link_to ma.filename, url_for(ma) %>
+                        <%= link_to tdx.ticket_link, url_for(tdx.ticket_link) %>
                       </span>
-                      <% unless ma.id.nil? %>
-                        <span class="text-gray-300" aria-hidden="true">|</span>
-                        <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                          <%= link_to 'Remove', delete_file_path(ma), data: { confirm: "Are sure you?" } %>
-                        </button>
-                      <% end %>
                     </div>
                   </li>
                 <% end %>
-              </ul>
-            </dd>
+              <% end %>
+            </ul>
+          </dd>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="field">
+      <%= form.label 'Device' %>
+      <div class="flex flex-row flex-nowrap justify-items-start items-center" data-legacyos-target="system_device">
+        <%= form.fields_for :device, @device do |device_attributes| %>
+          <div class="w-1/3 pr-4">
+            <%= form.label :serial %>
+            <%= device_attributes.text_field :serial, :"data-legacyos-target" => "serial" %>
+            <span class="device-error--hide" data-legacyos-target="serial_error">
+              Add serial number
+            </span>
+            <p class="help-text">Help text if needed</p>
+          </div>
+
+          <div class="w-1/3">
+            <%= form.label :hostname %>
+            <%= device_attributes.text_field :hostname, :"data-legacyos-target" => "hostname" %>
+            <span class="device-error--hide" data-legacyos-target="hostname_error">
+              or hostname
+            </span>
+            <p class="help-text">Help text if needed</p>
           </div>
         <% end %>
       </div>
+    </div>
+
+    <div id="attached_files" class="field">
+      <%= form.label :attachments %>
+      <%= form.file_field :attachments, multiple: true %>
+      <% if @legacy_os_record.attachments.attached? %>
+        <div class="py-4 pl-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
+          <dt class="text-sm font-medium text-gray-500">
+            Other files currently connected to this record:
+          </dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+              <% @legacy_os_record.attachments.each do |ma| %>
+                <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                  <div class="w-0 flex-1 flex items-center">
+                    <i class="fas fa-paperclip text-gray-400"></i>
+                    <span class="ml-2 flex-1 w-0 truncate">
+                      <%= link_to ma.filename, url_for(ma) %>
+                    </span>
+                    <% unless ma.id.nil? %>
+                      <span class="text-gray-300" aria-hidden="true">|</span>
+                      <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <%= link_to 'Remove', delete_file_path(ma), data: { confirm: "Are sure you?" } %>
+                      </button>
+                    <% end %>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+          </dd>
+        </div>
+      <% end %>
     </div>
   </div>
 

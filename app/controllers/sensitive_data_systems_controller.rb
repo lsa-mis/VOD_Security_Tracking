@@ -7,6 +7,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
 
   def index
+    @sensitive_data_system_index_text = Infotext.find_by(location: "sensitive_data_system_index")
 
     if params[:items].present?
       session[:items] = params[:items]
@@ -57,6 +58,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
   def new
     @sensitive_data_system = SensitiveDataSystem.new
     @device = Device.new
+    @sensitive_data_system_form_text = Infotext.find_by(location: "sensitive_data_system_form")
     authorize @sensitive_data_system
   end
 

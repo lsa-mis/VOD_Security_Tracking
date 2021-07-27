@@ -6,6 +6,7 @@ class ItSecurityIncidentsController < InheritedResources::Base
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
 
   def index
+    @it_security_incident_index_text = Infotext.find_by(location: "it_security_incident_index")
 
     if params[:items].present?
       session[:items] = params[:items]
@@ -43,6 +44,7 @@ class ItSecurityIncidentsController < InheritedResources::Base
 
   def new
     @it_security_incident = ItSecurityIncident.new
+    @it_security_incident_form_text = Infotext.find_by(location: "it_security_incident_form")
     authorize @it_security_incident
   end
 

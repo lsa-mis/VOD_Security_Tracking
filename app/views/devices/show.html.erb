@@ -1,3 +1,13 @@
+<div>
+  <div class="form-instruction">
+  <%= @device_show_text.content %>
+  </div>
+  <p>
+  <% if policy(Infotext).edit? %>
+    <%= link_to 'Edit', edit_infotext_path(@device_show_text), class: "action-link" %>
+  <% end %>
+  </p>
+</div>
 <div class="mt-5 border-t border-gray-200">
   <dl class="divide-y divide-gray-200">
     <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">

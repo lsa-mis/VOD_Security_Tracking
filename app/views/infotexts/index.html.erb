@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Application Settings</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Content</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @infotexts.each do |infotext| %>
+      <tr>
+        <td><%= infotext.title %></td>
+        <td><%= infotext.content %></td>
+        <td><%= link_to 'Show', infotext %></td>
+        <td><%= link_to 'Edit', edit_infotext_path(infotext) %></td>
+        <td><%= link_to 'Destroy', infotext, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Application Setting', new_infotext_path %>

@@ -1,8 +1,13 @@
 <h1>IT Security Incidents</h1>
 
-<p class="text-gray-500 text-sm mx-4">
-  IT Security Incidents
-</p>
+<div class="index-instruction ">
+    <%= @it_security_incident_index_text.content %>
+</div>
+<div>
+  <% if policy(Infotext).edit? %>
+    <%= link_to 'Edit', edit_infotext_path(@it_security_incident_index_text), class: "action-link" %>
+  <% end %>
+</div>
 
 <div data-controller='toggle' class="m-2">
   <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

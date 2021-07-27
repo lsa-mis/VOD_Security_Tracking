@@ -7,6 +7,7 @@ class LegacyOsRecordsController < InheritedResources::Base
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
 
   def index
+    @legacy_os_record_index_text = Infotext.find_by(location: "legacy_os_record_index")
 
     if params[:items].present?
       session[:items] = params[:items]
@@ -54,6 +55,7 @@ class LegacyOsRecordsController < InheritedResources::Base
   def new
     @legacy_os_record = LegacyOsRecord.new
     @device = Device.new
+    @legacy_os_record_form_text = Infotext.find_by(location: "legacy_os_record_form")
     authorize @legacy_os_record
   end
 

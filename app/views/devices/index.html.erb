@@ -1,7 +1,13 @@
 <h1>Devices</h1>
 
-<p class="text-gray-500 text-sm mx-4">
-  Devices
+<div class="index-instruction ">
+    <%= @device_index_text.content %>
+</div>
+<div>
+  <% if policy(Infotext).edit? %>
+    <%= link_to 'Edit', edit_infotext_path(@device_index_text), class: "action-link" %>
+  <% end %>
+</div>
 </p>
 <div>
 

@@ -1,12 +1,12 @@
 
-<%= form_with(model: application_setting) do |form| %>
-  <%= render "partials/errors", object: @application_setting %>
+<%= form_with(model: infotext) do |form| %>
+  <%= render "partials/errors", object: @infotext %>
 
   <div class="form-container">
     <div class="field-container">
       <div class="field">
-        <%= form.label :title %>
-        <%= form.text_field :title %>
+        <%= form.label :location %>
+        <%= form.text_field :location %>
       </div>
 
       <div class="field">
