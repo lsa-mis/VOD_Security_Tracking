@@ -25,27 +25,27 @@
 
     <div class="field-container">
       <div class="field">
-        <%= form.label :name%>
+        <%= form.label :name, class: "required" %>
         <%= form.text_field :name, required: true %>
-        <p class="required"><span class="help-text">Descriptive name of the storage location.</span></p>
+        <p class="help-text">Descriptive name of the storage location.</p>
       </div>
 
       <div class="field">
-        <%= form.label :owner_username%>
+        <%= form.label :owner_username, class: "required" %>
         <%= form.text_field :owner_username, required: true %>
-        <p class="required"><span class="help-text">Must not be a LSATS person unless LSATS owns the device</span></p>
+        <p class="help-text">Must not be a LSATS person unless LSATS owns the device</p>
       </div>
 
       <div class="field">
-        <%= form.label :owner_full_name%>
+        <%= form.label :owner_full_name, class: "required" %>
         <%= form.text_field :owner_full_name, required: true %>
-        <p class="required"><span class="help-text"></span></p>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
-        <%= form.label :dept, "Department" %>
+        <%= form.label :dept, "Department", class: "required"  %>
         <%= form.text_field :dept, required: true %>
-        <p class="required"><span class="help-text"></span></p>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">

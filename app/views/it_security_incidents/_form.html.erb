@@ -18,12 +18,12 @@
 
     <div class="field-container">
       <div class="field">
-        <%= form.label :title %>
+        <%= form.label :title, class: "required" %>
         <%= form.text_field :title, required: true %>
-        <p class="required"><span class="help-text">Short descriptive summary of event</span></p>
+        <p class="help-text">Short descriptive summary of event</p>
       </div> 
       <div class="field">
-        <%= form.label :date %>
+        <%= form.label :date, class: "required"  %>
           <div class="mt-1 relative rounded-md shadow-sm">
             <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
               <i class="fas fa-calendar-day text-gray-400"></i>
@@ -37,37 +37,37 @@
               required: true
             %>
         </div>
-        <p class="required"><span class="help-text">Date of incident</span></p>
+        <p class="help-text">Date of incident</p>
       </div>
 
       <div class="field">
-        <%= form.label :people_involved %>
+        <%= form.label :people_involved, class: "required"  %>
         <%= form.text_area :people_involved, required: true %>
-        <p class="required"><span class="help-text"></span></p>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
-        <%= form.label :equipment_involved %>
+        <%= form.label :equipment_involved, class: "required"  %>
         <%= form.text_area :equipment_involved, required: true %>
-        <p class="required"><span class="help-text"></span></p>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
-        <%= form.label :remediation_steps %>
+        <%= form.label :remediation_steps, class: "required"  %>
         <%= form.text_area :remediation_steps, required: true %>
-        <p class="required"><span class="help-text"></span></p>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
-        <%= form.label :data_type_id %>
+        <%= form.label :data_type_id, class: "required"  %>
         <%= form.collection_select :data_type_id, DataType.all, :id, :name, {include_blank: "Select"}, required: true %>
-        <p class="required"><span class="help-text"></span></p>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
-        <%= form.label :it_security_incident_status_id, "IT security incident status" %>
+        <%= form.label :it_security_incident_status_id, "IT security incident status", class: "required"  %>
         <%= form.collection_select :it_security_incident_status_id, ItSecurityIncidentStatus.all, :id, :name, {include_blank: "Select"}, required: true %>
-        <p class="required"><span class="help-text"></span></p>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">

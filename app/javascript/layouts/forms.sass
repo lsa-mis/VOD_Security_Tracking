@@ -50,10 +50,10 @@ form
     @apply pt-5 flex justify-start
 
   .required
-    @apply text-red-600 mt-2 text-sm
 
-    &:before
-      content: "This field is required "
+    &:after
+      @apply text-red-500 mt-2 text-sm text-gray-200
+      content: " (Required)"
 
 // error styles
 .field_with_errors

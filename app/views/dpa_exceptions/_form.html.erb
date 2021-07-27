@@ -18,7 +18,7 @@
 
     <div class="field-container">
       <div class="field">
-        <%= form.label :review_date_exception_first_approval_date %>
+        <%= form.label :review_date_exception_first_approval_date, class: "required" %>
           <div class="mt-1 relative rounded-md shadow-sm">
             <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
               <i class="fas fa-calendar-day text-gray-400"></i>
@@ -32,25 +32,25 @@
               required: true
             %>
         </div>
-        <p class="required"><span class="help-text">Date the product/service was first approved</span></p>
+        <p class="help-text">Date the product/service was first approved</p>
       </div>
 
       <div class="field">
-        <%= form.label :dpa_exception_status_id, "Status" %>
+        <%= form.label :dpa_exception_status_id, "Status", class: "required"  %>
         <%= form.collection_select :dpa_exception_status_id, DpaExceptionStatus.all, :id, :name, {include_blank: "Select"}, required: true %>
-        <p class="required"><span class="help-text"></span></p>
+        <p class="help-text"></p>
       </div>
 
       <div class="field">
-        <%= form.label :third_party_product_service %>
+        <%= form.label :third_party_product_service, class: "required"  %>
         <%= form.text_area :third_party_product_service, required: true %>
-        <p class="required"><span class="help-text">Name of the tool being reviewed</span></p>
+        <p class="help-text">Name of the tool being reviewed</p>
       </div>
 
       <div class="field">
-        <%= form.label :used_by%>
+        <%= form.label :used_by, class: "required" %>
         <%= form.text_field :used_by, required: true %>
-        <p class="required"><span class="help-text">LSA department using this tool</span></p>
+        <p class="help-text">LSA department using this tool</p>
       </div>
 
       <div class="field">
