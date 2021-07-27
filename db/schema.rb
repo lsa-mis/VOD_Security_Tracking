@@ -20,16 +20,6 @@ ActiveRecord::Schema.define(version: 2021_07_26_223039) do
     t.integer "vod_action", default: 0, null: false
   end
 
-  create_table "action_text_rich_texts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "name", null: false
-    t.text "body", size: :long
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
-  end
-
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -70,15 +60,6 @@ ActiveRecord::Schema.define(version: 2021_07_26_223039) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
-  end
-
-  create_table "application_settings", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "page"
-    t.string "description"
-    t.text "index_description"
-    t.text "form_instruction"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "audits", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -164,23 +145,6 @@ ActiveRecord::Schema.define(version: 2021_07_26_223039) do
     t.bigint "dpa_exception_status_id", null: false
     t.index ["data_type_id"], name: "index_dpa_exceptions_on_data_type_id"
     t.index ["dpa_exception_status_id"], name: "index_dpa_exceptions_on_dpa_exception_status_id"
-  end
-
-  create_table "infotexts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.text "dash_info"
-    t.text "home_info"
-    t.text "dpa_index_info"
-    t.text "dpa_form_info"
-    t.text "itsec_index_info"
-    t.text "itsec_form_info"
-    t.text "legacyos_index_info"
-    t.text "legacyos_form_info"
-    t.text "sensitivedata_index_info"
-    t.text "sensitivedata_form_info"
-    t.text "device_index_info"
-    t.text "device_form_info"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "it_security_incident_statuses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
