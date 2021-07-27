@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_27_153515) do
+ActiveRecord::Schema.define(version: 2021_07_26_22309) do
 
   create_table "access_lookups", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "ldap_group"
@@ -18,16 +18,6 @@ ActiveRecord::Schema.define(version: 2021_07_27_153515) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "vod_table", default: 0, null: false
     t.integer "vod_action", default: 0, null: false
-  end
-
-  create_table "action_text_rich_texts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "name", null: false
-    t.text "body", size: :long
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -165,12 +155,6 @@ ActiveRecord::Schema.define(version: 2021_07_27_153515) do
     t.bigint "dpa_exception_status_id", null: false
     t.index ["data_type_id"], name: "index_dpa_exceptions_on_data_type_id"
     t.index ["dpa_exception_status_id"], name: "index_dpa_exceptions_on_dpa_exception_status_id"
-  end
-
-  create_table "infotexts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "location", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "it_security_incident_statuses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
