@@ -14,7 +14,7 @@
               <%= link_to "It Security Incidents", it_security_incidents_path, class: "mr-4" %>
             <% end %>
             <% if policy(LegacyOsRecord).any_action? %>
-              <%= link_to "Legacy Os Record", legacy_os_records_path, class: "mr-4" %>
+              <%= link_to "Legacy OS Record", legacy_os_records_path, class: "mr-4" %>
             <% end %>
             <% if policy(SensitiveDataSystem).any_action? %>
               <%= link_to "Sensitive Data System", sensitive_data_systems_path, class: "mr-4" %>
