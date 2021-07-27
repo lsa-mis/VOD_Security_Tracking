@@ -7,11 +7,11 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 # AdminUser.create!(email: 'admin@example.com', password: 'secretsecret', password_confirmation: 'secretsecret', username: "admin") if Rails.env.development?
 AccessLookup.create!([
-  {ldap_group: 'lsa-vod-admins', table: 'admin_interface', action: 'all_actions'},
-  {ldap_group: 'lsa-vod-devs', table: 'admin_interface', action: 'all_actions'},
-  {ldap_group: 'lsa-vod-devs', table: 'dpa_exceptions', action: 'all_actions'},
-  {ldap_group: 'lsa-vod-devs', table: 'legacy_os_records', action: 'all_actions'},
-  {ldap_group: 'lsa-vod-devs', table: 'devices', action: 'all_actions'}
+  {ldap_group: 'lsa-vod-admins', vod_table: 'admin_interface', vod_action: 'all'},
+  {ldap_group: 'lsa-vod-devs', vod_table: 'admin_interface', vod_action: 'all'},
+  {ldap_group: 'lsa-vod-devs', vod_table: 'dpa_exceptions', vod_action: 'all'},
+  {ldap_group: 'lsa-vod-devs', vod_table: 'legacy_os_records', vod_action: 'all'},
+  {ldap_group: 'lsa-vod-devs', vod_table: 'devices', vod_action: 'all'}
 ])
 
 DataClassificationLevel.create!([

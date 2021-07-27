@@ -17,22 +17,22 @@ class ItSecurityIncidentPolicy < ApplicationPolicy
     end 
 
     def new?
-      get_ldap_groups('it_security_incidents', 'newedit_action')
+      get_ldap_groups('it_security_incidents', 'newedit')
       (user.membership & @ldap_groups).any?
     end
 
     def archive?
-      get_ldap_groups('it_security_incidents', 'archive_action')
+      get_ldap_groups('it_security_incidents', 'archive')
       (user.membership & @ldap_groups).any?
     end
 
     def edit?
-      get_ldap_groups('it_security_incidents', 'newedit_action')
+      get_ldap_groups('it_security_incidents', 'newedit')
       (user.membership & @ldap_groups).any?
     end
     
     def audit_log?
-      get_ldap_groups('it_security_incidents', 'audit_action')
+      get_ldap_groups('it_security_incidents', 'audit')
       (user.membership & @ldap_groups).any?
     end
 

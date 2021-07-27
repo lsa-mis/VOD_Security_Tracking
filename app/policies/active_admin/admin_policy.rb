@@ -38,7 +38,7 @@ module ActiveAdmin
     end
 
     def get_admin_groups
-      @admins_groups = AccessLookup.where(table: 'admin_interface').pluck(:ldap_group)
+      @admins_groups = AccessLookup.where(vod_table: 'admin_interface').pluck(:ldap_group)
     end
 
     class Scope < Struct.new(:user, :scope)
