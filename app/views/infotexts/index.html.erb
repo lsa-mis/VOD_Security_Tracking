@@ -5,7 +5,7 @@
 <table>
   <thead>
     <tr>
-      <th>Title</th>
+      <th>Location</th>
       <th>Content</th>
       <th colspan="3"></th>
     </tr>
@@ -14,7 +14,7 @@
   <tbody>
     <% @infotexts.each do |infotext| %>
       <tr>
-        <td><%= infotext.title %></td>
+        <td><%= infotext.location %></td>
         <td><%= infotext.content %></td>
         <td><%= link_to 'Show', infotext %></td>
         <td><%= link_to 'Edit', edit_infotext_path(infotext) %></td>
