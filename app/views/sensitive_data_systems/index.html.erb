@@ -1,14 +1,15 @@
 <h1>Sensitive Data Systems</h1>
 
-
 <div class="py-2 sm:grid sm:grid-cols-5 sm:gap-4">
-  <div class="index-instruction p-2">
-    <%= @sensitive_data_system_index_text.content %>
-  </div>
-  <div>
-    <% if policy(Infotext).edit? %>
-      <%= link_to 'Edit', edit_infotext_path(@sensitive_data_system_index_text), class: "action-link" %>
-    <% end %>
+  <div class="sm:col-span-4">
+    <div class="index-instruction p-2">
+      <%= @sensitive_data_system_index_text.content %>
+    </div>
+    <div>
+      <% if policy(Infotext).edit? %>
+        <%= link_to 'Edit', edit_infotext_path(@sensitive_data_system_index_text), class: "action-link" %>
+      <% end %>
+    </div>
   </div>
   <div class="mt-1 flex justify-end sm:mt-0">
     <span class="ml-4 flex-shrink-0">
