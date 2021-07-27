@@ -9,19 +9,21 @@
   <%= render "partials/errors", object: @legacy_os_record %>
 
   <div class="form-container">
-    <div>
-    <h3 class="instruction-header">
-      Form Instructions
-    </h3>
-    <div class="form-instruction p-2">
-      <%= @legacy_os_record_form_text.content %>
-    </div>
-    <p>
-      <% if policy(Infotext).edit? %>
-        <%= link_to 'Edit', edit_infotext_path(@legacy_os_record_form_text), class: "action-link" %>
-      <% end %>
-    </p>
-  </div>
+    <% if @legacy_os_record_form_text.present? %>
+      <div>
+        <h3 class="instruction-header">
+          Form Instructions
+        </h3>
+        <div class="form-instruction p-2">
+          <%= @legacy_os_record_form_text.content %>
+        </div>
+        <p>
+          <% if policy(Infotext).edit? %>
+            <%= link_to 'Edit', edit_infotext_path(@legacy_os_record_form_text), class: "action-link" %>
+          <% end %>
+        </p>
+      </div>
+    <% end %>
 
     <div class="field-container">
       <div class="field">

@@ -9,19 +9,21 @@
   <%= render "partials/errors", object: @sensitive_data_system %>
 
   <div class="form-container">
-    <div>
-      <h3 class="instruction-header">
-        Form Instructions
-      </h3>
-      <div class="form-instruction p-2">
-        <%= @sensitive_data_system_form_text.content %>
+    <% if @legacy_os_record_form_text.present? %>
+      <div>
+        <h3 class="instruction-header">
+          Form Instructions
+        </h3>
+        <div class="form-instruction p-2">
+          <%= @sensitive_data_system_form_text.content %>
+        </div>
+        <p>
+          <% if policy(Infotext).edit? %>
+            <%= link_to 'Edit', edit_infotext_path(@sensitive_data_system_form_text), class: "action-link" %>
+          <% end %>
+        </p>
       </div>
-      <p>
-        <% if policy(Infotext).edit? %>
-          <%= link_to 'Edit', edit_infotext_path(@sensitive_data_system_form_text), class: "action-link" %>
-        <% end %>
-      </p>
-    </div>
+    <% end %>
 
     <div class="field-container">
       <div class="field">

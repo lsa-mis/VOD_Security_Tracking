@@ -5,7 +5,6 @@ class DpaExceptionsController < InheritedResources::Base
   before_action :authenticate_logged_in!
   before_action :set_dpa_exception, only: [:show, :edit, :update, :archive, :audit_log]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
-  before_action :set_dpa_exception_form_text, only: [:new, :edit]
 
   def index
     @dpa_exception_index_text = Infotext.find_by(location: "dpa_exception_index")
@@ -51,6 +50,7 @@ class DpaExceptionsController < InheritedResources::Base
 
   def new
     @dpa_exception = DpaException.new
+    @dpa_exception_form_text = Infotext.find_by(location: "dpa_exception_form")
     authorize @dpa_exception
   end
 
@@ -132,10 +132,6 @@ class DpaExceptionsController < InheritedResources::Base
     def add_index_breadcrumb
       # add_breadcrumb(controller_name.titleize, dpa_exceptions_path)
       add_breadcrumb("DPA Exceptions", dpa_exceptions_path)
-    end
-
-    def set_dpa_exception_form_text
-      @dpa_exception_form_text = Infotext.find_by(location: "dpa_exception_form")
     end
 
     def dpa_exception_params
