@@ -33,6 +33,11 @@ Rails.application.reloader.to_prepare do
     self.responder = Responder
     respond_to :html, :turbo_stream
   end
+
+  ActiveAdmin.setup do |config|
+    config.before_action :check_duo_auth
+  end
+
 end
 
 # Assuming you have not yet modified this file, each configuration option below
