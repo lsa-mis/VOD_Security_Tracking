@@ -1,13 +1,15 @@
 <h1>DPA Exceptions</h1>
 
-<div class="py-2 sm:grid sm:grid-cols-5 sm:gap-4">
+<div class="py-2 sm:grid sm:grid-cols-5 sm:gap-4 border-b border-laitan_blue">
   <div class="sm:col-span-4">
-    <div class="index-instruction p-2">
+    <div class="index-instructions">
       <%= @dpa_exception_index_text.content %>
     </div>
     <div>
       <% if policy(Infotext).edit? %>
-        <%= link_to 'Edit', edit_infotext_path(@dpa_exception_index_text), class: "action-link" %>
+        <%= link_to edit_infotext_path(@dpa_exception_index_text) do %>
+          <i class="far fa-edit text-laitan_blue"></i>
+        <% end %>
       <% end %>
     </div>
   </div>
@@ -20,7 +22,7 @@
       <% end %>
     </span>
   </div>
-</div>  
+</div>
 
 <div data-controller='toggle' class="m-2">
   <button type="button" class="new-record-btn"

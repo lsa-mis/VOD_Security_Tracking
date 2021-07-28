@@ -3,7 +3,6 @@ class StaticPagesController < ApplicationController
 
   def home
     @home_text = Infotext.find_by(location: "home")
-
     add_breadcrumb('', root_path)
   end
 

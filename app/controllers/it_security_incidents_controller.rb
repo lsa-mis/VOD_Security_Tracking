@@ -4,10 +4,10 @@ class ItSecurityIncidentsController < InheritedResources::Base
   before_action :authenticate_logged_in!
   before_action :set_it_security_incident, only: [:show, :edit, :update, :archive, :audit_log]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
+  before_action :set_form_infotext, only: [:new, :edit]
 
   def index
     @it_security_incident_index_text = Infotext.find_by(location: "it_security_incident_index")
-
     if params[:items].present?
       session[:items] = params[:items]
     end
@@ -44,7 +44,6 @@ class ItSecurityIncidentsController < InheritedResources::Base
 
   def new
     @it_security_incident = ItSecurityIncident.new
-    @it_security_incident_form_text = Infotext.find_by(location: "it_security_incident_form")
     authorize @it_security_incident
   end
 
@@ -120,6 +119,10 @@ class ItSecurityIncidentsController < InheritedResources::Base
 
     def add_index_breadcrumb
       add_breadcrumb("IT Security Incidents", it_security_incidents_path)
+    end
+
+    def set_form_infotext
+      @it_security_incident_form_text = Infotext.find_by(location: "it_security_incident_form")
     end
 
     def it_security_incident_params

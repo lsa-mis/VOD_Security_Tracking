@@ -12,7 +12,9 @@
         </div>
         <p>
           <% if policy(Infotext).edit? %>
-            <%= link_to 'Edit', edit_infotext_path(@it_security_incident_form_text), class: "action-link" %>
+            <%= link_to edit_infotext_path(@it_security_incident_form_text) do %>
+              <i class="far fa-edit text-laitan_blue"></i>
+            <% end %>
           <% end %>
         </p>
       </div>
