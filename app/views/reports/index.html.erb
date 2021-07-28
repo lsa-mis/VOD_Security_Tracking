@@ -1,0 +1,30 @@
+<h1>Reports</h1>
+
+<div>
+  <h3>1. Legacy OS records with review dates equal to next month</h3>
+  <span class= "btn-action"><%= link_to 'Submit report', legacy_os_records_review_date_next_month_path, class: 'btn btn-primary' %></span>
+</div>
+
+<div>
+<br>
+<h3>2. Show all systems with selected data type</h3>
+
+<div class="form-container">
+  <div class="field-container">
+    <%= form_tag(systems_with_selected_data_type_path, :method => "get") do |form| %>
+      <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+        <%= label_tag "data type" %>
+        <div class="pl-4">
+        <%= select_tag :id, options_from_collection_for_select(DataType.all, 'id', 'name'), include_blank: "Select data type" %>
+        </div>
+        <div class="pl-4">
+        <%= submit_tag "Show report", data: { disable_with: false } %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<%= render partial: "reports/listing" %>
+
+

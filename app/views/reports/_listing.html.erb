@@ -1,0 +1,39 @@
+<div id="reportListing">
+
+  <div class="flex flex-nowrap justify-center">
+    <div class="fixed_header_container">
+
+      <% if @result.present? %>
+        <% @result.each do |data| %>
+          <h1><%= data['table'] %></h1>Total number of records: <%= "#{data['total']}" %>
+          <table class="fixed_header">
+            <thead>
+              <tr>
+                <% data['header'].each do |item| %>
+                  <th scope="col"><%= item %></th>
+                <% end %>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% if data['total'] > 0 %>
+                  <% data['rows'].each do |row| %>
+                    <tr>
+                      <% row.each do |item| %>
+                        <td><%= item %></td>
+                      <% end %>
+                    </tr>
+                  <% end %>
+              <% else %>
+                <!-- Blank state -->
+                <tr>
+                  <td><em>No matching records</em></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <%end %>
+      <% end %>
+    </div>
+  </div>
+</div>
