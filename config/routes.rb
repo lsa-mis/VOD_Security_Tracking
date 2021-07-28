@@ -53,6 +53,13 @@ Rails.application.routes.draw do
 
   resources :infotexts
 
+  get '/admin/reports/legacy_os_records_review_date_next_month', to: 'admin/reports#legacy_os_records_review_date_next_month', as: :admin_legacy_os_records_review_date_next_month
+  get '/admin/reports/systems_with_selected_data_type', to: 'admin/reports#systems_with_selected_data_type', as: :admin_systems_with_selected_data_type
+
+  resources :reports
+  get 'legacy_os_records_review_date_next_month', to: 'reports#legacy_os_records_review_date_next_month', as: :legacy_os_records_review_date_next_month
+  get 'systems_with_selected_data_type', to: 'reports#systems_with_selected_data_type', as: :systems_with_selected_data_type
+
   ActiveAdmin.routes(self)
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
