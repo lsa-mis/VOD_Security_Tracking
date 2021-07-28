@@ -14,6 +14,7 @@
 #  department   :string(255)
 #  manufacturer :string(255)
 #  model        :string(255)
+#  deleted_at   :datetime
 #
 class Device < ApplicationRecord
   has_many :sensitive_data_systems

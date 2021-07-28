@@ -1,0 +1,24 @@
+
+<%= form_with(model: infotext) do |form| %>
+  <%= render "partials/errors", object: @infotext %>
+
+  <div class="form-container">
+    <div class="field-container">
+      <div class="field">
+        <%= form.label :location %>
+        <%= form.text_field :location %>
+      </div>
+
+      <div class="field">
+        <%= form.label :content %>
+        <%= form.rich_text_area :content %>
+      </div>
+    </div>
+  </div>
+
+  <div class="action-area">
+    <div class="action-btn">
+      <%= form.button :submit %>
+    </div>
+  </div>
+<% end %>

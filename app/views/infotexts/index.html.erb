@@ -1,0 +1,22 @@
+<h1>Application Settings</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Location</th>
+      <th>Content</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @infotexts.each do |infotext| %>
+      <tr>
+        <td><%= infotext.location %></td>
+        <td><%= infotext.content %></td>
+        <td><%= link_to 'Show', infotext %></td>
+        <td><%= link_to 'Edit', edit_infotext_path(infotext) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

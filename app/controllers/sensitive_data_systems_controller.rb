@@ -5,9 +5,10 @@ class SensitiveDataSystemsController < InheritedResources::Base
   before_action :set_sensitive_data_system, only: [:show, :edit, :update, :archive, :audit_log]
   before_action :get_access_token, only: [:create, :update]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
+  before_action :set_form_infotext, only: [:new, :edit]
 
   def index
-
+    @sensitive_data_system_index_text = Infotext.find_by(location: "sensitive_data_system_index")
     if params[:items].present?
       session[:items] = params[:items]
     end
@@ -36,8 +37,6 @@ class SensitiveDataSystemsController < InheritedResources::Base
     @storage_location = StorageLocation.where(id: SensitiveDataSystem.pluck(:storage_location_id).uniq)
     @device_serial = Device.where(id: SensitiveDataSystem.pluck(:device_id).uniq).where.not(serial: [nil, ""])
     @device_hostname = Device.where(id: SensitiveDataSystem.pluck(:device_id).uniq).where.not(hostname: [nil, ""])
-
-    
 
     authorize @sensitive_data_systems
 
@@ -179,6 +178,10 @@ class SensitiveDataSystemsController < InheritedResources::Base
 
     def add_index_breadcrumb
       add_breadcrumb(controller_name.titleize, sensitive_data_systems_path)
+    end
+
+    def set_form_infotext
+      @sensitive_data_system_form_text = Infotext.find_by(location: "sensitive_data_system_form")
     end
 
     def sensitive_data_system_params

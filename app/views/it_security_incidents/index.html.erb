@@ -1,10 +1,17 @@
 <h1>IT Security Incidents</h1>
 
-<div class="py-2 sm:grid sm:grid-cols-5 sm:gap-4">
-  <div class="flex flex-grow sm:col-span-4">
-    <p class="text-gray-500 text-sm mx-4">
-      IT Security Incidents
-    </p>
+<div class="py-2 sm:grid sm:grid-cols-5 sm:gap-4 border-b border-laitan_blue">
+  <div class="sm:col-span-4">
+    <div class="index-instruction p-2">
+      <%= @it_security_incident_index_text.content %>
+    </div>
+    <div>
+      <% if policy(Infotext).edit? %>
+        <%= link_to edit_infotext_path(@it_security_incident_index_text) do %>
+          <i class="far fa-edit text-laitan_blue"></i>
+        <% end %>
+      <% end %>
+    </div>
   </div>
   <div class="mt-1 flex justify-end sm:mt-0">
     <span class="ml-4 flex-shrink-0">
@@ -109,7 +116,6 @@
             Clear
           </button>
           <%= f.submit 'Search', data: { disable_with: false }, class: 'btn btn-primary' %>
-
         <% end %>
       </div>
     </div>

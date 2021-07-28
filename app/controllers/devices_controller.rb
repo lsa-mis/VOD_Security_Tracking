@@ -6,6 +6,8 @@ class DevicesController < InheritedResources::Base
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
 
   def index
+    @device_index_text = Infotext.find_by(location: "device_index")
+
     @pagy, @devices = pagy(Device.all)
     authorize @devices
   end
@@ -14,6 +16,7 @@ class DevicesController < InheritedResources::Base
     add_breadcrumb(@device.display_name)
     @legacy_os_records = LegacyOsRecord.where(device_id: @device)
     @sensitive_data_systems = SensitiveDataSystem.where(device_id: @device)
+    @device_show_text = Infotext.find_by(location: "device_show")
     authorize @device
   end
 

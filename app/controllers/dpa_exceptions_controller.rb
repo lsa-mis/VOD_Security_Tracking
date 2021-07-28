@@ -5,9 +5,10 @@ class DpaExceptionsController < InheritedResources::Base
   before_action :authenticate_logged_in!
   before_action :set_dpa_exception, only: [:show, :edit, :update, :archive, :audit_log]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
+  before_action :set_form_infotext, only: [:new, :edit]
 
   def index
-
+    @dpa_exception_index_text = Infotext.find_by(location: "dpa_exception_index")
     if params[:items].present?
       session[:items] = params[:items]
     end
@@ -130,6 +131,10 @@ class DpaExceptionsController < InheritedResources::Base
     def add_index_breadcrumb
       # add_breadcrumb(controller_name.titleize, dpa_exceptions_path)
       add_breadcrumb("DPA Exceptions", dpa_exceptions_path)
+    end
+
+    def set_form_infotext
+      @dpa_exception_form_text = Infotext.find_by(location: "dpa_exception_form")
     end
 
     def dpa_exception_params

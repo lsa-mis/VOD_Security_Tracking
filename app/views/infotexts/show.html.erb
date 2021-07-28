@@ -1,0 +1,12 @@
+<p>
+  <strong>Location:</strong>
+  <%= @infotext.location %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @infotext.content %>
+</p>
+
+<%= link_to 'Edit', edit_infotext_path(@infotext) %> |
+<%= link_to 'Back', infotexts_path %>
