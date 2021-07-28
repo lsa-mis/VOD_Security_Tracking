@@ -25,33 +25,31 @@
         </thead>
 
         <tbody>
-
-            <% @dpa_exceptions.each do |dpa_exception| %>
+          <% @dpa_exceptions.each do |dpa_exception| %>
             <tr>
-                <td>
+              <td>
                 <ul>
-                    <li><%= link_to 'Show', dpa_exception, class: "action-link" %></li>
-                    <% if policy(dpa_exception).edit? %>
-                      <li><%= link_to 'Edit', edit_dpa_exception_path(dpa_exception), class: "action-link" %></li>
-                    <% end %>
-                    <% if policy(dpa_exception).archive? %>
-                      <li><%= link_to 'Archive', archive_dpa_exception_path(dpa_exception), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
-                    <% end %>
-                    <% if policy(dpa_exception).audit_log? %>
-                      <li><%= link_to 'Audit', dpa_exception_audit_log_path(dpa_exception), class: "action-link" %></li>
-                    <% end %>
+                  <li><%= link_to 'Show', dpa_exception, class: "action-link" %></li>
+                  <% if policy(dpa_exception).edit? %>
+                    <li><%= link_to 'Edit', edit_dpa_exception_path(dpa_exception), class: "action-link" %></li>
+                  <% end %>
+                  <% if policy(dpa_exception).archive? %>
+                    <li><%= link_to 'Archive', archive_dpa_exception_path(dpa_exception), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
+                  <% end %>
+                  <% if policy(dpa_exception).audit_log? %>
+                    <li><%= link_to 'Audit', dpa_exception_audit_log_path(dpa_exception), class: "action-link" %></li>
+                  <% end %>
                 </ul>
-                </td> 
-                <td><%= show_dpa_exception_status(dpa_exception) %></td>
-                <td><%= show_date(dpa_exception.review_date_exception_first_approval_date) %></td>
-                <td><%= dpa_exception.third_party_product_service %></td>
-                <td><%= dpa_exception.used_by %></td>
-                <td><%= show_data_type_name(dpa_exception) %></td>
-                <td><%= show_date(dpa_exception.exception_approval_date_exception_renewal_date_due) %></td>
-                <td><%= show_date(dpa_exception.review_date_exception_review_date) %></td>
+              </td> 
+              <td><%= show_dpa_exception_status(dpa_exception) %></td>
+              <td><%= show_date(dpa_exception.review_date_exception_first_approval_date) %></td>
+              <td><%= dpa_exception.third_party_product_service %></td>
+              <td><%= dpa_exception.used_by %></td>
+              <td><%= show_data_type_name(dpa_exception) %></td>
+              <td><%= show_date(dpa_exception.exception_approval_date_exception_renewal_date_due) %></td>
+              <td><%= show_date(dpa_exception.review_date_exception_review_date) %></td>
             </tr>
-            <% end %>
-
+          <% end %>
           <!-- Blank state -->
           <% if @dpa_exceptions.empty? %>
             <tr>

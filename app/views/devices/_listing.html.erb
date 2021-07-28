@@ -1,0 +1,52 @@
+<div id="deviceListing">
+  <div>
+    <!-- Display number of item per page at the bottom of the screen -->
+    <%== pagy_items_selector_js(@pagy, item_name: 'Record'.pluralize(@pagy.count)) %>
+  </div>
+  <span>
+      Total number of records: <%= "#{@pagy.count}" %>
+  </span>
+
+  <div class="flex flex-nowrap justify-center">
+    <div class="fixed_header_container">
+      <table class="fixed_header">
+
+        <thead>
+          <tr>
+            <th scope="col">Actions</th>
+            <th scope="col">Serial</th>
+            <th scope="col">Hostname</th>
+            <th scope="col">Mac</th>
+            <th scope="col">Manufacturer</th>
+            <th scope="col">Model</th>
+            <th scope="col">Owner</th>
+            <th scope="col">Department</th>
+            <th scope="col">Building</th>
+            <th scope="col">Room</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @devices.each do |device| %>
+            <tr>
+              <td>
+                <ul>
+                  <li><%= link_to 'Show', device, class: "action-link" %></li>
+                </ul>
+              </td>
+              <td><%= device.serial %></td>
+              <td><%= device.hostname %></td>
+              <td><%= device.mac %></td>
+              <td><%= device.manufacturer %></td>
+              <td><%= device.model %></td>
+              <td><%= device.owner %></td>
+              <td><%= device.department %></td>
+              <td><%= device.building %></td>
+              <td><%= device.room %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <%= render partial: "partials/pagination", locals: { pagy: @pagy } %>
+</div>

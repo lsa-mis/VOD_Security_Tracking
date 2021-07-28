@@ -7,7 +7,6 @@ class DevicesController < InheritedResources::Base
 
   def index
     @device_index_text = Infotext.find_by(location: "device_index")
-
     @pagy, @devices = pagy(Device.all)
     authorize @devices
   end

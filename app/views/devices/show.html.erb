@@ -4,7 +4,9 @@
   </div>
   <p>
   <% if policy(Infotext).edit? %>
-    <%= link_to 'Edit', edit_infotext_path(@device_show_text), class: "action-link" %>
+    <%= link_to edit_infotext_path(@device_show_text) do %>
+      <i class="far fa-edit text-laitan_blue"></i>
+    <% end %>
   <% end %>
   </p>
 </div>
@@ -133,7 +135,7 @@
 </div>
 
 <% if policy(@device).edit? %>
-  <%= link_to 'Update', update_device_path(@device), class: "action-link" %>
+  <div class="pt-5 flex justify-start">
+    <%= link_to 'Update', update_device_path(@device), class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-laitan_blue hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+  </div>
 <% end %>
-
-</div>
