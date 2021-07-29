@@ -5,7 +5,7 @@
     </div>
     <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
       <div class="lg:flex-grow">
-        <% if user_signed_in? %>
+        <% if user_signed_in? && session[:duo_auth] %>
             <%= link_to "Dashboard", dashboard_path, class: "mr-4" %>
             <% if policy(DpaException).any_action? %>
               <%= link_to "DPA Exceptions", dpa_exceptions_path, class: "mr-4" %>
