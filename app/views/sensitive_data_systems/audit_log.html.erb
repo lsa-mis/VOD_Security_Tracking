@@ -1,8 +1,9 @@
 <h1>Sensitive Data System Audit Log for: <span class="bg-blue-50 px-2 rounded-sm"> <%= @sensitive_data_system.display_name %></span></h1>
 
 <div class="flex flex-col h-2/3">
+  <br>
   <div>
-    <!-- Display number of item per page at the bottom of the screen -->
+    <!-- Display number of item per page -->
     <%== pagy_items_selector_js(@pagy, item_name: 'Record'.pluralize(@pagy.count)) %>
   </div>
   <span>
