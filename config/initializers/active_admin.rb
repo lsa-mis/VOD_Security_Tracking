@@ -352,4 +352,10 @@ ActiveAdmin.setup do |config|
   #
   config.use_webpacker = true
 
+  def check_duo_auth
+    if !session[:duo_auth]
+      redirect_to duo_path
+    end
+  end
+
 end
