@@ -5,8 +5,7 @@
   <div class="form-container">
     <div class="field-container">
       <div class="field">
-        <%= form.label :location %>
-        <%= form.text_field :location %>
+        <span class="font-bold"><%= "Location: #{@infotext.location.gsub('_', ' ').upcase}" %></span>
       </div>
 
       <div class="field">
