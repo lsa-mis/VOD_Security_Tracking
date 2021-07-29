@@ -18,7 +18,7 @@ class ItSecurityIncidentsController < InheritedResources::Base
     else
       @q = ItSecurityIncident.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
-    @q.sorts = ["id asc"] if @q.sorts.empty?
+    @q.sorts = ["created_at desc"] if @q.sorts.empty?
     if session[:items].present?
       @pagy, @it_security_incidents = pagy(@q.result, items: session[:items])
     else

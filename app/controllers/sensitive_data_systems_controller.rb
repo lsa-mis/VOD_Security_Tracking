@@ -25,7 +25,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
       end
       @q = SensitiveDataSystem.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
-    @q.sorts = ["id asc"] if @q.sorts.empty?
+    @q.sorts = ["created_at desc"] if @q.sorts.empty?
     if session[:items].present?
       @pagy, @sensitive_data_systems = pagy(@q.result, items: session[:items])
     else
@@ -157,7 +157,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
       sensitive_data_system_path(@sensitive_data_system)
                   )
     add_breadcrumb('Audit')
-    
+
     if session[:items].present?
       @pagy, @sensitive_data_system_audit_log = pagy(@sensitive_data_system.audits.all.reorder(created_at: :desc), items: session[:items])
     else

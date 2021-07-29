@@ -19,7 +19,7 @@ class DpaExceptionsController < InheritedResources::Base
       end
       @q = DpaException.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
-    @q.sorts = ["id asc"] if @q.sorts.empty?
+    @q.sorts = ["created_at desc"] if @q.sorts.empty?
 
     if session[:items].present?
       @pagy, @dpa_exceptions = pagy(@q.result, items: session[:items])

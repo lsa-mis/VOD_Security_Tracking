@@ -22,7 +22,7 @@ class LegacyOsRecordsController < InheritedResources::Base
       end
       @q = LegacyOsRecord.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
-    @q.sorts = ["id asc"] if @q.sorts.empty?
+    @q.sorts = ["created_at desc"] if @q.sorts.empty?
     if session[:items].present?
       @pagy, @legacy_os_records = pagy(@q.result, items: session[:items])
     else
