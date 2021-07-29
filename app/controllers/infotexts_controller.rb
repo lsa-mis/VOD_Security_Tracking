@@ -22,7 +22,7 @@ class InfotextsController < ApplicationController
   def update
     respond_to do |format|
       if @infotext.update(infotext_params)
-        format.turbo_stream { redirect_to session.delete(:return_to), 
+        format.turbo_stream { redirect_to @infotext, 
         notice: 'Text was successfully updated.' 
       }
     else
