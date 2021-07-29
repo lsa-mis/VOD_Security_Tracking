@@ -16,6 +16,22 @@
   h4 
     @apply text-sm
 
+  p
+    @apply text-base font-light
+
+  a
+    &.action-link
+      @apply text-blue-600
+
+    &:hover
+      @apply text-um_yellow
+
+    &.header-link
+      @apply text-white
+
+    &.footer-link
+      @apply text-blue-900
+
 // this is a good candidate for a partial
 .device--display
   @apply block
@@ -32,22 +48,6 @@
 ​ 	
 main
   @apply bg-white m-4 flex-1
-
-p
-  @apply text-base font-light
-
-a 
-  &.action-link
-    @apply text-blue-600
-
-  &:hover
-    @apply text-um_yellow
-
-  &.header-link
-    @apply text-white
-
-  &.footer-link
-    @apply text-blue-900
 
 .btn-new
   @apply mt-2 -mr-1 mb-4 w-40 rounded-md shadow-lg py-1 bg-green-500 text-sm text-white text-center ring-1 ring-black ring-opacity-5 focus:outline-none 
