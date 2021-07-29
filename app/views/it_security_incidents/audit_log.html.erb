@@ -1,6 +1,13 @@
 <h1>IT Security Incident Audit Log for: <span class="bg-blue-50 px-2 rounded-sm"> <%= @it_security_incident.display_name %></span></h1>
 
 <div class="flex flex-col h-2/3">
+  <div>
+    <!-- Display number of item per page at the bottom of the screen -->
+    <%== pagy_items_selector_js(@pagy, item_name: 'Record'.pluralize(@pagy.count)) %>
+  </div>
+  <span>
+      Total number of records: <%= "#{@pagy.count}" %>
+  </span>
   <div class="flex-grow overflow-auto shadow rounded-md">
     <table class="relative w-full">
       <thead>
@@ -41,4 +48,5 @@
       </tbody>
     </table>
   </div>
+  <%= render partial: "partials/pagination", locals: { pagy: @pagy } %>
 </div>

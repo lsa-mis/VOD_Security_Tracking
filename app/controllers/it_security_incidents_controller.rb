@@ -5,6 +5,7 @@ class ItSecurityIncidentsController < InheritedResources::Base
   before_action :set_it_security_incident, only: [:show, :edit, :update, :archive, :audit_log]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_form_infotext, only: [:new, :edit]
+  before_action :set_number_of_items, only: [:index, :audit_log]
 
   def index
     @it_security_incident_index_text = Infotext.find_by(location: "it_security_incident_index")
@@ -108,7 +109,12 @@ class ItSecurityIncidentsController < InheritedResources::Base
                   )
     add_breadcrumb('Audit')
 
-    @it_security_incident_audit_log = @it_security_incident.audits.all.reorder(created_at: :desc)
+    if session[:items].present?
+      @pagy, @it_security_incident_audit_log = pagy(@it_security_incident.audits.all.reorder(created_at: :desc), items: session[:items])
+    else
+      @pagy, @it_security_incident_audit_log = pagy(@it_security_incident.audits.all.reorder(created_at: :desc))
+    end
+
   end
 
   private
@@ -123,6 +129,12 @@ class ItSecurityIncidentsController < InheritedResources::Base
 
     def set_form_infotext
       @it_security_incident_form_text = Infotext.find_by(location: "it_security_incident_form")
+    end
+
+    def set_number_of_items
+      if params[:items].present?
+        session[:items] = params[:items]
+      end
     end
 
     def it_security_incident_params

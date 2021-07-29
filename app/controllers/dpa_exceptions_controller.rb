@@ -6,12 +6,10 @@ class DpaExceptionsController < InheritedResources::Base
   before_action :set_dpa_exception, only: [:show, :edit, :update, :archive, :audit_log]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_form_infotext, only: [:new, :edit]
+  before_action :set_number_of_items, only: [:index, :audit_log]
 
   def index
     @dpa_exception_index_text = Infotext.find_by(location: "dpa_exception_index")
-    if params[:items].present?
-      session[:items] = params[:items]
-    end
     
     if params[:q].nil?
       @q = DpaException.active.ransack(params[:q])
@@ -119,7 +117,11 @@ class DpaExceptionsController < InheritedResources::Base
                   )
     add_breadcrumb('Audit')
 
-    @dpa_exception_audit_log = @dpa_exception.audits.all.reorder(created_at: :desc)
+    if session[:items].present?
+      @pagy, @dpa_exception_audit_log = pagy(@dpa_exception.audits.all.reorder(created_at: :desc), items: session[:items])
+    else
+      @pagy, @dpa_exception_audit_log = pagy(@dpa_exception.audits.all.reorder(created_at: :desc))
+    end
   end
 
   private
@@ -135,6 +137,12 @@ class DpaExceptionsController < InheritedResources::Base
 
     def set_form_infotext
       @dpa_exception_form_text = Infotext.find_by(location: "dpa_exception_form")
+    end
+
+    def set_number_of_items
+      if params[:items].present?
+        session[:items] = params[:items]
+      end
     end
 
     def dpa_exception_params
