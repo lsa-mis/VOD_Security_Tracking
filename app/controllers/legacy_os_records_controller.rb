@@ -6,6 +6,7 @@ class LegacyOsRecordsController < InheritedResources::Base
   before_action :get_access_token, only: [:create, :update]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_form_infotext, only: [:new, :edit]
+  before_action :set_number_of_items, only: [:index, :audit_log]
 
   def index
     @legacy_os_record_index_text = Infotext.find_by(location: "legacy_os_record_index")
@@ -21,7 +22,7 @@ class LegacyOsRecordsController < InheritedResources::Base
       end
       @q = LegacyOsRecord.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
-    @q.sorts = ["id asc"] if @q.sorts.empty?
+    @q.sorts = ["created_at desc"] if @q.sorts.empty?
     if session[:items].present?
       @pagy, @legacy_os_records = pagy(@q.result, items: session[:items])
     else
@@ -154,7 +155,12 @@ class LegacyOsRecordsController < InheritedResources::Base
                   )
     add_breadcrumb('Audit')
 
-    @legacy_os_audit_log = @legacy_os_record.audits.all.reorder(created_at: :desc)
+    if session[:items].present?
+      @pagy, @legacy_os_audit_log = pagy(@legacy_os_record.audits.all.reorder(created_at: :desc), items: session[:items])
+    else
+      @pagy, @legacy_os_audit_log = pagy(@legacy_os_record.audits.all.reorder(created_at: :desc))
+    end
+
   end
 
   private
@@ -179,6 +185,12 @@ class LegacyOsRecordsController < InheritedResources::Base
 
     def set_form_infotext
       @legacy_os_record_form_text = Infotext.find_by(location: "legacy_os_record_form")
+    end
+
+    def set_number_of_items
+      if params[:items].present?
+        session[:items] = params[:items]
+      end
     end
 
     def legacy_os_record_params
