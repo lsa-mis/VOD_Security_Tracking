@@ -205,7 +205,8 @@
         Device Name
       </dt>
       <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        <span class="flex-grow"><%= link_to show_device(@legacy_os_record), device_path(@legacy_os_record.device_id) %></span>
+        <i class="fas fa-link text-gray-400 pr-2"></i>
+        <span class="flex-grow"><%= link_to show_device(@legacy_os_record), device_path(@legacy_os_record.device_id), class: "action-link" %></span>
       </dd>
     </div>
 
