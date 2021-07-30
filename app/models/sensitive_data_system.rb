@@ -69,7 +69,7 @@ class SensitiveDataSystem < ApplicationRecord
       end
 
       unless acceptable_types.include?(att.content_type)
-        errors.add(:attachments, "must be an acceptable file type")
+        errors.add(:attachments, "must be an acceptable file type (pdf,txt,jpg,png,doc,xls)")
       end
     end
   end

@@ -88,7 +88,7 @@
 
       <div class="field">
         <%= form.fields_for @it_security_incident.tdx_tickets.new do |f| %>
-          <%= f.label :ticket_link, "Add a TDX ticket link" %>
+          <%= f.label :ticket_link, "Add a TDX ticket URL link" %>
           <%= f.text_field :ticket_link %>
         <% end %>
         <% if @it_security_incident.tdx_tickets.present? %>
@@ -117,7 +117,7 @@
       </div>
 
       <div id="attached_files" class="field">
-        <%= form.label :attachments %>
+        <%= form.label :attachments, "Attachments (pdf,txt,jpg,png,doc,xls)" %>
         <%= form.file_field :attachments, multiple: true %>
         <% if @it_security_incident.attachments.attached? %>
           <div class="py-4 pl-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
