@@ -60,6 +60,8 @@ Rails.application.routes.draw do
   get 'legacy_os_records_review_date_next_month', to: 'reports#legacy_os_records_review_date_next_month', as: :legacy_os_records_review_date_next_month
   get 'systems_with_selected_data_type', to: 'reports#systems_with_selected_data_type', as: :systems_with_selected_data_type
   get 'sensitive_data_system_review_date_this_month', to: 'reports#sensitive_data_system_review_date_this_month', as: :sensitive_data_system_review_date_this_month
+  get 'dpa_exception_review_date_this_month', to: 'reports#dpa_exception_review_date_this_month', as: :dpa_exception_review_date_this_month
+  get 'records_added_last_week', to: 'reports#records_added_last_week', as: :records_added_last_week
   get 'systems_with_selected_data_classification_level', to: 'reports#systems_with_selected_data_classification_level', as: :systems_with_selected_data_classification_level
 
   ActiveAdmin.routes(self)

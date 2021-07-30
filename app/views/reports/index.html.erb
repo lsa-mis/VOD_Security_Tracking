@@ -5,50 +5,61 @@
   <span class= "btn-action"><%= link_to 'Submit report', legacy_os_records_review_date_next_month_path, class: 'btn btn-primary' %></span>
 </div>
 
-<div>
 <br>
 <div>
-  <h3>2. Sensitive data systems with review date equal to this month</h3>
+  <h3>2. DPA exceptions with review date equal to this month</h3>
+  <span class= "btn-action"><%= link_to 'Submit report', dpa_exception_review_date_this_month_path, class: 'btn btn-primary' %></span>
+</div>
+
+<br>
+<div>
+  <h3>3. Sensitive data systems with review date equal to this month</h3>
   <span class= "btn-action"><%= link_to 'Submit report', sensitive_data_system_review_date_this_month_path, class: 'btn btn-primary' %></span>
 </div>
 
+<br>
 <div>
+  <h3>4. Records added last week</h3>
+  <span class= "btn-action"><%= link_to 'Submit report', records_added_last_week_path, class: 'btn btn-primary' %></span>
+</div>
 
 <br>
-<h3>3. Show all systems with selected data type</h3>
-
-<div class="form-container">
-  <div class="field-container">
-    <%= form_tag(systems_with_selected_data_type_path, :method => "get") do |form| %>
-      <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-        <%= label_tag "data type" %>
-        <div class="pl-4">
-        <%= select_tag :data_type_id, options_from_collection_for_select(DataType.all, 'id', 'name'), include_blank: "Select data type" %>
+<div>
+  <h3>5. Show all systems with selected data type</h3>
+  <div class="form-container">
+    <div class="field-container">
+      <%= form_tag(systems_with_selected_data_type_path, :method => "get") do |form| %>
+        <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+          <%= label_tag "data type" %>
+          <div class="pl-4">
+          <%= select_tag :data_type_id, options_from_collection_for_select(DataType.all, 'id', 'name'), include_blank: "Select data type" %>
+          </div>
+          <div class="pl-4">
+          <%= submit_tag "Show report", data: { disable_with: false } %>
+          </div>
         </div>
-        <div class="pl-4">
-        <%= submit_tag "Show report", data: { disable_with: false } %>
-        </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
 
 <br>
-<h3>3. Show all systems with selected data classification level</h3>
-
-<div class="form-container">
-  <div class="field-container">
-    <%= form_tag(systems_with_selected_data_classification_level_path, :method => "get") do |form| %>
-      <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-        <%= label_tag "data classification level" %>
-        <div class="pl-4">
-        <%= select_tag :data_classification_level_id, options_from_collection_for_select(DataClassificationLevel.all, 'id', 'name'), include_blank: "Select data classification level" %>
+<div>
+  <h3>6. Show all systems with selected data classification level</h3>
+  <div class="form-container">
+    <div class="field-container">
+      <%= form_tag(systems_with_selected_data_classification_level_path, :method => "get") do |form| %>
+        <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+          <%= label_tag "data classification level" %>
+          <div class="pl-4">
+          <%= select_tag :data_classification_level_id, options_from_collection_for_select(DataClassificationLevel.all, 'id', 'name'), include_blank: "Select data classification level" %>
+          </div>
+          <div class="pl-4">
+          <%= submit_tag "Show report", data: { disable_with: false } %>
+          </div>
         </div>
-        <div class="pl-4">
-        <%= submit_tag "Show report", data: { disable_with: false } %>
-        </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
 
