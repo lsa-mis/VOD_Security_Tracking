@@ -59,6 +59,7 @@ Rails.application.routes.draw do
   resources :reports
   get 'legacy_os_records_review_date_next_month', to: 'reports#legacy_os_records_review_date_next_month', as: :legacy_os_records_review_date_next_month
   get 'systems_with_selected_data_type', to: 'reports#systems_with_selected_data_type', as: :systems_with_selected_data_type
+  get 'sensitive_data_system_review_date_this_month', to: 'reports#sensitive_data_system_review_date_this_month', as: :sensitive_data_system_review_date_this_month
 
   ActiveAdmin.routes(self)
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

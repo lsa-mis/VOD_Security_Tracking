@@ -7,7 +7,15 @@
 
 <div>
 <br>
-<h3>2. Show all systems with selected data type</h3>
+<div>
+  <h3>2. Sensitive data systems with review date equal to this month</h3>
+  <span class= "btn-action"><%= link_to 'Submit report', sensitive_data_system_review_date_this_month_path, class: 'btn btn-primary' %></span>
+</div>
+
+<div>
+
+<br>
+<h3>3. Show all systems with selected data type</h3>
 
 <div class="form-container">
   <div class="field-container">
@@ -15,7 +23,7 @@
       <div class="field flex flex-row flex-nowrap justify-items-start items-center">
         <%= label_tag "data type" %>
         <div class="pl-4">
-        <%= select_tag :id, options_from_collection_for_select(DataType.all, 'id', 'name'), include_blank: "Select data type" %>
+        <%= select_tag :data_type_id, options_from_collection_for_select(DataType.all, 'id', 'name'), include_blank: "Select data type" %>
         </div>
         <div class="pl-4">
         <%= submit_tag "Show report", data: { disable_with: false } %>
