@@ -23,6 +23,9 @@ class SensitiveDataSystemsController < InheritedResources::Base
       if params[:q][:storage_location_id_blank].present? && params[:q][:storage_location_id_blank] == "0"
         params[:q] = params[:q].except("storage_location_id_blank")
       end
+      if params[:q][:incomplete_true].present? && params[:q][:incomplete_true] == "0"
+        params[:q] = params[:q].except("incomplete_true")
+      end
       @q = SensitiveDataSystem.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
     @q.sorts = ["created_at desc"] if @q.sorts.empty?
