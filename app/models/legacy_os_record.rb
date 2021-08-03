@@ -5,7 +5,6 @@
 #  id                            :bigint           not null, primary key
 #  owner_username                :string(255)      not null
 #  owner_full_name               :string(255)      not null
-#  dept                          :string(255)
 #  phone                         :string(255)
 #  additional_dept_contact       :string(255)
 #  additional_dept_contact_phone :string(255)
@@ -27,10 +26,12 @@
 #  updated_at                    :datetime         not null
 #  deleted_at                    :datetime
 #  incomplete                    :boolean          default(FALSE)
+#  department_id                 :bigint           not null
 #
 class LegacyOsRecord < ApplicationRecord
   belongs_to :data_type, optional: true
   belongs_to :device
+  belongs_to :department
   has_many :tdx_tickets, as: :records_to_tdx
   accepts_nested_attributes_for :device
 
@@ -39,7 +40,7 @@ class LegacyOsRecord < ApplicationRecord
 
   audited
 
-  validates :owner_username, :owner_full_name, :dept, :phone, presence: true
+  validates :owner_username, :owner_full_name, :department_id, :phone, presence: true
   validate :unique_app_or_unique_hardware
   validate :acceptable_attachments
 
