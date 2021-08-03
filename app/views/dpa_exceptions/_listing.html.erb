@@ -7,6 +7,16 @@
       Total number of records: <%= "#{@pagy.count}" %>
   </span>
 
+  <div class="mt-1 flex justify-end sm:mt-0">
+    <span class="ml-4 flex-shrink-0">
+      <div role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
+        <%#= link_to 'Export to CSV', dpa_exceptions_path(params.merge(format: 'csv').permit!), class: "new-record-btn" %>
+        <%= link_to 'Export to CSV', dpa_exceptions_path(params.merge(format: 'csv', q: params[:q]).permit!), class: "new-record-btn" %>
+      </div>
+    </span>
+  </div>
+
+    
   <div class="flex flex-nowrap justify-center">
     <div class="fixed_header_container">
       <table class="fixed_header">

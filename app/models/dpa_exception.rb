@@ -110,6 +110,17 @@ class DpaException < ApplicationRecord
     self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete").all? {|k, v| v.present?} ? false : true
   end
 
+  def self.to_csv
+    logger.debug "************************* all #{all.count}"
+    attributes = %w{review_date_exception_first_approval_date third_party_product_service used_by point_of_contact review_findings review_summary lsa_security_recommendation lsa_security_determination lsa_security_approval lsa_technology_services_approval exception_approval_date_exception_renewal_date_due notes sla_agreement data_type_id review_date_exception_review_date dpa_exception_status_id incomplete}
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+      all.each do | dpa|
+        csv << dpa.attributes.values_at(*attributes)
+      end
+    end
+  end
+
   def display_name
     "#{self.third_party_product_service}"
   end
