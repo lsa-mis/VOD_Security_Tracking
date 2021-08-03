@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_03_160916) do
+ActiveRecord::Schema.define(version: 2021_08_03_161916) do
 
   create_table "access_lookups", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "ldap_group"
@@ -229,7 +229,6 @@ ActiveRecord::Schema.define(version: 2021_08_03_160916) do
   create_table "sensitive_data_systems", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "owner_username", null: false
     t.string "owner_full_name", null: false
-    t.string "dept"
     t.string "phone"
     t.string "additional_dept_contact"
     t.string "additional_dept_contact_phone"
@@ -247,7 +246,9 @@ ActiveRecord::Schema.define(version: 2021_08_03_160916) do
     t.datetime "deleted_at"
     t.boolean "incomplete", default: false
     t.string "name", null: false
+    t.bigint "department_id", null: false
     t.index ["data_type_id"], name: "index_sensitive_data_systems_on_data_type_id"
+    t.index ["department_id"], name: "index_sensitive_data_systems_on_department_id"
     t.index ["device_id"], name: "index_sensitive_data_systems_on_device_id"
     t.index ["storage_location_id"], name: "index_sensitive_data_systems_on_storage_location_id"
   end
@@ -297,6 +298,7 @@ ActiveRecord::Schema.define(version: 2021_08_03_160916) do
   add_foreign_key "legacy_os_records", "departments"
   add_foreign_key "legacy_os_records", "devices"
   add_foreign_key "sensitive_data_systems", "data_types"
+  add_foreign_key "sensitive_data_systems", "departments"
   add_foreign_key "sensitive_data_systems", "devices"
   add_foreign_key "sensitive_data_systems", "storage_locations"
 end
