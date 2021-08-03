@@ -115,9 +115,17 @@ class ReportsController < ApplicationController
     records_array = ActiveRecord::Base.connection.exec_query(sql)
     @result.push({"table" => "sensitive_data_systems", "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
 
-    render turbo_stream: turbo_stream.replace(
-      :reportListing,
-      partial: "reports/listing")
+    if params[:format] == "csv"
+      logger.debug "*******************result #{@result}"
+      respond_to do |format|
+        format.html
+        format.csv { send_data data_to_csv(@result), filename: "systems_with_selected_data_type-#{Date.today}.csv"}
+      end
+    else
+      render turbo_stream: turbo_stream.replace(
+            :reportListing,
+            partial: "reports/listing")
+    end
 
   end
 
@@ -165,9 +173,20 @@ class ReportsController < ApplicationController
 
   end
 
-  def permitted_params
-    params.permit(:data_type_id, data_classification_level_id)
-    # params.permit! # allow all parameters
-  end
+  private
+
+    def data_to_csv(result)
+      data = result
+      result.each do |res|
+
+      end
+      return data
+    end
+
+
+    def permitted_params
+      params.permit(:data_type_id, data_classification_level_id)
+      # params.permit! # allow all parameters
+    end
 
 end
