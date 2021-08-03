@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_27_153515) do
+ActiveRecord::Schema.define(version: 2021_08_03_160916) do
 
   create_table "access_lookups", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "ldap_group"
@@ -111,6 +111,14 @@ ActiveRecord::Schema.define(version: 2021_07_27_153515) do
     t.index ["data_classification_level_id"], name: "index_data_types_on_data_classification_level_id"
   end
 
+  create_table "departments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "name"
+    t.string "shortname"
+    t.string "active_dir_group"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "devices", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "serial"
     t.string "hostname"
@@ -191,7 +199,6 @@ ActiveRecord::Schema.define(version: 2021_07_27_153515) do
   create_table "legacy_os_records", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "owner_username", null: false
     t.string "owner_full_name", null: false
-    t.string "dept"
     t.string "phone"
     t.string "additional_dept_contact"
     t.string "additional_dept_contact_phone"
@@ -213,7 +220,9 @@ ActiveRecord::Schema.define(version: 2021_07_27_153515) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "deleted_at"
     t.boolean "incomplete", default: false
+    t.bigint "department_id", null: false
     t.index ["data_type_id"], name: "index_legacy_os_records_on_data_type_id"
+    t.index ["department_id"], name: "index_legacy_os_records_on_department_id"
     t.index ["device_id"], name: "index_legacy_os_records_on_device_id"
   end
 
@@ -285,6 +294,7 @@ ActiveRecord::Schema.define(version: 2021_07_27_153515) do
   add_foreign_key "it_security_incidents", "data_types"
   add_foreign_key "it_security_incidents", "it_security_incident_statuses"
   add_foreign_key "legacy_os_records", "data_types"
+  add_foreign_key "legacy_os_records", "departments"
   add_foreign_key "legacy_os_records", "devices"
   add_foreign_key "sensitive_data_systems", "data_types"
   add_foreign_key "sensitive_data_systems", "devices"
