@@ -42,7 +42,7 @@
 
       <div class="field">
         <%= form.label :department_id, "Department", class: "required"  %>
-        <%= form.collection_select :department_id, Department.all, :id, :name, {include_blank: "Select"}, required: true %>
+        <%= form.collection_select :department_id, Department.all.order(:name), :id, :name, {include_blank: "Select"}, required: true %>
         <p class="help-text">Device owner's LSA department</p>
       </div>
 
