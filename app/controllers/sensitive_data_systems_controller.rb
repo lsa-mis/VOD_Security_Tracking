@@ -32,7 +32,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
       @pagy, @sensitive_data_systems = pagy(@q.result)
     end
     @owner_username = @sensitive_data_systems.pluck(:owner_username).uniq
-    @dept = @sensitive_data_systems.pluck(:dept).uniq
+    @department = Department.where(id: SensitiveDataSystem.pluck(:department_id).uniq)
     @additional_dept_contact = @sensitive_data_systems.pluck(:additional_dept_contact).uniq.compact_blank
     @data_type = DataType.where(id: SensitiveDataSystem.pluck(:data_type_id).uniq)
     @storage_location = StorageLocation.where(id: SensitiveDataSystem.pluck(:storage_location_id).uniq)
@@ -198,7 +198,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
 
     def sensitive_data_system_params
       params.require(:sensitive_data_system).permit(:name, :owner_username, :owner_full_name, 
-                                                    :dept, :phone, :additional_dept_contact, 
+                                                    :department_id, :phone, :additional_dept_contact, 
                                                     :additional_dept_contact_phone, :support_poc, 
                                                     :expected_duration_of_data_retention, 
                                                     :agreements_related_to_data_types, 

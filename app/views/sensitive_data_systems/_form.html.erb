@@ -48,7 +48,7 @@
 
       <div class="field">
         <%= form.label :dept, "Department", class: "required"  %>
-        <%= form.text_field :dept, required: true %>
+        <%= form.collection_select :department_id, Department.all, :id, :name, {include_blank: "Select"}, required: true %>
         <p class="help-text"></p>
       </div>
 
