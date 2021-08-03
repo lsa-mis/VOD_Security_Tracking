@@ -2,6 +2,10 @@ module ApplicationHelper
   
   include Pagy::Frontend
 
+  def show_department_name(resource)
+      resource.department.display_name
+  end
+
   def show_data_type_name(resource)
     if resource.data_type
       resource.data_type.display_name

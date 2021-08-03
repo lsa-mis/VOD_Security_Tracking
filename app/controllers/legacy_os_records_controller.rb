@@ -29,7 +29,7 @@ class LegacyOsRecordsController < InheritedResources::Base
       @pagy, @legacy_os_records = pagy(@q.result)
     end
     @owner_username = @legacy_os_records.pluck(:owner_username).uniq.compact
-    @dept = @legacy_os_records.pluck(:dept).uniq
+    @department = Department.where(id: LegacyOsRecord.pluck(:department_id).uniq)
     @additional_dept_contact = @legacy_os_records.pluck(:additional_dept_contact).uniq.compact_blank
     @legacy_os = @legacy_os_records.pluck(:legacy_os).uniq.compact_blank
     @review_contact = @legacy_os_records.pluck(:review_contact).uniq.compact_blank
@@ -195,7 +195,7 @@ class LegacyOsRecordsController < InheritedResources::Base
 
     def legacy_os_record_params
       params.require(:legacy_os_record).permit( :owner_username, :owner_full_name, 
-                                                :dept, :phone, 
+                                                :department_id, :phone, 
                                                 :additional_dept_contact, 
                                                 :additional_dept_contact_phone, 
                                                 :support_poc, :legacy_os, 
