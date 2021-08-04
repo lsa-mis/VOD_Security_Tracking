@@ -93,6 +93,38 @@ class SensitiveDataSystem < ApplicationRecord
     return not_completed
   end
 
+  def self.to_csv
+    fields = %w{id incomplete name owner_username owner_full_name department_id phone additional_dept_contact
+                additional_dept_contact_phone support_poc expected_duration_of_data_retention agreements_related_to_data_types
+                review_date review_contact notes storage_location_id data_type_id device_id}
+    header = %w{link incomplete name owner_username owner_full_name department phone additional_dept_contact
+                additional_dept_contact_phone support_poc expected_duration_of_data_retention agreements_related_to_data_types
+                review_date review_contact notes storage_location data_type device}
+    header.map! { |e| e.titleize.upcase }
+    CSV.generate(headers: true) do |csv|
+      csv << header
+      all.each do |a|
+        row = []
+        fields.each do |key|
+          if key == 'id'
+            row << "http://localhost:3000/sensitive_data_systems/" + a.attributes.values_at(key)[0].to_s
+          elsif key == 'data_type_id' && a.data_type_id.present?
+            row << DataType.find(a.attributes.values_at(key)[0]).display_name
+          elsif key == 'storage_location_id' && a.data_type_id.present?
+            row << StorageLocation.find(a.attributes.values_at(key)[0]).display_name
+          elsif key == 'department_id' && a.department_id.present?
+            row << Department.find(a.attributes.values_at(key)[0]).name
+          elsif key == 'device_id' && a.device_id.present?
+            row << Device.find(a.attributes.values_at(key)[0]).display_name
+          else
+            row << a.attributes.values_at(key)[0]
+          end
+        end
+        csv << row
+      end
+    end
+  end
+
   def display_name
     "#{self.name} - #{self.id}"
   end
