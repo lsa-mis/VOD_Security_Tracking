@@ -7,12 +7,12 @@ ActiveAdmin.register DpaException do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :review_date_exception_first_approval_date, :third_party_product_service, :used_by, :point_of_contact, :review_findings, :review_summary, :lsa_security_recommendation, :lsa_security_determination, :lsa_security_approval, :lsa_technology_services_approval, :exception_approval_date_exception_renewal_date_due, :notes, :sla_agreement, :data_type_id, :incomplete, :review_date_exception_review_date, :dpa_exception_status_id, :deleted_at
+  permit_params :review_date_exception_first_approval_date, :third_party_product_service, :department_id, :point_of_contact, :review_findings, :review_summary, :lsa_security_recommendation, :lsa_security_determination, :lsa_security_approval, :lsa_technology_services_approval, :exception_approval_date_exception_renewal_date_due, :notes, :sla_agreement, :data_type_id, :incomplete, :review_date_exception_review_date, :dpa_exception_status_id, :deleted_at
   #
   # or
   #
   # permit_params do
-  #   permitted = [:review_date, :third_party_product_service, :used_by, :point_of_contact, :review_findings, :review_summary, :lsa_security_recommendation, :lsa_security_determination, :lsa_security_approval, :lsa_technology_services_approval, :exception_approval_date, :notes, :sla_agreement, :data_type_id]
+  #   permitted = [:review_date, :third_party_product_service, :department_id, :point_of_contact, :review_findings, :review_summary, :lsa_security_recommendation, :lsa_security_determination, :lsa_security_approval, :lsa_technology_services_approval, :exception_approval_date, :notes, :sla_agreement, :data_type_id]
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
@@ -35,7 +35,7 @@ ActiveAdmin.register DpaException do
     column :review_date_exception_first_approval_date
     column :third_party_product_service
     column  "Department used by" do |dps|
-      dps.used_by
+      dps.department.name
     end
     column :data_type, sortable: :data_type_id.name
     column "Next Review Due Date" do |dps|
@@ -61,7 +61,7 @@ ActiveAdmin.register DpaException do
       row :review_date_exception_first_approval_date
       row :third_party_product_service
       row  "Department used by" do |dps|
-        dps.used_by
+        dps.department.name
       end
       row :point_of_contact
       row :review_findings

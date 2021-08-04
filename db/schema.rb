@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_03_161916) do
+ActiveRecord::Schema.define(version: 2021_08_04_195426) do
 
   create_table "access_lookups", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "ldap_group"
@@ -143,7 +143,6 @@ ActiveRecord::Schema.define(version: 2021_08_03_161916) do
   create_table "dpa_exceptions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.datetime "review_date_exception_first_approval_date"
     t.text "third_party_product_service", null: false
-    t.string "used_by"
     t.string "point_of_contact"
     t.text "review_findings"
     t.text "review_summary"
@@ -161,7 +160,9 @@ ActiveRecord::Schema.define(version: 2021_08_03_161916) do
     t.boolean "incomplete", default: false
     t.datetime "review_date_exception_review_date"
     t.bigint "dpa_exception_status_id", null: false
+    t.bigint "department_id", null: false
     t.index ["data_type_id"], name: "index_dpa_exceptions_on_data_type_id"
+    t.index ["department_id"], name: "index_dpa_exceptions_on_department_id"
     t.index ["dpa_exception_status_id"], name: "index_dpa_exceptions_on_dpa_exception_status_id"
   end
 
@@ -292,6 +293,7 @@ ActiveRecord::Schema.define(version: 2021_08_03_161916) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "data_types", "data_classification_levels"
   add_foreign_key "dpa_exceptions", "data_types"
+  add_foreign_key "dpa_exceptions", "departments"
   add_foreign_key "it_security_incidents", "data_types"
   add_foreign_key "it_security_incidents", "it_security_incident_statuses"
   add_foreign_key "legacy_os_records", "data_types"

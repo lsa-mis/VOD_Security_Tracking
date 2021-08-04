@@ -14,7 +14,6 @@
 #  department   :string(255)
 #  manufacturer :string(255)
 #  model        :string(255)
-#  deleted_at   :datetime
 #
 FactoryBot.define do
   factory :device do

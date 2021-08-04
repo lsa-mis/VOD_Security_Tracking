@@ -5,7 +5,6 @@
 #  id                                                 :bigint           not null, primary key
 #  review_date_exception_first_approval_date          :datetime
 #  third_party_product_service                        :text(65535)      not null
-#  used_by                                            :string(255)
 #  point_of_contact                                   :string(255)
 #  review_findings                                    :text(65535)
 #  review_summary                                     :text(65535)
@@ -23,12 +22,13 @@
 #  incomplete                                         :boolean          default(FALSE)
 #  review_date_exception_review_date                  :datetime
 #  dpa_exception_status_id                            :bigint           not null
+#  department_id                                      :bigint           not null
 #
 FactoryBot.define do
   factory :dpa_exception do
     review_date { "2021-03-19 16:47:17" }
     third_party_product_service { "MyText" }
-    used_by { "MyString" }
+    department_id { "MyString" }
     point_of_contact { "MyString" }
     review_findings { "MyText" }
     review_summary { "MyText" }

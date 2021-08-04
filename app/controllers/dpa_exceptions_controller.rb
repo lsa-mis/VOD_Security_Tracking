@@ -27,8 +27,8 @@ class DpaExceptionsController < InheritedResources::Base
     end
 
     @dpa_status = DpaExceptionStatus.where(id: DpaException.pluck(:dpa_exception_status_id).uniq)
-    @used_by = @dpa_exceptions.pluck(:used_by).uniq
     @data_type = DataType.where(id: DpaException.pluck(:data_type_id).uniq)
+    @department = Department.where(id: DpaException.pluck(:department_id).uniq)
     
     authorize @dpa_exceptions
     # Rendering code will go here
@@ -157,7 +157,7 @@ class DpaExceptionsController < InheritedResources::Base
     def dpa_exception_params
       params.require(:dpa_exception).permit(
                     :review_date_exception_first_approval_date, 
-                    :third_party_product_service, :used_by, 
+                    :third_party_product_service, :department_id, 
                     :point_of_contact, :review_findings, :review_summary, 
                     :lsa_security_recommendation, :lsa_security_determination, 
                     :lsa_security_approval, :lsa_technology_services_approval, 

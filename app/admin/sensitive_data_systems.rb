@@ -7,12 +7,12 @@ ActiveAdmin.register SensitiveDataSystem do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :name, :owner_username, :owner_full_name, :dept, :phone, :additional_dept_contact, :additional_dept_contact_phone, :support_poc, :expected_duration_of_data_retention, :agreements_related_to_data_types, :review_date, :review_contact, :notes, :storage_location_id, :data_type_id, :device_id, :incomplete, :deleted_at
+  permit_params :name, :owner_username, :owner_full_name, :department_id, :phone, :additional_dept_contact, :additional_dept_contact_phone, :support_poc, :expected_duration_of_data_retention, :agreements_related_to_data_types, :review_date, :review_contact, :notes, :storage_location_id, :data_type_id, :device_id, :incomplete, :deleted_at
   #
   # or
   #
   # permit_params do
-  #   permitted = [:owner_username, :owner_full_name, :dept, :phone, :additional_dept_contact, :additional_dept_contact_phone, :support_poc, :expected_duration_of_data_retention, :agreements_related_to_data_types, :review_date, :review_contact, :notes, :storage_location_id, :data_type_id, :device_id]
+  #   permitted = [:owner_username, :owner_full_name, :department_id, :phone, :additional_dept_contact, :additional_dept_contact_phone, :support_poc, :expected_duration_of_data_retention, :agreements_related_to_data_types, :review_date, :review_contact, :notes, :storage_location_id, :data_type_id, :device_id]
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
@@ -33,7 +33,7 @@ ActiveAdmin.register SensitiveDataSystem do
     end
     column :incomplete
     column :owner_full_name
-    column :dept
+    column :department.name
     column :storage_location_id
     column :device.name
     column :data_type.name
@@ -52,7 +52,7 @@ ActiveAdmin.register SensitiveDataSystem do
       row :name
       row :owner_username
       row :owner_full_name
-      row :dept
+      row :department.name
       row :phone
       row :additional_dept_contact
       row :additional_dept_contact_phone
