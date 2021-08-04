@@ -38,6 +38,10 @@ class ItSecurityIncident < ApplicationRecord
     self.update(deleted_at: DateTime.current)
   end
 
+  def unarchive
+    self.update(deleted_at: nil)
+  end
+  
   def archived?
     self.deleted_at.present?
   end

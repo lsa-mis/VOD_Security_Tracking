@@ -1,5 +1,4 @@
 class DpaExceptionsController < InheritedResources::Base
-
   before_action :verify_duo_authentication
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
@@ -10,7 +9,7 @@ class DpaExceptionsController < InheritedResources::Base
 
   def index
     @dpa_exception_index_text = Infotext.find_by(location: "dpa_exception_index")
-    
+
     if params[:q].nil?
       @q = DpaException.active.ransack(params[:q])
     else
@@ -86,7 +85,9 @@ class DpaExceptionsController < InheritedResources::Base
     end
     respond_to do |format|
       if @dpa_exception.update(dpa_exception_params.except(:tdx_ticket))
-        format.html { redirect_to @dpa_exception, notice: 'DPA Exception record was successfully updated. ' }
+        format.html { redirect_to @dpa_exception, 
+                      notice: 'DPA Exception record was successfully updated.'
+                    }
       else
         format.html { render :edit }
       end
@@ -111,7 +112,9 @@ class DpaExceptionsController < InheritedResources::Base
   def unarchive
     respond_to do |format|
       if @dpa_exception.unarchive
-        format.html { redirect_to admin_dpa_exception_path, notice: 'DPA Exception was unarchived.' }
+        format.html { redirect_to admin_dpa_exception_path, 
+                      notice: 'DPA Exception was unarchived.' 
+                    }
       end
     end
   end
