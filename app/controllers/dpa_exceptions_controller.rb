@@ -112,7 +112,6 @@ class DpaExceptionsController < InheritedResources::Base
     respond_to do |format|
       if @dpa_exception.unarchive
         format.html { redirect_to admin_dpa_exception_path, notice: 'DPA Exception was unarchived.' }
-        format.json { head :no_content }
       end
     end
   end
