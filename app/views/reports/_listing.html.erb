@@ -26,6 +26,9 @@
               <% if data['total'] > 0 %>
                   <% data['rows'].each do |row| %>
                     <tr>
+                      <% link = "/" + data['table'] + "/" + row[0].to_s %>
+                      <td><%= link_to 'Show', link, class: "action-link" %>
+                      <% row.shift(1) %>
                       <% row.each do |item| %>
                         <td><%= item %></td>
                       <% end %>
