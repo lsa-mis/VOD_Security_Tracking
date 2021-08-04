@@ -38,11 +38,9 @@ class DpaExceptionsController < InheritedResources::Base
     authorize @dpa_exceptions
     # Rendering code will go here
     if params[:format] == "csv"
-      logger.debug "*******************@dpa_exceptions.to_csv #{@dpa_exceptions.to_csv}"
-
       respond_to do |format|
         format.html
-        format.csv { send_data @dpa_exceptions.to_csv, filename: "DPA Exception-#{Date.today}.csv"}
+        format.csv { send_data @dpa_exceptions.to_csv, filename: "DPA Exceptions-#{Date.today}.csv"}
       end
     else
       unless params[:q].nil?
@@ -51,6 +49,7 @@ class DpaExceptionsController < InheritedResources::Base
         partial: "dpa_exceptions/listing"
       )
       end
+
     end
 
     # unless params[:q].nil?

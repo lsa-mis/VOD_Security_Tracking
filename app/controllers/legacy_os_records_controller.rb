@@ -42,13 +42,21 @@ class LegacyOsRecordsController < InheritedResources::Base
     @device_hostname = Device.where(id: LegacyOsRecord.pluck(:device_id).uniq).where.not(hostname: [nil, ""])
     
     authorize @legacy_os_records
-
-    unless params[:q].nil?
-      render turbo_stream: turbo_stream.replace(
-      :legacy_os_recordListing,
-      partial: "legacy_os_records/listing"
-    )
+    # Rendering code will go here
+    if params[:format] == "csv"
+      respond_to do |format|
+        format.html
+        format.csv { send_data @legacy_os_records.to_csv, filename: "Legacy OS Records-#{Date.today}.csv"}
+      end
+    else
+      unless params[:q].nil?
+        render turbo_stream: turbo_stream.replace(
+        :legacy_os_recordListing,
+        partial: "legacy_os_records/listing"
+      )
+      end
     end
+
   end
 
   def show
