@@ -35,8 +35,8 @@ ActiveAdmin.register SensitiveDataSystem do
     column :owner_full_name
     column :dept
     column :storage_location_id
-    column :device_id
-    column :data_type_id
+    column :device.name
+    column :data_type.name
     column :updated_at
     column "Archived at" do |sds|
       sds.deleted_at
@@ -63,8 +63,8 @@ ActiveAdmin.register SensitiveDataSystem do
       row :review_contact
       row :notes
       row :storage_location_id
-      row :data_type_id
-      row :device_id
+      row :data_type.name
+      row :device.name
     end
     panel "Attachments" do 
       if sensitive_data_system.attachments.attached?

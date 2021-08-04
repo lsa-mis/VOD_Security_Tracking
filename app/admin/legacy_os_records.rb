@@ -30,10 +30,10 @@ ActiveAdmin.register LegacyOsRecord do
     actions
     column :incomplete
     column :owner_full_name
-    column :device_id
+    column :device.name
     column :legacy_os
     column :updated_at
-    column :data_type_id
+    column :data_type.name
     column :review_date
     column "Archived at" do |lor|
       lor.deleted_at
@@ -64,8 +64,8 @@ ActiveAdmin.register LegacyOsRecord do
       row :justification
       row :local_it_support_group
       row :notes
-      row :data_type_id
-      row :device_id
+      row :data_type.name
+      row :device.name
     end
     panel "Attachments" do 
       if legacy_os_record.attachments.attached?
