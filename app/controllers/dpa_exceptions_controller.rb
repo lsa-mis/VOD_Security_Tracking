@@ -97,12 +97,11 @@ class DpaExceptionsController < InheritedResources::Base
     authorize @dpa_exception
     respond_to do |format|
       if @dpa_exception.archive
-        format.turbo_stream { redirect_to dpa_exceptions_path, 
+        format.html { redirect_to dpa_exceptions_path, 
                       notice: 'DPA Exception record was successfully archived.' 
                     }
       else
-        Rails.logger.info(@dpa_exception.errors.inspect) 
-        format.turbo_stream { redirect_to dpa_exceptions_path, 
+        format.html { redirect_to dpa_exceptions_path, 
                       alert: 'Error archiving DPA Exception record.' 
                     }
       end
