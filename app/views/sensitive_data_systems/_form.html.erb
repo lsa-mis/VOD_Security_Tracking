@@ -3,7 +3,8 @@
               data: {
                 controller: "sensitiveds",
                 target: "sensitiveds.form",
-                action: "submit->sensitiveds#submitForm"
+                action: "submit->sensitiveds#submitForm",
+                turbo: "false"
               }
   ) do |form| %>
   <%= render "partials/errors", object: @sensitive_data_system %>

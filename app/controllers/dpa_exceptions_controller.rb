@@ -1,16 +1,15 @@
 class DpaExceptionsController < InheritedResources::Base
-
   before_action :verify_duo_authentication
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
-  before_action :set_dpa_exception, only: [:show, :edit, :update, :archive, :audit_log]
+  before_action :set_dpa_exception, only: [:show, :edit, :update, :archive, :unarchive, :audit_log]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_form_infotext, only: [:new, :edit]
   before_action :set_number_of_items, only: [:index, :audit_log]
 
   def index
     @dpa_exception_index_text = Infotext.find_by(location: "dpa_exception_index")
-    
+
     if params[:q].nil?
       @q = DpaException.active.ransack(params[:q])
     else
@@ -60,12 +59,11 @@ class DpaExceptionsController < InheritedResources::Base
     end
     respond_to do |format|
       if @dpa_exception.save 
-        format.turbo_stream { redirect_to dpa_exception_path(@dpa_exception), 
+        format.html { redirect_to dpa_exception_path(@dpa_exception), 
           notice: 'DPA Exception record was successfully created.' 
         }
       else
-        # Rails.logger.info(@dpa_exception.errors.inspect)
-        format.turbo_stream
+        format.html { render :new }
       end
     end
   end
@@ -87,9 +85,11 @@ class DpaExceptionsController < InheritedResources::Base
     end
     respond_to do |format|
       if @dpa_exception.update(dpa_exception_params.except(:tdx_ticket))
-        format.turbo_stream { redirect_to @dpa_exception, notice: 'DPA Exception record was successfully updated. ' }
+        format.html { redirect_to @dpa_exception, 
+                      notice: 'DPA Exception record was successfully updated.'
+                    }
       else
-        format.turbo_stream
+        format.html { render :edit }
       end
     end
   end
@@ -98,13 +98,22 @@ class DpaExceptionsController < InheritedResources::Base
     authorize @dpa_exception
     respond_to do |format|
       if @dpa_exception.archive
-        format.turbo_stream { redirect_to dpa_exceptions_path, 
+        format.html { redirect_to dpa_exceptions_path, 
                       notice: 'DPA Exception record was successfully archived.' 
                     }
       else
-        Rails.logger.info(@dpa_exception.errors.inspect) 
-        format.turbo_stream { redirect_to dpa_exceptions_path, 
+        format.html { redirect_to dpa_exceptions_path, 
                       alert: 'Error archiving DPA Exception record.' 
+                    }
+      end
+    end
+  end
+
+  def unarchive
+    respond_to do |format|
+      if @dpa_exception.unarchive
+        format.html { redirect_to admin_dpa_exception_path, 
+                      notice: 'Record was unarchived.' 
                     }
       end
     end

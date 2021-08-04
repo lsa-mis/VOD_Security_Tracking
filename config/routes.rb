@@ -48,6 +48,11 @@ Rails.application.routes.draw do
   post 'archive_legacy_os_record/:id', to: 'legacy_os_records#archive', as: :archive_legacy_os_record
   post 'archive_dpa_exception/:id', to: 'dpa_exceptions#archive', as: :archive_dpa_exception
   
+  post 'unarchive_it_security_incident/:id', to: 'it_security_incidents#unarchive', as: :unarchive_it_security_incident
+  post 'unarchive_sensitive_data_system/:id', to: 'sensitive_data_systems#unarchive', as: :unarchive_sensitive_data_system
+  post 'unarchive_legacy_os_record/:id', to: 'legacy_os_records#unarchive', as: :unarchive_legacy_os_record
+  post 'unarchive_dpa_exception/:id', to: 'dpa_exceptions#unarchive', as: :unarchive_dpa_exception
+
   resources :devices
   get 'update_device/:id', to: 'devices#update', as: :update_device
 
