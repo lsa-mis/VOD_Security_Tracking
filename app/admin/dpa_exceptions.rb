@@ -34,7 +34,9 @@ ActiveAdmin.register DpaException do
     column :incomplete
     column :review_date_exception_first_approval_date
     column :third_party_product_service
-    column :used_by
+    column  "Department used by" do |dps|
+      dps.used_by
+    end
     column :data_type, sortable: :data_type_id.name
     column "Next Review Due Date" do |dps|
       dps.review_date_exception_review_date
@@ -58,7 +60,9 @@ ActiveAdmin.register DpaException do
       row :incomplete
       row :review_date_exception_first_approval_date
       row :third_party_product_service
-      row :used_by
+      row  "Department used by" do |dps|
+        dps.used_by
+      end
       row :point_of_contact
       row :review_findings
       row :review_summary
