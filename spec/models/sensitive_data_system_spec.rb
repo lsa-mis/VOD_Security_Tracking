@@ -5,7 +5,6 @@
 #  id                                  :bigint           not null, primary key
 #  owner_username                      :string(255)      not null
 #  owner_full_name                     :string(255)      not null
-#  dept                                :string(255)
 #  phone                               :string(255)
 #  additional_dept_contact             :string(255)
 #  additional_dept_contact_phone       :string(255)
@@ -23,6 +22,7 @@
 #  deleted_at                          :datetime
 #  incomplete                          :boolean          default(FALSE)
 #  name                                :string(255)      not null
+#  department_id                       :bigint           not null
 #
 require 'rails_helper'
 
