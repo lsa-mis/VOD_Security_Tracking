@@ -3,7 +3,8 @@
               data: {
                 controller: "legacyos",
                 target: "legacyos.form",
-                action: "submit->legacyos#submitForm"
+                action: "submit->legacyos#submitForm",
+                turbo: "false"
               }
     ) do |form| %>
   <%= render "partials/errors", object: @legacy_os_record %>

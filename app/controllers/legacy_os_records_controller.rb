@@ -2,7 +2,7 @@ class LegacyOsRecordsController < InheritedResources::Base
   before_action :verify_duo_authentication
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
-  before_action :set_legacy_os_record, only: [:show, :edit, :update, :archive, :audit_log]
+  before_action :set_legacy_os_record, only: [:show, :edit, :update, :archive, :unarchive, :audit_log]
   before_action :get_access_token, only: [:create, :update]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_form_infotext, only: [:new, :edit]
@@ -80,14 +80,13 @@ class LegacyOsRecordsController < InheritedResources::Base
 
     respond_to do |format|
       if @legacy_os_record.save 
-        format.turbo_stream { redirect_to legacy_os_record_path(@legacy_os_record), 
+        format.html { redirect_to legacy_os_record_path(@legacy_os_record), 
         notice: 'Legacy OS record was successfully created. ' + @note
       }
       else
-        format.turbo_stream
+        format.html { render :new }
       end
     end
-    
   end
 
   def edit
@@ -128,9 +127,9 @@ class LegacyOsRecordsController < InheritedResources::Base
 
     respond_to do |format|
       if @legacy_os_record.update(legacy_os_record_params.except(:tdx_ticket, :device_attributes))
-        format.turbo_stream { redirect_to legacy_os_record_path(@legacy_os_record), notice: 'Legacy OS record was successfully updated.' + @note }
+        format.html { redirect_to legacy_os_record_path(@legacy_os_record), notice: 'Legacy OS record was successfully updated.' + @note }
       else
-        format.turbo_stream
+        format.html { render :edit }
       end
     end
   end
@@ -141,13 +140,23 @@ class LegacyOsRecordsController < InheritedResources::Base
     authorize @legacy_os_record
     respond_to do |format|
       if @legacy_os_record.archive
-        format.turbo_stream { redirect_to legacy_os_records_path, notice: 'Legacy OS record was successfully archived.' }
+        format.html { redirect_to legacy_os_records_path, notice: 'Legacy OS record was successfully archived.' }
       else
-        format.turbo_stream { redirect_to legacy_os_records_path, alert: 'Error archiving Legacy OS record.' }
+        format.html { redirect_to legacy_os_records_path, alert: 'Error archiving Legacy OS record.' }
       end
     end
   end
-  
+ 
+  def unarchive
+    respond_to do |format|
+      if @legacy_os_record.unarchive
+        format.html { redirect_to admin_legacy_os_record_path, 
+                      notice: 'Record was unarchived.' 
+                    }
+      end
+    end
+  end
+
   def audit_log
     authorize @legacy_os_record
     add_breadcrumb(@legacy_os_record.display_name, 

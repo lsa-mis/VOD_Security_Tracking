@@ -22,7 +22,6 @@ ActiveAdmin.register DpaException do
   
   actions :index, :show
 
-
   action_item :unarchive, only: :show do
     text_node link_to("Unarchive record", unarchive_dpa_exception_path(dpa_exception), method: :post) unless dpa_exception.deleted_at.nil?
   end

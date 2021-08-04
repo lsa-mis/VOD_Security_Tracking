@@ -109,9 +109,9 @@ class ItSecurityIncidentsController < InheritedResources::Base
   
   def unarchive
     respond_to do |format|
-      if @dpa_exception.unarchive
-        format.html { redirect_to admin_dpa_exception_path, 
-                      notice: 'DPA Exception was unarchived.' 
+      if @it_security_incident.unarchive
+        format.html { redirect_to admin_it_security_incident_path, 
+                      notice: 'Record was unarchived.' 
                     }
       end
     end
