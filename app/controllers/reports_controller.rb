@@ -12,23 +12,12 @@ class ReportsController < ApplicationController
           (SELECT data_types.name FROM data_types WHERE dpa.data_type_id = data_types.id) AS data_type, 
           DATE_FORMAT(exception_approval_date_exception_renewal_date_due, '%m/%d/%Y') AS last_reviewed_date, DATE_FORMAT(review_date_exception_review_date, '%m/%d/%Y') AS next_review_due_date
           FROM dpa_exceptions AS dpa 
-          WHERE MONTH(review_date_exception_first_approval_date) = MONTH(CURRENT_DATE())
-          AND YEAR(review_date_exception_first_approval_date) = YEAR(CURRENT_DATE()) 
+          WHERE MONTH(review_date_exception_review_date) = MONTH(CURRENT_DATE())
+          AND YEAR(review_date_exception_review_date) = YEAR(CURRENT_DATE()) 
           AND dpa.deleted_at IS NULL"
     records_array = ActiveRecord::Base.connection.exec_query(sql)
     @result = []
     @result.push({"table" => "dpa_exceptions", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
-
-    sql = "SELECT isi.id AS ' ', title, DATE_FORMAT(date, '%m/%d/%Y') AS date, people_involved,
-          (SELECT data_types.name FROM data_types WHERE isi.data_type_id = data_types.id) AS data_type,
-          (SELECT it_security_incident_statuses.name FROM it_security_incident_statuses WHERE isi.it_security_incident_status_id = it_security_incident_statuses.id) AS it_security_incident_status
-          FROM it_security_incidents AS isi
-          WHERE MONTH(date) = MONTH(CURRENT_DATE())
-          AND YEAR(date) = YEAR(CURRENT_DATE()) 
-          AND isi.deleted_at IS NULL"
-    records_array = ActiveRecord::Base.connection.exec_query(sql)
-    @result.push({"table" => "it_security_incidents", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
-
 
     sql = "SELECT lor.id AS ' ', owner_full_name, 
           (SELECT CONCAT(serial, ' - ', hostname) FROM devices WHERE lor.device_id = devices.id) AS device,
@@ -55,7 +44,7 @@ class ReportsController < ApplicationController
     @result.push({"table" => "sensitive_data_systems", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
 
     if params[:format] == "csv"
-      title = "Systems with review date equals " + Date.today.strftime("%B") + " " + Date.today.strftime("%Y")
+      title = "Systems with a review date equal to " + Date.today.strftime("%B") + " " + Date.today.strftime("%Y")
       data = data_to_csv(@result, title)
       respond_to do |format|
         format.html
