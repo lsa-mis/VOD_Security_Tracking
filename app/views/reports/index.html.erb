@@ -1,9 +1,9 @@
 <h1>Reports</h1>
 
 <div>
-  <h3>1. Systems with review date equals to <%= "#{Date.today.strftime('%B')} #{Date.today.year}" %></h3>
+  <h3>1. Systems with a review date equal to <%= "#{Date.today.strftime('%B')} #{Date.today.year}" %></h3>
   <div role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
-    <%= link_to 'Submit report', systems_with_review_date_this_month_path, class: 'new-record-btn' %>
+    <%= link_to 'Show report', systems_with_review_date_this_month_path, class: 'new-record-btn' %>
   </div>
   <br>
   <div role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
