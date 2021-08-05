@@ -191,20 +191,22 @@ class ReportsController < ApplicationController
   private
 
     def data_to_csv(result, title)
-      data = ""
-      data << title + "\n\n"
-      result.each do |res|
-        data << res['table'].titleize.upcase + ",Total number of records: " + res['total'].to_s + "\n"
-        header = res['header'].map! { |e| e.titleize.upcase }
-        data << header.join(",") + "\n"
-        res['rows'].each do |h|
-          data << "http://localhost:3000/" + res['table'] + "/" + h[0].to_s + ","
-          h.shift(1)
-          data << h.join(",") + "\n"
+      CSV.generate(headers: false) do |csv|
+        csv << Array(title)
+        result.each do |res|
+          line =[]
+          line << res['table'].titleize.upcase
+          line << "Total number of records: " + res['total'].to_s
+          csv << line
+          header = res['header'].map! { |e| e.titleize.upcase }
+          csv << header
+          res['rows'].each do |h|
+            h[0] = "http://localhost:3000/" + res['table'] + "/" + h[0].to_s
+            csv << h
+          end
+          csv << Array('')
         end
-        data << "\n\n"
       end
-      return data
     end
 
 
