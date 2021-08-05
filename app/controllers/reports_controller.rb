@@ -1,6 +1,8 @@
 class ReportsController < ApplicationController
 
   def index
+    authorize :report, :show?
+
   end
 
   def systems_with_review_date_this_month
