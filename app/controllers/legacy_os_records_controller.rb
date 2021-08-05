@@ -14,13 +14,20 @@ class LegacyOsRecordsController < InheritedResources::Base
       session[:items] = params[:items]
     end
 
+    if current_user.dept.any?
+      depts_ids = Department.where(shortname: current_user.dept).ids
+      legacy_os_records_all = LegacyOsRecord.active.where(department_id: depts_ids)
+    else
+      legacy_os_records_all = LegacyOsRecord.active
+    end
+
     if params[:q].nil?
-      @q = LegacyOsRecord.active.ransack(params[:q])
+      @q = legacy_os_records_all.active.ransack(params[:q])
     else
       if params[:q][:data_type_id_blank].present? && params[:q][:data_type_id_blank] == "0"
         params[:q] = params[:q].except("data_type_id_blank")
       end
-      @q = LegacyOsRecord.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
+      @q = legacy_os_records_all.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
     @q.sorts = ["created_at desc"] if @q.sorts.empty?
     if session[:items].present?

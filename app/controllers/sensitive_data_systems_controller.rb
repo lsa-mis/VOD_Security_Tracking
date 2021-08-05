@@ -14,8 +14,15 @@ class SensitiveDataSystemsController < InheritedResources::Base
       session[:items] = params[:items]
     end
 
+    if current_user.dept.any?
+      depts_ids = Department.where(shortname: current_user.dept).ids
+      sensitive_data_systems_all = SensitiveDataSystem.active.where(department_id: depts_ids)
+    else
+      sensitive_data_systems_all = SensitiveDataSystem.active
+    end
+
     if params[:q].nil?
-      @q = SensitiveDataSystem.active.ransack(params[:q])
+      @q = sensitive_data_systems_all.ransack(params[:q])
     else
       if params[:q][:data_type_id_blank].present? && params[:q][:data_type_id_blank] == "0"
         params[:q] = params[:q].except("data_type_id_blank")
@@ -23,7 +30,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
       if params[:q][:storage_location_id_blank].present? && params[:q][:storage_location_id_blank] == "0"
         params[:q] = params[:q].except("storage_location_id_blank")
       end
-      @q = SensitiveDataSystem.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
+      @q = sensitive_data_systems_all.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
     @q.sorts = ["created_at desc"] if @q.sorts.empty?
     if session[:items].present?
