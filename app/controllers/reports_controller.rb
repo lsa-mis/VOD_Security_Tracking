@@ -8,7 +8,9 @@ class ReportsController < ApplicationController
   def systems_with_review_date_this_month
     sql = "SELECT dpa.id AS ' ', (SELECT dpa_exception_statuses.name FROM dpa_exception_statuses WHERE dpa.dpa_exception_status_id = dpa_exception_statuses.id) AS dpa_exception_status,
           DATE_FORMAT(review_date_exception_first_approval_date, '%m/%d/%Y') AS review_date_exception_first_approval_date, third_party_product_service,
-          used_by, data_type_id, DATE_FORMAT(exception_approval_date_exception_renewal_date_due, '%m/%d/%Y') AS last_reviewed_date, DATE_FORMAT(review_date_exception_review_date, '%m/%d/%Y') AS next_review_due_date
+          used_by, 
+          (SELECT data_types.name FROM data_types WHERE dpa.data_type_id = data_types.id) AS data_type, 
+          DATE_FORMAT(exception_approval_date_exception_renewal_date_due, '%m/%d/%Y') AS last_reviewed_date, DATE_FORMAT(review_date_exception_review_date, '%m/%d/%Y') AS next_review_due_date
           FROM dpa_exceptions AS dpa 
           WHERE MONTH(review_date_exception_first_approval_date) = MONTH(CURRENT_DATE())
           AND YEAR(review_date_exception_first_approval_date) = YEAR(CURRENT_DATE()) 
