@@ -47,10 +47,10 @@
   </div>
   <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
     <dt class="text-sm font-medium text-gray-500">
-      Used by
+       Department used by
     </dt>
     <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-      <span class="flex-grow"><%= @dpa_exception.used_by %></span>
+      <span class="flex-grow"><%= show_department_name(@dpa_exception) %></span>
     </dd>
   </div>
   <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
@@ -166,7 +166,7 @@
             <div class="w-0 flex-1 flex items-center">
               <i class="fas fa-paperclip text-gray-400"></i>
               <span class="ml-2 flex-1 w-0 truncate">
-                <%= link_to @dpa_exception.sla_attachment.filename, url_for(@dpa_exception.sla_attachment) %>
+                <%= link_to @dpa_exception.sla_attachment.filename, url_for(@dpa_exception.sla_attachment), target: "_blank" %>
               </span>
             </div>
             <% if policy(@dpa_exception).edit? %>

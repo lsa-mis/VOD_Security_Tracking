@@ -2,7 +2,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
   before_action :verify_duo_authentication
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
-  before_action :set_sensitive_data_system, only: [:show, :edit, :update, :archive, :audit_log]
+  before_action :set_sensitive_data_system, only: [:show, :edit, :update, :archive, :unarchive, :audit_log]
   before_action :get_access_token, only: [:create, :update]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_form_infotext, only: [:new, :edit]
@@ -91,9 +91,9 @@ class SensitiveDataSystemsController < InheritedResources::Base
     end
     respond_to do |format|
       if @sensitive_data_system.save 
-        format.turbo_stream { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Sensitive Data System record was successfully created. ' + @note }
+        format.html { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Sensitive Data System record was successfully created. ' + @note }
       else
-        format.turbo_stream
+        format.html { render :new }
       end
     end
   end
@@ -142,9 +142,9 @@ class SensitiveDataSystemsController < InheritedResources::Base
     end
     respond_to do |format|
       if @sensitive_data_system.update(sensitive_data_system_params.except(:device_attributes, :tdx_ticket))
-        format.turbo_stream { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Sensitive Data System record was successfully updated. ' + @note }
+        format.html { redirect_to sensitive_data_system_path(@sensitive_data_system), notice: 'Sensitive Data System record was successfully updated. ' + @note }
       else
-        format.turbo_stream
+        format.html { render :edit }
       end
     end
   end
@@ -154,13 +154,23 @@ class SensitiveDataSystemsController < InheritedResources::Base
     authorize @sensitive_data_system
     respond_to do |format|
       if @sensitive_data_system.archive
-        format.turbo_stream { redirect_to sensitive_data_systems_path, notice: 'Sensitive Data System record was successfully archived.' }
+        format.html { redirect_to sensitive_data_systems_path, notice: 'Sensitive Data System record was successfully archived.' }
       else
-        format.turbo_stream { redirect_to sensitive_data_systems_path, alert: 'Error archiving Sensitive Data System record.' }
+        format.html { redirect_to sensitive_data_systems_path, alert: 'Error archiving Sensitive Data System record.' }
       end
     end
   end
-  
+ 
+  def unarchive
+    respond_to do |format|
+      if @sensitive_data_system.unarchive
+        format.html { redirect_to admin_sensitive_data_system_path, 
+                      notice: 'Record was unarchived.' 
+                    }
+      end
+    end
+  end
+
   def audit_log
     authorize @sensitive_data_system
     add_breadcrumb(@sensitive_data_system.display_name, 

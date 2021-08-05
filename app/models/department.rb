@@ -12,6 +12,7 @@
 class Department < ApplicationRecord
     has_many :legacy_os_records
     has_many :sensitive_data_systems
+    has_many :dpa_exceptions
 
   def display_name
     "#{self.name}"

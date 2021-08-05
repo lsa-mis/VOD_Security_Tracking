@@ -2,13 +2,14 @@ class ItSecurityIncidentsController < InheritedResources::Base
   before_action :verify_duo_authentication
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
-  before_action :set_it_security_incident, only: [:show, :edit, :update, :archive, :audit_log]
+  before_action :set_it_security_incident, only: [:show, :edit, :update, :archive, :unarchive, :audit_log]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_form_infotext, only: [:new, :edit]
   before_action :set_number_of_items, only: [:index, :audit_log]
 
   def index
     @it_security_incident_index_text = Infotext.find_by(location: "it_security_incident_index")
+
     if params[:items].present?
       session[:items] = params[:items]
     end
@@ -22,16 +23,17 @@ class ItSecurityIncidentsController < InheritedResources::Base
       @q = ItSecurityIncident.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
     @q.sorts = ["created_at desc"] if @q.sorts.empty?
+
     if session[:items].present?
       @pagy, @it_security_incidents = pagy(@q.result, items: session[:items])
     else
       @pagy, @it_security_incidents = pagy(@q.result)
     end
+
     @data_type = DataType.where(id: ItSecurityIncident.pluck(:data_type_id).uniq)
     @it_security_incident_status = ItSecurityIncidentStatus.where(id: ItSecurityIncident.pluck(:it_security_incident_status_id).uniq)
 
     authorize @it_security_incidents
-
     # Rendering code will go here
     if params[:format] == "csv"
       respond_to do |format|
@@ -66,12 +68,11 @@ class ItSecurityIncidentsController < InheritedResources::Base
     end
     respond_to do |format|
       if @it_security_incident.save 
-        format.turbo_stream { redirect_to it_security_incident_path(@it_security_incident), 
+        format.html { redirect_to it_security_incident_path(@it_security_incident), 
           notice: 'IT Security Incident record was successfully created.' 
         }
       else
-        # Rails.logger.info(@it_security_incident.errors.inspect)
-        format.turbo_stream
+        format.html { render :new }
       end
     end
   end
@@ -87,13 +88,17 @@ class ItSecurityIncidentsController < InheritedResources::Base
 
   def update
     if it_security_incident_params[:tdx_ticket][:ticket_link].present?
-      @it_security_incident.tdx_tickets.create(ticket_link: it_security_incident_params[:tdx_ticket][:ticket_link])
+      @it_security_incident.tdx_tickets.create(
+            ticket_link: it_security_incident_params[:tdx_ticket][:ticket_link]
+          )
     end
     respond_to do |format|
       if @it_security_incident.update(it_security_incident_params.except(:tdx_ticket))
-        format.turbo_stream { redirect_to it_security_incident_path(@it_security_incident), notice: 'IT Security Incident record was successfully updated.' }
+        format.html { redirect_to it_security_incident_path(@it_security_incident), 
+                      notice: 'IT Security Incident record was successfully updated.' 
+                    }
       else
-        format.turbo_stream
+        format.html { render :edit }
       end
     end
   end
@@ -102,21 +107,31 @@ class ItSecurityIncidentsController < InheritedResources::Base
     authorize @it_security_incident
     respond_to do |format|
       if @it_security_incident.archive
-          format.turbo_stream { redirect_to it_security_incidents_path,
+          format.html { redirect_to it_security_incidents_path,
                       notice: 'IT Security Incident record was successfully archived.'
-                    }
+                      }
       else
-        format.turbo_stream { redirect_to it_security_incidents_path,
-                    alert: 'Error archiving IT Security Incident record.' 
-                  }
+        format.html { redirect_to it_security_incidents_path,
+                     alert: 'Error archiving IT Security Incident record.' 
+                    }
       end
     end
   end
   
+  def unarchive
+    respond_to do |format|
+      if @it_security_incident.unarchive
+        format.html { redirect_to admin_it_security_incident_path, 
+                      notice: 'Record was unarchived.' 
+                    }
+      end
+    end
+  end
+
   def audit_log
     authorize @it_security_incident
     add_breadcrumb(@it_security_incident.display_name, 
-      it_security_incident_path(@it_security_incident)
+                    it_security_incident_path(@it_security_incident)
                   )
     add_breadcrumb('Audit')
 

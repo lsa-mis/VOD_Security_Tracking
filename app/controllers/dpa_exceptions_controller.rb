@@ -1,9 +1,8 @@
 class DpaExceptionsController < InheritedResources::Base
-
   before_action :verify_duo_authentication
   devise_group :logged_in, contains: [:user, :admin_user]
   before_action :authenticate_logged_in!
-  before_action :set_dpa_exception, only: [:show, :edit, :update, :archive, :audit_log]
+  before_action :set_dpa_exception, only: [:show, :edit, :update, :archive, :unarchive, :audit_log]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_form_infotext, only: [:new, :edit]
   before_action :set_number_of_items, only: [:index, :audit_log]
@@ -11,7 +10,7 @@ class DpaExceptionsController < InheritedResources::Base
   def index
     
     @dpa_exception_index_text = Infotext.find_by(location: "dpa_exception_index")
-    
+
     if params[:q].nil?
       @q = DpaException.active.ransack(params[:q])
     else
@@ -32,8 +31,8 @@ class DpaExceptionsController < InheritedResources::Base
     end
 
     @dpa_status = DpaExceptionStatus.where(id: DpaException.pluck(:dpa_exception_status_id).uniq)
-    @used_by = @dpa_exceptions.pluck(:used_by).uniq
     @data_type = DataType.where(id: DpaException.pluck(:data_type_id).uniq)
+    @department = Department.where(id: DpaException.pluck(:department_id).uniq)
     
     authorize @dpa_exceptions
     # Rendering code will go here
@@ -75,12 +74,11 @@ class DpaExceptionsController < InheritedResources::Base
     end
     respond_to do |format|
       if @dpa_exception.save 
-        format.turbo_stream { redirect_to dpa_exception_path(@dpa_exception), 
+        format.html { redirect_to dpa_exception_path(@dpa_exception), 
           notice: 'DPA Exception record was successfully created.' 
         }
       else
-        # Rails.logger.info(@dpa_exception.errors.inspect)
-        format.turbo_stream
+        format.html { render :new }
       end
     end
   end
@@ -102,9 +100,11 @@ class DpaExceptionsController < InheritedResources::Base
     end
     respond_to do |format|
       if @dpa_exception.update(dpa_exception_params.except(:tdx_ticket))
-        format.turbo_stream { redirect_to @dpa_exception, notice: 'DPA Exception record was successfully updated. ' }
+        format.html { redirect_to @dpa_exception, 
+                      notice: 'DPA Exception record was successfully updated.'
+                    }
       else
-        format.turbo_stream
+        format.html { render :edit }
       end
     end
   end
@@ -113,13 +113,22 @@ class DpaExceptionsController < InheritedResources::Base
     authorize @dpa_exception
     respond_to do |format|
       if @dpa_exception.archive
-        format.turbo_stream { redirect_to dpa_exceptions_path, 
+        format.html { redirect_to dpa_exceptions_path, 
                       notice: 'DPA Exception record was successfully archived.' 
                     }
       else
-        Rails.logger.info(@dpa_exception.errors.inspect) 
-        format.turbo_stream { redirect_to dpa_exceptions_path, 
+        format.html { redirect_to dpa_exceptions_path, 
                       alert: 'Error archiving DPA Exception record.' 
+                    }
+      end
+    end
+  end
+
+  def unarchive
+    respond_to do |format|
+      if @dpa_exception.unarchive
+        format.html { redirect_to admin_dpa_exception_path, 
+                      notice: 'Record was unarchived.' 
                     }
       end
     end
@@ -163,7 +172,7 @@ class DpaExceptionsController < InheritedResources::Base
     def dpa_exception_params
       params.require(:dpa_exception).permit(
                     :review_date_exception_first_approval_date, 
-                    :third_party_product_service, :used_by, 
+                    :third_party_product_service, :department_id, 
                     :point_of_contact, :review_findings, :review_summary, 
                     :lsa_security_recommendation, :lsa_security_determination, 
                     :lsa_security_approval, :lsa_technology_services_approval, 
