@@ -14,7 +14,7 @@ class ReportsController < ApplicationController
           FROM dpa_exceptions AS dpa 
           WHERE MONTH(review_date_exception_review_date) = MONTH(CURRENT_DATE())
           AND YEAR(review_date_exception_review_date) = YEAR(CURRENT_DATE()) 
-          AND dpa.deleted_at IS NULL"
+          AND dpa.deleted_at IS NULL ORDER BY dpa.created_at desc"
     records_array = ActiveRecord::Base.connection.exec_query(sql)
     @result = []
     @result.push({"table" => "dpa_exceptions", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
@@ -26,7 +26,7 @@ class ReportsController < ApplicationController
           FROM legacy_os_records AS lor 
           WHERE MONTH(review_date) = MONTH(CURRENT_DATE())
           AND YEAR(review_date) = YEAR(CURRENT_DATE()) 
-          AND lor.deleted_at IS NULL"
+          AND lor.deleted_at IS NULL ORDER BY lor.created_at desc"
     records_array = ActiveRecord::Base.connection.exec_query(sql)
     @result.push({"table" => "legacy_os_records", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})      
 
@@ -39,7 +39,7 @@ class ReportsController < ApplicationController
           FROM sensitive_data_systems AS sds 
           WHERE MONTH(review_date) = MONTH(CURRENT_DATE()) 
           AND YEAR(review_date) = YEAR(CURRENT_DATE()) 
-          AND sds.deleted_at IS NULL"
+          AND sds.deleted_at IS NULL ORDER BY sds.created_at desc"
     records_array = ActiveRecord::Base.connection.exec_query(sql)
     @result.push({"table" => "sensitive_data_systems", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
 
@@ -66,7 +66,8 @@ class ReportsController < ApplicationController
           (SELECT data_types.name FROM data_types WHERE dpa.data_type_id = data_types.id) AS data_type,
           DATE_FORMAT(exception_approval_date_exception_renewal_date_due, '%m/%d/%Y') AS last_reviewed_date, DATE_FORMAT(review_date_exception_review_date, '%m/%d/%Y') AS next_review_due_date
           FROM dpa_exceptions AS dpa 
-          WHERE dpa.deleted_at IS NULL AND dpa.data_type_id = " + params[:data_type_id]
+          WHERE dpa.deleted_at IS NULL AND dpa.data_type_id = " + params[:data_type_id] +
+          " ORDER BY dpa.created_at desc"
     records_array = ActiveRecord::Base.connection.exec_query(sql)
     @result = []
     @result.push({"table" => "dpa_exceptions", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
@@ -75,7 +76,8 @@ class ReportsController < ApplicationController
           (SELECT data_types.name FROM data_types WHERE isi.data_type_id = data_types.id) AS data_type,
           (SELECT it_security_incident_statuses.name FROM it_security_incident_statuses WHERE isi.it_security_incident_status_id = it_security_incident_statuses.id) AS it_security_incident_status
           FROM it_security_incidents AS isi 
-          WHERE isi.deleted_at IS NULL AND isi.data_type_id = " + params[:data_type_id]
+          WHERE isi.deleted_at IS NULL AND isi.data_type_id = " + params[:data_type_id] +
+          " ORDER BY isi.created_at desc"
     records_array = ActiveRecord::Base.connection.exec_query(sql)
     @result.push({"table" => "it_security_incidents", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
     
@@ -84,7 +86,8 @@ class ReportsController < ApplicationController
           legacy_os, DATE_FORMAT(lor.updated_at, '%m/%d/%Y') AS last_modified,
           (SELECT data_types.name FROM data_types WHERE lor.data_type_id = data_types.id) AS data_type, review_date
           FROM legacy_os_records AS lor 
-          WHERE lor.deleted_at IS NULL AND lor.data_type_id = " + params[:data_type_id]
+          WHERE lor.deleted_at IS NULL AND lor.data_type_id = " + params[:data_type_id] +
+          " ORDER BY lor.created_at desc"
     records_array = ActiveRecord::Base.connection.exec_query(sql)
     @result.push({"table" => "legacy_os_records", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
     
@@ -95,7 +98,8 @@ class ReportsController < ApplicationController
           DATE_FORMAT(sds.updated_at, '%m/%d/%Y') AS last_modified,
           (SELECT data_types.name FROM data_types WHERE sds.data_type_id = data_types.id) AS data_type
           FROM sensitive_data_systems AS sds
-          WHERE sds.deleted_at IS NULL AND sds.data_type_id = " + params[:data_type_id]
+          WHERE sds.deleted_at IS NULL AND sds.data_type_id = " + params[:data_type_id] +
+          " ORDER BY sds.created_at desc"
     records_array = ActiveRecord::Base.connection.exec_query(sql)
     @result.push({"table" => "sensitive_data_systems", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
 
@@ -125,7 +129,8 @@ class ReportsController < ApplicationController
           FROM dpa_exceptions AS dpa
           JOIN data_types AS dt ON dpa.data_type_id = dt.id 
           JOIN data_classification_levels AS dcl ON dt.data_classification_level_id = dcl.id 
-          WHERE dpa.deleted_at IS NULL AND dcl.id = " + params[:data_classification_level_id]
+          WHERE dpa.deleted_at IS NULL AND dcl.id = " + params[:data_classification_level_id] +
+          " ORDER BY dpa.created_at desc"
     records_array = ActiveRecord::Base.connection.exec_query(sql)
     @result = []
     @result.push({"table" => "dpa_exceptions", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
@@ -135,7 +140,8 @@ class ReportsController < ApplicationController
           FROM it_security_incidents AS isi
           JOIN data_types AS dt ON isi.data_type_id = dt.id 
           JOIN data_classification_levels AS dcl ON dt.data_classification_level_id = dcl.id
-          WHERE isi.deleted_at IS NULL AND dcl.id = " + params[:data_classification_level_id]
+          WHERE isi.deleted_at IS NULL AND dcl.id = " + params[:data_classification_level_id] +
+          " ORDER BY isi.created_at desc"
     records_array = ActiveRecord::Base.connection.exec_query(sql)
     @result.push({"table" => "it_security_incidents", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
     
@@ -145,7 +151,8 @@ class ReportsController < ApplicationController
           FROM legacy_os_records AS lor  
           JOIN data_types AS dt ON lor.data_type_id = dt.id 
           JOIN data_classification_levels AS dcl ON dt.data_classification_level_id = dcl.id
-          WHERE lor.deleted_at IS NULL AND dcl.id = " + params[:data_classification_level_id]
+          WHERE lor.deleted_at IS NULL AND dcl.id = " + params[:data_classification_level_id] +
+          " ORDER BY lor.created_at desc"
     records_array = ActiveRecord::Base.connection.exec_query(sql)
     @result.push({"table" => "legacy_os_records", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
     
@@ -157,7 +164,8 @@ class ReportsController < ApplicationController
           FROM sensitive_data_systems AS sds 
           JOIN data_types AS dt ON sds.data_type_id = dt.id 
           JOIN data_classification_levels AS dcl ON dt.data_classification_level_id = dcl.id
-          WHERE sds.deleted_at IS NULL AND dcl.id = " + params[:data_classification_level_id]
+          WHERE sds.deleted_at IS NULL AND dcl.id = " + params[:data_classification_level_id] +
+          " ORDER BY sds.created_at desc"
     records_array = ActiveRecord::Base.connection.exec_query(sql)
     @result.push({"table" => "sensitive_data_systems", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
 
