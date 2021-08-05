@@ -142,8 +142,8 @@ class DpaException < ApplicationRecord
             row << a.attributes.values_at(key)[0]
           end
         end
-        # csv << dpa.attributes.values_at(*fields)
         csv << row
+        logger.debug "************** csv #{csv}"
       end
     end
   end
