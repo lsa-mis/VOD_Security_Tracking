@@ -1,9 +1,6 @@
 <div id="reportListing">
 <div class="mt-1 flex justify-end sm:mt-0">
   <span class="ml-4 flex-shrink-0">
-    <div role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
-      <%= link_to 'Export to CSV', systems_with_selected_data_type_path(params.merge(format: 'csv').permit!), class: "new-record-btn" %>
-    </div>
   </span>
 </div>
 
@@ -17,7 +14,7 @@
             <thead>
               <tr>
                 <% data['header'].each do |item| %>
-                  <th scope="col"><%= item %></th>
+                  <th scope="col"><%= item.titleize.upcase %></th>
                 <% end %>
               </tr>
             </thead>

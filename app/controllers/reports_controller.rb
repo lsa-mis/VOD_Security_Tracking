@@ -13,7 +13,7 @@ class ReportsController < ApplicationController
           AND dpa.deleted_at IS NULL"
     records_array = ActiveRecord::Base.connection.exec_query(sql)
     @result = []
-    @result.push({"table" => "dpa_exceptions", "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
+    @result.push({"table" => "dpa_exceptions", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
 
     sql = "SELECT isi.id AS ' ', title, date, people_involved,
           (SELECT data_types.name FROM data_types WHERE isi.data_type_id = data_types.id) AS data_type,
@@ -23,7 +23,7 @@ class ReportsController < ApplicationController
           AND YEAR(date) = YEAR(CURRENT_DATE()) 
           AND isi.deleted_at IS NULL"
     records_array = ActiveRecord::Base.connection.exec_query(sql)
-    @result.push({"table" => "it_security_incidents", "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
+    @result.push({"table" => "it_security_incidents", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
 
 
     sql = "SELECT lor.id AS ' ', owner_full_name, 
@@ -35,7 +35,7 @@ class ReportsController < ApplicationController
           AND YEAR(review_date) = YEAR(CURRENT_DATE()) 
           AND lor.deleted_at IS NULL"
     records_array = ActiveRecord::Base.connection.exec_query(sql)
-    @result.push({"table" => "legacy_os_records", "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})      
+    @result.push({"table" => "legacy_os_records", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})      
 
     sql = "SELECT sds.id AS ' ', owner_full_name,
           (SELECT departments.name FROM departments WHERE sds.department_id = departments.id) AS department,
@@ -48,12 +48,19 @@ class ReportsController < ApplicationController
           AND YEAR(review_date) = YEAR(CURRENT_DATE()) 
           AND sds.deleted_at IS NULL"
     records_array = ActiveRecord::Base.connection.exec_query(sql)
-    @result.push({"table" => "sensitive_data_systems", "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
+    @result.push({"table" => "sensitive_data_systems", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
 
-
-    render turbo_stream: turbo_stream.replace(
-      :reportListing,
-      partial: "reports/listing")
+    if params[:format] == "csv"
+      data = data_to_csv(@result)
+      respond_to do |format|
+        format.html
+        format.csv { send_data data, filename: "systems_with_selected_data_type-#{Date.today}.csv"}
+      end
+    else
+      render turbo_stream: turbo_stream.replace(
+        :reportListing,
+        partial: "reports/listing")
+    end
 
   end
 
@@ -62,12 +69,12 @@ class ReportsController < ApplicationController
     sql = "SELECT dpa.id AS ' ', (SELECT dpa_exception_statuses.name FROM dpa_exception_statuses WHERE dpa.dpa_exception_status_id = dpa_exception_statuses.id) AS dpa_exception_status,
           review_date_exception_first_approval_date, third_party_product_service, used_by,
           (SELECT data_types.name FROM data_types WHERE dpa.data_type_id = data_types.id) AS data_type,
-          exception_approval_date_exception_renewal_date_due, review_date_exception_review_date
+          exception_approval_date_exception_renewal_date_due AS last_reviewed_date, review_date_exception_review_date AS next_review_due_date
           FROM dpa_exceptions AS dpa 
           WHERE dpa.deleted_at IS NULL AND dpa.data_type_id = " + params[:data_type_id]
     records_array = ActiveRecord::Base.connection.exec_query(sql)
     @result = []
-    @result.push({"table" => "dpa_exceptions", "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
+    @result.push({"table" => "dpa_exceptions", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
     
     sql = "SELECT isi.id AS ' ', title, date, people_involved,
           (SELECT data_types.name FROM data_types WHERE isi.data_type_id = data_types.id) AS data_type,
@@ -75,7 +82,7 @@ class ReportsController < ApplicationController
           FROM it_security_incidents AS isi 
           WHERE isi.deleted_at IS NULL AND isi.data_type_id = " + params[:data_type_id]
     records_array = ActiveRecord::Base.connection.exec_query(sql)
-    @result.push({"table" => "it_security_incidents", "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
+    @result.push({"table" => "it_security_incidents", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
     
     sql = "SELECT lor.id AS ' ', owner_full_name, 
           (SELECT CONCAT(serial, ' - ', hostname) FROM devices WHERE lor.device_id = devices.id) AS device,
@@ -84,7 +91,7 @@ class ReportsController < ApplicationController
           FROM legacy_os_records AS lor 
           WHERE lor.deleted_at IS NULL AND lor.data_type_id = " + params[:data_type_id]
     records_array = ActiveRecord::Base.connection.exec_query(sql)
-    @result.push({"table" => "legacy_os_records", "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
+    @result.push({"table" => "legacy_os_records", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
     
     sql = "SELECT sds.id AS ' ', owner_full_name,
           (SELECT departments.name FROM departments WHERE sds.department_id = departments.id) AS department,
@@ -95,13 +102,13 @@ class ReportsController < ApplicationController
           FROM sensitive_data_systems AS sds
           WHERE sds.deleted_at IS NULL AND sds.data_type_id = " + params[:data_type_id]
     records_array = ActiveRecord::Base.connection.exec_query(sql)
-    @result.push({"table" => "sensitive_data_systems", "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
+    @result.push({"table" => "sensitive_data_systems", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
 
-    if params[:format] == "csv"
-      logger.debug "*******************result #{@result}"
+    if params[:format] == 'csv'
+      data = data_to_csv(@result)
       respond_to do |format|
         format.html
-        format.csv { send_data data_to_csv(@result), filename: "systems_with_selected_data_type-#{Date.today}.csv"}
+        format.csv { send_data data, filename: "systems_with_selected_data_type-#{Date.today}.csv"}
       end
     else
       render turbo_stream: turbo_stream.replace(
@@ -116,14 +123,14 @@ class ReportsController < ApplicationController
     sql = "SELECT dpa.id AS ' ', 
           (SELECT dpa_exception_statuses.name FROM dpa_exception_statuses WHERE dpa.dpa_exception_status_id = dpa_exception_statuses.id) AS dpa_exception_status,
           review_date_exception_first_approval_date, third_party_product_service,
-          used_by, dt.name AS data_type, exception_approval_date_exception_renewal_date_due, review_date_exception_review_date
+          used_by, dt.name AS data_type, exception_approval_date_exception_renewal_date_due AS last_reviewed_date, review_date_exception_review_date AS next_review_due_date
           FROM dpa_exceptions AS dpa
           JOIN data_types AS dt ON dpa.data_type_id = dt.id 
           JOIN data_classification_levels AS dcl ON dt.data_classification_level_id = dcl.id 
           WHERE dpa.deleted_at IS NULL AND dcl.id = " + params[:data_classification_level_id]
     records_array = ActiveRecord::Base.connection.exec_query(sql)
     @result = []
-    @result.push({"table" => "dpa_exceptions", "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
+    @result.push({"table" => "dpa_exceptions", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
     
     sql = "SELECT isi.id AS ' ', title, date, people_involved, dt.name AS data_type,
           (SELECT it_security_incident_statuses.name FROM it_security_incident_statuses WHERE isi.it_security_incident_status_id = it_security_incident_statuses.id) AS it_security_incident_status
@@ -132,7 +139,7 @@ class ReportsController < ApplicationController
           JOIN data_classification_levels AS dcl ON dt.data_classification_level_id = dcl.id
           WHERE isi.deleted_at IS NULL AND dcl.id = " + params[:data_classification_level_id]
     records_array = ActiveRecord::Base.connection.exec_query(sql)
-    @result.push({"table" => "it_security_incidents", "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
+    @result.push({"table" => "it_security_incidents", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
     
     sql = "SELECT lor.id AS ' ', owner_full_name, 
           (SELECT CONCAT(serial, ' - ', hostname) FROM devices WHERE lor.device_id = devices.id) AS device,
@@ -142,7 +149,7 @@ class ReportsController < ApplicationController
           JOIN data_classification_levels AS dcl ON dt.data_classification_level_id = dcl.id
           WHERE lor.deleted_at IS NULL AND dcl.id = " + params[:data_classification_level_id]
     records_array = ActiveRecord::Base.connection.exec_query(sql)
-    @result.push({"table" => "legacy_os_records", "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
+    @result.push({"table" => "legacy_os_records", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
     
     sql = "SELECT sds.id AS ' ', owner_full_name,
           (SELECT departments.name FROM departments WHERE sds.department_id = departments.id) AS department,
@@ -154,27 +161,44 @@ class ReportsController < ApplicationController
           JOIN data_classification_levels AS dcl ON dt.data_classification_level_id = dcl.id
           WHERE sds.deleted_at IS NULL AND dcl.id = " + params[:data_classification_level_id]
     records_array = ActiveRecord::Base.connection.exec_query(sql)
-    @result.push({"table" => "sensitive_data_systems", "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
+    @result.push({"table" => "sensitive_data_systems", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
 
-    render turbo_stream: turbo_stream.replace(
-      :reportListing,
-      partial: "reports/listing")
+    if params[:format] == 'csv'
+      data = data_to_csv(@result)
+      respond_to do |format|
+        format.html
+        format.csv { send_data data, filename: "systems_with_selected_data_type-#{Date.today}.csv"}
+      end
+    else
+      render turbo_stream: turbo_stream.replace(
+        :reportListing,
+        partial: "reports/listing")
+    end
 
   end
 
   private
 
     def data_to_csv(result)
-      data = result
+      data = ""
       result.each do |res|
-
+        data << res['table'].titleize.upcase + ",Total number of records: " + res['total'].to_s + "\n"
+        header = res['header'].map! { |e| e.titleize.upcase }
+        data << header.join(",") + "\n"
+        res['rows'].each do |h|
+          data << "http://localhost:3000/" + res['table'] + "/" + h[0].to_s + ","
+          h.shift(1)
+          data << h.join(",") + "\n"
+        end
+        data << "\n\n"
       end
+      logger.debug "**************************data #{data}"
       return data
     end
 
 
     def permitted_params
-      params.permit(:data_type_id, data_classification_level_id)
+      params.permit(:data_type_id, data_classification_level_id, :format)
       # params.permit! # allow all parameters
     end
 
