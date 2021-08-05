@@ -52,23 +52,6 @@ class DpaExceptionsController < InheritedResources::Base
 
     end
 
-    # unless params[:q].nil?
-    #   respond_to do |format|
-    #     format.turbo_stream do
-    #       render turbo_stream: turbo_stream.replace(
-    #                         :dpa_exceptionListing,
-    #                         partial: "dpa_exceptions/listing"
-    #                         )
-    #     end
-    #     format.html
-    #     format.csv { send_data @dpa_exceptions.to_csv }
-    #   end
-    # else 
-    #   respond_to do |format|
-    #     format.html
-    #     format.csv { send_data @dpa_exceptions.to_csv }
-    #   end
-    # end
 
     
   end
