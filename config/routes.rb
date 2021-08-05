@@ -53,9 +53,6 @@ Rails.application.routes.draw do
 
   resources :infotexts
 
-  get '/admin/reports/legacy_os_records_review_date_next_month', to: 'admin/reports#legacy_os_records_review_date_next_month', as: :admin_legacy_os_records_review_date_next_month
-  get '/admin/reports/systems_with_selected_data_type', to: 'admin/reports#systems_with_selected_data_type', as: :admin_systems_with_selected_data_type
-
   resources :reports
   get 'systems_with_review_date_this_month', to: 'reports#systems_with_review_date_this_month', as: :systems_with_review_date_this_month
   get 'systems_with_selected_data_type', to: 'reports#systems_with_selected_data_type', as: :systems_with_selected_data_type
