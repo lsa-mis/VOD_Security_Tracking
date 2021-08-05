@@ -7,8 +7,8 @@ class ReportsController < ApplicationController
 
   def systems_with_review_date_this_month
     sql = "SELECT dpa.id AS ' ', (SELECT dpa_exception_statuses.name FROM dpa_exception_statuses WHERE dpa.dpa_exception_status_id = dpa_exception_statuses.id) AS dpa_exception_status,
-          review_date_exception_first_approval_date, third_party_product_service,
-          used_by, data_type_id, exception_approval_date_exception_renewal_date_due, review_date_exception_review_date
+          DATE_FORMAT(review_date_exception_first_approval_date, '%m/%d/%Y') AS review_date_exception_first_approval_date, third_party_product_service,
+          used_by, data_type_id, DATE_FORMAT(exception_approval_date_exception_renewal_date_due, '%m/%d/%Y') AS last_reviewed_date, DATE_FORMAT(review_date_exception_review_date, '%m/%d/%Y') AS next_review_due_date
           FROM dpa_exceptions AS dpa 
           WHERE MONTH(review_date_exception_first_approval_date) = MONTH(CURRENT_DATE())
           AND YEAR(review_date_exception_first_approval_date) = YEAR(CURRENT_DATE()) 
@@ -17,7 +17,7 @@ class ReportsController < ApplicationController
     @result = []
     @result.push({"table" => "dpa_exceptions", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
 
-    sql = "SELECT isi.id AS ' ', title, date, people_involved,
+    sql = "SELECT isi.id AS ' ', title, DATE_FORMAT(date, '%m/%d/%Y') AS date, people_involved,
           (SELECT data_types.name FROM data_types WHERE isi.data_type_id = data_types.id) AS data_type,
           (SELECT it_security_incident_statuses.name FROM it_security_incident_statuses WHERE isi.it_security_incident_status_id = it_security_incident_statuses.id) AS it_security_incident_status
           FROM it_security_incidents AS isi
@@ -30,8 +30,8 @@ class ReportsController < ApplicationController
 
     sql = "SELECT lor.id AS ' ', owner_full_name, 
           (SELECT CONCAT(serial, ' - ', hostname) FROM devices WHERE lor.device_id = devices.id) AS device,
-          legacy_os, lor.updated_at AS last_modified,
-          (SELECT data_types.name FROM data_types WHERE lor.data_type_id = data_types.id) AS data_type, review_date
+          legacy_os, DATE_FORMAT(lor.updated_at, '%m/%d/%Y') AS last_modified,
+          (SELECT data_types.name FROM data_types WHERE lor.data_type_id = data_types.id) AS data_type, DATE_FORMAT(review_date, '%m/%d/%Y') AS review_date
           FROM legacy_os_records AS lor 
           WHERE MONTH(review_date) = MONTH(CURRENT_DATE())
           AND YEAR(review_date) = YEAR(CURRENT_DATE()) 
@@ -43,7 +43,7 @@ class ReportsController < ApplicationController
           (SELECT departments.name FROM departments WHERE sds.department_id = departments.id) AS department,
           (SELECT storage_locations.name FROM storage_locations WHERE sds.storage_location_id = storage_locations.id) AS storage_location,
           IF(device_id IS NULL, '', (SELECT CONCAT(serial, ' - ', hostname) FROM devices WHERE sds.device_id = devices.id)) AS device,
-          sds.updated_at AS last_modified,
+          DATE_FORMAT(sds.updated_at, '%m/%d/%Y') AS last_modified,
           (SELECT data_types.name FROM data_types WHERE sds.data_type_id = data_types.id) AS data_type
           FROM sensitive_data_systems AS sds 
           WHERE MONTH(review_date) = MONTH(CURRENT_DATE()) 
@@ -69,9 +69,9 @@ class ReportsController < ApplicationController
   def systems_with_selected_data_type
 
     sql = "SELECT dpa.id AS ' ', (SELECT dpa_exception_statuses.name FROM dpa_exception_statuses WHERE dpa.dpa_exception_status_id = dpa_exception_statuses.id) AS dpa_exception_status,
-          review_date_exception_first_approval_date, third_party_product_service, used_by,
+          DATE_FORMAT(review_date_exception_first_approval_date, '%m/%d/%Y') AS review_date_exception_first_approval_date, third_party_product_service, used_by,
           (SELECT data_types.name FROM data_types WHERE dpa.data_type_id = data_types.id) AS data_type,
-          exception_approval_date_exception_renewal_date_due AS last_reviewed_date, review_date_exception_review_date AS next_review_due_date
+          DATE_FORMAT(exception_approval_date_exception_renewal_date_due, '%m/%d/%Y') AS last_reviewed_date, DATE_FORMAT(review_date_exception_review_date, '%m/%d/%Y') AS next_review_due_date
           FROM dpa_exceptions AS dpa 
           WHERE dpa.deleted_at IS NULL AND dpa.data_type_id = " + params[:data_type_id]
     records_array = ActiveRecord::Base.connection.exec_query(sql)
@@ -88,7 +88,7 @@ class ReportsController < ApplicationController
     
     sql = "SELECT lor.id AS ' ', owner_full_name, 
           (SELECT CONCAT(serial, ' - ', hostname) FROM devices WHERE lor.device_id = devices.id) AS device,
-          legacy_os, updated_at AS last_modified,
+          legacy_os, DATE_FORMAT(lor.updated_at, '%m/%d/%Y') AS last_modified,
           (SELECT data_types.name FROM data_types WHERE lor.data_type_id = data_types.id) AS data_type, review_date
           FROM legacy_os_records AS lor 
           WHERE lor.deleted_at IS NULL AND lor.data_type_id = " + params[:data_type_id]
@@ -99,7 +99,7 @@ class ReportsController < ApplicationController
           (SELECT departments.name FROM departments WHERE sds.department_id = departments.id) AS department,
           (SELECT storage_locations.name FROM storage_locations WHERE sds.storage_location_id = storage_locations.id) AS storage_location,
           IF(device_id IS NULL, '', (SELECT CONCAT(serial, ' - ', hostname) FROM devices WHERE sds.device_id = devices.id)) AS device,
-          updated_at AS last_modified,
+          DATE_FORMAT(sds.updated_at, '%m/%d/%Y') AS last_modified,
           (SELECT data_types.name FROM data_types WHERE sds.data_type_id = data_types.id) AS data_type
           FROM sensitive_data_systems AS sds
           WHERE sds.deleted_at IS NULL AND sds.data_type_id = " + params[:data_type_id]
@@ -124,8 +124,8 @@ class ReportsController < ApplicationController
 
     sql = "SELECT dpa.id AS ' ', 
           (SELECT dpa_exception_statuses.name FROM dpa_exception_statuses WHERE dpa.dpa_exception_status_id = dpa_exception_statuses.id) AS dpa_exception_status,
-          review_date_exception_first_approval_date, third_party_product_service,
-          used_by, dt.name AS data_type, exception_approval_date_exception_renewal_date_due AS last_reviewed_date, review_date_exception_review_date AS next_review_due_date
+          DATE_FORMAT(review_date_exception_first_approval_date, '%m/%d/%Y') AS review_date_exception_first_approval_date, third_party_product_service,
+          used_by, dt.name AS data_type, DATE_FORMAT(exception_approval_date_exception_renewal_date_due, '%m/%d/%Y') AS last_reviewed_date, DATE_FORMAT(review_date_exception_review_date, '%m/%d/%Y') AS next_review_due_date
           FROM dpa_exceptions AS dpa
           JOIN data_types AS dt ON dpa.data_type_id = dt.id 
           JOIN data_classification_levels AS dcl ON dt.data_classification_level_id = dcl.id 
@@ -134,7 +134,7 @@ class ReportsController < ApplicationController
     @result = []
     @result.push({"table" => "dpa_exceptions", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
     
-    sql = "SELECT isi.id AS ' ', title, date, people_involved, dt.name AS data_type,
+    sql = "SELECT isi.id AS ' ', title, DATE_FORMAT(date, '%m/%d/%Y') AS date, people_involved, dt.name AS data_type,
           (SELECT it_security_incident_statuses.name FROM it_security_incident_statuses WHERE isi.it_security_incident_status_id = it_security_incident_statuses.id) AS it_security_incident_status
           FROM it_security_incidents AS isi
           JOIN data_types AS dt ON isi.data_type_id = dt.id 
@@ -145,7 +145,7 @@ class ReportsController < ApplicationController
     
     sql = "SELECT lor.id AS ' ', owner_full_name, 
           (SELECT CONCAT(serial, ' - ', hostname) FROM devices WHERE lor.device_id = devices.id) AS device,
-          legacy_os, lor.updated_at AS last_modified, dt.name AS data_type, review_date
+          legacy_os, DATE_FORMAT(lor.updated_at, '%m/%d/%Y') AS last_modified, dt.name AS data_type, review_date
           FROM legacy_os_records AS lor  
           JOIN data_types AS dt ON lor.data_type_id = dt.id 
           JOIN data_classification_levels AS dcl ON dt.data_classification_level_id = dcl.id
@@ -157,7 +157,7 @@ class ReportsController < ApplicationController
           (SELECT departments.name FROM departments WHERE sds.department_id = departments.id) AS department,
           (SELECT storage_locations.name FROM storage_locations WHERE sds.storage_location_id = storage_locations.id) AS storage_location,
           IF(device_id IS NULL, '', (SELECT CONCAT(serial, ' - ', hostname) FROM devices WHERE sds.device_id = devices.id)) AS device,
-          sds.updated_at AS last_modified, dt.name AS data_type
+          DATE_FORMAT(sds.updated_at, '%m/%d/%Y') AS last_modified, dt.name AS data_type
           FROM sensitive_data_systems AS sds 
           JOIN data_types AS dt ON sds.data_type_id = dt.id 
           JOIN data_classification_levels AS dcl ON dt.data_classification_level_id = dcl.id
