@@ -9,7 +9,7 @@
 
       <% if @result.present? %>
         <% @result.each do |data| %>
-          <h1><%= data['table'] %></h1>Total number of records: <%= "#{data['total']}" %>
+          <h1><%= data['table'].titleize %></h1>Total number of records: <%= "#{data['total']}" %>
           <table class="fixed_header">
             <thead>
               <tr>
