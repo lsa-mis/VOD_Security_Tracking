@@ -43,9 +43,10 @@ class ReportsController < ApplicationController
     records_array = ActiveRecord::Base.connection.exec_query(sql)
     @result.push({"table" => "sensitive_data_systems", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
 
+    @title = "Systems with a review date equal to " + Date.today.strftime("%B") + " " + Date.today.strftime("%Y")
+
     if params[:format] == "csv"
-      title = "Systems with a review date equal to " + Date.today.strftime("%B") + " " + Date.today.strftime("%Y")
-      data = data_to_csv(@result, title)
+      data = data_to_csv(@result, @title)
       respond_to do |format|
         format.html
         format.csv { send_data data, filename: "systems_with_selected_data_type-#{Date.today}.csv"}
@@ -103,10 +104,10 @@ class ReportsController < ApplicationController
     records_array = ActiveRecord::Base.connection.exec_query(sql)
     @result.push({"table" => "sensitive_data_systems", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
 
+    @title = "Systems with " + DataType.find(params[:data_type_id]).name + " data type"
+
     if params[:format] == 'csv'
-      data_type = DataType.find(params[:data_type_id]).name
-      title = "Systems with " + data_type + " data type"
-      data = data_to_csv(@result, title)
+      data = data_to_csv(@result, @title)
       respond_to do |format|
         format.html
         format.csv { send_data data, filename: "systems_with_selected_data_type-#{Date.today}.csv"}
@@ -169,10 +170,10 @@ class ReportsController < ApplicationController
     records_array = ActiveRecord::Base.connection.exec_query(sql)
     @result.push({"table" => "sensitive_data_systems", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
 
+    @title = "Systems with " + DataClassificationLevel.find(params[:data_classification_level_id]).name + " data classification level"
+
     if params[:format] == 'csv'
-      data_classification_level = DataClassificationLevel.find(params[:data_classification_level_id]).name
-      title = "Systems with " + data_classification_level + " data classification level"
-      data = data_to_csv(@result)
+      data = data_to_csv(@result, @title)
       respond_to do |format|
         format.html
         format.csv { send_data data, filename: "systems_with_selected_data_classification_level-#{Date.today}.csv"}
