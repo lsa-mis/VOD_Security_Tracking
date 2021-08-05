@@ -8,7 +8,7 @@ class ReportsController < ApplicationController
   def systems_with_review_date_this_month
     sql = "SELECT dpa.id AS ' ', (SELECT dpa_exception_statuses.name FROM dpa_exception_statuses WHERE dpa.dpa_exception_status_id = dpa_exception_statuses.id) AS dpa_exception_status,
           DATE_FORMAT(review_date_exception_first_approval_date, '%m/%d/%Y') AS review_date_exception_first_approval_date, third_party_product_service,
-          used_by, 
+          (SELECT departments.name FROM departments WHERE dpa.department_id = departments.id) AS department_used_by, 
           (SELECT data_types.name FROM data_types WHERE dpa.data_type_id = data_types.id) AS data_type, 
           DATE_FORMAT(exception_approval_date_exception_renewal_date_due, '%m/%d/%Y') AS last_reviewed_date, DATE_FORMAT(review_date_exception_review_date, '%m/%d/%Y') AS next_review_due_date
           FROM dpa_exceptions AS dpa 
@@ -55,7 +55,8 @@ class ReportsController < ApplicationController
     @result.push({"table" => "sensitive_data_systems", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
 
     if params[:format] == "csv"
-      data = data_to_csv(@result)
+      title = "Systems with review date equals " + Date.today.strftime("%B") + " " + Date.today.strftime("%Y")
+      data = data_to_csv(@result, title)
       respond_to do |format|
         format.html
         format.csv { send_data data, filename: "systems_with_selected_data_type-#{Date.today}.csv"}
@@ -71,7 +72,8 @@ class ReportsController < ApplicationController
   def systems_with_selected_data_type
 
     sql = "SELECT dpa.id AS ' ', (SELECT dpa_exception_statuses.name FROM dpa_exception_statuses WHERE dpa.dpa_exception_status_id = dpa_exception_statuses.id) AS dpa_exception_status,
-          DATE_FORMAT(review_date_exception_first_approval_date, '%m/%d/%Y') AS review_date_exception_first_approval_date, third_party_product_service, used_by,
+          DATE_FORMAT(review_date_exception_first_approval_date, '%m/%d/%Y') AS review_date_exception_first_approval_date, third_party_product_service, 
+          (SELECT departments.name FROM departments WHERE dpa.department_id = departments.id) AS department_used_by,
           (SELECT data_types.name FROM data_types WHERE dpa.data_type_id = data_types.id) AS data_type,
           DATE_FORMAT(exception_approval_date_exception_renewal_date_due, '%m/%d/%Y') AS last_reviewed_date, DATE_FORMAT(review_date_exception_review_date, '%m/%d/%Y') AS next_review_due_date
           FROM dpa_exceptions AS dpa 
@@ -109,7 +111,9 @@ class ReportsController < ApplicationController
     @result.push({"table" => "sensitive_data_systems", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows, "total" => records_array.count})
 
     if params[:format] == 'csv'
-      data = data_to_csv(@result)
+      data_type = DataType.find(params[:data_type_id]).name
+      title = "Systems with " + data_type + " data type"
+      data = data_to_csv(@result, title)
       respond_to do |format|
         format.html
         format.csv { send_data data, filename: "systems_with_selected_data_type-#{Date.today}.csv"}
@@ -127,7 +131,8 @@ class ReportsController < ApplicationController
     sql = "SELECT dpa.id AS ' ', 
           (SELECT dpa_exception_statuses.name FROM dpa_exception_statuses WHERE dpa.dpa_exception_status_id = dpa_exception_statuses.id) AS dpa_exception_status,
           DATE_FORMAT(review_date_exception_first_approval_date, '%m/%d/%Y') AS review_date_exception_first_approval_date, third_party_product_service,
-          used_by, dt.name AS data_type, DATE_FORMAT(exception_approval_date_exception_renewal_date_due, '%m/%d/%Y') AS last_reviewed_date, DATE_FORMAT(review_date_exception_review_date, '%m/%d/%Y') AS next_review_due_date
+          (SELECT departments.name FROM departments WHERE dpa.department_id = departments.id) AS department_used_by, 
+          dt.name AS data_type, DATE_FORMAT(exception_approval_date_exception_renewal_date_due, '%m/%d/%Y') AS last_reviewed_date, DATE_FORMAT(review_date_exception_review_date, '%m/%d/%Y') AS next_review_due_date
           FROM dpa_exceptions AS dpa
           JOIN data_types AS dt ON dpa.data_type_id = dt.id 
           JOIN data_classification_levels AS dcl ON dt.data_classification_level_id = dcl.id 
@@ -168,10 +173,12 @@ class ReportsController < ApplicationController
     @result.push({"table" => "sensitive_data_systems", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
 
     if params[:format] == 'csv'
+      data_classification_level = DataClassificationLevel.find(params[:data_classification_level_id]).name
+      title = "Systems with " + data_classification_level + " data classification level"
       data = data_to_csv(@result)
       respond_to do |format|
         format.html
-        format.csv { send_data data, filename: "systems_with_selected_data_type-#{Date.today}.csv"}
+        format.csv { send_data data, filename: "systems_with_selected_data_classification_level-#{Date.today}.csv"}
       end
     else
       render turbo_stream: turbo_stream.replace(
@@ -183,8 +190,9 @@ class ReportsController < ApplicationController
 
   private
 
-    def data_to_csv(result)
+    def data_to_csv(result, title)
       data = ""
+      data << title + "\n\n"
       result.each do |res|
         data << res['table'].titleize.upcase + ",Total number of records: " + res['total'].to_s + "\n"
         header = res['header'].map! { |e| e.titleize.upcase }
@@ -196,7 +204,6 @@ class ReportsController < ApplicationController
         end
         data << "\n\n"
       end
-      logger.debug "**************************data #{data}"
       return data
     end
 

@@ -117,11 +117,11 @@ class DpaException < ApplicationRecord
 
   def self.to_csv
     fields = %w{id incomplete dpa_exception_status_id review_date_exception_first_approval_date third_party_product_service
-              used_by point_of_contact review_findings review_summary lsa_security_recommendation lsa_security_determination
+              department_id point_of_contact review_findings review_summary lsa_security_recommendation lsa_security_determination
               lsa_security_approval lsa_technology_services_approval exception_approval_date_exception_renewal_date_due notes
               sla_agreement data_type_id review_date_exception_review_date}
     header = %w{link incomplete dpa_exception_status review_date_exception_first_approval_date third_party_product_service
-              used_by point_of_contact review_findings review_summary lsa_security_recommendation lsa_security_determination
+              department_used_by point_of_contact review_findings review_summary lsa_security_recommendation lsa_security_determination
               lsa_security_approval lsa_technology_services_approval exception_approval_date_exception_renewal_date_due notes
               sla_agreement data_type review_date_exception_review_date}
     header.map! { |e| e.titleize.upcase }
@@ -134,6 +134,8 @@ class DpaException < ApplicationRecord
             row << "http://localhost:3000/dpa_exceptions/" + a.attributes.values_at(key)[0].to_s
           elsif key == 'data_type_id' && a.data_type_id.present?
             row << DataType.find(a.attributes.values_at(key)[0]).display_name
+          elsif key == 'department_id' && a.data_type_id.present?
+            row << Department.find(a.attributes.values_at(key)[0]).name
           elsif key == 'dpa_exception_status_id' && a.dpa_exception_status_id.present?
             row << DpaExceptionStatus.find(a.attributes.values_at(key)[0]).name
           else
