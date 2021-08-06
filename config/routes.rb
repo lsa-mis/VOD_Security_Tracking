@@ -62,6 +62,8 @@ Rails.application.routes.draw do
   get 'systems_with_review_date_this_month', to: 'reports#systems_with_review_date_this_month', as: :systems_with_review_date_this_month
   get 'systems_with_selected_data_type', to: 'reports#systems_with_selected_data_type', as: :systems_with_selected_data_type
   get 'systems_with_selected_data_classification_level', to: 'reports#systems_with_selected_data_classification_level', as: :systems_with_selected_data_classification_level
+  post 'date_range_for_reports', to: 'reports#date_range_for_reports', as: :date_range_for_reports
+  post 'run_report', to: 'reports#run_report', as: :run_report
 
   ActiveAdmin.routes(self)
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
