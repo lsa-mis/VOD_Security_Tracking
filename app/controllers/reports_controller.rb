@@ -5,6 +5,7 @@ class ReportsController < ApplicationController
 
   def index
     authorize :report, :show?
+    @report_text = Infotext.find_by(location: "reports")
 
   end
 

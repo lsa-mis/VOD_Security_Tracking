@@ -3,9 +3,14 @@
 <div class="py-2 sm:grid sm:grid-cols-5 sm:gap-4 border-b border-laitan_blue">
   <div class="sm:col-span-4">
     <div class="index-instructions">
-      <p>
-        Instruction how to run reports
-      </p>
+      <%= @report_text.content %>
+    </div>
+    <div>
+      <% if policy(Infotext).edit? %>
+        <%= link_to edit_infotext_path(@report_text) do %>
+          <i class="far fa-edit text-laitan_blue"></i>
+        <% end %>
+      <% end %>
     </div>
   </div>
 </div>
@@ -17,66 +22,69 @@
     target: "report.form",
     action: "submit->report#submitForm"
   } do |f| %>
+    <section class="errors" data-report-target="message">
+    </section>
 
     <div class="field-container">
       <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-        <%= label_tag "Select a table" %>
-        <div class="pl-4">
+        <div class="w-1/3 pr-2 pl-2">
+          <%= label_tag "Select a table" %>
           <%= select_tag :table, options_for_select({"All" => "all", "DPA exceptions" => "dpa", "IT security incidents" => 'isi', "Legacy OS records" => "lor", "Sensitive data systems" => "sds"}, "All"), required: true %>
         </div>
+        <div class="w-1/3 pr-2 pl-4">
+          <%= label_tag "Select date range " %>
+            <%= f.text_field :start_date, placeholder: "From",
+              data: {
+              controller: "flatpickr",
+              flatpickr_date_format: "Y-m-d",
+              }
+            %>
+        </div>
+        <div class="w-1/3 pr-2 pl-4">
+          <%= label_tag "To (now)" %>
+            <%= f.text_field :end_date, placeholder: "To",
+              data: {
+                controller: "flatpickr",
+                flatpickr_date_format: "Y-m-d",
+                flatpickr_default_date: Time.zone.now
+              }
+            %>
+        </div>
       </div>
-
+    </div>
+    <div class="field-container">
       <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-        <div class="w-1/3 pr-2 pl-2">
-          <%= label_tag "Select a month for Review date" %>
-          <div class="pl-4">
-            <%= select_tag :review_month, options_for_select({ "Select ..." => "", "Previous month" => "previous", "Current month" => "current", "Next month" => "next" }, "Select ...")%>
-          </div>
-        </div>
-        <%= label_tag "or date range between" %>
-        <div class="w-1/3 pr-2 pl-2">
-          <%= f.text_field :start_date, 
-            data: {
-              controller: "flatpickr",
-              flatpickr_date_format: "Y-m-d",
-            }
-          %>
-        </div>
-        <%= label_tag "To (now)" %>
-        <div class="w-1/3 pl-2">
-          <%= f.text_field :end_date,
-            data: {
-              controller: "flatpickr",
-              flatpickr_date_format: "Y-m-d",
-              flatpickr_default_date: Time.zone.now
-            }
-          %>
+        <%= label_tag "Select a month for Review date" %>
+        <div class="pl-4">
+          <%= select_tag :review_month, options_for_select({ "Select ..." => "", "Previous month" => "previous", "Current month" => "current", "Next month" => "next" }, "Select ..."),
+              :"data-report-target" => "review_month" %>
         </div>
       </div>
-
+    </div>
+    <div class="field-container">
       <div class="field flex flex-row flex-nowrap justify-items-start items-center" >
-        <%= label_tag "data classification level" %>
         <div class="w-1/3 pr-2 pl-2">
-          <%= select_tag :data_classification_level_id, options_from_collection_for_select(DataClassificationLevel.all, 'id', 'name'), include_blank: "Select data classification level", 
-              :"data-report-target" => "classification_level", :"data-action" => "change->report#changeClassification" %>
+          <%= label_tag "Select data classification level" %>
+            <%= select_tag :data_classification_level_id, options_from_collection_for_select(DataClassificationLevel.all, 'id', 'name'), include_blank: "Select data classification level", 
+                :"data-report-target" => "classification_level", :"data-action" => "change->report#changeClassification" %>
         </div>
-        <%= label_tag "or/and data type" %>
         <div class="w-1/3 pl-2">
-        <%= select_tag :data_type_id, options_from_collection_for_select(DataType.all, 'id', 'name'), include_blank: "Select data type", :"data-report-target" => "data_type" %>
+          <%= label_tag "or/and data type" %>
+          <%= select_tag :data_type_id, options_from_collection_for_select(DataType.all, 'id', 'name'), include_blank: "Select data type", :"data-report-target" => "data_type" %>
         </div>
       </div>
     </div>
 
     <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-        <%= label_tag "Select a type of report" %>
-        <div class="pl-4">
-          <%= select_tag :format, options_for_select({"Display in a browser" => "html", "Export to CSV" => "csv"}, "Display in a browser"), required: true %>
-        </div>
+      <%= label_tag "Select a report type" %>
+      <div class="pl-4">
+        <%= select_tag :format, options_for_select({"Display in a browser" => "html", "Export to CSV" => "csv"}, "Display in a browser"), required: true %>
       </div>
+    </div>
   
     <div class="action-area">
       <div class="actions">
-        <%= f.submit "Show report", data: { disable_with: false }, method: :get %>
+        <%= f.submit "Run report", data: { disable_with: false }, method: :get %>
       </div>
     </div>
   <% end %>
