@@ -215,7 +215,7 @@
             <div class="w-1/3 pr-4">
               <%= form.label :serial %>
               <%= device_attributes.text_field :serial, :"data-legacyos-target" => "serial" %>
-              <span class="device-error--hide" data-legacyos-target="serial_error">
+              <span class="device-error--hide text-red-500" data-legacyos-target="serial_error">
                 Add serial number
               </span>
               <p class="help-text"></p>
@@ -224,7 +224,7 @@
             <div class="w-1/3">
               <%= form.label :hostname %>
               <%= device_attributes.text_field :hostname, :"data-legacyos-target" => "hostname" %>
-              <span class="device-error--hide" data-legacyos-target="hostname_error">
+              <span class="device-error--hide text-red-500" data-legacyos-target="hostname_error">
                 or hostname
               </span>
               <p class="help-text"></p>
