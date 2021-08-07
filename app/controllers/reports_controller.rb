@@ -16,7 +16,6 @@ class ReportsController < ApplicationController
     logger.debug "********* end_date #{end_date}"
     data_classification_level_id = params[:data_classification_level_id]
     data_type_id = params[:data_type_id]
-    format = params[:format]
     
     if review_month != ""
       systems_with_review_date(table, review_month)
@@ -30,7 +29,7 @@ class ReportsController < ApplicationController
       data = data_to_csv(@result, @title)
       respond_to do |format|
         format.html
-        format.csv { send_data data, filename: "systems_with_selected_data_type-#{Date.today}.csv"}
+        format.csv { send_data data, filename: "#{@title}-#{Date.today}.csv"}
       end
     else
       render turbo_stream: turbo_stream.replace(
