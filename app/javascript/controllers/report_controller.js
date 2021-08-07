@@ -1,13 +1,18 @@
 import { Controller } from "stimulus"
 
 export default class ReportController extends Controller {
-  static targets = ["form", "data_type", "classification_level"]
+  static targets = ["form", "data_type", "classification_level", "review_month", "message"]
 
   changeClassification() {
-    console.log("hell")
     var id = this.classification_levelTarget.value
-    console.log(id)
     if (id) {
+      fetch(`/data_classification_levels/get_data_types/${id}`)
+        .then((response) => response.json())
+        .then((data) => this.update_data_type(data)
+        );
+    }
+    else {
+      id = 0
       fetch(`/data_classification_levels/get_data_types/${id}`)
         .then((response) => response.json())
         .then((data) => this.update_data_type(data)
@@ -17,11 +22,11 @@ export default class ReportController extends Controller {
   }
 
   update_data_type(data) {
-    console.log(data)
     let dropdown = this.data_typeTarget;
     dropdown.length = 0;
 
     let defaultOption = document.createElement('option');
+    defaultOption.value = '';
     defaultOption.text = 'Select data type...';
 
     dropdown.add(defaultOption);
@@ -37,26 +42,21 @@ export default class ReportController extends Controller {
   }
 
   submitForm(event) {
-    console.log("submit")
+    var review_month = this.review_monthTarget.value
+    var classification_level = this.classification_levelTarget.value
+    var data_type = this.data_typeTarget.value
+    if (review_month == "") {
+      if (classification_level == "" && data_type == "") {
+        this.messageTarget.innerText = "Select a review month or data classification level/data type";
+      }
+      else {
+        this.messageTarget.innerText = ""
+      }
+    }
+    else {
+      this.messageTarget.innerText = ""
+    }
 
   }
-
-  // submitForm(event) {
-  //     var serial = this.serialTarget.value
-  //     var hostname = this.hostnameTarget.value
-  //     if (serial == "" && hostname == "") {
-  //         this.serial_errorTarget.classList.add("device-error--display")
-  //         this.serial_errorTarget.classList.remove("device-error--hide")
-  //         this.hostname_errorTarget.classList.add("device-error--display")
-  //         this.hostname_errorTarget.classList.remove("device-error--hide")
-  //         event.preventDefault()
-  //     }
-  //     else {
-  //         this.serial_errorTarget.classList.add("device-error--hide")
-  //         this.serial_errorTarget.classList.remove("device-error--display")
-  //         this.hostname_errorTarget.classList.add("device-error--hide")
-  //         this.hostname_errorTarget.classList.remove("device-error--display")
-  //     }
-  // }
 
 }
