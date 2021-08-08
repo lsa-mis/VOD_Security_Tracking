@@ -73,8 +73,10 @@ class LegacyOsRecordsController < InheritedResources::Base
       @note ||= device_class.message || ""
       @note = "" if device_class.device_exist?
     else
-      flash.now[:alert] = device_class.message
-      render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+      # TDX search returns too many results for entered serial or hostname
+      @legacy_os_record.errors.add(:device, device_class.message)
+      @legacy_os_record.device = Device.new(legacy_os_record_params[:device_attributes])
+      render :new
       return
     end
 
@@ -115,13 +117,16 @@ class LegacyOsRecordsController < InheritedResources::Base
       if device.save
         @legacy_os_record.device_id = device.id
       else
-        flash.now[:alert] = "Error saving device"
-        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+        @legacy_os_record.errors.add(:device, "Error saving device")
+        @legacy_os_record.device = Device.new(legacy_os_record_params[:device_attributes])
+        render :edit
         return
       end
     else
-      flash.now[:alert] = device_class.message
-      render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+      # TDX search returns too many results for entered serial or hostname
+      @legacy_os_record.errors.add(:device, device_class.message)
+      @legacy_os_record.device = Device.new(legacy_os_record_params[:device_attributes])
+      render :edit
       return
     end
 

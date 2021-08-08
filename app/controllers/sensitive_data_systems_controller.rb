@@ -74,8 +74,10 @@ class SensitiveDataSystemsController < InheritedResources::Base
         @sensitive_data_system.device = device_class.device
         @note ||= device_class.message || ""
       else
-        flash.now[:alert] = device_class.message
-        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+        # TDX search returns too many results for entered serial or hostname
+        @sensitive_data_system.errors.add(:device, device_class.message)
+        @sensitive_data_system.device = Device.new(sensitive_data_system_params[:device_attributes])
+        render :new
         return
       end
     end
@@ -118,13 +120,16 @@ class SensitiveDataSystemsController < InheritedResources::Base
         if device.save
           @sensitive_data_system.device_id = device.id
         else
-          flash.now[:alert] = "Error saving device"
-          render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+          @sensitive_data_system.errors.add(:device, "Error saving device")
+          @sensitive_data_system.device = Device.new(sensitive_data_system_params[:device_attributes])
+          render :edit
           return
         end
       else
-        flash.now[:alert] = device_class.message
-        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+        # TDX search returns too many results for entered serial or hostname
+        @sensitive_data_system.errors.add(:device, device_class.message)
+        @sensitive_data_system.device = Device.new(sensitive_data_system_params[:device_attributes])
+        render :edit
         return
       end
     else
