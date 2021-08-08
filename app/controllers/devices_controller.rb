@@ -3,7 +3,7 @@ class DevicesController < InheritedResources::Base
   devise_group :logged_in, contains: [:user]
   before_action :authenticate_logged_in!
   before_action :set_device, only: [:show, :edit, :update]
-  before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit]
+  before_action :add_index_breadcrumb, only: [:index, :show]
 
   def index
     @device_index_text = Infotext.find_by(location: "device_index")
@@ -20,14 +20,12 @@ class DevicesController < InheritedResources::Base
   end
 
   def edit
-    add_breadcrumb(@device.display_name, device_path(@device))
-    add_breadcrumb('Edit')
     authorize @device
   end
 
   def new
     @device = Device.new
-    add_breadcrumb('New')
+    authorize @device
   end
 
   def create
