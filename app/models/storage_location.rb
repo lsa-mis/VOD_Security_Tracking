@@ -11,15 +11,17 @@
 #  device_is_required :boolean          default(FALSE)
 #
 class StorageLocation < ApplicationRecord
-    has_many :sensitive_data_systems
-    audited
+  has_many :sensitive_data_systems
+  audited
 
-    def display_name
-        if self.device_is_required
-          "#{self.name} - device is required"
-        else
-          "#{self.name}"
-        end
-      end
-      
+  validates :name, uniqueness: true
+
+  def display_name
+    if self.device_is_required
+      "#{self.name} - device is required"
+    else
+      "#{self.name}"
+    end
+  end
+
 end

@@ -10,9 +10,11 @@
 #  updated_at       :datetime         not null
 #
 class Department < ApplicationRecord
-    has_many :legacy_os_records
-    has_many :sensitive_data_systems
-    has_many :dpa_exceptions
+  has_many :legacy_os_records
+  has_many :sensitive_data_systems
+  has_many :dpa_exceptions
+
+  validates :name, :shortname, uniqueness: true
 
   def display_name
     "#{self.name}"

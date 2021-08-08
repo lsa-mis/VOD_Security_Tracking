@@ -10,4 +10,7 @@
 #
 class ItSecurityIncidentStatus < ApplicationRecord
   has_many :it_security_incident
+
+  validates :name, uniqueness: true
+  
 end
