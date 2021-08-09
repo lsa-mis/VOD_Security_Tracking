@@ -49,11 +49,10 @@
 
         <div class="border">
           <div class="mx-2">
-            <div class="">
+            <div>
               <%= f.label :dpa_status, "Status" %>
               <%= f.collection_select :dpa_exception_status_id_eq, @dpa_status, :id, :name, include_blank: "Select ...", class: 'form-control' %>
             </div>
-
             <div class="flex items-end">
               <div class="flex-1 w-1/2">
                 <%= f.label "Initial review date" %>
@@ -71,15 +70,15 @@
                   } %>
               </div>
             </div>
-            <div class="">
+            <div>
               <%= f.label :third_party_product_service %>
               <%= f.text_field :third_party_product_service_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
-            <div class="">
+            <div>
               <%= f.label :department_id, "Department used by"  %>
               <%= f.collection_select :department_id_eq, @department, :id, :name, include_blank: "Select ...", class: 'form-control' %>
             </div>
-            <div class="">
+            <div>
               <%= f.label :data_type_id %>
               <%= f.collection_select :data_type_id_eq, @data_type, :id, :name, include_blank: "Select ...", class: 'form-control' %>
               <%= f.label :data_type_id_blank %>
@@ -124,35 +123,35 @@
 
         <div class="border">
           <div class="mx-2 mb-1">
-            <div class="">
+            <div>
               <%= f.label :point_of_contact %>
               <%= f.text_field :point_of_contact_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
-            <div class="">
+            <div>
               <%= f.label :review_findings %>
               <%= f.text_field :review_findings_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
-            <div class="">
+            <div>
               <%= f.label :review_summary %>
               <%= f.text_field :review_summary_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
-            <div class="">
+            <div>
               <%= f.label :lsa_security_recommendation, "LSA security recommendation" %>
               <%= f.text_field :lsa_security_recommendation_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
-            <div class="">
+            <div>
               <%= f.label :lsa_security_determination, "LSA security determination" %>
               <%= f.text_field :lsa_security_determination_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
-            <div class="">
+            <div>
               <%= f.label :lsa_security_approval, "LSA security approval" %>
               <%= f.text_field :lsa_security_approval_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
-            <div class="">
+            <div>
               <%= f.label :lsa_technology_services_approval, "LSA technology services approval" %>
               <%= f.text_field :lsa_technology_services_approval_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
-            <div class="">
+            <div>
               <%= f.label :notes %>
               <%= f.text_field :notes_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
@@ -163,7 +162,7 @@
           <div class="mr-2">
             <%= f.submit 'Search', data: { disable_with: false }, class: '' %>
           </div>
-          <div class="">
+          <div>
             <button type="button" class="filter-clear-btn"
               data-action='click->filters#clearFilters'>
               Clear
