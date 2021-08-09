@@ -15,7 +15,7 @@
           <tr>
             <th scope="col">Actions</th>
             <th scope="col"><%= sort_link(@q, :dpa_exception_status_id, 'Status') %></th>
-            <th scope="col"><%= sort_link(@q, :review_date_exception_first_approval_date, 'Review date exception first approval date') %></th>
+            <th scope="col"><%= sort_link(@q, :review_date_exception_first_approval_date, 'Initial review date') %></th>
             <th scope="col"><%= sort_link(@q, :third_party_product_service, 'Third party product service', default_order: :desc) %></th>
             <th scope="col"><%= sort_link(@q, :department_id, 'Department used by', default_order: :desc) %></th>
             <th scope="col"><%= sort_link(@q, :data_type_id, 'Data type', default_order: :desc) %></th>
