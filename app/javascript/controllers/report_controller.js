@@ -1,7 +1,19 @@
 import { Controller } from "stimulus"
 
 export default class ReportController extends Controller {
-  static targets = ["form", "data_type", "classification_level", "review_month", "message", "table"]
+  static targets = ["form", "data_type", "classification_level", "review_month", "message", "table", "end_date", "review_month_div"]
+
+  checkReviewMonth() {
+    var table = this.tableTarget.value
+    if (table == "isi") {
+      this.review_month_divTarget.classList.remove("device--display")
+      this.review_month_divTarget.classList.add("device--hide")
+    }
+    else {
+      this.review_month_divTarget.classList.add("device--display")
+      this.review_month_divTarget.classList.remove("device--hide")
+    }
+  }
 
   changeTableList() {
     console.log("here")
@@ -11,22 +23,21 @@ export default class ReportController extends Controller {
     var value = this.review_monthTarget.value
     console.log(value)
 
-    if (value) {
-      console.log("change")
-
-      var data = { "DPA exceptions": "dpa", "Legacy OS records": "lor", "Sensitive data systems": "sds" }
-    }
-    else {
-      var data = { "DPA exceptions": "dpa", "IT security incidents": 'isi', "Legacy OS records": "lor", "Sensitive data systems": "sds" }
-    }
-    console.log(data)
-
     let dropdown = this.tableTarget;
     dropdown.length = 0;
 
     let defaultOption = document.createElement('option');
-    defaultOption.value = 'all';
-    defaultOption.text = 'All';
+    if (value) {
+      defaultOption.value = 'all';
+      defaultOption.text = 'All (excluding It security incidents)';
+      var data = { "DPA exceptions": "dpa", "Legacy OS records": "lor", "Sensitive data systems": "sds" }
+    }
+    else {
+      defaultOption.value = 'all';
+      defaultOption.text = 'All';
+      var data = { "DPA exceptions": "dpa", "IT security incidents": 'isi', "Legacy OS records": "lor", "Sensitive data systems": "sds" }
+    }
+    console.log(data)
 
     dropdown.add(defaultOption);
     dropdown.selectedIndex = 0;
@@ -85,19 +96,28 @@ export default class ReportController extends Controller {
     var review_month = this.review_monthTarget.value
     var classification_level = this.classification_levelTarget.value
     var data_type = this.data_typeTarget.value
-    if (review_month == "") {
-      if (classification_level == "" && data_type == "") {
-        this.messageTarget.innerText = "Select a review month or data classification level/data type";
-        event.preventDefault()
-      }
-      else {
-        this.messageTarget.innerText = ""
-      }
+    if (review_month == "" && classification_level == "" && data_type == "") {
+      this.messageTarget.classList.add("device-error--display")
+      this.messageTarget.classList.remove("device-error--hide")
+      this.messageTarget.innerText = "Select a review month or data classification level or data type";
+      event.preventDefault()
     }
     else {
+      console.log(this.messageTarget.classList)
+      this.messageTarget.classList.add("device-error--hide")
+      this.messageTarget.classList.remove("device-error--display")
       this.messageTarget.innerText = ""
     }
 
+  }
+
+  clearFilters() {
+    var val = this.end_dateTarget.value
+    console.log(val)
+    this.element.reset()
+    var val = this.end_dateTarget.value
+    val = new Date().toISOString().slice(0, 10)
+    console.log((new Date()).toISOString().slice(0, 10))
   }
 
 }

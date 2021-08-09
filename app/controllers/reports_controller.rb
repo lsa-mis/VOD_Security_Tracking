@@ -13,7 +13,11 @@ class ReportsController < ApplicationController
     @table = params[:table]
     @review_month = params[:review_month]
     @start_date = params[:report_data][:start_date]
-    @end_date = params[:report_data][:end_date]
+    if params[:report_data][:end_date] == ""
+      @end_date = Date.today.strftime("%Y-%m-%d")
+    else
+      @end_date = params[:report_data][:end_date]
+    end
     logger.debug "********* start_date #{@start_date}"
     logger.debug "********* end_date #{@end_date}"
     @data_classification_level_id = params[:data_classification_level_id]
