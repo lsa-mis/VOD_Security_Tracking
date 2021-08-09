@@ -27,12 +27,37 @@
 
     <div class="field-container">
       <div class="field flex flex-row flex-nowrap justify-items-start items-center">
+        <%= label_tag "Select a month for Review date" %>
+        <div class="pl-4">
+          <%= select_tag :review_month, options_for_select({ "Select ..." => "", "Previous month" => "previous", "Current month" => "current", "Next month" => "next" }, "Select ..."),
+              :"data-report-target" => "review_month", :"data-action" => "change->report#changeTableList" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-container">
+      <div class="field flex flex-row flex-nowrap justify-items-start items-center" >
+        <div class="w-1/3 pr-2 pl-2">
+          <%= label_tag "Select data classification level" %>
+            <%= select_tag :data_classification_level_id, options_from_collection_for_select(DataClassificationLevel.all, 'id', 'name'), include_blank: "Select data classification level", 
+                :"data-report-target" => "classification_level", :"data-action" => "change->report#changeClassification" %>
+        </div>
+        <div class="w-1/3 pl-2">
+          <%= label_tag "or/and data type" %>
+          <%= select_tag :data_type_id, options_from_collection_for_select(DataType.all, 'id', 'name'), include_blank: "Select data type", :"data-report-target" => "data_type" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-container">
+      <div class="field flex flex-row flex-nowrap justify-items-start items-center">
         <div class="w-1/3 pr-2 pl-2">
           <%= label_tag "Select a table" %>
-          <%= select_tag :table, options_for_select({"All" => "all", "DPA exceptions" => "dpa", "IT security incidents" => 'isi', "Legacy OS records" => "lor", "Sensitive data systems" => "sds"}, "All"), required: true %>
+          <%= select_tag :table, options_for_select({"All" => "all", "DPA exceptions" => "dpa", "IT security incidents" => 'isi', "Legacy OS records" => "lor", "Sensitive data systems" => "sds"}, "All"), 
+                        :"data-report-target" => "table", required: true %>
         </div>
         <div class="w-1/3 pr-2 pl-4">
-          <%= label_tag "Select date range " %>
+          <%= label_tag "Select range for created date " %>
             <%= f.text_field :start_date, placeholder: "From",
               data: {
               controller: "flatpickr",
@@ -49,28 +74,6 @@
                 flatpickr_default_date: Time.zone.now
               }
             %>
-        </div>
-      </div>
-    </div>
-    <div class="field-container">
-      <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-        <%= label_tag "Select a month for Review date" %>
-        <div class="pl-4">
-          <%= select_tag :review_month, options_for_select({ "Select ..." => "", "Previous month" => "previous", "Current month" => "current", "Next month" => "next" }, "Select ..."),
-              :"data-report-target" => "review_month" %>
-        </div>
-      </div>
-    </div>
-    <div class="field-container">
-      <div class="field flex flex-row flex-nowrap justify-items-start items-center" >
-        <div class="w-1/3 pr-2 pl-2">
-          <%= label_tag "Select data classification level" %>
-            <%= select_tag :data_classification_level_id, options_from_collection_for_select(DataClassificationLevel.all, 'id', 'name'), include_blank: "Select data classification level", 
-                :"data-report-target" => "classification_level", :"data-action" => "change->report#changeClassification" %>
-        </div>
-        <div class="w-1/3 pl-2">
-          <%= label_tag "or/and data type" %>
-          <%= select_tag :data_type_id, options_from_collection_for_select(DataType.all, 'id', 'name'), include_blank: "Select data type", :"data-report-target" => "data_type" %>
         </div>
       </div>
     </div>
