@@ -55,6 +55,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
   end
 
   def new
+    add_breadcrumb('New')
     @sensitive_data_system = SensitiveDataSystem.new
     @device = Device.new
     authorize @sensitive_data_system

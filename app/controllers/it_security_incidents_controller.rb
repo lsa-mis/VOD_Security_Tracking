@@ -46,6 +46,7 @@ class ItSecurityIncidentsController < InheritedResources::Base
   end
 
   def new
+    add_breadcrumb('New')
     @it_security_incident = ItSecurityIncident.new
     authorize @it_security_incident
   end

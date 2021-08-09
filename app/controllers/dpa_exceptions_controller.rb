@@ -46,6 +46,7 @@ class DpaExceptionsController < InheritedResources::Base
   end
 
   def new
+    add_breadcrumb('New')
     @dpa_exception = DpaException.new
     authorize @dpa_exception
   end

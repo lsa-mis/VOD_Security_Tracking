@@ -54,6 +54,7 @@ class LegacyOsRecordsController < InheritedResources::Base
   end
 
   def new
+    add_breadcrumb('New')
     @legacy_os_record = LegacyOsRecord.new
     @device = Device.new
     authorize @legacy_os_record
