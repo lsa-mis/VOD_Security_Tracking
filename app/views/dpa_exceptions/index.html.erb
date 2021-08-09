@@ -48,7 +48,7 @@
         </div>
 
         <div class="border">
-          <div class="mx-2">
+          <div class="mx-2 mb-1">
             <div>
               <%= f.label :dpa_status, "Status" %>
               <%= f.collection_select :dpa_exception_status_id_eq, @dpa_status, :id, :name, include_blank: "Select ...", class: 'form-control' %>
