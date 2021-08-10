@@ -111,7 +111,7 @@ class ReportsController < ApplicationController
 
       if start_date == ""
         @and_created_at = " AND " + table + ".created_at <= '" + end_date + "'"
-        @title_created_at = " & created before " + end_date
+        @title_created_at = " & created through " + end_date
       else
         @and_created_at = " AND " + table + ".created_at BETWEEN '" + start_date + "' AND '" + end_date + "'"
         @title_created_at = " & created between " + start_date + " and " + end_date
