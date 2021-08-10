@@ -1,7 +1,8 @@
 import { Controller } from "stimulus"
 
 export default class ReportController extends Controller {
-  static targets = ["form", "data_type", "classification_level", "review_month", "message", "table", "end_date", "review_month_div"]
+  static targets = ["form", "data_type", "classification_level", "review_month", "message",
+    "table", "end_date", "start_date", "end_date"]
 
   checkReviewMonth() {
     var table = this.tableTarget.value
@@ -109,6 +110,25 @@ export default class ReportController extends Controller {
         this.messageTarget.classList.remove("device-error--display")
         this.messageTarget.innerText = ""
       }
+    }
+    let start = this.start_dateTarget.value;
+    let end = this.end_dateTarget.value;
+    console.log(start)
+    var d_start = Date.parse(start)
+    console.log(d_start)
+    var d_end = Date.parse(end)
+    console.log(d_end)
+    if (d_end < d_start) {
+      this.messageTarget.classList.add("device-error--display")
+      this.messageTarget.classList.remove("device-error--hide")
+      this.messageTarget.innerText = "To date should be later then From date";
+      event.preventDefault()
+    }
+    else {
+      console.log(this.messageTarget.classList)
+      this.messageTarget.classList.add("device-error--hide")
+      this.messageTarget.classList.remove("device-error--display")
+      this.messageTarget.innerText = ""
     }
 
 
