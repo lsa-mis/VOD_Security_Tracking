@@ -85,21 +85,30 @@ export default class ReportController extends Controller {
   }
 
   submitForm(event) {
-    var table = this.tableTarget.value
-    var review_month = this.review_monthTarget.value
-    var classification_level = this.classification_levelTarget.value
-    var data_type = this.data_typeTarget.value
-    if (review_month == "" && classification_level == "" && data_type == "") {
-      this.messageTarget.classList.add("device-error--display")
-      this.messageTarget.classList.remove("device-error--hide")
-      this.messageTarget.innerText = "Select a review month or data classification level or data type";
+    console.log("this.messageTarget.innerText")
+
+    console.log(this.messageTarget.innerText)
+    if (this.messageTarget.innerText != "") {
+      console.log("here")
       event.preventDefault()
     }
     else {
-      console.log(this.messageTarget.classList)
-      this.messageTarget.classList.add("device-error--hide")
-      this.messageTarget.classList.remove("device-error--display")
-      this.messageTarget.innerText = ""
+      var table = this.tableTarget.value
+      var review_month = this.review_monthTarget.value
+      var classification_level = this.classification_levelTarget.value
+      var data_type = this.data_typeTarget.value
+      if (review_month == "" && classification_level == "" && data_type == "") {
+        this.messageTarget.classList.add("device-error--display")
+        this.messageTarget.classList.remove("device-error--hide")
+        this.messageTarget.innerText = "Select a review month or data classification level or data type";
+        event.preventDefault()
+      }
+      else {
+        console.log(this.messageTarget.classList)
+        this.messageTarget.classList.add("device-error--hide")
+        this.messageTarget.classList.remove("device-error--display")
+        this.messageTarget.innerText = ""
+      }
     }
 
 
