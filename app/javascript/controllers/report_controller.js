@@ -5,13 +5,44 @@ export default class ReportController extends Controller {
 
   checkReviewMonth() {
     var table = this.tableTarget.value
-    if (table == "isi") {
-      this.review_month_divTarget.classList.remove("device--display")
-      this.review_month_divTarget.classList.add("device--hide")
+    var review_month = this.review_monthTarget.value
+    console.log("review_month")
+    console.log(review_month)
+
+    // failed attrempt to dissable revew_month dropdown list
+    // var review_month = this.review_monthTarget
+    // console.log("review_month.attributes")
+    // console.log(review_month.attributes)
+    // review_month.attributes.add('disabled')
+    // console.log(review_month.attributes[3])
+    // console.log(review_month.attributes[3].value)
+    // console.log(review_month.attributes['disabled'])
+
+    if (table != "isi" && review_month != "") {
+      console.log("here")
+      this.messageTarget.classList.add("device-error--hide")
+      this.messageTarget.classList.remove("device-error--display")
+      this.messageTarget.innerText = ""
+    }
+    if (table == "isi" && review_month != "") {
+      this.messageTarget.classList.add("device-error--display")
+      this.messageTarget.classList.remove("device-error--hide")
+      this.messageTarget.innerText = "IT security table is not included into the Review month - select a different table or All";
+    }
+  }
+
+  checkTable() {
+    var table = this.tableTarget.value
+    var review_month = this.review_monthTarget.value
+    if (table == "isi" && review_month != "") {
+      this.messageTarget.classList.add("device-error--display")
+      this.messageTarget.classList.remove("device-error--hide")
+      this.messageTarget.innerText = "IT security table is not included into the Review month - select a different table or All";
     }
     else {
-      this.review_month_divTarget.classList.add("device--display")
-      this.review_month_divTarget.classList.remove("device--hide")
+      this.messageTarget.classList.add("device-error--hide")
+      this.messageTarget.classList.remove("device-error--display")
+      this.messageTarget.innerText = ""
     }
   }
 
@@ -54,6 +85,7 @@ export default class ReportController extends Controller {
   }
 
   submitForm(event) {
+    var table = this.tableTarget.value
     var review_month = this.review_monthTarget.value
     var classification_level = this.classification_levelTarget.value
     var data_type = this.data_typeTarget.value
@@ -69,6 +101,8 @@ export default class ReportController extends Controller {
       this.messageTarget.classList.remove("device-error--display")
       this.messageTarget.innerText = ""
     }
+
+
 
   }
 
