@@ -46,11 +46,10 @@ class ReportsController < ApplicationController
       #  review_month filter
       case @review_month
       when "previous"
-        and_dpa_review_month = " AND IF(MONTH(CURRENT_DATE()) = 1, (MONTH(review_date_exception_review_date) = 12 AND YEAR(review_date_exception_review_date) = YEAR(CURRENT_DATE()) -1),
-                    (MONTH(review_date_exception_review_date) = MONTH(CURRENT_DATE())-1) AND YEAR(review_date_exception_review_date) = YEAR(CURRENT_DATE()))"
-        and_review_month = " AND IF(MONTH(CURRENT_DATE()) = 1, (MONTH(review_date) = 12 AND YEAR(review_date) = YEAR(CURRENT_DATE()) -1),
-                (MONTH(review_date) = MONTH(CURRENT_DATE())-1) AND YEAR(review_date) = YEAR(CURRENT_DATE()))"
-        title_review_month = " a review date equal to " + @review_month + " month & "
+        and_dpa_review_month = " AND MONTH(review_date_exception_review_date) = MONTH(CURRENT_DATE() - INTERVAL 1 MONTH) 
+            AND YEAR(review_date_exception_review_date) = YEAR(CURRENT_DATE() - INTERVAL 1 MONTH)"
+        and_review_month = " AND MONTH(review_date) = MONTH(CURRENT_DATE() - INTERVAL 1 MONTH) 
+            AND YEAR(review_date) = YEAR(CURRENT_DATE() - INTERVAL 1 MONTH)"
 
       when "current"
         and_dpa_review_month = " AND MONTH(review_date_exception_review_date) = MONTH(CURRENT_DATE()) 
@@ -60,10 +59,10 @@ class ReportsController < ApplicationController
         title_review_month = " a review date equal to " + @review_month + " month & "
 
       when "next"
-        and_dpa_review_month = " AND IF(MONTH(CURRENT_DATE()) = 12, (MONTH(review_date_exception_review_date) = 1 AND YEAR(review_date_exception_review_date) = YEAR(CURRENT_DATE()) +1),
-                  (MONTH(review_date_exception_review_date) = MONTH(CURRENT_DATE())+1) AND YEAR(review_date_exception_review_date) = YEAR(CURRENT_DATE()))"
-        and_review_month = " AND IF(MONTH(CURRENT_DATE()) = 12, (MONTH(review_date) = 1 AND YEAR(review_date) = YEAR(CURRENT_DATE()) +1),
-                (MONTH(review_date) = MONTH(CURRENT_DATE())+1) AND YEAR(review_date) = YEAR(CURRENT_DATE()))"
+        and_dpa_review_month = " AND MONTH(review_date_exception_review_date) = MONTH(CURRENT_DATE() + INTERVAL 1 MONTH) 
+            AND YEAR(review_date_exception_review_date) = YEAR(CURRENT_DATE() + INTERVAL 1 MONTH)"
+        and_review_month = " AND MONTH(review_date) = MONTH(CURRENT_DATE() + INTERVAL 1 MONTH) 
+            AND YEAR(review_date) = YEAR(CURRENT_DATE() + INTERVAL 1 MONTH)"
                 
       title_review_month = " a review date equal to " + @review_month + " month & "
 
