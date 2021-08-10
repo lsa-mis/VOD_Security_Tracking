@@ -15,53 +15,6 @@ export default class ReportController extends Controller {
     }
   }
 
-  changeTableList() {
-    console.log("here")
-    // data = {}
-    // data = { "All": "all", "DPA exceptions": "dpa", "IT security incidents": 'isi', "Legacy OS records": "lor", "Sensitive data systems": "sds" }
-    console.log("table")
-    var value = this.review_monthTarget.value
-    var selected = this.tableTarget.value
-    console.log("selected")
-
-    console.log(selected)
-
-    let dropdown = this.tableTarget;
-    dropdown.length = 0;
-
-    let defaultOption = document.createElement('option');
-    var data = { "dpa": "DPA exceptions", 'isi': "IT security incidents", "lor": "Legacy OS records", "sds": "Sensitive data systems" }
-
-    if (value) {
-      var data = { "all": "All (excluding It security incidents)", "dpa": "DPA exceptions", 'isi': "IT security incidents", "lor": "Legacy OS records", "sds": "Sensitive data systems" }
-      defaultOption.value = 'all';
-      defaultOption.text = "All (excluding It security incidents)";
-    }
-    else {
-      defaultOption.value = 'all';
-      defaultOption.text = 'All';
-    }
-    console.log(data)
-
-    dropdown.add(defaultOption);
-    dropdown.selectedIndex = 0;
-
-    let option;
-
-    // for (let i = 0; i < data.length; i++) {
-    // data.forEach(value, text) {
-    for (var [key, value] of Object.entries(data)) {
-      console.log("in loop")
-      console.log(key)
-      console.log(value)
-      option = document.createElement('option');
-      option.value = key
-      option.text = value
-      option.selected = key === selected
-      dropdown.add(option);
-    }
-  }
-
   changeClassification() {
     var id = this.classification_levelTarget.value
     if (id) {
@@ -120,12 +73,7 @@ export default class ReportController extends Controller {
   }
 
   clearFilters() {
-    var val = this.end_dateTarget.value
-    console.log(val)
     this.element.reset()
-    var val = this.end_dateTarget.value
-    val = new Date().toISOString().slice(0, 10)
-    console.log((new Date()).toISOString().slice(0, 10))
   }
 
 }
