@@ -35,11 +35,11 @@
       </div>
     </div>
     <div class="field-container">
-      <div class="field flex flex-row flex-nowrap justify-items-start items-center device--display" data-report-target="review_month_div">
+      <div class="field flex flex-row flex-nowrap justify-items-start items-center device--display">
         <%= label_tag "Select a month for Review date (IT security incident is not included into this report)" %>
         <div class="pl-4">
           <%= select_tag :review_month, options_for_select({ "Select ..." => "", "Current month" => "current", "Next month" => "next", "Previous month" => "previous", }, "Select ..."),
-              :"data-report-target" => "review_month" %>
+              :"data-report-target" => "review_month", :"data-action" => "change->report#checkTable", disabled: false %>
         </div>
       </div>
     </div>
