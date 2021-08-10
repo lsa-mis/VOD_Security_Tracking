@@ -53,23 +53,23 @@ class ReportsController < ApplicationController
         @join_tables = " JOIN data_types AS dt ON " + table + ".data_type_id = dt.id 
                       JOIN data_classification_levels AS dcl ON dt.data_classification_level_id = dcl.id "
         @and_data_classification_level = " AND dcl.id = " + @data_classification_level_id
-        @title_data_classification_level = " & " + DataClassificationLevel.find(@data_classification_level_id).name + " data classification level"
+        @title_data_classification_level = DataClassificationLevel.find(@data_classification_level_id).name + " data classification level & "
         @and_data_type = " AND " + table + ".data_type_id = " + @data_type_id 
-        @title_data_type = " & " + DataType.find(@data_type_id).name + " data type"
+        @title_data_type = DataType.find(@data_type_id).name + " data type & "
 
       elsif @data_classification_level_id == "" && @data_type_id != ""
         @join_tables = " JOIN data_types AS dt ON " + table + ".data_type_id = dt.id "
         @and_data_classification_level = ""
         @title_data_classification_level = ""
         @and_data_type = " AND " + table + ".data_type_id = " + @data_type_id 
-        @title_data_type = " & " + DataType.find(@data_type_id).name + " data type"
+        @title_data_type = DataType.find(@data_type_id).name + " data type & "
 
       else
         # @data_classification_level_id != "" && @data_type_id == ""
         @join_tables = " JOIN data_types AS dt ON " + table + ".data_type_id = dt.id 
                       JOIN data_classification_levels AS dcl ON dt.data_classification_level_id = dcl.id "
         @and_data_classification_level = " AND dcl.id = " + @data_classification_level_id
-        @title_data_classification_level = " & " + DataClassificationLevel.find(@data_classification_level_id).name + " data classification level"
+        @title_data_classification_level = DataClassificationLevel.find(@data_classification_level_id).name + " data classification level & "
         @and_data_type = ""
         @title_data_type = ""
       end
@@ -83,14 +83,14 @@ class ReportsController < ApplicationController
             AND YEAR(review_date_exception_review_date) = YEAR(CURRENT_DATE() - INTERVAL 1 MONTH)"
         @and_review_month = " AND MONTH(review_date) = MONTH(CURRENT_DATE() - INTERVAL 1 MONTH) 
             AND YEAR(review_date) = YEAR(CURRENT_DATE() - INTERVAL 1 MONTH)"
-        @title_review_month = " a review date equal to " + review_month + " month"
+        @title_review_month = "a review date equal to " + review_month + " month & "
 
       when "current"
         @and_dpa_review_month = " AND MONTH(review_date_exception_review_date) = MONTH(CURRENT_DATE()) 
                     AND YEAR(review_date_exception_review_date) = YEAR(CURRENT_DATE())"
         @and_review_month = " AND MONTH(review_date) = MONTH(CURRENT_DATE())
                 AND YEAR(review_date) = YEAR(CURRENT_DATE())"
-        @title_review_month = " a review date equal to " + review_month + " month"
+        @title_review_month = "a review date equal to " + review_month + " month & "
 
       when "next"
         @and_dpa_review_month = " AND MONTH(review_date_exception_review_date) = MONTH(CURRENT_DATE() + INTERVAL 1 MONTH) 
@@ -98,7 +98,7 @@ class ReportsController < ApplicationController
         @and_review_month = " AND MONTH(review_date) = MONTH(CURRENT_DATE() + INTERVAL 1 MONTH) 
             AND YEAR(review_date) = YEAR(CURRENT_DATE() + INTERVAL 1 MONTH)"
                 
-      @title_review_month = " a review date equal to " + review_month + " month"
+      @title_review_month = "a review date equal to " + review_month + " month & "
 
       else
         @and_dpa_review_month = ""
@@ -111,10 +111,10 @@ class ReportsController < ApplicationController
 
       if start_date == ""
         @and_created_at = " AND " + table + ".created_at <= '" + end_date + "'"
-        @title_created_at = " & created through " + end_date
+        @title_created_at = "created through " + end_date
       else
         @and_created_at = " AND " + table + ".created_at BETWEEN '" + start_date + "' AND '" + end_date + "'"
-        @title_created_at = " & created between " + start_date + " and " + end_date
+        @title_created_at = "created between " + start_date + " and " + end_date
       end
 
     end
@@ -232,7 +232,7 @@ class ReportsController < ApplicationController
         records_array = ActiveRecord::Base.connection.exec_query(@sql_sds)
         @result.push({"table" => "sensitive_data_systems", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
       end
-      @title = "Systems with" + @title_review_month + @title_data_classification_level + @title_data_type + @title_created_at
+      @title = "Systems with " + @title_review_month + @title_data_classification_level + @title_data_type + @title_created_at
 
     end
 
