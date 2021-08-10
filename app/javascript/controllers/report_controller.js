@@ -88,7 +88,7 @@ export default class ReportController extends Controller {
     console.log("this.messageTarget.innerText")
 
     console.log(this.messageTarget.innerText)
-    if (this.messageTarget.innerText != "") {
+    if (this.messageTarget.innerText == " ") {
       console.log("here")
       event.preventDefault()
     }
