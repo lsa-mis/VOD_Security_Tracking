@@ -121,7 +121,7 @@ export default class ReportController extends Controller {
     if (d_end < d_start) {
       this.messageTarget.classList.add("device-error--display")
       this.messageTarget.classList.remove("device-error--hide")
-      this.messageTarget.innerText = "To date should be later then From date";
+      this.messageTarget.innerText = "[From] date should occur before [To] date";
       event.preventDefault()
     }
     else {
