@@ -17,8 +17,7 @@ class DevicePolicy < ApplicationPolicy
     end  
 
     def new?
-      get_ldap_groups('devices', 'newedit')
-      (user.membership & @ldap_groups).any?
+      false
     end
 
     def archive?
@@ -37,8 +36,7 @@ class DevicePolicy < ApplicationPolicy
     end
 
     def destroy?
-      get_ldap_groups('devices', 'archive')
-      (user.membership & @ldap_groups).any?
+      false
     end
 
   end

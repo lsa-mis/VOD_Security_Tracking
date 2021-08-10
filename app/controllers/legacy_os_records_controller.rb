@@ -1,6 +1,6 @@
 class LegacyOsRecordsController < InheritedResources::Base
   before_action :verify_duo_authentication
-  devise_group :logged_in, contains: [:user, :admin_user]
+  devise_group :logged_in, contains: [:user]
   before_action :authenticate_logged_in!
   before_action :set_legacy_os_record, only: [:show, :edit, :update, :archive, :unarchive, :audit_log]
   before_action :get_access_token, only: [:create, :update]
@@ -77,8 +77,10 @@ class LegacyOsRecordsController < InheritedResources::Base
       @note ||= device_class.message || ""
       @note = "" if device_class.device_exist?
     else
-      flash.now[:alert] = device_class.message
-      render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+      # TDX search returns too many results for entered serial or hostname
+      @legacy_os_record.errors.add(:device, device_class.message)
+      @legacy_os_record.device = Device.new(legacy_os_record_params[:device_attributes])
+      render :new
       return
     end
 
@@ -119,13 +121,16 @@ class LegacyOsRecordsController < InheritedResources::Base
       if device.save
         @legacy_os_record.device_id = device.id
       else
-        flash.now[:alert] = "Error saving device"
-        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+        @legacy_os_record.errors.add(:device, "Error saving device")
+        @legacy_os_record.device = Device.new(legacy_os_record_params[:device_attributes])
+        render :edit
         return
       end
     else
-      flash.now[:alert] = device_class.message
-      render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+      # TDX search returns too many results for entered serial or hostname
+      @legacy_os_record.errors.add(:device, device_class.message)
+      @legacy_os_record.device = Device.new(legacy_os_record_params[:device_attributes])
+      render :edit
       return
     end
 
