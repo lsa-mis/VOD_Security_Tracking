@@ -17,6 +17,9 @@ class ItSecurityIncidentsController < InheritedResources::Base
     if params[:q].nil?
       @q = ItSecurityIncident.active.ransack(params[:q])
     else
+      if params[:q][:incomplete_true].present? && params[:q][:incomplete_true] == "0"
+        params[:q] = params[:q].except("incomplete_true")
+      end
       @q = ItSecurityIncident.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
     @q.sorts = ["created_at desc"] if @q.sorts.empty?
