@@ -18,8 +18,7 @@ class ReportsController < ApplicationController
     else
       @end_date = params[:report_data][:end_date]
     end
-    logger.debug "********* start_date #{@start_date}"
-    logger.debug "********* end_date #{@end_date}"
+    
     @data_classification_level_id = params[:data_classification_level_id]
     @data_type_id = params[:data_type_id]
     
@@ -29,7 +28,7 @@ class ReportsController < ApplicationController
       data = data_to_csv(@result, @title)
       respond_to do |format|
         format.html
-        format.csv { send_data data, filename: "#{@title}-#{Date.today}.csv"}
+        format.csv { send_data data, filename: "VOD-report-#{DateTime.now.strftime('%-d-%-m-%Y at %I-%M%p')}.csv"}
       end
     else
       render turbo_stream: turbo_stream.replace(
@@ -54,7 +53,7 @@ class ReportsController < ApplicationController
         @join_tables = " JOIN data_types AS dt ON " + table + ".data_type_id = dt.id 
                       JOIN data_classification_levels AS dcl ON dt.data_classification_level_id = dcl.id "
         @and_data_classification_level = " AND dcl.id = " + @data_classification_level_id
-        @title_data_classification_level = DataClassificationLevel.find(@data_classification_level_id).name + " data classification level"
+        @title_data_classification_level = " & " + DataClassificationLevel.find(@data_classification_level_id).name + " data classification level"
         @and_data_type = " AND " + table + ".data_type_id = " + @data_type_id 
         @title_data_type = " & " + DataType.find(@data_type_id).name + " data type"
 
@@ -70,7 +69,7 @@ class ReportsController < ApplicationController
         @join_tables = " JOIN data_types AS dt ON " + table + ".data_type_id = dt.id 
                       JOIN data_classification_levels AS dcl ON dt.data_classification_level_id = dcl.id "
         @and_data_classification_level = " AND dcl.id = " + @data_classification_level_id
-        @title_data_classification_level = DataClassificationLevel.find(@data_classification_level_id).name + " data classification level"
+        @title_data_classification_level = " & " + DataClassificationLevel.find(@data_classification_level_id).name + " data classification level"
         @and_data_type = ""
         @title_data_type = ""
       end
@@ -84,14 +83,14 @@ class ReportsController < ApplicationController
             AND YEAR(review_date_exception_review_date) = YEAR(CURRENT_DATE() - INTERVAL 1 MONTH)"
         @and_review_month = " AND MONTH(review_date) = MONTH(CURRENT_DATE() - INTERVAL 1 MONTH) 
             AND YEAR(review_date) = YEAR(CURRENT_DATE() - INTERVAL 1 MONTH)"
-        @title_review_month = " a review date equal to " + review_month + " month & "
+        @title_review_month = " a review date equal to " + review_month + " month"
 
       when "current"
         @and_dpa_review_month = " AND MONTH(review_date_exception_review_date) = MONTH(CURRENT_DATE()) 
                     AND YEAR(review_date_exception_review_date) = YEAR(CURRENT_DATE())"
         @and_review_month = " AND MONTH(review_date) = MONTH(CURRENT_DATE())
                 AND YEAR(review_date) = YEAR(CURRENT_DATE())"
-        @title_review_month = " a review date equal to " + review_month + " month & "
+        @title_review_month = " a review date equal to " + review_month + " month"
 
       when "next"
         @and_dpa_review_month = " AND MONTH(review_date_exception_review_date) = MONTH(CURRENT_DATE() + INTERVAL 1 MONTH) 
@@ -99,7 +98,7 @@ class ReportsController < ApplicationController
         @and_review_month = " AND MONTH(review_date) = MONTH(CURRENT_DATE() + INTERVAL 1 MONTH) 
             AND YEAR(review_date) = YEAR(CURRENT_DATE() + INTERVAL 1 MONTH)"
                 
-      @title_review_month = " a review date equal to " + review_month + " month & "
+      @title_review_month = " a review date equal to " + review_month + " month"
 
       else
         @and_dpa_review_month = ""
@@ -112,7 +111,7 @@ class ReportsController < ApplicationController
 
       if start_date == ""
         @and_created_at = " AND " + table + ".created_at <= '" + end_date + "'"
-        @title_created_at = " created before " + end_date
+        @title_created_at = " & created before " + end_date
       else
         @and_created_at = " AND " + table + ".created_at BETWEEN '" + start_date + "' AND '" + end_date + "'"
         @title_created_at = " & created between " + start_date + " and " + end_date
@@ -174,7 +173,6 @@ class ReportsController < ApplicationController
         data_classification_level_data_type_filter(@data_classification_level, @data_type_id, @table)
         created_at_filter(@start_date, @end_date, @table)
         dpa_query
-        logger.debug " *******************sql_dpa #{@sql_dpa}"
         records_array = ActiveRecord::Base.connection.exec_query(@sql_dpa)
         @result = []
         @result.push({"table" => "dpa_exceptions", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
@@ -184,7 +182,6 @@ class ReportsController < ApplicationController
         created_at_filter(@start_date, @end_date, @table)
         isi_query
         if @review_month == ""
-          logger.debug " *******************sql_isi #{@sql_isi}"
           records_array = ActiveRecord::Base.connection.exec_query(@sql_isi)
           @result = []
           @result.push({"table" => "it_security_incidents", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
@@ -194,7 +191,6 @@ class ReportsController < ApplicationController
         data_classification_level_data_type_filter(@data_classification_level, @data_type_id, @table)
         created_at_filter(@start_date, @end_date, @table)
         lor_query
-        logger.debug " *******************sql_lor #{@sql_lor}"
         records_array = ActiveRecord::Base.connection.exec_query(@sql_lor)
         @result = []
         @result.push({"table" => "legacy_os_records", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
@@ -203,7 +199,6 @@ class ReportsController < ApplicationController
         data_classification_level_data_type_filter(@data_classification_level, @data_type_id, @table)
         created_at_filter(@start_date, @end_date, @table)
         sds_query
-        logger.debug " *******************sql_sds #{@sql_sds}"
         records_array = ActiveRecord::Base.connection.exec_query(@sql_sds)
         @result = []
         @result.push({"table" => "sensitive_data_systems", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
@@ -214,7 +209,6 @@ class ReportsController < ApplicationController
         data_classification_level_data_type_filter(@data_classification_level, @data_type_id, "dpa")
         created_at_filter(@start_date, @end_date, "dpa")
         dpa_query
-        logger.debug " *******************sql_dpa #{@sql_dpa}"
         records_array = ActiveRecord::Base.connection.exec_query(@sql_dpa)
         @result.push({"table" => "dpa_exceptions", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
         
@@ -222,7 +216,6 @@ class ReportsController < ApplicationController
           data_classification_level_data_type_filter(@data_classification_level, @data_type_id, "isi")
           created_at_filter(@start_date, @end_date, "isi")
           isi_query
-          logger.debug " *******************sql_isi #{@sql_isi}"
           records_array = ActiveRecord::Base.connection.exec_query(@sql_isi)
           @result.push({"table" => "it_security_incidents", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
         end
@@ -230,18 +223,16 @@ class ReportsController < ApplicationController
         data_classification_level_data_type_filter(@data_classification_level, @data_type_id, "lor")
         created_at_filter(@start_date, @end_date, "lor")
         lor_query
-        logger.debug " *******************sql_lor #{@sql_lor}"
         records_array = ActiveRecord::Base.connection.exec_query(@sql_lor)
         @result.push({"table" => "legacy_os_records", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
         
         data_classification_level_data_type_filter(@data_classification_level, @data_type_id, "sds")
         created_at_filter(@start_date, @end_date, "sds")
         sds_query
-        logger.debug " *******************sql_sds #{@sql_sds}"
         records_array = ActiveRecord::Base.connection.exec_query(@sql_sds)
         @result.push({"table" => "sensitive_data_systems", "total" => records_array.count, "header" => records_array.columns, "rows" => records_array.rows})
       end
-      @title = "Systems with " + @title_review_month + @title_data_classification_level + @title_data_type + @title_created_at
+      @title = "Systems with" + @title_review_month + @title_data_classification_level + @title_data_type + @title_created_at
 
     end
 
