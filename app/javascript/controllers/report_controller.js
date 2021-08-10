@@ -131,12 +131,11 @@ export default class ReportController extends Controller {
       this.messageTarget.innerText = ""
     }
 
-
-
   }
 
   clearFilters() {
     this.element.reset()
+    this.changeClassification()
   }
 
 }
