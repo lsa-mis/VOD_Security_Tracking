@@ -82,6 +82,10 @@
               <%= f.label :data_type_id %>
               <%= f.collection_select :data_type_id_eq, @data_type, :id, :name, include_blank: "Select ...", class: 'form-control' %>
             </div>
+            <div>
+              <%= f.label "Incomplete records" %>
+              <%= f.check_box :incomplete_true %>
+            </div>
           </div>
         </div>
 
