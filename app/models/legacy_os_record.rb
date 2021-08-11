@@ -97,8 +97,8 @@ class LegacyOsRecord < ApplicationRecord
 
   def not_completed?
     not_completed = self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete", "unique_app", "unique_hardware", "notes").all? {|k, v| v.present?} ? false : true
-    if not_completed
-      not_completed = false unless unique_app.present? || unique_hardware.present?
+    unless not_completed
+      not_completed = true unless unique_app.present? || unique_hardware.present?
     end
     return not_completed
   end
