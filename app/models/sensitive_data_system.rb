@@ -88,7 +88,7 @@ class SensitiveDataSystem < ApplicationRecord
   end
 
   def not_completed?
-    not_completed = self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete", "device_id").all? {|k, v| v.present?} ? false : true
+    not_completed = self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete", "device_id", "notes").all? {|k, v| v.present?} ? false : true
     if not_completed
       if self.storage_location_id.present?
         not_completed = false unless StorageLocation.find(self.storage_location_id).device_is_required && self.device_id.present?
