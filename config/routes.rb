@@ -64,6 +64,7 @@ Rails.application.routes.draw do
   get 'systems_with_selected_data_type', to: 'reports#systems_with_selected_data_type', as: :systems_with_selected_data_type
   get 'systems_with_selected_data_classification_level', to: 'reports#systems_with_selected_data_classification_level', as: :systems_with_selected_data_classification_level
   get 'run_report', to: 'reports#run_report', as: :run_report
+  get 'clear_report', to: 'reports#clear_report', as: :clear_report
 
   ActiveAdmin.routes(self)
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

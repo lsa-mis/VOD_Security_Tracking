@@ -10,35 +10,51 @@ class ReportsController < ApplicationController
   end
 
   def run_report
-    @table = params[:table]
-    @review_month = params[:review_month]
-    @start_date = params[:report_data][:start_date]
-    if params[:report_data][:end_date] == ""
-      @end_date = Date.today.strftime("%Y-%m-%d")
-    else
-      @end_date = params[:report_data][:end_date]
-    end
-    
-    @data_classification_level_id = params[:data_classification_level_id]
-    @data_type_id = params[:data_type_id]
-    
-    create_report
+    logger.debug "***************************params #{params}"
+    if params[:commit] == "Clear"
+      @title = ""
+      @result = []
+      logger.debug "***************************title #{@title}"
 
-    if params[:format] == "csv"
-      data = data_to_csv(@result, @title)
-      respond_to do |format|
-        format.html
-        format.csv { send_data data, filename: "VOD-report-#{DateTime.now.strftime('%-d-%-m-%Y at %I-%M%p')}.csv"}
-      end
-    else
       render turbo_stream: turbo_stream.replace(
         :reportListing,
         partial: "reports/listing")
+    else
+
+      @table = params[:table]
+      @review_month = params[:review_month]
+      @start_date = params[:report_data][:start_date]
+      if params[:report_data][:end_date] == ""
+        @end_date = Date.today.strftime("%Y-%m-%d")
+      else
+        @end_date = params[:report_data][:end_date]
+      end
+      
+      @data_classification_level_id = params[:data_classification_level_id]
+      @data_type_id = params[:data_type_id]
+      
+      create_report
+
+      if params[:format] == "csv"
+        data = data_to_csv(@result, @title)
+        respond_to do |format|
+          format.html
+          format.csv { send_data data, filename: "VOD-report-#{DateTime.now.strftime('%-d-%-m-%Y at %I-%M%p')}.csv"}
+        end
+      else
+        render turbo_stream: turbo_stream.replace(
+          :reportListing,
+          partial: "reports/listing")
+      end
     end
 
   end
 
   private
+
+    def clear?
+      params[:commit] == "Clear"
+    end
 
     def data_classification_level_data_type_filter(data_classification_level, data_type_id, table)
 

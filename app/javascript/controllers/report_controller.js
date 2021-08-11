@@ -1,5 +1,5 @@
 import { Controller } from "stimulus"
-
+import Rails from "@rails/ujs"
 export default class ReportController extends Controller {
   static targets = ["form", "data_type", "classification_level", "review_month", "message",
     "table", "end_date", "start_date", "end_date"]
@@ -86,39 +86,30 @@ export default class ReportController extends Controller {
   }
 
   submitForm(event) {
-    console.log("this.messageTarget.innerText")
+    console.log("submt")
 
     console.log(this.messageTarget.innerText)
-    if (this.messageTarget.innerText == " ") {
-      console.log("here")
-      event.preventDefault()
-    }
-    else {
-      var table = this.tableTarget.value
-      var review_month = this.review_monthTarget.value
-      var classification_level = this.classification_levelTarget.value
-      var data_type = this.data_typeTarget.value
-      if (review_month == "" && classification_level == "" && data_type == "") {
-        this.messageTarget.classList.add("device-error--display")
-        this.messageTarget.classList.remove("device-error--hide")
-        this.messageTarget.innerText = "Select a review month or data classification level or data type";
-        event.preventDefault()
-      }
-      else {
-        console.log(this.messageTarget.classList)
-        this.messageTarget.classList.add("device-error--hide")
-        this.messageTarget.classList.remove("device-error--display")
-        this.messageTarget.innerText = ""
-      }
-    }
+    // if (this.messageTarget.innerText == " ") {
+    //   console.log("here")
+    //   event.preventDefault()
+    // }
+    // else {
+
+    var review_month = this.review_monthTarget.value
+    var classification_level = this.classification_levelTarget.value
+    var data_type = this.data_typeTarget.value
     let start = this.start_dateTarget.value;
     let end = this.end_dateTarget.value;
-    console.log(start)
     var d_start = Date.parse(start)
-    console.log(d_start)
     var d_end = Date.parse(end)
-    console.log(d_end)
-    if (d_end < d_start) {
+    if (review_month == "" && classification_level == "" && data_type == "" && start == "" && end == "") {
+      this.messageTarget.classList.add("device-error--display")
+      this.messageTarget.classList.remove("device-error--hide")
+      this.messageTarget.innerText = "Select a review month or data classification level or data type or date range";
+      event.preventDefault()
+      return
+    }
+    else if (d_end < d_start) {
       this.messageTarget.classList.add("device-error--display")
       this.messageTarget.classList.remove("device-error--hide")
       this.messageTarget.innerText = "[From] date should occur before [To] date";
@@ -128,14 +119,60 @@ export default class ReportController extends Controller {
       console.log(this.messageTarget.classList)
       this.messageTarget.classList.add("device-error--hide")
       this.messageTarget.classList.remove("device-error--display")
-      this.messageTarget.innerText = ""
+      this.messageTarget.innerText = " "
     }
+    // }
+    // let start = this.start_dateTarget.value;
+    // let end = this.end_dateTarget.value;
+    // console.log(start)
+    // var d_start = Date.parse(start)
+    // console.log(d_start)
+    // var d_end = Date.parse(end)
+    // console.log(d_end)
+    // if (d_end < d_start) {
+    //   this.messageTarget.classList.add("device-error--display")
+    //   this.messageTarget.classList.remove("device-error--hide")
+    //   this.messageTarget.innerText = "[From] date should occur before [To] date";
+    //   event.preventDefault()
+    // }
+    // else {
+    //   console.log(this.messageTarget.classList)
+    //   this.messageTarget.classList.add("device-error--hide")
+    //   this.messageTarget.classList.remove("device-error--display")
+    //   this.messageTarget.innerText = ""
+    // }
 
   }
 
   clearFilters() {
     this.element.reset()
     this.changeClassification()
+
+    console.log(this.messageTarget.classList)
+    this.messageTarget.classList.add("device-error--hide")
+    this.messageTarget.classList.remove("device-error--display")
+    this.messageTarget.innerText = " "
+    console.log("in clearFilters")
+    this.clearReport()
   }
+
+  clearReport() {
+    console.log("hell")
+    // var data = new FormData();
+    fetch(`/run_report?table=all&review_month=current&data_classification_level_id=&data_type_id=&report_data%5Bstart_date%5D=&report_data%5Bend_date%5D=&format=html&commit=Clear`)
+
+    // Rails.ajax({
+    //   url: '/run_report',
+    //   type: 'GET',
+    //   data: { commit: 'Clear' }
+    // })
+
+  }
+
+  // get reportController() {
+  //   console.log("hell")
+  //   console.log(this.application.getControllerForElementAndIdentifier(element, "run_report"))
+  //   return this.application.getControllerForElementAndIdentifier(element, "run_report")
+  // }
 
 }

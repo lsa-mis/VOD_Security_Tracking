@@ -85,10 +85,13 @@
 
     <div class="mt-2 flex justify-start border-none ">
       <div>
-        <button type="button" class="filter-clear-btn"
-          data-action='click->report#clearFilters'>
+        <button type="button" class="filter-clear-btn" 
+         data-action='click->report#clearFilters'>
           Clear
         </button>
+      </div>
+      <div class="mr-2">
+        <%= f.submit "Clear", data: { disable_with: false }, method: :get %>
       </div>
       <div class="mr-2">
         <%= f.submit "Run report", data: { disable_with: false }, method: :get %>
