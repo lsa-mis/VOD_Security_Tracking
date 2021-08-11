@@ -80,7 +80,7 @@ class ItSecurityIncident < ApplicationRecord
   end
 
   def not_completed?
-    self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete").all? {|k, v| v.present?} ? false : true
+    self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete", "notes").all? {|k, v| v.present?} ? false : true
   end
 
   def display_name
