@@ -10,11 +10,10 @@ class ReportsController < ApplicationController
   end
 
   def run_report
-    logger.debug "***************************params #{params}"
-    if params[:commit] == "Clear"
+    if params[:commit] == "Clear result"
+      
       @title = ""
       @result = []
-      logger.debug "***************************title #{@title}"
 
       render turbo_stream: turbo_stream.replace(
         :reportListing,
@@ -51,10 +50,6 @@ class ReportsController < ApplicationController
   end
 
   private
-
-    def clear?
-      params[:commit] == "Clear"
-    end
 
     def data_classification_level_data_type_filter(data_classification_level, data_type_id, table)
 
