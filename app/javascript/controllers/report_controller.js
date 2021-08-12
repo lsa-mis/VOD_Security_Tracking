@@ -153,7 +153,7 @@ export default class ReportController extends Controller {
     this.messageTarget.classList.remove("device-error--display")
     this.messageTarget.innerText = " "
     console.log("in clearFilters")
-    this.clearReport()
+    // this.clearReport()
   }
 
   clearReport() {
