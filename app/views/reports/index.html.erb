@@ -1,105 +1,103 @@
 <h1>Reports</h1>
 
-<div class="py-2 sm:grid sm:grid-cols-5 sm:gap-4 border-b border-laitan_blue">
-  <div class="sm:col-span-4">
-    <div class="index-instructions">
-      <%= @report_text.content %>
-    </div>
-    <div>
-      <% if policy(Infotext).edit? %>
-        <%= link_to edit_infotext_path(@report_text) do %>
-          <i class="far fa-edit text-laitan_blue"></i>
+<div data-controller="report">
+  <div class="py-2 sm:grid sm:grid-cols-5 sm:gap-4 border-b border-laitan_blue">
+    <div class="sm:col-span-4">
+      <div class="index-instructions">
+        <%= @report_text.content %>
+      </div>
+      <div>
+        <% if policy(Infotext).edit? %>
+          <%= link_to edit_infotext_path(@report_text) do %>
+            <i class="far fa-edit text-laitan_blue"></i>
+          <% end %>
         <% end %>
-      <% end %>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="grid grid-cols-1 w-1/2 mx-auto">
-  <%= form_for :report_data, url: "run_report", method: :get,
-      data: {
-      controller: "report",
-      target: "report.form",
-      action: "submit->report#submitForm"
-    } do |f| %>
-      <section class="errors device-error--hide" data-report-target="message">
-      </section>
+  <div class="grid grid-cols-1 w-1/2 mx-auto">
+    <%= form_for :report_data, url: "run_report", method: :get,
+        data: {
+        target: "report.form",
+        action: "submit->report#submitForm"
+      } do |f| %>
+        <section class="errors device-error--hide" data-report-target="message">
+        </section>
 
-    <div class="bg-yellow-50 shadow p-2 m-4 border">
-      <div class="mx-2 mb-1">
-        <div>
-          <%= label_tag "Select a table" %>
-          <%= select_tag :table, options_for_select({"All" => "all", "DPA exceptions" => "dpa", "IT security incidents" => 'isi', "Legacy OS records" => "lor", "Sensitive data systems" => "sds"}, "All"), 
-                      :"data-report-target" => "table", :"data-action" => "change->report#checkReviewMonth", required: true %>
-        </div>
-        <div class="mt-2">
-          <%= label_tag "Select a month for Review date (IT security incident is not included into this report)" %>
-          <%= select_tag :review_month, options_for_select({ "Select ..." => "", "Current month" => "current", "Next month" => "next", "Previous month" => "previous", }, "Select ..."),
-                :"data-report-target" => "review_month", :"data-action" => "change->report#checkTable", disabled: false %>
-        </div>
+      <div class="bg-yellow-50 shadow p-2 m-4 border">
+        <div class="mx-2 mb-1">
+          <div>
+            <%= label_tag "Select a table" %>
+            <%= select_tag :table, options_for_select({"All" => "all", "DPA exceptions" => "dpa", "IT security incidents" => 'isi', "Legacy OS records" => "lor", "Sensitive data systems" => "sds"}, "All"), 
+                        :"data-report-target" => "table", :"data-action" => "change->report#checkReviewMonth", required: true %>
+          </div>
+          <div class="mt-2">
+            <%= label_tag "Select a month for Review date (IT security incident is not included into this report)" %>
+            <%= select_tag :review_month, options_for_select({ "Select ..." => "", "Current month" => "current", "Next month" => "next", "Previous month" => "previous", }, "Select ..."),
+                  :"data-report-target" => "review_month", :"data-action" => "change->report#checkTable", disabled: false %>
+          </div>
 
-        <div class="mt-2">
-          <div class="flex items-end">
-            <div class="flex-1 w-1/2">
-              <%= label_tag "Select data classification level" %>
-              <%= select_tag :data_classification_level_id, options_from_collection_for_select(DataClassificationLevel.all, 'id', 'name'), include_blank: "Select ...", 
-                :"data-report-target" => "classification_level", :"data-action" => "change->report#changeClassification" %>
-            </div>
-            <div class="ml-1 flex-1 w-1/2">
-              <%= label_tag "Data type" %>
-              <%= select_tag :data_type_id, options_from_collection_for_select(DataType.all, 'id', 'name'), include_blank: "Select ...", :"data-report-target" => "data_type" %>
+          <div class="mt-2">
+            <div class="flex items-end">
+              <div class="flex-1 w-1/2">
+                <%= label_tag "Select data classification level" %>
+                <%= select_tag :data_classification_level_id, options_from_collection_for_select(DataClassificationLevel.all, 'id', 'name'), include_blank: "Select ...", 
+                  :"data-report-target" => "classification_level", :"data-action" => "change->report#changeClassification" %>
+              </div>
+              <div class="ml-1 flex-1 w-1/2">
+                <%= label_tag "Data type" %>
+                <%= select_tag :data_type_id, options_from_collection_for_select(DataType.all, 'id', 'name'), include_blank: "Select ...", :"data-report-target" => "data_type" %>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="mt-2">
-          <div class="flex items-end">
-            <div class="flex-1 w-1/2">
-              <%= label_tag "Records created between" %>
-              <%= label_tag "From" %>
-              <%= f.text_field :start_date, placeholder: "From",
+          <div class="mt-2">
+            <div class="flex items-end">
+              <div class="flex-1 w-1/2">
+                <%= label_tag "Records created between" %>
+                <%= label_tag "From" %>
+                <%= f.text_field :start_date, placeholder: "From",
+                    data: {
+                    controller: "flatpickr",
+                    flatpickr_date_format: "Y-m-d",
+                    }, :"data-report-target" => "start_date"
+                  %>
+              </div>
+              <div class="ml-1 flex-1 w-1/2">
+                <%= label_tag "To" %>
+                <%= f.text_field :end_date, placeholder: "To",
+                  :"data-report-target" => "end_date",
                   data: {
-                  controller: "flatpickr",
-                  flatpickr_date_format: "Y-m-d",
-                  }, :"data-report-target" => "start_date"
+                    controller: "flatpickr",
+                    flatpickr_date_format: "Y-m-d"
+                  }, :"data-report-target" => "end_date"
                 %>
-            </div>
-            <div class="ml-1 flex-1 w-1/2">
-              <%= label_tag "To" %>
-              <%= f.text_field :end_date, placeholder: "To",
-                :"data-report-target" => "end_date",
-                data: {
-                  controller: "flatpickr",
-                  flatpickr_date_format: "Y-m-d"
-                }, :"data-report-target" => "end_date"
-              %>
+              </div>
             </div>
           </div>
+          <div class="mt-2">
+            <%= label_tag "Select a report type" %>
+            <%= select_tag :format, options_for_select({"Display in a browser" => "html", "Export to CSV" => "csv"}, "Display in a browser"), required: true %>
+          </div>
         </div>
-        <div class="mt-2">
-          <%= label_tag "Select a report type" %>
-          <%= select_tag :format, options_for_select({"Display in a browser" => "html", "Export to CSV" => "csv"}, "Display in a browser"), required: true %>
+      </div>
+
+      <div class="mt-2 flex justify-start border-none ">
+        <div>
+          <button type="button" class="filter-clear-btn" 
+          data-action='click->report#clearFilters'>
+            Clear filters
+          </button>
+        </div>
+        <div class="mr-2">
+          <%= f.submit "Run report", data: { disable_with: false }, method: :get %>
         </div>
       </div>
-    </div>
+    <% end %>
+  </div>
 
-    <div class="mt-2 flex justify-start border-none ">
-      <div>
-        <button type="button" class="filter-clear-btn" 
-         data-action='click->report#clearFilters'>
-          Clear filters
-        </button>
-      </div>
-      <div class="mr-2" >
-        <%= f.submit "Clear result", data: { disable_with: false }, method: :get %>
-      </div>
-      <div class="mr-2">
-        <%= f.submit "Run report", data: { disable_with: false }, method: :get %>
-      </div>
-    </div>
-  <% end %>
-</div>
-
-<div>
-  <%= render partial: "reports/listing", locals: { title: @title }  %>
+  <div>
+    <%= render partial: "reports/listing", locals: { title: @title }  %>
+  </div>
 </div>
