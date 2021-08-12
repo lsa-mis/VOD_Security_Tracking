@@ -94,7 +94,7 @@ export default class ReportController extends Controller {
     //   event.preventDefault()
     // }
     // else {
-
+    var table = this.tableTarget.value
     var review_month = this.review_monthTarget.value
     var classification_level = this.classification_levelTarget.value
     var data_type = this.data_typeTarget.value
@@ -113,6 +113,12 @@ export default class ReportController extends Controller {
       this.messageTarget.classList.add("device-error--display")
       this.messageTarget.classList.remove("device-error--hide")
       this.messageTarget.innerText = "[From] date should occur before [To] date";
+      event.preventDefault()
+    }
+    else if (review_month != "" && table == "isi") {
+      this.messageTarget.classList.add("device-error--display")
+      this.messageTarget.classList.remove("device-error--hide")
+      this.messageTarget.innerText = "IT security table is not included into the Review month - select a different table or All";
       event.preventDefault()
     }
     else {
