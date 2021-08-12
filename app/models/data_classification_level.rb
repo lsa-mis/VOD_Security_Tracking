@@ -9,6 +9,9 @@
 #  updated_at  :datetime         not null
 #
 class DataClassificationLevel < ApplicationRecord
-    has_many :data_types
-    audited
+  has_many :data_types
+  audited
+
+  validates :name, uniqueness: true
+  
 end

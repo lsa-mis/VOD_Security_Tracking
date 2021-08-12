@@ -112,7 +112,7 @@ class DpaException < ApplicationRecord
   end
 
   def not_completed?
-    self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete").all? {|k, v| v.present?} ? false : true
+    not_completed = self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete", "notes", "sla_agreement").all? {|k, v| v.present?} ? false : true
   end
 
   def self.to_csv

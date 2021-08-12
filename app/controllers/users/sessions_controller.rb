@@ -39,7 +39,6 @@ class Users::SessionsController < Devise::SessionsController
           membership.append(g.first.remove("CN="))
         end
         session[:user_memberships] = membership
-        # logger.debug "*********** session[:user_memberships] ***** #{session[:user_memberships]}"
       end
     end
 end
