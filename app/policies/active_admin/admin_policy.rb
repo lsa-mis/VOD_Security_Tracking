@@ -37,14 +37,6 @@ module ActiveAdmin
       (user.membership & @admins_groups).any?
     end
 
-    def legacy_os_records_review_date_next_month?
-      (user.membership & @admins_groups).any?
-    end
-
-    def systems_with_selected_data_type?
-      (user.membership & @admins_groups).any?
-    end
-
     def get_admin_groups
       @admins_groups = AccessLookup.where(vod_table: 'admin_interface').pluck(:ldap_group)
     end
