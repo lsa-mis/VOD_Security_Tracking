@@ -12,6 +12,6 @@ class DataClassificationLevel < ApplicationRecord
   has_many :data_types
   audited
 
-  validates :name, uniqueness: true
+  validates :name, uniqueness: true, presence: true
   
 end
