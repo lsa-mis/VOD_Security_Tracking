@@ -40,7 +40,7 @@ class LegacyOsRecord < ApplicationRecord
 
   audited
 
-  validates :owner_username, :owner_full_name, :device_id, :department_id, :phone, presence: true
+  validates :owner_username, :owner_full_name, :department_id, :phone, presence: true
   validate :unique_app_or_unique_hardware
   validate :acceptable_attachments
 
