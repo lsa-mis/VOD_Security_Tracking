@@ -100,6 +100,7 @@ export default class ReportController extends Controller {
       this.messageTarget.classList.remove("device-error--hide")
       this.messageTarget.innerText = "[From] date should occur before [To] date";
       event.preventDefault()
+      this.listingTarget.innerText = ""
     }
     // else if (review_month != "" && table == "isi") {
     //   this.messageTarget.classList.add("device-error--display")
