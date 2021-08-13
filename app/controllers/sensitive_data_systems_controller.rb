@@ -139,7 +139,10 @@ class SensitiveDataSystemsController < InheritedResources::Base
       else
         # TDX search returns too many results for entered serial or hostname
         @sensitive_data_system.errors.add(:device, device_class.message)
-        @sensitive_data_system.device = Device.new(sensitive_data_system_params[:device_attributes])
+        if sensitive_data_system_params[:storage_location_id].present?
+          @sensitive_data_system.storage_location_id = sensitive_data_system_params[:storage_location_id]
+          @sensitive_data_system.device = Device.new(sensitive_data_system_params[:device_attributes])
+        end
         render :edit
         return
       end
