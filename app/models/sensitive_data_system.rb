@@ -37,7 +37,7 @@ class SensitiveDataSystem < ApplicationRecord
 
   audited
 
-  validates :owner_username, :owner_full_name, :device_id, :department_id, presence: true
+  validates :owner_username, :owner_full_name, :department_id, presence: true
   validate :acceptable_attachments
 
   scope :active, -> { where(deleted_at: nil) }
