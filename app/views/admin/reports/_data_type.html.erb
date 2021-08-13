@@ -1,6 +1,0 @@
-<%= form_tag(admin_systems_with_selected_data_type_path, :method => "get") do |form| %>
-
-    <%= label_tag "data type" %>
-    <%= select_tag :id, options_from_collection_for_select(DataType.all, 'id', 'name') %>
-    <%= submit_tag("Download report") %>
-<% end %>
