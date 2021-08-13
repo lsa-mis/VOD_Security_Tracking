@@ -14,7 +14,7 @@ class Department < ApplicationRecord
   has_many :sensitive_data_systems
   has_many :dpa_exceptions
 
-  validates :name, :shortname, uniqueness: true
+  validates :name, :shortname, uniqueness: true, presence: true
 
   def display_name
     "#{self.name}"

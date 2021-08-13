@@ -14,7 +14,7 @@ class StorageLocation < ApplicationRecord
   has_many :sensitive_data_systems
   audited
 
-  validates :name, uniqueness: true
+  validates :name, uniqueness: true, presence: true
 
   def display_name
     if self.device_is_required
