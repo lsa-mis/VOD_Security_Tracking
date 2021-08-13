@@ -72,6 +72,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
   end
 
   def create
+    @note = ''
     @sensitive_data_system = SensitiveDataSystem.new(sensitive_data_system_params.except(:device_attributes, :tdx_ticket))
     if sensitive_data_system_params[:tdx_ticket][:ticket_link].present?
       @sensitive_data_system.tdx_tickets.new(ticket_link: sensitive_data_system_params[:tdx_ticket][:ticket_link])
@@ -114,6 +115,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
   end
 
   def update
+    @note = ''
     if sensitive_data_system_params[:tdx_ticket][:ticket_link].present?
       @sensitive_data_system.tdx_tickets.create(ticket_link: sensitive_data_system_params[:tdx_ticket][:ticket_link])
     end
