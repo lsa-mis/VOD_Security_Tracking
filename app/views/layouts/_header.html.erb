@@ -19,6 +19,9 @@
             <% if policy(SensitiveDataSystem).any_action? %>
               <%= link_to "Sensitive Data System", sensitive_data_systems_path, class: "mr-4" %>
             <% end %>
+            <% if @admin_access %>
+              <%= link_to "Reports", reports_path, class: "mr-4" %>
+            <% end %>
         <% end %>
       </div>
 

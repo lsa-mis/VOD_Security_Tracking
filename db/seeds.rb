@@ -110,7 +110,14 @@ Infotext.create!([
   {location: 'sensitive_data_system_index', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Suspendisse interdum consectetur libero id faucibus nisl tincidunt eget. Penatibus et magnis dis parturient montes nascetur ridiculus mus. Euismod quis viverra nibh cras. Adipiscing elit ut aliquam purus sit amet. A pellentesque sit amet porttitor eget dolor. Ac tortor vitae purus faucibus ornare suspendisse sed nisi. Viverra justo nec ultrices dui. Tincidunt tortor aliquam nulla facilisi cras fermentum odio eu. Leo integer malesuada nunc vel risus commodo.'},
   {location: 'sensitive_data_system_form', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Suspendisse interdum consectetur libero id faucibus nisl tincidunt eget. Penatibus et magnis dis parturient montes nascetur ridiculus mus. Euismod quis viverra nibh cras. Adipiscing elit ut aliquam purus sit amet. A pellentesque sit amet porttitor eget dolor. Ac tortor vitae purus faucibus ornare suspendisse sed nisi. Viverra justo nec ultrices dui. Tincidunt tortor aliquam nulla facilisi cras fermentum odio eu. Leo integer malesuada nunc vel risus commodo.'},
   {location: 'device_index', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Suspendisse interdum consectetur libero id faucibus nisl tincidunt eget. Penatibus et magnis dis parturient montes nascetur ridiculus mus. Euismod quis viverra nibh cras. Adipiscing elit ut aliquam purus sit amet. A pellentesque sit amet porttitor eget dolor. Ac tortor vitae purus faucibus ornare suspendisse sed nisi. Viverra justo nec ultrices dui. Tincidunt tortor aliquam nulla facilisi cras fermentum odio eu. Leo integer malesuada nunc vel risus commodo.'},
-  {location: 'device_show', content: 'Click update to retrieve data about this device from the TDX database.'}
+  {location: 'device_show', content: 'Click update to retrieve data about this device from the TDX database.'},
+  {location: 'reports', content: 'Select a table or all tables
+  Select a review month to get all systems with a selected review month
+  OR
+  Select a data classification level or/and data type to get all systems with specified data
+  Check that a review month is not selected
+  Select a date range to limit number of records
+  Select a report type'}
   ])
 
 ItSecurityIncidentStatus.create!([ 

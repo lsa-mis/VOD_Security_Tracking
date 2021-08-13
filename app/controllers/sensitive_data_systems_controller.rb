@@ -43,12 +43,19 @@ class SensitiveDataSystemsController < InheritedResources::Base
     @device_hostname = Device.where(id: SensitiveDataSystem.pluck(:device_id).uniq).where.not(hostname: [nil, ""])
 
     authorize @sensitive_data_systems
-
-    unless params[:q].nil?
-      render turbo_stream: turbo_stream.replace(
-      :sensitive_data_systemListing,
-      partial: "sensitive_data_systems/listing"
-    )
+    # Rendering code will go here
+    if params[:format] == "csv"
+      respond_to do |format|
+        format.html
+        format.csv { send_data @sensitive_data_systems.to_csv, filename: "Sensitive Data Systems-#{Date.today}.csv"}
+      end
+    else
+      unless params[:q].nil?
+        render turbo_stream: turbo_stream.replace(
+        :sensitive_data_systemListing,
+        partial: "sensitive_data_systems/listing"
+      )
+      end
     end
   end
 

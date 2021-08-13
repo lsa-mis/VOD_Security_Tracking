@@ -35,12 +35,20 @@ class ItSecurityIncidentsController < InheritedResources::Base
 
     authorize @it_security_incidents
     # Rendering code will go here
-    unless params[:q].nil?
-      render turbo_stream: turbo_stream.replace(
-      :it_security_incidentListing,
-      partial: "it_security_incidents/listing"
-    )
+    if params[:format] == "csv"
+      respond_to do |format|
+        format.html
+        format.csv { send_data @it_security_incidents.to_csv, filename: "IT Security Incidents-#{Date.today}.csv"}
+      end
+    else
+      unless params[:q].nil?
+        render turbo_stream: turbo_stream.replace(
+        :it_security_incidentListing,
+        partial: "it_security_incidents/listing"
+      )
+      end
     end
+
   end
 
   def show

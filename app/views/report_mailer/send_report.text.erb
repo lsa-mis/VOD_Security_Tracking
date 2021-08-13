@@ -1,0 +1,28 @@
+<%= Date.today %>
+<%= "\r\n" %>
+Automated email report: <%= 'legacy_os_records_review_date_next_month'.titleize %>
+<%= "\r\n" %>
+<% if @result.present? %>
+  <% @result.each do |data| %>
+    <%= data['table'] %>
+    <%= "\r\n" %>
+    <% if data['total'] == 0 %>
+        No matching records
+    <% else %>
+      Total number of records - <%= data['total'] %>
+      <%= "\r\n" %>
+      <% data['header'].each do |item| %>
+        <%= item %></th>
+        <%= "\t" %>
+      <% end %>
+      <%= "\r\n" %>
+      <% data['rows'].each do |row| %>
+        <% row.each do |item| %>
+          <%= item %>
+          <%= "\t" %>
+        <% end %>
+        <%= "\r\n" %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

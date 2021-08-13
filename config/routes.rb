@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   end
 
   get 'storage_locations/is_device_required/:id', to: 'storage_locations#is_device_required?'
+  get 'data_classification_levels/get_data_types/:id', to: 'data_classification_levels#get_data_types'
 
   get 'legacy_os_records/audit_log/:id', to: 'legacy_os_records#audit_log', as: :legacy_os_record_audit_log
   resources :legacy_os_records do
@@ -57,6 +58,9 @@ Rails.application.routes.draw do
   get 'update_device/:id', to: 'devices#update', as: :update_device
 
   resources :infotexts
+
+  resources :reports
+  get 'run_report', to: 'reports#run_report', as: :run_report
 
   ActiveAdmin.routes(self)
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

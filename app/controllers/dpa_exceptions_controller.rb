@@ -8,6 +8,7 @@ class DpaExceptionsController < InheritedResources::Base
   before_action :set_number_of_items, only: [:index, :audit_log]
 
   def index
+    
     @dpa_exception_index_text = Infotext.find_by(location: "dpa_exception_index")
 
     if params[:q].nil?
@@ -35,12 +36,23 @@ class DpaExceptionsController < InheritedResources::Base
     
     authorize @dpa_exceptions
     # Rendering code will go here
-    unless params[:q].nil?
-      render turbo_stream: turbo_stream.replace(
-      :dpa_exceptionListing,
-      partial: "dpa_exceptions/listing"
-    )
+    if params[:format] == "csv"
+      respond_to do |format|
+        format.html
+        format.csv { send_data @dpa_exceptions.to_csv, filename: "DPA Exceptions-#{Date.today}.csv"}
+      end
+    else
+      unless params[:q].nil?
+        render turbo_stream: turbo_stream.replace(
+        :dpa_exceptionListing,
+        partial: "dpa_exceptions/listing"
+      )
+      end
+
     end
+
+
+    
   end
 
   def show
@@ -168,7 +180,7 @@ class DpaExceptionsController < InheritedResources::Base
                     :exception_approval_date_exception_renewal_date_due, 
                     :review_date_exception_review_date, :notes, :sla_agreement,
                     :sla_attachment, :data_type_id, :incomplete, :m,
-                    :dpa_exception_status_id,
+                    :dpa_exception_status_id, :format,
                     attachments: [], tdx_ticket: [:ticket_link]
                   )
     end
