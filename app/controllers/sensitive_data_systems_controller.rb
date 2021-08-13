@@ -129,7 +129,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
       elsif device_class.create_device
         # need to save device
         device = device_class.device
-        @note ||= device_class.message || ""
+        @note = device_class.message
         if device.save
           @sensitive_data_system.device_id = device.id
         else
