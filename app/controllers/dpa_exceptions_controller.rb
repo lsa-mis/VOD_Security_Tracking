@@ -1,6 +1,6 @@
 class DpaExceptionsController < InheritedResources::Base
   before_action :verify_duo_authentication
-  devise_group :logged_in, contains: [:user, :admin_user]
+  devise_group :logged_in, contains: [:user]
   before_action :authenticate_logged_in!
   before_action :set_dpa_exception, only: [:show, :edit, :update, :archive, :unarchive, :audit_log]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
@@ -8,6 +8,7 @@ class DpaExceptionsController < InheritedResources::Base
   before_action :set_number_of_items, only: [:index, :audit_log]
 
   def index
+    
     @dpa_exception_index_text = Infotext.find_by(location: "dpa_exception_index")
 
     if params[:q].nil?
@@ -15,6 +16,9 @@ class DpaExceptionsController < InheritedResources::Base
     else
       if params[:q][:data_type_id_blank].present? && params[:q][:data_type_id_blank] == "0"
         params[:q] = params[:q].except("data_type_id_blank")
+      end
+      if params[:q][:incomplete_true].present? && params[:q][:incomplete_true] == "0"
+        params[:q] = params[:q].except("incomplete_true")
       end
       @q = DpaException.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
@@ -32,12 +36,23 @@ class DpaExceptionsController < InheritedResources::Base
     
     authorize @dpa_exceptions
     # Rendering code will go here
-    unless params[:q].nil?
-      render turbo_stream: turbo_stream.replace(
-      :dpa_exceptionListing,
-      partial: "dpa_exceptions/listing"
-    )
+    if params[:format] == "csv"
+      respond_to do |format|
+        format.html
+        format.csv { send_data @dpa_exceptions.to_csv, filename: "DPA Exceptions-#{Date.today}.csv"}
+      end
+    else
+      unless params[:q].nil?
+        render turbo_stream: turbo_stream.replace(
+        :dpa_exceptionListing,
+        partial: "dpa_exceptions/listing"
+      )
+      end
+
     end
+
+
+    
   end
 
   def show
@@ -46,6 +61,7 @@ class DpaExceptionsController < InheritedResources::Base
   end
 
   def new
+    add_breadcrumb('New')
     @dpa_exception = DpaException.new
     authorize @dpa_exception
   end
@@ -164,7 +180,7 @@ class DpaExceptionsController < InheritedResources::Base
                     :exception_approval_date_exception_renewal_date_due, 
                     :review_date_exception_review_date, :notes, :sla_agreement,
                     :sla_attachment, :data_type_id, :incomplete, :m,
-                    :dpa_exception_status_id,
+                    :dpa_exception_status_id, :format,
                     attachments: [], tdx_ticket: [:ticket_link]
                   )
     end

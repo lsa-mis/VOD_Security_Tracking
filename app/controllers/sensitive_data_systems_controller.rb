@@ -1,6 +1,6 @@
 class SensitiveDataSystemsController < InheritedResources::Base
   before_action :verify_duo_authentication
-  devise_group :logged_in, contains: [:user, :admin_user]
+  devise_group :logged_in, contains: [:user]
   before_action :authenticate_logged_in!
   before_action :set_sensitive_data_system, only: [:show, :edit, :update, :archive, :unarchive, :audit_log]
   before_action :get_access_token, only: [:create, :update]
@@ -30,7 +30,10 @@ class SensitiveDataSystemsController < InheritedResources::Base
       if params[:q][:storage_location_id_blank].present? && params[:q][:storage_location_id_blank] == "0"
         params[:q] = params[:q].except("storage_location_id_blank")
       end
-      @q = sensitive_data_systems_all.ransack(params[:q].try(:merge, m: params[:q][:m]))
+      if params[:q][:incomplete_true].present? && params[:q][:incomplete_true] == "0"
+        params[:q] = params[:q].except("incomplete_true")
+      end
+      @q = SensitiveDataSystem.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
     @q.sorts = ["created_at desc"] if @q.sorts.empty?
     if session[:items].present?
@@ -47,12 +50,19 @@ class SensitiveDataSystemsController < InheritedResources::Base
     @device_hostname = Device.where(id: SensitiveDataSystem.pluck(:device_id).uniq).where.not(hostname: [nil, ""])
 
     authorize @sensitive_data_systems
-
-    unless params[:q].nil?
-      render turbo_stream: turbo_stream.replace(
-      :sensitive_data_systemListing,
-      partial: "sensitive_data_systems/listing"
-    )
+    # Rendering code will go here
+    if params[:format] == "csv"
+      respond_to do |format|
+        format.html
+        format.csv { send_data @sensitive_data_systems.to_csv, filename: "Sensitive Data Systems-#{Date.today}.csv"}
+      end
+    else
+      unless params[:q].nil?
+        render turbo_stream: turbo_stream.replace(
+        :sensitive_data_systemListing,
+        partial: "sensitive_data_systems/listing"
+      )
+      end
     end
   end
 
@@ -62,17 +72,18 @@ class SensitiveDataSystemsController < InheritedResources::Base
   end
 
   def new
+    add_breadcrumb('New')
     @sensitive_data_system = SensitiveDataSystem.new
     @device = Device.new
     authorize @sensitive_data_system
   end
 
   def create
+    @note = ''
     @sensitive_data_system = SensitiveDataSystem.new(sensitive_data_system_params.except(:device_attributes, :tdx_ticket))
     if sensitive_data_system_params[:tdx_ticket][:ticket_link].present?
       @sensitive_data_system.tdx_tickets.new(ticket_link: sensitive_data_system_params[:tdx_ticket][:ticket_link])
     end
-    @note = ""
     serial = sensitive_data_system_params[:device_attributes][:serial]
     hostname = sensitive_data_system_params[:device_attributes][:hostname]
     if serial.present? || hostname.present?
@@ -80,9 +91,12 @@ class SensitiveDataSystemsController < InheritedResources::Base
       if device_class.create_device || device_class.device_exist?
         @sensitive_data_system.device = device_class.device
         @note ||= device_class.message || ""
+        @note = "" if device_class.device_exist?
       else
-        flash.now[:alert] = device_class.message
-        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+        # TDX search returns too many results for entered serial or hostname
+        @sensitive_data_system.errors.add(:device, device_class.message)
+        @sensitive_data_system.device = Device.new(sensitive_data_system_params[:device_attributes])
+        render :new
         return
       end
     end
@@ -108,30 +122,37 @@ class SensitiveDataSystemsController < InheritedResources::Base
   end
 
   def update
+    @note = ''
     if sensitive_data_system_params[:tdx_ticket][:ticket_link].present?
       @sensitive_data_system.tdx_tickets.create(ticket_link: sensitive_data_system_params[:tdx_ticket][:ticket_link])
     end
-    @note = ""
     if sensitive_data_system_params[:storage_location_id].present? && StorageLocation.find(sensitive_data_system_params[:storage_location_id]).device_is_required
       serial = sensitive_data_system_params[:device_attributes][:serial]
       hostname = sensitive_data_system_params[:device_attributes][:hostname]
       device_class = DeviceManagment.new(serial, hostname)
       if device_class.device_exist?
         @sensitive_data_system.device_id = device_class.device.id
+        @note = ""
       elsif device_class.create_device
         # need to save device
         device = device_class.device
-        @note ||= device_class.message || ""
+        @note = device_class.message
         if device.save
           @sensitive_data_system.device_id = device.id
         else
-          flash.now[:alert] = "Error saving device"
-          render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+          @sensitive_data_system.errors.add(:device, "Error saving device")
+          @sensitive_data_system.device = Device.new(sensitive_data_system_params[:device_attributes])
+          render :edit
           return
         end
       else
-        flash.now[:alert] = device_class.message
-        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+        # TDX search returns too many results for entered serial or hostname
+        @sensitive_data_system.errors.add(:device, device_class.message)
+        if sensitive_data_system_params[:storage_location_id].present?
+          @sensitive_data_system.storage_location_id = sensitive_data_system_params[:storage_location_id]
+          @sensitive_data_system.device = Device.new(sensitive_data_system_params[:device_attributes])
+        end
+        render :edit
         return
       end
     else

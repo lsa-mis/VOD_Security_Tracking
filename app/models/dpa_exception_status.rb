@@ -12,6 +12,8 @@ class DpaExceptionStatus < ApplicationRecord
 
   has_many :dpa_exception
 
+  validates :name, uniqueness: true, presence: true
+  
   def display_name
     "#{self.name}"
   end

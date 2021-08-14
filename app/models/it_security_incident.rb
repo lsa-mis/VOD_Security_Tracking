@@ -80,7 +80,33 @@ class ItSecurityIncident < ApplicationRecord
   end
 
   def not_completed?
-    self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete").all? {|k, v| v.present?} ? false : true
+    self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete", "notes").all? {|k, v| v.present?} ? false : true
+  end
+
+  def self.to_csv
+    fields = %w{id incomplete title date people_involved equipment_involved remediation_steps
+              estimated_financial_cost notes it_security_incident_status_id data_type_id}
+    header = %w{link incomplete title date people_involved equipment_involved remediation_steps
+              estimated_financial_cost notes it_security_incident_status data_type}
+    header.map! { |e| e.titleize.upcase }
+    CSV.generate(headers: true) do |csv|
+      csv << header
+      all.each do |a|
+        row = []
+        fields.each do |key|
+          if key == 'id'
+            row << "http://localhost:3000/it_security_incidents/" + a.attributes.values_at(key)[0].to_s
+          elsif key == 'data_type_id' && a.data_type_id.present?
+            row << DataType.find(a.attributes.values_at(key)[0]).display_name
+          elsif key == 'it_security_incident_status_id'
+            row << ItSecurityIncidentStatus.find(a.attributes.values_at(key)[0]).name
+          else
+            row << a.attributes.values_at(key)[0]
+          end
+        end
+        csv << row
+      end
+    end
   end
 
   def display_name

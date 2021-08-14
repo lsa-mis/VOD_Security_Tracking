@@ -24,170 +24,158 @@
   </div>
 </div>
 
-<div data-controller='toggle' class="m-2">
+<div data-controller='toggle' class="filter-area m-2">
   <button type="button" class="new-record-btn"
     data-action='click->toggle#toggle touch->toggle#toggle' >
   Filters
   </button>
   
-  <div data-toggle-target='toggleable' class="m-4 hidden">
-    <div class="form-container">
-      <div class="field-container">
-        <%= search_form_for @q, 
-          data:{ controller: "filters"} do |f| %>
-          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label "Group searching conditions by:" %>
-            <div class="pl-4">
-              <%= f.radio_button :m, 'and', :checked => true %>
-              <%= f.label :m, 'and', value: 'and' %>
-            </div>
-            <div class="pl-4">
-              <%= f.radio_button :m, 'or' %>
-              <%= f.label :m, 'or', value: 'or' %>
-            </div>
+  <div data-toggle-target='toggleable' class="filter-selections bg-yellow-50 shadow p-2 m-4 hidden">
+    <%= search_form_for @q, class: "filter-form",
+      data:{ controller: "filters"} do |f| %>
+      <div class="grid grid-cols-2">
+
+        <div class="col-span-2 mb-4 flex justify-start">
+          <p>Group searching conditions by:</p>
+          <div class="ml-4">
+            <%= f.radio_button :m, 'and', :checked => true %>
+            <%= f.label :m, 'and', value: 'and' %>
           </div>
-          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :dpa_status, "Status" %>
-            <div class="w-1/2 pl-2">
+          <div class="ml-4">
+            <%= f.radio_button :m, 'or' %>
+            <%= f.label :m, 'or', value: 'or' %>
+          </div>
+        </div>
+
+        <div class="border">
+          <div class="mx-2 mb-1">
+            <div>
+              <%= f.label :dpa_status, "Status" %>
               <%= f.collection_select :dpa_exception_status_id_eq, @dpa_status, :id, :name, include_blank: "Select ...", class: 'form-control' %>
             </div>
-          </div>
-          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :review_date_exception_first_approval_date %>
-            <div class="w-1/3 pr-4 pl-2">
-              <%= f.text_field :review_date_exception_first_approval_date_gteq, placeholder: "From",
-              data: {
-                controller: "flatpickr",
-                flatpickr_date_format: "Y-m-d"
-              } %>
+            <div class="flex items-end">
+              <div class="flex-1 w-1/2">
+                <%= f.label "Initial review date" %>
+                <%= f.text_field :review_date_exception_first_approval_date_gteq, placeholder: "From",
+                  data: {
+                    controller: "flatpickr",
+                    flatpickr_date_format: "Y-m-d"
+                  } %>
+              </div>
+              <div class="ml-1 flex-1 w-1/2">
+                <%= f.text_field :review_date_exception_first_approval_date_lteq, placeholder: "To",
+                  data: {
+                    controller: "flatpickr",
+                    flatpickr_date_format: "Y-m-d"
+                  } %>
+              </div>
             </div>
-
-            <div class="w-1/3">
-              <%= f.text_field :review_date_exception_first_approval_date_lteq, placeholder: "To",
-              data: {
-                controller: "flatpickr",
-                flatpickr_date_format: "Y-m-d"
-              } %>
-            </div>
-          </div>
-          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :third_party_product_service %>
-            <div class="w-1/2 pl-2">
+            <div>
+              <%= f.label :third_party_product_service %>
               <%= f.text_field :third_party_product_service_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
-          </div>
-          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :department_id, "Department used by"  %>
-            <div class="w-1/2 pl-2">
-            <%= f.collection_select :department_id_eq, @department, :id, :name, include_blank: "Select ...", class: 'form-control' %>
+            <div>
+              <%= f.label :department_id, "Department used by"  %>
+              <%= f.collection_select :department_id_eq, @department, :id, :name, include_blank: "Select ...", class: 'form-control' %>
+            </div>
+            <div>
+              <%= f.label :data_type_id %>
+              <%= f.collection_select :data_type_id_eq, @data_type, :id, :name, include_blank: "Select ...", class: 'form-control' %>
+              <%= f.label :data_type_id_blank %>
+              <%= f.check_box :data_type_id_blank %>
+            </div>
+            <div class="flex items-end">
+              <div class="flex-1 w-1/2">
+                <%= f.label "Last Reviewed Date" %>
+                <%= f.text_field :exception_approval_date_exception_renewal_date_due_gteq, placeholder: "From",
+                  data: {
+                    controller: "flatpickr",
+                    flatpickr_date_format: "Y-m-d"
+                  } %>
+              </div>
+              <div class="ml-1 flex-1 w-1/2">
+                <%= f.text_field :exception_approval_date_exception_renewal_date_due_lteq, placeholder: "To",
+                  data: {
+                    controller: "flatpickr",
+                    flatpickr_date_format: "Y-m-d"
+                  } %>
+              </div>
+            </div>
+            <div class="flex items-end">
+              <div class="flex-1 w-1/2">
+                <%= f.label "Next Review Due Date" %>
+                <%= f.text_field :review_date_exception_review_date_gteq, placeholder: "From",
+                  data: {
+                    controller: "flatpickr",
+                    flatpickr_date_format: "Y-m-d"
+                  } %>
+              </div>
+              <div class="ml-1 flex-1 w-1/2">               
+                <%= f.text_field :review_date_exception_review_date_lteq, placeholder: "To",
+                  data: {
+                    controller: "flatpickr",
+                    flatpickr_date_format: "Y-m-d"
+                  } %>
+              </div>
+            </div>
+            <div>
+              <%= f.label "Incomplete records" %>
+              <%= f.check_box :incomplete_true %>
             </div>
           </div>
-          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :point_of_contact %>
-            <div class="w-1/2 pl-2">
+        </div>
+
+        <div class="border">
+          <div class="mx-2 mb-1">
+            <div>
+              <%= f.label :point_of_contact %>
               <%= f.text_field :point_of_contact_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
-          </div>
-          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :review_findings %>
-            <div class="w-1/2 pl-2">
+            <div>
+              <%= f.label :review_findings %>
               <%= f.text_field :review_findings_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
-          </div>
-          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :review_summary %>
-            <div class="w-1/2 pl-2">
+            <div>
+              <%= f.label :review_summary %>
               <%= f.text_field :review_summary_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
-          </div>
-          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :lsa_security_recommendation, "LSA security recommendation" %>
-            <div class="w-1/2 pl-2">
+            <div>
+              <%= f.label :lsa_security_recommendation, "LSA security recommendation" %>
               <%= f.text_field :lsa_security_recommendation_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
-          </div>
-          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :lsa_security_determination, "LSA security determination" %>
-            <div class="w-1/2 pl-2">
+            <div>
+              <%= f.label :lsa_security_determination, "LSA security determination" %>
               <%= f.text_field :lsa_security_determination_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
-          </div>
-
-          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :lsa_security_approval, "LSA security approval" %>
-            <div class="w-1/2 pl-2">
+            <div>
+              <%= f.label :lsa_security_approval, "LSA security approval" %>
               <%= f.text_field :lsa_security_approval_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
-          </div>
-          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :lsa_technology_services_approval, "LSA technology services approval" %>
-            <div class="w-1/2 pl-2">
+            <div>
+              <%= f.label :lsa_technology_services_approval, "LSA technology services approval" %>
               <%= f.text_field :lsa_technology_services_approval_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
-          </div>
-
-          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label "Last Reviewed Date" %>
-            <div class="w-1/3 pr-4 pl-2">
-              <%= f.text_field :exception_approval_date_exception_renewal_date_due_gteq, placeholder: "From",
-              data: {
-                controller: "flatpickr",
-                flatpickr_date_format: "Y-m-d"
-              } %>
-            </div>
-
-            <div class="w-1/3">
-              <%= f.text_field :exception_approval_date_exception_renewal_date_due_lteq, placeholder: "To",
-              data: {
-                controller: "flatpickr",
-                flatpickr_date_format: "Y-m-d"
-              } %>
-            </div>
-          </div>
-          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label "Next Review Due Date" %>
-            <div class="w-1/3 pr-4 pl-2">
-              <%= f.text_field :review_date_exception_review_date_gteq, placeholder: "From",
-              data: {
-                controller: "flatpickr",
-                flatpickr_date_format: "Y-m-d"
-              } %>
-            </div>
-
-            <div class="w-1/3">
-              <%= f.text_field :review_date_exception_review_date_lteq, placeholder: "To",
-              data: {
-                controller: "flatpickr",
-                flatpickr_date_format: "Y-m-d"
-              } %>
-            </div>
-          </div>
-          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :notes %>
-            <div class="w-1/2 pl-2">
+            <div>
+              <%= f.label :notes %>
               <%= f.text_field :notes_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
           </div>
-          <div class="field flex flex-row flex-nowrap justify-items-start items-center">
-            <%= f.label :data_type_id %>
-            <div class="w-1/3 pr-4 pl-2">
-              <%= f.collection_select :data_type_id_eq, @data_type, :id, :name, include_blank: "Select ...", class: 'form-control' %>
-            </div>
-            <%= f.label :data_type_id_blank %>
-            <div class="w-1/3 pl-2">
-              <%= f.check_box :data_type_id_blank %>
-            </div>
-          </div>
+        </div>
 
-          <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            data-action='click->filters#clearFilters'>
-            Clear
-          </button>
-          <%= f.submit 'Search', data: { disable_with: false }, class: 'btn btn-primary' %>
-        <% end %>
+        <div class="mt-2 col-span-2 flex justify-start">
+          <div class="mr-2">
+            <%= f.submit 'Search', data: { disable_with: false }, class: '' %>
+          </div>
+          <div>
+            <button type="button" class="filter-clear-btn"
+              data-action='click->filters#clearFilters'>
+              Clear
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>  
+    <% end %>
+  </div>
 </div>
 
 <div>

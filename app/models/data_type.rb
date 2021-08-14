@@ -18,6 +18,8 @@ class DataType < ApplicationRecord
   has_many :sensitive_data_systems
   audited
 
+  validates :name, uniqueness: true, presence: true
+
   def display_name
     "#{self.name} - #{DataClassificationLevel.find(data_classification_level_id).name}"
   end

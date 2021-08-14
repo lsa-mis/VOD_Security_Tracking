@@ -1,6 +1,6 @@
 class ItSecurityIncidentsController < InheritedResources::Base
   before_action :verify_duo_authentication
-  devise_group :logged_in, contains: [:user, :admin_user]
+  devise_group :logged_in, contains: [:user]
   before_action :authenticate_logged_in!
   before_action :set_it_security_incident, only: [:show, :edit, :update, :archive, :unarchive, :audit_log]
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
@@ -17,6 +17,9 @@ class ItSecurityIncidentsController < InheritedResources::Base
     if params[:q].nil?
       @q = ItSecurityIncident.active.ransack(params[:q])
     else
+      if params[:q][:incomplete_true].present? && params[:q][:incomplete_true] == "0"
+        params[:q] = params[:q].except("incomplete_true")
+      end
       @q = ItSecurityIncident.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
     @q.sorts = ["created_at desc"] if @q.sorts.empty?
@@ -32,12 +35,20 @@ class ItSecurityIncidentsController < InheritedResources::Base
 
     authorize @it_security_incidents
     # Rendering code will go here
-    unless params[:q].nil?
-      render turbo_stream: turbo_stream.replace(
-      :it_security_incidentListing,
-      partial: "it_security_incidents/listing"
-    )
+    if params[:format] == "csv"
+      respond_to do |format|
+        format.html
+        format.csv { send_data @it_security_incidents.to_csv, filename: "IT Security Incidents-#{Date.today}.csv"}
+      end
+    else
+      unless params[:q].nil?
+        render turbo_stream: turbo_stream.replace(
+        :it_security_incidentListing,
+        partial: "it_security_incidents/listing"
+      )
+      end
     end
+
   end
 
   def show
@@ -46,6 +57,7 @@ class ItSecurityIncidentsController < InheritedResources::Base
   end
 
   def new
+    add_breadcrumb('New')
     @it_security_incident = ItSecurityIncident.new
     authorize @it_security_incident
   end

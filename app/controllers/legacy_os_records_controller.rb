@@ -1,6 +1,6 @@
 class LegacyOsRecordsController < InheritedResources::Base
   before_action :verify_duo_authentication
-  devise_group :logged_in, contains: [:user, :admin_user]
+  devise_group :logged_in, contains: [:user]
   before_action :authenticate_logged_in!
   before_action :set_legacy_os_record, only: [:show, :edit, :update, :archive, :unarchive, :audit_log]
   before_action :get_access_token, only: [:create, :update]
@@ -27,7 +27,10 @@ class LegacyOsRecordsController < InheritedResources::Base
       if params[:q][:data_type_id_blank].present? && params[:q][:data_type_id_blank] == "0"
         params[:q] = params[:q].except("data_type_id_blank")
       end
-      @q = legacy_os_records_all.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
+      if params[:q][:incomplete_true].present? && params[:q][:incomplete_true] == "0"
+        params[:q] = params[:q].except("incomplete_true")
+      end
+      @q = LegacyOsRecord.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
     @q.sorts = ["created_at desc"] if @q.sorts.empty?
     if session[:items].present?
@@ -46,13 +49,21 @@ class LegacyOsRecordsController < InheritedResources::Base
     @device_hostname = Device.where(id: LegacyOsRecord.pluck(:device_id).uniq).where.not(hostname: [nil, ""])
     
     authorize @legacy_os_records
-
-    unless params[:q].nil?
-      render turbo_stream: turbo_stream.replace(
-      :legacy_os_recordListing,
-      partial: "legacy_os_records/listing"
-    )
+    # Rendering code will go here
+    if params[:format] == "csv"
+      respond_to do |format|
+        format.html
+        format.csv { send_data @legacy_os_records.to_csv, filename: "Legacy OS Records-#{Date.today}.csv"}
+      end
+    else
+      unless params[:q].nil?
+        render turbo_stream: turbo_stream.replace(
+        :legacy_os_recordListing,
+        partial: "legacy_os_records/listing"
+      )
+      end
     end
+
   end
 
   def show
@@ -61,6 +72,7 @@ class LegacyOsRecordsController < InheritedResources::Base
   end
 
   def new
+    add_breadcrumb('New')
     @legacy_os_record = LegacyOsRecord.new
     @device = Device.new
     authorize @legacy_os_record
@@ -80,8 +92,10 @@ class LegacyOsRecordsController < InheritedResources::Base
       @note ||= device_class.message || ""
       @note = "" if device_class.device_exist?
     else
-      flash.now[:alert] = device_class.message
-      render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+      # TDX search returns too many results for entered serial or hostname
+      @legacy_os_record.errors.add(:device, device_class.message)
+      @legacy_os_record.device = Device.new(legacy_os_record_params[:device_attributes])
+      render :new
       return
     end
 
@@ -122,13 +136,16 @@ class LegacyOsRecordsController < InheritedResources::Base
       if device.save
         @legacy_os_record.device_id = device.id
       else
-        flash.now[:alert] = "Error saving device"
-        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+        @legacy_os_record.errors.add(:device, "Error saving device")
+        @legacy_os_record.device = Device.new(legacy_os_record_params[:device_attributes])
+        render :edit
         return
       end
     else
-      flash.now[:alert] = device_class.message
-      render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
+      # TDX search returns too many results for entered serial or hostname
+      @legacy_os_record.errors.add(:device, device_class.message)
+      @legacy_os_record.device = Device.new(legacy_os_record_params[:device_attributes])
+      render :edit
       return
     end
 

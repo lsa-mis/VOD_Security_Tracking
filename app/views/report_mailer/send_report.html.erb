@@ -1,0 +1,37 @@
+<%= Date.today %>
+<h4>Automated email report: <%= 'legacy_os_records_review_date_next_month'.titleize %></h4>
+<% if @result.present? %>
+  <% @result.each do |data| %>
+    <h2 style="font-family: Georgia, Times, 'Times New Roman', serif; font-weight: 800; font-size: 26px; border-bottom: 1px solid #d0d0d0;">
+      <%= data['table'] %>
+    </h2>
+    <% if data['total'] == 0 %>
+      <p style="font-family: Arial, Helvetica, sans-serif; font-weight: 300;">
+        No matching records
+      </p>
+    <% else %>
+      <p style="font-family: Arial, Helvetica, sans-serif; font-weight: 300;">
+        Total number of records - <%= data['total'] %>
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <% data['header'].each do |item| %>
+              <th scope="col"><%= item %></th>
+            <% end %>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% data['rows'].each do |row| %>
+            <tr>
+              <% row.each do |item| %>
+                <td><%= item %></td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  <% end %>
+<% end %>

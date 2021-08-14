@@ -40,7 +40,6 @@ class Users::SessionsController < Devise::SessionsController
         end
         membership.append("lsa-vod-dept-chem")
         session[:user_memberships] = membership
-        # logger.debug "*********** session[:user_memberships] ***** #{session[:user_memberships]}"
       end
     end
 end

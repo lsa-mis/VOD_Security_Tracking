@@ -112,7 +112,40 @@ class DpaException < ApplicationRecord
   end
 
   def not_completed?
-    self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete").all? {|k, v| v.present?} ? false : true
+    not_completed = self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete", "notes", "sla_agreement").all? {|k, v| v.present?} ? false : true
+  end
+
+  def self.to_csv
+    fields = %w{id incomplete dpa_exception_status_id review_date_exception_first_approval_date third_party_product_service
+              department_id point_of_contact review_findings review_summary lsa_security_recommendation lsa_security_determination
+              lsa_security_approval lsa_technology_services_approval exception_approval_date_exception_renewal_date_due notes
+              sla_agreement data_type_id review_date_exception_review_date}
+    header = %w{link incomplete dpa_exception_status review_date_exception_first_approval_date third_party_product_service
+              department_used_by point_of_contact review_findings review_summary lsa_security_recommendation lsa_security_determination
+              lsa_security_approval lsa_technology_services_approval exception_approval_date_exception_renewal_date_due notes
+              sla_agreement data_type review_date_exception_review_date}
+    header.map! { |e| e.titleize.upcase }
+    CSV.generate(headers: true) do |csv|
+      csv << header
+      all.each do |a|
+        row = []
+        fields.each do |key|
+          if key == 'id'
+            row << "http://localhost:3000/dpa_exceptions/" + a.attributes.values_at(key)[0].to_s
+          elsif key == 'data_type_id' && a.data_type_id.present?
+            row << DataType.find(a.attributes.values_at(key)[0]).display_name
+          elsif key == 'department_id' && a.data_type_id.present?
+            row << Department.find(a.attributes.values_at(key)[0]).name
+          elsif key == 'dpa_exception_status_id' && a.dpa_exception_status_id.present?
+            row << DpaExceptionStatus.find(a.attributes.values_at(key)[0]).name
+          else
+            row << a.attributes.values_at(key)[0]
+          end
+        end
+        csv << row
+        logger.debug "************** csv #{csv}"
+      end
+    end
   end
 
   def display_name

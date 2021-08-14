@@ -96,11 +96,43 @@ class LegacyOsRecord < ApplicationRecord
   end
 
   def not_completed?
-    not_completed = self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete", "unique_app", "unique_hardware").all? {|k, v| v.present?} ? false : true
-    if not_completed
-      not_completed = false unless unique_app.present? || unique_hardware.present?
+    not_completed = self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete", "unique_app", "unique_hardware", "notes").all? {|k, v| v.present?} ? false : true
+    unless not_completed
+      not_completed = true unless unique_app.present? || unique_hardware.present?
     end
     return not_completed
+  end
+
+  def self.to_csv
+    fields = %w{id incomplete owner_username owner_full_name department_id phone additional_dept_contact
+              additional_dept_contact_phone support_poc legacy_os unique_app unique_hardware unique_date
+              remediation exception_approval_date review_date review_contact justification
+              local_it_support_group notes data_type_id device_id}
+    header = %w{link incomplete owner_username owner_full_name department phone additional_dept_contact
+              additional_dept_contact_phone support_poc legacy_os unique_app unique_hardware unique_date
+              remediation exception_approval_date review_date review_contact justification
+              local_it_support_group notes data_type device}
+    header.map! { |e| e.titleize.upcase }
+    CSV.generate(headers: true) do |csv|
+      csv << header
+      all.each do |a|
+        row = []
+        fields.each do |key|
+          if key == 'id'
+            row << "http://localhost:3000/legacy_os_records/" + a.attributes.values_at(key)[0].to_s
+          elsif key == 'data_type_id' && a.data_type_id.present?
+            row << DataType.find(a.attributes.values_at(key)[0]).display_name
+          elsif key == 'department_id' && a.department_id.present?
+            row << Department.find(a.attributes.values_at(key)[0]).name
+          elsif key == 'device_id' && a.device_id.present?
+            row << Device.find(a.attributes.values_at(key)[0]).display_name
+          else
+            row << a.attributes.values_at(key)[0]
+          end
+        end
+        csv << row
+      end
+    end
   end
 
   def display_name

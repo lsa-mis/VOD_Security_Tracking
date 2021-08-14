@@ -1,0 +1,46 @@
+<div id="reportListing" data-report-target="listing">
+  <div class="mt-1 flex justify-center sm:mt-0">
+    <h2><%= @title %></h2>
+    </span>
+  </div>
+
+  <div class="flex flex-nowrap justify-center">
+    <div class="fixed_header_container">
+
+      <% if @result.present? %>
+        <% @result.each do |data| %>
+          <h1><%= data['table'].titleize %></h1>Total number of records: <%= "#{data['total']}" %>
+          <table class="fixed_header">
+            <thead>
+              <tr>
+                <% data['header'].each do |item| %>
+                  <th scope="col"><%= item.titleize.upcase %></th>
+                <% end %>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% if data['total'] > 0 %>
+                  <% data['rows'].each do |row| %>
+                    <tr>
+                      <% link = "/" + data['table'] + "/" + row[0].to_s %>
+                      <td><%= link_to 'Show', link, class: "action-link" %>
+                      <% row.shift(1) %>
+                      <% row.each do |item| %>
+                        <td><%= item %></td>
+                      <% end %>
+                    </tr>
+                  <% end %>
+              <% else %>
+                <!-- Blank state -->
+                <tr>
+                  <td><em>No matching records</em></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <%end %>
+      <% end %>
+    </div>
+  </div>
+</div>
