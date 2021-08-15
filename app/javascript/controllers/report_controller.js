@@ -14,9 +14,8 @@ export default class ReportController extends Controller {
     }
   }
 
-  checkTable() {
-    var review_month = this.review_monthTarget.value
-    var selected = this.tableTarget.value
+  updateTableDropdown(review_month = "", table = "all") {
+    var selected = table
     var dropdown = this.tableTarget;
     dropdown.length = 0;
     var defaultOption = document.createElement('option');
@@ -39,27 +38,33 @@ export default class ReportController extends Controller {
       option.selected = key === selected
       dropdown.add(option);
     }
-
   }
+
+  checkTable() {
+    var review_month = this.review_monthTarget.value
+    var table = this.tableTarget.value
+    this.updateTableDropdown(review_month, table)
+  }
+
 
   changeClassification() {
     var id = this.classification_levelTarget.value
     if (id) {
       fetch(`/data_classification_levels/get_data_types/${id}`)
         .then((response) => response.json())
-        .then((data) => this.update_data_type(data)
+        .then((data) => this.updateDataType(data)
         );
     }
     else {
       id = 0
       fetch(`/data_classification_levels/get_data_types/${id}`)
         .then((response) => response.json())
-        .then((data) => this.update_data_type(data)
+        .then((data) => this.updateDataType(data)
         );
     }
   }
 
-  update_data_type(data) {
+  updateDataType(data) {
     let dropdown = this.data_typeTarget;
     dropdown.length = 0;
 
@@ -102,14 +107,7 @@ export default class ReportController extends Controller {
       event.preventDefault()
       this.listingTarget.innerText = ""
     }
-    // else if (review_month != "" && table == "isi") {
-    //   this.messageTarget.classList.add("device-error--display")
-    //   this.messageTarget.classList.remove("device-error--hide")
-    //   this.messageTarget.innerText = "IT security table is not included into the Review month - select a different table or All";
-    //   event.preventDefault()
-    // }
     else {
-      console.log(this.messageTarget.classList)
       this.messageTarget.classList.add("device-error--hide")
       this.messageTarget.classList.remove("device-error--display")
       this.messageTarget.innerText = " "
@@ -119,6 +117,7 @@ export default class ReportController extends Controller {
   clearFilters() {
     this.formTarget.reset()
     this.changeClassification()
+    this.updateTableDropdown()
     this.review_monthTarget.disabled = false
     this.messageTarget.classList.add("device-error--hide")
     this.messageTarget.classList.remove("device-error--display")
