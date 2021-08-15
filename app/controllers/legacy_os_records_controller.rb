@@ -7,6 +7,7 @@ class LegacyOsRecordsController < InheritedResources::Base
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_form_infotext, only: [:new, :edit]
   before_action :set_number_of_items, only: [:index, :audit_log]
+  before_action :set_departments_list, only: [:new, :create, :edit, :update]
 
   def index
     @legacy_os_record_index_text = Infotext.find_by(location: "legacy_os_record_index")
@@ -14,15 +15,17 @@ class LegacyOsRecordsController < InheritedResources::Base
       session[:items] = params[:items]
     end
 
-    if current_user.dept.any?
-      depts_ids = Department.where(shortname: current_user.dept).ids
+    if current_user.dept_membership.any?
+      depts_ids = Department.where(active_dir_group: current_user.dept_membership).ids
       legacy_os_records_all = LegacyOsRecord.active.where(department_id: depts_ids)
+      @department = Department.where(id: (LegacyOsRecord.pluck(:department_id).uniq & depts_ids))
     else
       legacy_os_records_all = LegacyOsRecord.active
+      @department = Department.where(id: (LegacyOsRecord.pluck(:department_id).uniq))
     end
 
     if params[:q].nil?
-      @q = legacy_os_records_all.active.ransack(params[:q])
+      @q = legacy_os_records_all.ransack(params[:q])
     else
       if params[:q][:data_type_id_blank].present? && params[:q][:data_type_id_blank] == "0"
         params[:q] = params[:q].except("data_type_id_blank")
@@ -30,7 +33,7 @@ class LegacyOsRecordsController < InheritedResources::Base
       if params[:q][:incomplete_true].present? && params[:q][:incomplete_true] == "0"
         params[:q] = params[:q].except("incomplete_true")
       end
-      @q = LegacyOsRecord.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
+      @q = legacy_os_records_all.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
     @q.sorts = ["created_at desc"] if @q.sorts.empty?
     if session[:items].present?
@@ -39,7 +42,6 @@ class LegacyOsRecordsController < InheritedResources::Base
       @pagy, @legacy_os_records = pagy(@q.result)
     end
     @owner_username = @legacy_os_records.pluck(:owner_username).uniq.compact
-    @department = Department.where(id: LegacyOsRecord.pluck(:department_id).uniq)
     @additional_dept_contact = @legacy_os_records.pluck(:additional_dept_contact).uniq.compact_blank
     @legacy_os = @legacy_os_records.pluck(:legacy_os).uniq.compact_blank
     @review_contact = @legacy_os_records.pluck(:review_contact).uniq.compact_blank
@@ -200,6 +202,14 @@ class LegacyOsRecordsController < InheritedResources::Base
 
     def set_legacy_os_record
       @legacy_os_record = LegacyOsRecord.find(params[:id])
+    end
+
+    def set_departments_list
+      if current_user.dept_membership.any?
+        @departments_list = Department.where(active_dir_group: current_user.dept_membership).order(:name)
+      else
+        @departments_list = Department.all.order(:name)
+      end
     end
 
     def get_access_token
