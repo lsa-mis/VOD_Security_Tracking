@@ -18,10 +18,10 @@ class LegacyOsRecordsController < InheritedResources::Base
     if current_user.dept_membership.any?
       depts_ids = Department.where(active_dir_group: current_user.dept_membership).ids
       legacy_os_records_all = LegacyOsRecord.active.where(department_id: depts_ids)
-      @department = Department.where(id: (LegacyOsRecord.pluck(:department_id).uniq & depts_ids))
+      @department = Department.where(id: (LegacyOsRecord.pluck(:department_id).uniq & depts_ids)).order(:name)
     else
       legacy_os_records_all = LegacyOsRecord.active
-      @department = Department.where(id: (LegacyOsRecord.pluck(:department_id).uniq))
+      @department = Department.where(id: (LegacyOsRecord.pluck(:department_id).uniq)).order(:name)
     end
 
     if params[:q].nil?

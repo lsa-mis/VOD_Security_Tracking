@@ -18,10 +18,10 @@ class SensitiveDataSystemsController < InheritedResources::Base
     if current_user.dept_membership.any?
       depts_ids = Department.where(active_dir_group: current_user.dept_membership).ids
       sensitive_data_systems_all = SensitiveDataSystem.active.where(department_id: depts_ids)
-      @department = Department.where(id: (SensitiveDataSystem.pluck(:department_id).uniq & depts_ids))      
+      @department = Department.where(id: (SensitiveDataSystem.pluck(:department_id).uniq & depts_ids)).order(:name)
     else
       sensitive_data_systems_all = SensitiveDataSystem.active
-      @department = Department.where(id: (SensitiveDataSystem.pluck(:department_id).uniq))
+      @department = Department.where(id: (SensitiveDataSystem.pluck(:department_id).uniq)).order(:name)
     end
 
     if params[:q].nil?
