@@ -47,7 +47,7 @@
               </div>
               <div class="ml-1 flex-1 w-1/2">
                 <%= label_tag "Data type" %>
-                <%= select_tag :data_type_id, options_from_collection_for_select(DataType.all, 'id', 'name'), include_blank: "Select ...", :"data-report-target" => "data_type" %>
+                <%= select_tag :data_type_id, options_from_collection_for_select(DataType.all.order(:name), 'id', 'name'), include_blank: "Select ...", :"data-report-target" => "data_type" %>
               </div>
             </div>
           </div>
