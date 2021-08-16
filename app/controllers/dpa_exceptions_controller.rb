@@ -30,9 +30,9 @@ class DpaExceptionsController < InheritedResources::Base
       @pagy, @dpa_exceptions = pagy(@q.result)
     end
 
-    @dpa_status = DpaExceptionStatus.where(id: DpaException.pluck(:dpa_exception_status_id).uniq)
-    @data_type = DataType.where(id: DpaException.pluck(:data_type_id).uniq)
-    @department = Department.where(id: DpaException.pluck(:department_id).uniq)
+    @dpa_status = DpaExceptionStatus.where(id: DpaException.pluck(:dpa_exception_status_id).uniq).order(:name)
+    @data_type = DataType.where(id: DpaException.pluck(:data_type_id).uniq).order(:name)
+    @department = Department.where(id: DpaException.pluck(:department_id).uniq).order(:name)
     
     authorize @dpa_exceptions
     # Rendering code will go here
