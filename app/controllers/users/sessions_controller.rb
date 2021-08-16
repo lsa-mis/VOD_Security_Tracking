@@ -38,7 +38,6 @@ class Users::SessionsController < Devise::SessionsController
           g = group.split(',')
           membership.append(g.first.remove("CN="))
         end
-        membership.append("lsa-vod-dept-chem")
         session[:user_memberships] = membership
       end
     end
