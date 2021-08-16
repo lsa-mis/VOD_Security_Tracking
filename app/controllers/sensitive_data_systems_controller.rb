@@ -18,6 +18,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
     if current_user.dept_membership.any?
       depts_ids = Department.where(active_dir_group: current_user.dept_membership).ids
       sensitive_data_systems_all = SensitiveDataSystem.active.where(department_id: depts_ids)
+      # a list of departments to use in filters
       @department = Department.where(id: (SensitiveDataSystem.pluck(:department_id).uniq & depts_ids)).order(:name)
     else
       sensitive_data_systems_all = SensitiveDataSystem.active
@@ -213,6 +214,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
     end
     
     def set_departments_list
+      # a list of departments to use in new/edit record
       if current_user.dept_membership.any?
         @departments_list = Department.where(active_dir_group: current_user.dept_membership).order(:name)
       else

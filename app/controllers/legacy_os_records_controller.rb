@@ -18,6 +18,7 @@ class LegacyOsRecordsController < InheritedResources::Base
     if current_user.dept_membership.any?
       depts_ids = Department.where(active_dir_group: current_user.dept_membership).ids
       legacy_os_records_all = LegacyOsRecord.active.where(department_id: depts_ids)
+      # a list of departments to use in filters
       @department = Department.where(id: (LegacyOsRecord.pluck(:department_id).uniq & depts_ids)).order(:name)
     else
       legacy_os_records_all = LegacyOsRecord.active
@@ -205,6 +206,7 @@ class LegacyOsRecordsController < InheritedResources::Base
     end
 
     def set_departments_list
+      # a list of departments to use in new/edit record
       if current_user.dept_membership.any?
         @departments_list = Department.where(active_dir_group: current_user.dept_membership).order(:name)
       else
