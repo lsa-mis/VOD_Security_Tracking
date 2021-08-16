@@ -30,8 +30,8 @@ class ItSecurityIncidentsController < InheritedResources::Base
       @pagy, @it_security_incidents = pagy(@q.result)
     end
 
-    @data_type = DataType.where(id: ItSecurityIncident.pluck(:data_type_id).uniq)
-    @it_security_incident_status = ItSecurityIncidentStatus.where(id: ItSecurityIncident.pluck(:it_security_incident_status_id).uniq)
+    @data_type = DataType.where(id: ItSecurityIncident.pluck(:data_type_id).uniq).order(:name)
+    @it_security_incident_status = ItSecurityIncidentStatus.where(id: ItSecurityIncident.pluck(:it_security_incident_status_id).uniq).order(:name)
 
     authorize @it_security_incidents
     # Rendering code will go here
