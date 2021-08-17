@@ -19,7 +19,7 @@
 #
 class User < ApplicationRecord
   before_create :set_email_address
-  attr_accessor :membership
+  attr_accessor :membership, :dept_membership
 
   # Include default devise modules. Others available are:
   devise :ldap_authenticatable, :rememberable, :trackable, :timeoutable,

@@ -41,6 +41,8 @@ class ApplicationController < ActionController::Base
       if user_signed_in?
         current_user.membership = session[:user_memberships]
         if current_user.membership.present?
+          depts_groups = Department.all.pluck(:active_dir_group).compact_blank
+          current_user.dept_membership = current_user.membership & depts_groups
           admins_groups = AccessLookup.where(vod_table: 'admin_interface').pluck(:ldap_group)
           @admin_access = (current_user.membership & admins_groups).any?
         end

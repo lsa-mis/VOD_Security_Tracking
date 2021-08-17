@@ -7,15 +7,23 @@ class SensitiveDataSystemsController < InheritedResources::Base
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_form_infotext, only: [:new, :edit]
   before_action :set_number_of_items, only: [:index, :audit_log]
+  before_action :set_departments_list, only: [:new, :create, :edit, :update]
 
   def index
     @sensitive_data_system_index_text = Infotext.find_by(location: "sensitive_data_system_index")
-    if params[:items].present?
-      session[:items] = params[:items]
+
+    if current_user.dept_membership.any?
+      depts_ids = Department.where(active_dir_group: current_user.dept_membership).ids
+      sensitive_data_systems_all = SensitiveDataSystem.active.where(department_id: depts_ids)
+      # a list of departments to use in filters
+      @department = Department.where(id: (SensitiveDataSystem.pluck(:department_id).uniq & depts_ids)).order(:name)
+    else
+      sensitive_data_systems_all = SensitiveDataSystem.active
+      @department = Department.where(id: (SensitiveDataSystem.pluck(:department_id).uniq)).order(:name)
     end
 
     if params[:q].nil?
-      @q = SensitiveDataSystem.active.ransack(params[:q])
+      @q = sensitive_data_systems_all.ransack(params[:q])
     else
       if params[:q][:data_type_id_blank].present? && params[:q][:data_type_id_blank] == "0"
         params[:q] = params[:q].except("data_type_id_blank")
@@ -26,7 +34,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
       if params[:q][:incomplete_true].present? && params[:q][:incomplete_true] == "0"
         params[:q] = params[:q].except("incomplete_true")
       end
-      @q = SensitiveDataSystem.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
+      @q = sensitive_data_systems_all.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
     @q.sorts = ["created_at desc"] if @q.sorts.empty?
     if session[:items].present?
@@ -35,7 +43,6 @@ class SensitiveDataSystemsController < InheritedResources::Base
       @pagy, @sensitive_data_systems = pagy(@q.result)
     end
     @owner_username = @sensitive_data_systems.pluck(:owner_username).uniq.sort_by(&:downcase)
-    @department = Department.where(id: SensitiveDataSystem.pluck(:department_id).uniq).order(:name)
     @additional_dept_contact = @sensitive_data_systems.pluck(:additional_dept_contact).uniq.compact_blank.sort_by(&:downcase)
     @data_type = DataType.where(id: SensitiveDataSystem.pluck(:data_type_id).uniq).order(:name)
     @storage_location = StorageLocation.where(id: SensitiveDataSystem.pluck(:storage_location_id).uniq).order(:name)
@@ -203,6 +210,15 @@ class SensitiveDataSystemsController < InheritedResources::Base
       @sensitive_data_system = SensitiveDataSystem.find(params[:id])
     end
     
+    def set_departments_list
+      # a list of departments to use in new/edit record
+      if current_user.dept_membership.any?
+        @departments_list = Department.where(active_dir_group: current_user.dept_membership).order(:name)
+      else
+        @departments_list = Department.all.order(:name)
+      end
+    end
+
     def get_access_token
       auth_token = AuthTokenApi.new
       @access_token = auth_token.get_auth_token

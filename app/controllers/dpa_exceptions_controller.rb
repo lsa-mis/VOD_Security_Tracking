@@ -6,13 +6,24 @@ class DpaExceptionsController < InheritedResources::Base
   before_action :add_index_breadcrumb, only: [:index, :show, :new, :edit, :audit_log]
   before_action :set_form_infotext, only: [:new, :edit]
   before_action :set_number_of_items, only: [:index, :audit_log]
+  before_action :set_departments_list, only: [:new, :create, :edit, :update]
 
   def index
     
     @dpa_exception_index_text = Infotext.find_by(location: "dpa_exception_index")
 
+    if current_user.dept_membership.any?
+      depts_ids = Department.where(active_dir_group: current_user.dept_membership).ids
+      dpa_exceptions_all = DpaException.active.where(department_id: depts_ids)
+      # a list of departments to use in filters
+      @department = Department.where(id: (DpaException.pluck(:department_id).uniq & depts_ids)).order(:name)
+    else
+      dpa_exceptions_all = DpaException.active
+      @department = Department.where(id: (DpaException.pluck(:department_id).uniq)).order(:name)
+    end
+
     if params[:q].nil?
-      @q = DpaException.active.ransack(params[:q])
+      @q = dpa_exceptions_all.ransack(params[:q])
     else
       if params[:q][:data_type_id_blank].present? && params[:q][:data_type_id_blank] == "0"
         params[:q] = params[:q].except("data_type_id_blank")
@@ -20,7 +31,7 @@ class DpaExceptionsController < InheritedResources::Base
       if params[:q][:incomplete_true].present? && params[:q][:incomplete_true] == "0"
         params[:q] = params[:q].except("incomplete_true")
       end
-      @q = DpaException.active.ransack(params[:q].try(:merge, m: params[:q][:m]))
+      @q = dpa_exceptions_all.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
     @q.sorts = ["created_at desc"] if @q.sorts.empty?
 
@@ -32,7 +43,6 @@ class DpaExceptionsController < InheritedResources::Base
 
     @dpa_status = DpaExceptionStatus.where(id: DpaException.pluck(:dpa_exception_status_id).uniq).order(:name)
     @data_type = DataType.where(id: DpaException.pluck(:data_type_id).uniq).order(:name)
-    @department = Department.where(id: DpaException.pluck(:department_id).uniq).order(:name)
     
     authorize @dpa_exceptions
     # Rendering code will go here
@@ -153,6 +163,15 @@ class DpaExceptionsController < InheritedResources::Base
   
     def set_dpa_exception
       @dpa_exception = DpaException.find(params[:id])
+    end
+
+    def set_departments_list
+      # a list of departments to use in new/edit record
+      if current_user.dept_membership.any?
+        @departments_list = Department.where(active_dir_group: current_user.dept_membership).order(:name)
+      else
+        @departments_list = Department.all.order(:name)
+      end
     end
 
     def add_index_breadcrumb
