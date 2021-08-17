@@ -10,10 +10,6 @@ class ItSecurityIncidentsController < InheritedResources::Base
   def index
     @it_security_incident_index_text = Infotext.find_by(location: "it_security_incident_index")
 
-    if params[:items].present?
-      session[:items] = params[:items]
-    end
-
     if params[:q].nil?
       @q = ItSecurityIncident.active.ransack(params[:q])
     else

@@ -11,9 +11,6 @@ class SensitiveDataSystemsController < InheritedResources::Base
 
   def index
     @sensitive_data_system_index_text = Infotext.find_by(location: "sensitive_data_system_index")
-    if params[:items].present?
-      session[:items] = params[:items]
-    end
 
     if current_user.dept_membership.any?
       depts_ids = Department.where(active_dir_group: current_user.dept_membership).ids

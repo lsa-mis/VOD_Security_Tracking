@@ -11,9 +11,6 @@ class LegacyOsRecordsController < InheritedResources::Base
 
   def index
     @legacy_os_record_index_text = Infotext.find_by(location: "legacy_os_record_index")
-    if params[:items].present?
-      session[:items] = params[:items]
-    end
 
     if current_user.dept_membership.any?
       depts_ids = Department.where(active_dir_group: current_user.dept_membership).ids
