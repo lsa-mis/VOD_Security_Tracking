@@ -42,14 +42,14 @@ class LegacyOsRecordsController < InheritedResources::Base
     else
       @pagy, @legacy_os_records = pagy(@q.result)
     end
-    @owner_username = @legacy_os_records.pluck(:owner_username).uniq.compact
-    @additional_dept_contact = @legacy_os_records.pluck(:additional_dept_contact).uniq.compact_blank
-    @legacy_os = @legacy_os_records.pluck(:legacy_os).uniq.compact_blank
-    @review_contact = @legacy_os_records.pluck(:review_contact).uniq.compact_blank
-    @local_it_support_group = @legacy_os_records.pluck(:local_it_support_group).uniq.compact_blank
-    @data_type = DataType.where(id: LegacyOsRecord.pluck(:data_type_id).uniq)
-    @device_serial = Device.where(id: LegacyOsRecord.pluck(:device_id).uniq).where.not(serial: [nil, ""])
-    @device_hostname = Device.where(id: LegacyOsRecord.pluck(:device_id).uniq).where.not(hostname: [nil, ""])
+    @owner_username = @legacy_os_records.pluck(:owner_username).uniq.compact.sort_by(&:downcase)
+    @additional_dept_contact = @legacy_os_records.pluck(:additional_dept_contact).uniq.compact_blank.sort_by(&:downcase)
+    @legacy_os = @legacy_os_records.pluck(:legacy_os).uniq.compact_blank.sort_by(&:downcase) 
+    @review_contact = @legacy_os_records.pluck(:review_contact).uniq.compact_blank.sort_by(&:downcase)
+    @local_it_support_group = @legacy_os_records.pluck(:local_it_support_group).uniq.compact_blank.sort_by(&:downcase)
+    @data_type = DataType.where(id: LegacyOsRecord.pluck(:data_type_id).uniq).order(:name)
+    @device_serial = Device.where(id: LegacyOsRecord.pluck(:device_id).uniq).where.not(serial: [nil, ""]).order(:serial)
+    @device_hostname = Device.where(id: LegacyOsRecord.pluck(:device_id).uniq).where.not(hostname: [nil, ""]).order(:hostname)
     
     authorize @legacy_os_records
     # Rendering code will go here
