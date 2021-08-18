@@ -13,7 +13,7 @@ gem 'duo_web', '~> 1.0'
 gem 'google-cloud-storage', require: false
 gem 'hotwire-rails'
 gem 'jbuilder', '~> 2.7'
-gem 'ldap_lookup', '~> 0.1.4'
+gem 'ldap_lookup', '~> 0.1.5'
 # gem install mysql2 -v '0.5.3' -- --with-ldflags=-L/usr/local/opt/openssl/lib --with-cppflags=-I/usr/local/opt/openssl/include
 gem 'mysql2', '~> 0.5'
 gem 'pagy', '~> 4.10', '>= 4.10.1'
