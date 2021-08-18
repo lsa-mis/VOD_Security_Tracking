@@ -18,18 +18,42 @@ task legacyos_importer: :environment do
   CSV.foreach('tmp/legacyosimport.csv') do |row|
     support_poc = row[3] # Point of Contact
     department_id = row[1].to_i # Department
+    puts "Department id before"
+    puts department_id
+    if department_id > 52 || department_id < 3
+      department_id = 53
+    end
+    puts "Department id after"
+    puts department_id
     device_id = Device.create(hostname: row[2]).id # Device Name
+    puts "Device hostname"
+    puts row[2]
     owner_username = row[3] # Point of Contact
     justification = row[4] # Remediation Blocker Description
     remediation = row[5] # Required Mitigation Strategies
     review_contact = row[6] # Exception Requester
     notes =	row[7] # Additional Notes
-    owner_full_name = LdapLookup.get_simple_name(owner_username) 
+    if owner_username.nil?
+      owner_username = "Not avalable"
+    end
+    owner_full_name = LdapLookup.get_simple_name(owner_username)
+    if owner_full_name.nil?
+      owner_full_name = "Not avalable"
+    end
+
     phone = 'N/A'
     legacy_os = 'Windows 7'
     unique_app = 'needs to be updated'
     review_date = 1.year.from_now
-    local_it_support_group = row[0]	# Region								
-    LegacyOsRecord.create(owner_username: owner_username, owner_full_name: owner_full_name, phone: phone, support_poc: support_poc, legacy_os: legacy_os, unique_app: unique_app, remediation: remediation, review_date: review_date, review_contact: review_contact, justification: justification, local_it_support_group: local_it_support_group, notes: notes, device_id: device_id, department_id: department_id)
+    local_it_support_group = row[0]	# Region						
+    record = LegacyOsRecord.new(owner_username: owner_username, owner_full_name: owner_full_name, phone: phone, support_poc: support_poc, legacy_os: legacy_os, unique_app: unique_app, remediation: remediation, review_date: review_date, review_contact: review_contact, justification: justification, local_it_support_group: local_it_support_group, notes: notes, device_id: device_id, department_id: department_id)
+    if record.save
+      puts "record was saved"
+    else
+      puts "******************ERROR"
+      puts  record.errors.inspect
+      puts record.errors.full_messages
+      abort
+    end
   end
 end
