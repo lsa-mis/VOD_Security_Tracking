@@ -18,16 +18,7 @@ task legacyos_importer: :environment do
   CSV.foreach('tmp/legacyosimport.csv') do |row|
     support_poc = row[3] # Point of Contact
     department_id = row[1].to_i # Department
-    puts "Department id before"
-    puts department_id
-    if department_id > 52 || department_id < 3
-      department_id = 53
-    end
-    puts "Department id after"
-    puts department_id
     device_id = Device.create(hostname: row[2]).id # Device Name
-    puts "Device hostname"
-    puts row[2]
     owner_username = row[3] # Point of Contact
     justification = row[4] # Remediation Blocker Description
     remediation = row[5] # Required Mitigation Strategies
@@ -35,10 +26,12 @@ task legacyos_importer: :environment do
     notes =	row[7] # Additional Notes
     if owner_username.nil?
       owner_username = "Not avalable"
-    end
-    owner_full_name = LdapLookup.get_simple_name(owner_username)
-    if owner_full_name.nil?
       owner_full_name = "Not avalable"
+    else
+      owner_full_name = LdapLookup.get_simple_name(owner_username)
+      if owner_full_name.nil?
+        owner_full_name = "Not avalable"
+      end
     end
 
     phone = 'N/A'
