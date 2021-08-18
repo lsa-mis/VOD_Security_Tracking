@@ -30,10 +30,12 @@ ActiveAdmin.register LegacyOsRecord do
     actions
     column :incomplete
     column :owner_full_name
-    column :device.name
+    column "Device" do |lor|
+       link_to lor.device.display_name, admin_device_path(lor.device)
+    end
     column :legacy_os
     column :updated_at
-    column :data_type.name
+    column :data_type, sortable: :data_type_id.name
     column :review_date
     column "Archived at" do |lor|
       lor.deleted_at
