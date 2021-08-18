@@ -28,15 +28,16 @@ ActiveAdmin.register SensitiveDataSystem do
 
   index do
     actions
-    column "Status", sortable: :sensitive_data_system_status_id.name do |sds|
-      show_sensitive_data_system_status(sds)
-    end
     column :incomplete
     column :owner_full_name
-    column :department.name
-    column :storage_location_id
-    column :device.name
-    column :data_type.name
+    column :department, sortable: :department_id.name
+    column :storage_location, sortable: :storage_location_id.name
+    column "Device" do |sds|
+      if sds.device_id
+        link_to sds.device.display_name, admin_device_path(sds.device)
+      end
+    end
+    column :data_type, sortable: :data_type_id.name
     column :updated_at
     column "Archived at" do |sds|
       sds.deleted_at
