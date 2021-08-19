@@ -65,9 +65,6 @@
             </div>
             
             <div>
-              <%= f.hidden_field :device_id_eq, :"data-filters-target" => "device_id" %>
-            </div>
-            <div>
               <%= f.label :legacy_os, "Legacy OS" %>
               <%= f.select :legacy_os_eq, @legacy_os, include_blank: "Select ...", class: 'form-control' %>
             </div>
