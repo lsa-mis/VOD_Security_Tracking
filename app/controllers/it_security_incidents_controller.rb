@@ -32,9 +32,10 @@ class ItSecurityIncidentsController < InheritedResources::Base
     authorize @it_security_incidents
     # Rendering code will go here
     if params[:format] == "csv"
+      it_security_incidents = @q.result
       respond_to do |format|
         format.html
-        format.csv { send_data @it_security_incidents.to_csv, filename: "IT Security Incidents-#{Date.today}.csv"}
+        format.csv { send_data it_security_incidents.to_csv, filename: "IT Security Incidents-#{Date.today}.csv"}
       end
     else
       unless params[:q].nil?

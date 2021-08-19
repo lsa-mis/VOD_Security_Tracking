@@ -51,9 +51,10 @@ class LegacyOsRecordsController < InheritedResources::Base
     authorize @legacy_os_records
     # Rendering code will go here
     if params[:format] == "csv"
+      legacy_os_records = @q.result
       respond_to do |format|
         format.html
-        format.csv { send_data @legacy_os_records.to_csv, filename: "Legacy OS Records-#{Date.today}.csv"}
+        format.csv { send_data legacy_os_records.to_csv, filename: "Legacy OS Records-#{Date.today}.csv"}
       end
     else
       unless params[:q].nil?
