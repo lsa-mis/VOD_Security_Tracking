@@ -90,8 +90,8 @@ class SensitiveDataSystemsController < InheritedResources::Base
       device_class = DeviceManagment.new(serial, hostname)
       if device_class.create_device || device_class.device_exist?
         @sensitive_data_system.device = device_class.device
-        @note ||= device_class.message || ""
         @note = "" if device_class.device_exist?
+        @note = device_class.message
       else
         # TDX search returns too many results for entered serial or hostname
         @sensitive_data_system.errors.add(:device, device_class.message)
