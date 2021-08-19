@@ -35,9 +35,9 @@ class LegacyOsRecordsController < InheritedResources::Base
     end
     @q.sorts = ["created_at desc"] if @q.sorts.empty?
     if session[:items].present?
-      @pagy, @legacy_os_records = pagy(@q.result, items: session[:items])
+      @pagy, @legacy_os_records = pagy(@q.result.includes(:device), items: session[:items])
     else
-      @pagy, @legacy_os_records = pagy(@q.result)
+      @pagy, @legacy_os_records = pagy(@q.result.includes(:device))
     end
     @owner_username = @legacy_os_records.pluck(:owner_username).uniq.compact.sort_by(&:downcase)
     @additional_dept_contact = @legacy_os_records.pluck(:additional_dept_contact).uniq.compact_blank.sort_by(&:downcase)
@@ -45,8 +45,6 @@ class LegacyOsRecordsController < InheritedResources::Base
     @review_contact = @legacy_os_records.pluck(:review_contact).uniq.compact_blank.sort_by(&:downcase)
     @local_it_support_group = @legacy_os_records.pluck(:local_it_support_group).uniq.compact_blank.sort_by(&:downcase)
     @data_type = DataType.where(id: LegacyOsRecord.pluck(:data_type_id).uniq).order(:name)
-    @device_serial = Device.where(id: LegacyOsRecord.pluck(:device_id).uniq).where.not(serial: [nil, ""]).order(:serial)
-    @device_hostname = Device.where(id: LegacyOsRecord.pluck(:device_id).uniq).where.not(hostname: [nil, ""]).order(:hostname)
     
     authorize @legacy_os_records
     # Rendering code will go here

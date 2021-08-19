@@ -32,7 +32,7 @@
   
   <div data-toggle-target='toggleable' class="filter-selections bg-yellow-50 shadow p-2 m-4 hidden">
     <%= search_form_for @q, class: "filter-form",
-      data:{ controller: "filters"} do |f| %>
+      data:{ controller: "filters" } do |f| %>
       <div class="grid grid-cols-2">
 
         <div class="col-span-2 mb-4 flex justify-start">
@@ -65,22 +65,15 @@
             </div>
 
             <div>
-              <%= f.label "Hostname" %>
-              <%= select_tag :hostname, options_from_collection_for_select(@device_hostname, :id, :hostname), include_blank: "Select ...",
-              :"data-filters-target" => "hostname", :"data-action" => "change->filters#updateDeviceFilter" %>
+              <%= f.label :device_hostname %>
+              <%= f.text_field :device_hostname_cont, placeholder: "Contains", class: 'form-control',
+                :"data-filters-target" => "hostname" %>
             </div>
-            <div>
-              <%= f.label "Serial" %>
-              <%= select_tag :serial, options_from_collection_for_select(@device_serial, :id, :serial), include_blank: "Select ...",
-                :"data-filters-target" => "serial", :"data-action" => "change->filters#updateDeviceFilter" %>
-            </div>
-            
-            <span class="device-error--hide text-red-700" data-filters-target="device_error">
-              Select serial OR hostname
-            </span>
 
             <div>
-              <%= f.hidden_field :device_id_eq, :"data-filters-target" => "device_id" %>
+              <%= f.label :device_serial %>
+              <%= f.text_field :device_serial_cont, placeholder: "Contains", class: 'form-control',
+                :"data-filters-target" => "serial" %>
             </div>
             
             <div class="flex items-end">
