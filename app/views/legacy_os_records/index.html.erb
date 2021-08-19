@@ -55,11 +55,21 @@
             </div>
             <div>
               <%= f.label "Hostname" %>
-              <%= f.collection_select :device_id_eq, @device_hostname, :id, :hostname, include_blank: "Select ...", class: 'form-control' %>
+              <%= select_tag :hostname, options_from_collection_for_select(@device_hostname, :id, :hostname), include_blank: "Select ...",
+                :"data-filters-target" => "hostname", :"data-action" => "change->filters#updateDeviceFilter" %>
             </div>
             <div>
               <%= f.label "Serial" %>
-              <%= f.collection_select :device_id_eq, @device_serial, :id, :serial, include_blank: "Select ...", class: 'form-control' %>
+              <%= select_tag :serial, options_from_collection_for_select(@device_serial, :id, :serial), include_blank: "Select ...",
+                :"data-filters-target" => "serial", :"data-action" => "change->filters#updateDeviceFilter" %>
+            </div>
+            
+            <span class="device-error--hide text-red-700" data-filters-target="device_error">
+              Select serial OR hostname
+            </span>
+
+            <div>
+              <%= f.hidden_field :device_id_eq, :"data-filters-target" => "device_id" %>
             </div>
             <div>
               <%= f.label :legacy_os, "Legacy OS" %>
