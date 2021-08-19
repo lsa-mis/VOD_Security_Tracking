@@ -1,22 +1,21 @@
 <%= form_with(model: @dpa_exception, local: true, data: {turbo: "false"}) do |form| %>
   <%= render "partials/errors", object: @dpa_exception %>
-
   <div class="form-container">
     <% if @dpa_exception_form_text.present? %>
       <div>
         <h3 class="instruction-header">
           Form Instructions
-        </h3>
-          <div class="form-instructions">
-            <%= @dpa_exception_form_text.content %>
-          </div>
-          <p>
+          <span class="text-sm">
             <% if policy(Infotext).edit? %>
               <%= link_to edit_infotext_path(@dpa_exception_form_text) do %>
                 <i class="far fa-edit text-laitan_blue"></i>
               <% end %>
             <% end %>
-          </p>
+          </span>
+        </h3>
+          <div class="form-instructions">
+            <%= @dpa_exception_form_text.content %>
+          </div>
       </div>
     <% end %>
 

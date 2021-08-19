@@ -8,23 +8,22 @@
               }
     ) do |form| %>
   <%= render "partials/errors", object: @legacy_os_record %>
-
   <div class="form-container">
     <% if @legacy_os_record_form_text.present? %>
       <div>
         <h3 class="instruction-header">
           Form Instructions
-        </h3>
-        <div class="form-instruction p-2">
-          <%= @legacy_os_record_form_text.content %>
-        </div>
-        <p>
-          <% if policy(Infotext).edit? %>
-            <%= link_to edit_infotext_path(@legacy_os_record_form_text) do %>
-              <i class="far fa-edit text-laitan_blue"></i>
+          <span class="text-sm">
+            <% if policy(Infotext).edit? %>
+              <%= link_to edit_infotext_path(@legacy_os_record_form_text) do %>
+                <i class="far fa-edit text-laitan_blue"></i>
+              <% end %>
             <% end %>
-          <% end %>
-        </p>
+          </span>
+        </h3>
+          <div class="form-instructions">
+            <%= @legacy_os_record_form_text.content %>
+          </div>
       </div>
     <% end %>
 

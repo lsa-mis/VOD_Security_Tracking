@@ -1,15 +1,15 @@
-<h1 class="text-3xl font-bold text-center my-20">VOD Tools</h1>
-
+<h1 class="text-3xl font-bold text-center my-20">VOD Tools
+  <span class="text-sm">
+    <% if current_user.present? %>
+      <% if policy(Infotext).edit? %>
+        <span class="text-sm">
+          <%= link_to edit_infotext_path(@home_text) do %>
+            <i class="far fa-edit text-laitan_blue"></i>
+          <% end %>
+        </span>
+      <% end %>
+    <% end %>
+</h1>
 <div class="static-page-text">
   <%= @home_text.content %>
 </div>
-
-<% if current_user.present? %>
-  <% if policy(Infotext).edit? %>
-    <div>
-      <%= link_to edit_infotext_path(@home_text) do %>
-        <i class="far fa-edit text-laitan_blue"></i>
-      <% end %>
-    </div>
-  <% end %>
-<% end %>
