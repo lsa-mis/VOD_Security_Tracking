@@ -4,6 +4,7 @@ class ReportsController < ApplicationController
   before_action :authenticate_logged_in!
 
   def index
+    add_breadcrumb("Reports", reports_path)
     authorize :report, :show?
     @report_text = Infotext.find_by(location: "reports")
 
