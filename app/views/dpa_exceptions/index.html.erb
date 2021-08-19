@@ -3,7 +3,7 @@
 <div class="py-2 sm:grid sm:grid-cols-5 sm:gap-4 border-b border-laitan_blue">
   <div class="sm:col-span-4">
     <div class="index-instructions">
-      <%= @dpa_exception_index_text.content %>
+      <%= @dpa_exception_index_text.content.to_plain_text.truncate(100, omission: '(... see more)') %>
     </div>
     <div>
       <% if policy(Infotext).edit? %>
