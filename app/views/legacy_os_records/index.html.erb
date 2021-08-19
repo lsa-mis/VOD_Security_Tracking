@@ -32,7 +32,7 @@
   
   <div data-toggle-target='toggleable' class="filter-selections bg-yellow-50 shadow p-2 m-4 hidden">
     <%= search_form_for @q, class: "filter-form",
-      data:{ controller: "filters"} do |f| %>
+      data:{ controller: "filters" } do |f| %> 
       <div class="grid grid-cols-2">
 
         <div class="col-span-2 mb-4 flex justify-start">
@@ -53,14 +53,17 @@
               <%= f.label :owner_full_name %>
               <%= f.text_field :owner_full_name_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
+
             <div>
-              <%= f.label "Hostname" %>
-              <%= f.collection_select :device_id_eq, @device_hostname, :id, :hostname, include_blank: "Select ...", class: 'form-control' %>
+              <%= f.label :device_hostname %>
+              <%= f.text_field :device_hostname_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
+
             <div>
-              <%= f.label "Serial" %>
-              <%= f.collection_select :device_id_eq, @device_serial, :id, :serial, include_blank: "Select ...", class: 'form-control' %>
+              <%= f.label :device_serial %>
+              <%= f.text_field :device_serial_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
+            
             <div>
               <%= f.label :legacy_os, "Legacy OS" %>
               <%= f.select :legacy_os_eq, @legacy_os, include_blank: "Select ...", class: 'form-control' %>

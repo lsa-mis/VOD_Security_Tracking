@@ -38,16 +38,14 @@ class SensitiveDataSystemsController < InheritedResources::Base
     end
     @q.sorts = ["created_at desc"] if @q.sorts.empty?
     if session[:items].present?
-      @pagy, @sensitive_data_systems = pagy(@q.result, items: session[:items])
+      @pagy, @sensitive_data_systems = pagy(@q.result.includes(:device), items: session[:items])
     else
-      @pagy, @sensitive_data_systems = pagy(@q.result)
+      @pagy, @sensitive_data_systems = pagy(@q.result.includes(:device))
     end
     @owner_username = @sensitive_data_systems.pluck(:owner_username).uniq.sort_by(&:downcase)
     @additional_dept_contact = @sensitive_data_systems.pluck(:additional_dept_contact).uniq.compact_blank.sort_by(&:downcase)
     @data_type = DataType.where(id: SensitiveDataSystem.pluck(:data_type_id).uniq).order(:name)
     @storage_location = StorageLocation.where(id: SensitiveDataSystem.pluck(:storage_location_id).uniq).order(:name)
-    @device_serial = Device.where(id: SensitiveDataSystem.pluck(:device_id).uniq).where.not(serial: [nil, ""]).order(:serial)
-    @device_hostname = Device.where(id: SensitiveDataSystem.pluck(:device_id).uniq).where.not(hostname: [nil, ""]).order(:hostname)
 
     authorize @sensitive_data_systems
     # Rendering code will go here
@@ -91,8 +89,8 @@ class SensitiveDataSystemsController < InheritedResources::Base
       device_class = DeviceManagment.new(serial, hostname)
       if device_class.create_device || device_class.device_exist?
         @sensitive_data_system.device = device_class.device
-        @note ||= device_class.message || ""
         @note = "" if device_class.device_exist?
+        @note = device_class.message
       else
         # TDX search returns too many results for entered serial or hostname
         @sensitive_data_system.errors.add(:device, device_class.message)
