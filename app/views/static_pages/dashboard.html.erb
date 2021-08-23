@@ -1,12 +1,12 @@
-<h1>Dashboard</h1>
-
+<h1>Dashboard
+  <span class="text-sm">
+    <% if policy(Infotext).edit? %>
+      <%= link_to edit_infotext_path(@dashboard_text) do %>
+        <i class="far fa-edit text-laitan_blue"></i>
+      <% end %>
+    <% end %>
+  </span>
+</h1>
 <div class="static-page-text">
   <%= @dashboard_text.content %>
 </div>
-<% if policy(Infotext).edit? %>
-  <div>
-    <%= link_to edit_infotext_path(@dashboard_text) do %>
-      <i class="far fa-edit text-laitan_blue"></i>
-    <% end %>
-  </div>
-<% end %>

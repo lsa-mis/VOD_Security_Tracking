@@ -1,15 +1,16 @@
-<div>
-  <div class="form-instruction p-2">
-  <%= @device_show_text.content %>
-  </div>
-  <p>
+<h1><%= @device.display_name %></h1>
+
+<p class="mt-1 max-w-2xl text-sm text-gray-500">
+  Device detail instructions.
   <% if policy(Infotext).edit? %>
     <%= link_to edit_infotext_path(@device_show_text) do %>
       <i class="far fa-edit text-laitan_blue"></i>
     <% end %>
   <% end %>
-  </p>
-</div>
+</p>
+
+<%= render partial: 'partials/info_index_toggler', locals: { infotext_resource: @device_show_text } %>
+
 <div class="mt-5 border-t border-gray-200">
   <dl class="divide-y divide-gray-200">
     <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">

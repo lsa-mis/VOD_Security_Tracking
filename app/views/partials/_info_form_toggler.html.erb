@@ -1,0 +1,17 @@
+<div class="form-instructions" data-controller="infotoggle">
+  <div data-infotoggle-target='info_text_short_area' class="device-error--display">
+    <%= infoform_resource.content.to_plain_text.truncate(150) %>
+    <br>
+    <button type="button" class=""
+      data-action='click->infotoggle#toggle touch->infotoggle#toggle' >
+      <i class="text-yellow-500 far fa-caret-square-down"></i>
+    </button>
+  </div>
+  <div data-infotoggle-target='info_text_area' class="device-error--hide">
+    <%= infoform_resource.content %>
+    <button type="button" class=""
+      data-action='click->infotoggle#toggle2 touch->infotoggle#toggle2' >
+      <i class="text-yellow-500 far fa-caret-square-up"></i>
+    </button>
+  </div>
+</div>

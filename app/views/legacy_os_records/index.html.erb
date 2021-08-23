@@ -1,19 +1,16 @@
-<h1>Legacy OS Records</h1>
-
-<div class="py-2 sm:grid sm:grid-cols-5 sm:gap-4 border-b border-laitan_blue">
-  <div class="sm:col-span-4">
-    <div class="index-instruction p-2">
-      <%= @legacy_os_record_index_text.content %>
-    </div>
-    <div>
-      <% if policy(Infotext).edit? %>
-        <%= link_to edit_infotext_path(@legacy_os_record_index_text) do %>
-          <i class="far fa-edit text-laitan_blue"></i>
-        <% end %>
-      <% end %>
-    </div>
+<h1>Legacy OS Records<span class="text-sm">
+  <% if policy(Infotext).edit? %>
+    <%= link_to edit_infotext_path(@legacy_os_record_index_text) do %>
+      <i class="far fa-edit text-laitan_blue"></i>
+    <% end %>
+  <% end %>
+</span>
+</h1>
+<div class=" sm:grid sm:grid-cols-5 sm:gap-4 border-b border-laitan_blue">
+  <div class="sm:col-span-5">
+    <%= render partial: 'partials/info_index_toggler', locals: { infotext_resource: @legacy_os_record_index_text } %>
   </div>
-  <div class="mt-1 flex justify-end sm:mt-0">
+  <div class="pb-1 sm:col-span-5 flex justify-end sm:mt-0">
     <span class="ml-4 flex-shrink-0">
       <% if policy(@legacy_os_records).new? %>
         <div role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">

@@ -1,17 +1,16 @@
-<h1>Devices</h1>
+<h1>Devices
+  <span class="text-sm">
+    <% if policy(Infotext).edit? %>
+      <%= link_to edit_infotext_path(@device_index_text) do %>
+        <i class="far fa-edit text-laitan_blue"></i>
+      <% end %>
+    <% end %>
+  </span>
+</h1>
 
 <div class="py-2 sm:grid sm:grid-cols-5 sm:gap-4 border-b border-laitan_blue">
   <div class="sm:col-span-4">
-    <div class="index-instructions">
-      <%= @device_index_text.content %>
-    </div>
-    <div>
-      <% if policy(Infotext).edit? %>
-        <%= link_to edit_infotext_path(@device_index_text) do %>
-          <i class="far fa-edit text-laitan_blue"></i>
-        <% end %>
-      <% end %>
-    </div>
+    <%= render partial: 'partials/info_index_toggler', locals: { infotext_resource: @device_index_text } %>
   </div>
 </div>
 

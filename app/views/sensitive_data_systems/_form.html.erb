@@ -8,23 +8,22 @@
               }
   ) do |form| %>
   <%= render "partials/errors", object: @sensitive_data_system %>
-
   <div class="form-container">
     <% if @sensitive_data_system_form_text.present? %>
       <div>
         <h3 class="instruction-header">
           Form Instructions
-        </h3>
-        <div class="form-instruction p-2">
-          <%= @sensitive_data_system_form_text.content %>
-        </div>
-        <p>
-          <% if policy(Infotext).edit? %>
-            <%= link_to edit_infotext_path(@sensitive_data_system_form_text) do %>
-              <i class="far fa-edit text-laitan_blue"></i>
+          <span class="text-sm">
+            <% if policy(Infotext).edit? %>
+              <%= link_to edit_infotext_path(@sensitive_data_system_form_text) do %>
+                <i class="far fa-edit text-laitan_blue"></i>
+              <% end %>
             <% end %>
-          <% end %>
-        </p>
+          </span>
+        </h3>
+          <div class="form-instructions">
+            <%= render partial: 'partials/info_form_toggler', locals: { infoform_resource: @sensitive_data_system_form_text } %>
+          </div>
       </div>
     <% end %>
 

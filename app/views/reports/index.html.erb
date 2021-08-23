@@ -1,18 +1,17 @@
-<h1>Reports</h1>
+<h1>Reports
+  <span class="text-sm">
+    <% if policy(Infotext).edit? %>
+      <%= link_to edit_infotext_path(@report_text) do %>
+        <i class="far fa-edit text-laitan_blue"></i>
+      <% end %>
+    <% end %>
+  </span>
+</h1>
 
 <div data-controller="report">
   <div class="py-2 sm:grid sm:grid-cols-5 sm:gap-4 border-b border-laitan_blue">
     <div class="sm:col-span-4">
-      <div class="index-instructions">
-        <%= @report_text.content %>
-      </div>
-      <div>
-        <% if policy(Infotext).edit? %>
-          <%= link_to edit_infotext_path(@report_text) do %>
-            <i class="far fa-edit text-laitan_blue"></i>
-          <% end %>
-        <% end %>
-      </div>
+      <%= render partial: 'partials/info_index_toggler', locals: { infotext_resource: @report_text } %>
     </div>
   </div>
 
