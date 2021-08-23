@@ -14,13 +14,13 @@
     <span class="ml-4 flex-shrink-0">
       <ul>
         <% if policy(@dpa_exception).edit? %>
-          <li class= "btn-action"><%= link_to 'Edit', edit_dpa_exception_path(@dpa_exception) %></li>
+          <li class= "action-link"><%= link_to 'Edit', edit_dpa_exception_path(@dpa_exception) %></li>
         <% end %>
         <% if policy(@dpa_exception).archive? %>
-          <li class= "btn-action"><%= link_to 'Archive', archive_dpa_exception_path(@dpa_exception),  method: :post, data: { confirm: 'Are you sure?' } %></li>
+          <li class= "action-link"><%= link_to 'Archive', archive_dpa_exception_path(@dpa_exception),  method: :post, data: { confirm: 'Are you sure?' } %></li>
         <% end %>
         <% if policy(@dpa_exception).audit_log? %>
-          <li class= "btn-action"><%= link_to 'Audit', dpa_exception_audit_log_path(@dpa_exception) %></li>
+          <li class= "action-link"><%= link_to 'Audit', dpa_exception_audit_log_path(@dpa_exception) %></li>
         <% end %>
       </ul>
     </span>

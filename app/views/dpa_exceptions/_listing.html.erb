@@ -38,15 +38,15 @@
             <tr>
               <td>
                 <ul>
-                  <li><%= link_to 'Show', dpa_exception, class: "action-link" %></li>
+                  <li class= "listing-action-link"><%= link_to 'Show', dpa_exception %></li>
                   <% if policy(dpa_exception).edit? %>
-                    <li><%= link_to 'Edit', edit_dpa_exception_path(dpa_exception), class: "action-link" %></li>
+                    <li class= "listing-action-link"><%= link_to 'Edit', edit_dpa_exception_path(dpa_exception) %></li>
                   <% end %>
                   <% if policy(dpa_exception).archive? %>
-                    <li><%= link_to 'Archive', archive_dpa_exception_path(dpa_exception), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
+                    <li class= "listing-action-link"><%= link_to 'Archive', archive_dpa_exception_path(dpa_exception),  method: :post, data: { confirm: 'Are you sure?' } %></li>
                   <% end %>
                   <% if policy(dpa_exception).audit_log? %>
-                    <li><%= link_to 'Audit', dpa_exception_audit_log_path(dpa_exception), class: "action-link" %></li>
+                    <li class= "listing-action-link"><%= link_to 'Audit', dpa_exception_audit_log_path(dpa_exception) %></li>
                   <% end %>
                 </ul>
               </td> 
