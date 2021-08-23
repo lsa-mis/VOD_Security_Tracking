@@ -7,24 +7,8 @@
 </span>
 </h1>
 <div class=" sm:grid sm:grid-cols-5 sm:gap-4 border-b border-laitan_blue">
-  <div class="sm:col-span-5" data-controller='infotoggle'>
-    <div class="index-instructions">
-      <div data-infotoggle-target='info_text_short_area' class="device-error--display">
-        <%= @it_security_incident_index_text.content.to_plain_text.truncate(150) %>
-        <br>
-        <button type="button" class=""
-          data-action='click->infotoggle#toggle touch->infotoggle#toggle' >
-          <i class="text-yellow-500 far fa-caret-square-down"></i>
-        </button>
-      </div>
-      <div data-infotoggle-target='info_text_area' class="device-error--hide">
-        <%= @it_security_incident_index_text.content %>
-        <button type="button" class=""
-          data-action='click->infotoggle#toggle2 touch->infotoggle#toggle2' >
-          <i class="text-yellow-500 far fa-caret-square-up"></i>
-        </button>
-      </div>
-    </div>
+  <div class="sm:col-span-5">
+    <%= render partial: 'partials/info_index_toggler', locals: { infotext_resource: @it_security_incident_index_text } %>
   </div>
   <div class="pb-1 sm:col-span-5 flex justify-end sm:mt-0">
     <span class="ml-4 flex-shrink-0">
