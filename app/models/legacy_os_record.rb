@@ -13,13 +13,10 @@
 #  unique_app                    :string(255)
 #  unique_hardware               :string(255)
 #  unique_date                   :datetime
-#  remediation                   :text(65535)
 #  exception_approval_date       :datetime
 #  review_date                   :datetime
 #  review_contact                :string(255)
-#  justification                 :text(65535)
 #  local_it_support_group        :string(255)
-#  notes                         :text(65535)
 #  data_type_id                  :bigint
 #  device_id                     :bigint
 #  created_at                    :datetime         not null
@@ -33,6 +30,16 @@ class LegacyOsRecord < ApplicationRecord
   belongs_to :device
   belongs_to :department
   has_many :tdx_tickets, as: :records_to_tdx
+  has_rich_text :remediation
+  has_one :remediation, class_name: 'ActionText::RichText', as: :record
+  # has_one :remediation, class_name: 'ActionText::RichText', as: :name
+  has_rich_text :justification
+  has_one :justification, class_name: 'ActionText::RichText', as: :record
+  has_rich_text :notes
+  has_one :notes, class_name: 'ActionText::RichText', as: :record
+  # has_one :action_text_rich_text, class_name: 'ActionText::RichText', as: :record
+
+
   accepts_nested_attributes_for :device
 
   has_many_attached :attachments
