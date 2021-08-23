@@ -13,9 +13,7 @@
             <% end %>
           </span>
         </h3>
-          <div class="form-instructions">
-            <%= @dpa_exception_form_text.content %>
-          </div>
+        <%= render partial: 'partials/info_form_toggler', locals: { infoform_resource: @dpa_exception_form_text } %>
       </div>
     <% end %>
 

@@ -21,9 +21,7 @@
             <% end %>
           </span>
         </h3>
-          <div class="form-instructions">
-            <%= @legacy_os_record_form_text.content %>
-          </div>
+        <%= render partial: 'partials/info_form_toggler', locals: { infoform_resource: @legacy_os_record_form_text } %>
       </div>
     <% end %>
 
