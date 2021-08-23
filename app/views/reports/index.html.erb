@@ -11,9 +11,7 @@
 <div data-controller="report">
   <div class="py-2 sm:grid sm:grid-cols-5 sm:gap-4 border-b border-laitan_blue">
     <div class="sm:col-span-4">
-      <div class="index-instructions">
-        <%= @report_text.content %>
-      </div>
+      <%= render partial: 'partials/info_index_toggler', locals: { infotext_resource: @report_text } %>
     </div>
   </div>
 

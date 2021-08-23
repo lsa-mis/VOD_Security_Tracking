@@ -10,9 +10,7 @@
 
 <div class="py-2 sm:grid sm:grid-cols-5 sm:gap-4 border-b border-laitan_blue">
   <div class="sm:col-span-4">
-    <div class="index-instructions">
-      <%= @device_index_text.content %>
-    </div>
+    <%= render partial: 'partials/info_index_toggler', locals: { infotext_resource: @device_index_text } %>
   </div>
 </div>
 
