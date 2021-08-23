@@ -9,8 +9,8 @@
 
   <div class="my-2 flex justify-end sm:mt-0">
     <span class="ml-4 flex-shrink-0">
-      <div role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
-        <%= link_to 'Export to CSV', sensitive_data_systems_path(params.merge(format: 'csv', q: params[:q]).permit!), class: "new-record-btn" %>
+      <div role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="0">
+        <%= link_to 'Export to CSV', sensitive_data_systems_path(params.merge(format: 'csv', q: params[:q]).permit!), class: "new-record-link" %>
       </div>
     </span>
   </div>
