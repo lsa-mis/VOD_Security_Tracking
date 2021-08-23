@@ -9,7 +9,7 @@
 
   <div class="my-2 flex justify-end sm:mt-0">
     <span class="ml-4 flex-shrink-0">
-      <div role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button">
+      <div class="navbtn-link" tabindex="0" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button">
         <%= link_to 'Export to CSV', dpa_exceptions_path(params.merge(format: 'csv', q: params[:q]).permit!), class: "new-record-link" %>
       </div>
     </span>
