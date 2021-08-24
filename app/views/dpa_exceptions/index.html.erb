@@ -132,22 +132,6 @@
               <%= f.text_field :point_of_contact_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
             <div>
-              <%= f.label :review_findings %>
-              <%= f.text_field :review_findings_cont, placeholder: "Contains", class: 'form-control' %>
-            </div>
-            <div>
-              <%= f.label :review_summary %>
-              <%= f.text_field :review_summary_cont, placeholder: "Contains", class: 'form-control' %>
-            </div>
-            <div>
-              <%= f.label :lsa_security_recommendation, "LSA security recommendation" %>
-              <%= f.text_field :lsa_security_recommendation_cont, placeholder: "Contains", class: 'form-control' %>
-            </div>
-            <div>
-              <%= f.label :lsa_security_determination, "LSA security determination" %>
-              <%= f.text_field :lsa_security_determination_cont, placeholder: "Contains", class: 'form-control' %>
-            </div>
-            <div>
               <%= f.label :lsa_security_approval, "LSA security approval" %>
               <%= f.text_field :lsa_security_approval_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
@@ -156,8 +140,8 @@
               <%= f.text_field :lsa_technology_services_approval_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
             <div>
-              <%= f.label :notes %>
-              <%= f.text_field :notes_cont, placeholder: "Contains", class: 'form-control' %>
+              <%= f.label "Rich Text Search" %>
+              <%= f.text_field :notes_body_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
           </div>
         </div>
