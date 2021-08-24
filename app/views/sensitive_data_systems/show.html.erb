@@ -14,13 +14,13 @@
     <span class="ml-4 flex-shrink-0">
       <ul>
         <% if policy(@sensitive_data_system).edit? %>
-          <li class= "btn-action"><%= link_to 'Edit', edit_sensitive_data_system_path(@sensitive_data_system) %></li>
+          <li class= "action-link"><%= link_to 'Edit', edit_sensitive_data_system_path(@sensitive_data_system) %></li>
         <% end %>
         <% if policy(@sensitive_data_system).archive? %>
-          <li class= "btn-action"><%= link_to 'Archive', archive_sensitive_data_system_path(@sensitive_data_system),  method: :post, data: { confirm: 'Are you sure?' } %></li>
+          <li class= "action-link"><%= link_to 'Archive', archive_sensitive_data_system_path(@sensitive_data_system),  method: :post, data: { confirm: 'Are you sure?' } %></li>
         <% end %>
         <% if policy(@sensitive_data_system).audit_log? %>
-          <li class= "btn-action"><%= link_to 'Audit', sensitive_data_system_audit_log_path(@sensitive_data_system) %></li>
+          <li class= "action-link"><%= link_to 'Audit', sensitive_data_system_audit_log_path(@sensitive_data_system) %></li>
         <% end %>
       </ul>
     </span>

@@ -20,17 +20,24 @@
     @apply text-base font-light
 
   a
-    &.action-link
-      @apply text-blue-600
-
     &:hover
-      @apply text-um_yellow
+      @apply underline
 
     &.header-link
       @apply text-white
 
     &.footer-link
       @apply text-blue-900
+
+    &.new-record-link
+      @apply p-2 mb-2 w-28 rounded-md shadow-sm py-1 bg-laitan_blue text-sm text-white text-center hover:bg-um_blue
+
+  li
+    &.action-link
+      @apply mb-1 w-28 rounded-sm shadow-sm py-1 bg-laitan_blue text-sm text-white text-center hover:bg-um_blue
+
+    &.listing-action-link
+      @apply text-laitan_blue text-xs
 
 // this is a good candidate for a partial
 .device--display
@@ -49,23 +56,18 @@
 main
   @apply bg-white m-4 flex-1
 
-.btn-new
-  @apply mt-2 -mr-1 mb-4 w-40 rounded-md shadow-lg py-1 bg-green-500 text-sm text-white text-center ring-1 ring-black ring-opacity-5 focus:outline-none 
-
-  &.btn-blue
-    @apply bg-laitan_blue hover:bg-gray-50
-
-.btn-action
-  @apply mb-1 w-28 rounded-sm shadow-sm py-1 bg-laitan_blue text-sm text-white text-center ring-1 ring-black ring-opacity-5 focus:outline-none hover:bg-um_blue
+.navbtn-link
+    &:focus
+      @apply ring-2 ring-offset-2 ring-indigo-500
 
 .btn-login
-  @apply inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+  @apply inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50
 
-.new-record-btn, .filter-btn
-  @apply p-2 mb-2 w-28 rounded-md shadow-sm py-1 bg-laitan_blue text-sm text-white text-center ring-1 ring-black ring-opacity-5 focus:outline-none hover:bg-um_blue
+.filter-btn
+  @apply p-2 mb-2 w-28 rounded-md shadow-sm py-1 bg-laitan_blue text-sm text-white text-center ring-1 ring-black ring-opacity-5 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-um_blue
 
 .filter-clear-btn
-  @apply inline-flex justify-center py-2 px-4 rounded-md shadow-sm bg-gray-100 text-sm text-black text-center ring-1 ring-black ring-opacity-5 focus:outline-none hover:bg-gray-400
+  @apply inline-flex justify-center py-2 px-4 rounded-md shadow-sm bg-gray-100 text-sm text-black text-center ring-1 ring-black ring-opacity-5 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-gray-400
 
 .fixed_header_container
   @apply shadow overflow-hidden border-b border-gray-200 sm:rounded-lg

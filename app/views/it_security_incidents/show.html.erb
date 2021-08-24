@@ -14,13 +14,13 @@
     <span class="ml-4 flex-shrink-0">
       <ul>
         <% if policy(@it_security_incident).edit? %>
-          <li class= "btn-action"><%= link_to 'Edit', edit_it_security_incident_path(@it_security_incident) %></li>
+          <li class= "action-link"><%= link_to 'Edit', edit_it_security_incident_path(@it_security_incident) %></li>
         <% end %>
         <% if policy(@it_security_incident).archive? %>
-          <li class= "btn-action"><%= link_to 'Archive', archive_it_security_incident_path(@it_security_incident),  method: :post, data: { confirm: 'Are you sure?' } %></li>
+          <li class= "action-link"><%= link_to 'Archive', archive_it_security_incident_path(@it_security_incident),  method: :post, data: { confirm: 'Are you sure?' } %></li>
         <% end %>
         <% if policy(@it_security_incident).audit_log? %>
-          <li class= "btn-action"><%= link_to 'Audit', it_security_incident_audit_log_path(@it_security_incident) %></li>
+          <li class= "action-link"><%= link_to 'Audit', it_security_incident_audit_log_path(@it_security_incident) %></li>
         <% end %>
       </ul>
     </span>

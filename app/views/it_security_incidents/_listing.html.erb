@@ -9,8 +9,8 @@
 
   <div class="my-2 flex justify-end sm:mt-0">
     <span class="ml-4 flex-shrink-0">
-      <div role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
-        <%= link_to 'Export to CSV', it_security_incidents_path(params.merge(format: 'csv', q: params[:q]).permit!), class: "new-record-btn" %>
+      <div class="navbtn-link" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="0">
+        <%= link_to 'Export to CSV', it_security_incidents_path(params.merge(format: 'csv', q: params[:q]).permit!), class: "new-record-link" %>
       </div>
     </span>
   </div>
@@ -34,15 +34,15 @@
             <tr>
               <td>
                 <ul>
-                  <li><%= link_to 'Show', it_security_incident, class: "action-link" %></li>
+                  <li class= "listing-action-link"><%= link_to 'Show', it_security_incident %></li>
                   <% if policy(it_security_incident).edit? %>
-                    <li><%= link_to 'Edit', edit_it_security_incident_path(it_security_incident), class: "action-link" %></li>
+                    <li class= "listing-action-link"><%= link_to 'Edit', edit_it_security_incident_path(it_security_incident) %></li>
                   <% end %>
                   <% if policy(it_security_incident).archive? %>
-                    <li><%= link_to 'Archive', archive_it_security_incident_path(it_security_incident), class: "action-link",  method: :post, data: { confirm: 'Are you sure?' } %></li>
+                    <li class= "listing-action-link"><%= link_to 'Archive', archive_it_security_incident_path(it_security_incident),  method: :post, data: { confirm: 'Are you sure?' } %></li>
                   <% end %>
                   <% if policy(it_security_incident).audit_log? %>
-                    <li><%= link_to 'Audit', it_security_incident_audit_log_path(it_security_incident), class: "action-link" %></li>
+                    <li class= "listing-action-link"><%= link_to 'Audit', it_security_incident_audit_log_path(it_security_incident) %></li>
                   <% end %>
                 </ul>
               </td> 

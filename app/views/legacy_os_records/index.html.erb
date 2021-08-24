@@ -1,7 +1,7 @@
 <h1>Legacy OS Records<span class="text-sm">
   <% if policy(Infotext).edit? %>
     <%= link_to edit_infotext_path(@legacy_os_record_index_text) do %>
-      <i class="far fa-edit text-laitan_blue"></i>
+      <i class="far fa-edit text-laitan_blue hover:text-um_blue"></i>
     <% end %>
   <% end %>
 </span>
@@ -13,8 +13,8 @@
   <div class="pb-1 sm:col-span-5 flex justify-end sm:mt-0">
     <span class="ml-4 flex-shrink-0">
       <% if policy(@legacy_os_records).new? %>
-        <div role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="-1">
-          <%= link_to 'New Legacy OS Record', new_legacy_os_record_path, class: "new-record-btn" %>
+        <div class="navbtn-link" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="0">
+          <%= link_to 'New Legacy OS Record', new_legacy_os_record_path, class: "new-record-link" %>
         </div>
       <% end %>
     </span>
@@ -22,7 +22,7 @@
 </div>  
 
 <div data-controller='toggle' class="filter-area m-2">
-  <button type="button" class="new-record-btn"
+  <button type="button" class="filter-btn"
     data-action='click->toggle#toggle touch->toggle#toggle' >
   Filters
   </button>

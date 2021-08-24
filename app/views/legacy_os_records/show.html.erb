@@ -14,13 +14,13 @@
     <span class="ml-4 flex-shrink-0">
       <ul>
         <% if policy(@legacy_os_record).edit? %>
-          <li class= "btn-action"><%= link_to 'Edit', edit_legacy_os_record_path(@legacy_os_record) %></li>
+          <li class= "action-link"><%= link_to 'Edit', edit_legacy_os_record_path(@legacy_os_record) %></li>
         <% end %>
         <% if policy(@legacy_os_record).archive? %>
-          <li class= "btn-action"><%= link_to 'Archive', archive_legacy_os_record_path(@legacy_os_record),  method: :post, data: { confirm: 'Are you sure?' } %></li>
+          <li class= "action-link"><%= link_to 'Archive', archive_legacy_os_record_path(@legacy_os_record),  method: :post, data: { confirm: 'Are you sure?' } %></li>
         <% end %>
         <% if policy(@legacy_os_record).audit_log? %>
-          <li class= "btn-action"><%= link_to 'Audit', legacy_os_record_audit_log_path(@legacy_os_record) %></li>
+          <li class= "action-link"><%= link_to 'Audit', legacy_os_record_audit_log_path(@legacy_os_record) %></li>
         <% end %>
       </ul>
     </span>
