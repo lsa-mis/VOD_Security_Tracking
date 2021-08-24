@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_24_141304) do
+ActiveRecord::Schema.define(version: 2021_08_24_143539) do
 
   create_table "access_lookups", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "ldap_group"
@@ -176,11 +176,7 @@ ActiveRecord::Schema.define(version: 2021_08_24_141304) do
 
   create_table "it_security_incidents", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.datetime "date"
-    t.text "people_involved", null: false
-    t.text "equipment_involved", null: false
-    t.text "remediation_steps", null: false
     t.integer "estimated_financial_cost"
-    t.text "notes"
     t.bigint "it_security_incident_status_id"
     t.bigint "data_type_id", null: false
     t.datetime "created_at", precision: 6, null: false

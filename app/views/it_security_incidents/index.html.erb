@@ -75,10 +75,6 @@
               </div>
             </div>
             <div>
-              <%= f.label :people_involved %>
-              <%= f.text_field :people_involved_cont, placeholder: "Contains", class: 'form-control' %>
-            </div>
-            <div>
               <%= f.label :data_type_id %>
               <%= f.collection_select :data_type_id_eq, @data_type, :id, :name, include_blank: "Select ...", class: 'form-control' %>
             </div>
@@ -91,14 +87,6 @@
 
         <div class="border">
           <div class="mx-2 mb-1">
-            <div>
-              <%= f.label :equipment_involved %>
-              <%= f.text_field :equipment_involved_cont, placeholder: "Contains", class: 'form-control' %>
-            </div>
-            <div>
-              <%= f.label :remediation_steps %>
-              <%= f.text_field :remediation_steps_cont, placeholder: "Contains", class: 'form-control' %>
-            </div>
             <div class="flex items-end">
               <div class="flex-1 w-1/2">
                 <%= f.label :estimated_financial_cost %>
@@ -109,8 +97,8 @@
               </div>
             </div>
             <div>
-              <%= f.label :notes %>
-              <%= f.text_field :notes_cont, placeholder: "Contains", class: 'form-control' %>
+              <%= f.label "Rich Text Search" %>
+              <%= f.text_field :notes_body_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
           </div>
         </div>

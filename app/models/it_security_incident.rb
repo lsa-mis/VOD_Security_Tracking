@@ -4,11 +4,7 @@
 #
 #  id                             :bigint           not null, primary key
 #  date                           :datetime
-#  people_involved                :text(65535)      not null
-#  equipment_involved             :text(65535)      not null
-#  remediation_steps              :text(65535)      not null
 #  estimated_financial_cost       :integer
-#  notes                          :text(65535)
 #  it_security_incident_status_id :bigint
 #  data_type_id                   :bigint           not null
 #  created_at                     :datetime         not null
@@ -21,6 +17,14 @@ class ItSecurityIncident < ApplicationRecord
   belongs_to :it_security_incident_status
   belongs_to :data_type
   has_many :tdx_tickets, as: :records_to_tdx
+  has_rich_text :people_involved
+  has_one :people_involved, class_name: 'ActionText::RichText', as: :record
+  has_rich_text :equipment_involved
+  has_one :equipment_involved, class_name: 'ActionText::RichText', as: :record
+  has_rich_text :remediation_steps
+  has_one :remediation_steps, class_name: 'ActionText::RichText', as: :record
+  has_rich_text :notes
+  has_one :notes, class_name: 'ActionText::RichText', as: :record
   has_many_attached :attachments
   before_save :if_not_complete
 
