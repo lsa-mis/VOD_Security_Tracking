@@ -166,10 +166,6 @@
                   } %>
               </div>
             </div>
-            <div>
-              <%= f.label :remediation %>
-              <%= f.text_field :remediation_body_cont, placeholder: "Contains", class: 'form-control' %>
-            </div>
             <div class="flex items-end">
               <div class="flex-1 w-1/2">
                 <%= f.label :exception_approval_date %>
@@ -192,15 +188,11 @@
               <%= f.select :review_contact_eq, @review_contact, include_blank: "Select ...", class: 'form-control' %>
             </div>
             <div>
-              <%= f.label :justification %>
-              <%= f.text_field :justification_body_cont, placeholder: "Contains", class: 'form-control' %>
-            </div>
-            <div>
               <%= f.label :local_it_support_group, "Local IT support group" %>
               <%= f.select :local_it_support_group_eq, @local_it_support_group, include_blank: "Select ...", class: 'form-control' %>
             </div>
             <div>
-              <%= f.label :notes %>
+              <%= f.label "Rich Text Search" %>
               <%= f.text_field :notes_body_cont, placeholder: "Contains", class: 'form-control' %>
             </div>
           </div>

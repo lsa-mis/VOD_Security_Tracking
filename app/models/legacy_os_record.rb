@@ -32,13 +32,10 @@ class LegacyOsRecord < ApplicationRecord
   has_many :tdx_tickets, as: :records_to_tdx
   has_rich_text :remediation
   has_one :remediation, class_name: 'ActionText::RichText', as: :record
-  # has_one :remediation, class_name: 'ActionText::RichText', as: :name
   has_rich_text :justification
   has_one :justification, class_name: 'ActionText::RichText', as: :record
   has_rich_text :notes
   has_one :notes, class_name: 'ActionText::RichText', as: :record
-  # has_one :action_text_rich_text, class_name: 'ActionText::RichText', as: :record
-
 
   accepts_nested_attributes_for :device
 
