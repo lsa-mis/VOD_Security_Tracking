@@ -21,9 +21,9 @@ class ItSecurityIncidentsController < InheritedResources::Base
     @q.sorts = ["created_at desc"] if @q.sorts.empty?
 
     if session[:items].present?
-      @pagy, @it_security_incidents = pagy(@q.result, items: session[:items])
+      @pagy, @it_security_incidents = pagy(@q.result.distinct, items: session[:items])
     else
-      @pagy, @it_security_incidents = pagy(@q.result)
+      @pagy, @it_security_incidents = pagy(@q.result.distinct)
     end
 
     @data_type = DataType.where(id: ItSecurityIncident.pluck(:data_type_id).uniq).order(:name)

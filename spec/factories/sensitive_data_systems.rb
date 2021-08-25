@@ -9,11 +9,10 @@
 #  additional_dept_contact             :string(255)
 #  additional_dept_contact_phone       :string(255)
 #  support_poc                         :string(255)
-#  expected_duration_of_data_retention :text(65535)
+#  expected_duration_of_data_retention :string(255)
 #  agreements_related_to_data_types    :string(255)
 #  review_date                         :datetime
 #  review_contact                      :string(255)
-#  notes                               :text(65535)
 #  storage_location_id                 :bigint
 #  data_type_id                        :bigint
 #  device_id                           :bigint

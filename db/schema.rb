@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_17_173118) do
+ActiveRecord::Schema.define(version: 2021_08_24_151817) do
 
   create_table "access_lookups", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "ldap_group"
@@ -142,16 +142,11 @@ ActiveRecord::Schema.define(version: 2021_08_17_173118) do
 
   create_table "dpa_exceptions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.datetime "review_date_exception_first_approval_date"
-    t.text "third_party_product_service", null: false
+    t.string "third_party_product_service", null: false
     t.string "point_of_contact"
-    t.text "review_findings"
-    t.text "review_summary"
-    t.text "lsa_security_recommendation"
-    t.text "lsa_security_determination"
     t.string "lsa_security_approval"
     t.string "lsa_technology_services_approval"
     t.datetime "exception_approval_date_exception_renewal_date_due"
-    t.text "notes"
     t.string "sla_agreement"
     t.bigint "data_type_id"
     t.datetime "created_at", precision: 6, null: false
@@ -181,11 +176,7 @@ ActiveRecord::Schema.define(version: 2021_08_17_173118) do
 
   create_table "it_security_incidents", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.datetime "date"
-    t.text "people_involved", null: false
-    t.text "equipment_involved", null: false
-    t.text "remediation_steps", null: false
     t.integer "estimated_financial_cost"
-    t.text "notes"
     t.bigint "it_security_incident_status_id"
     t.bigint "data_type_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -208,13 +199,10 @@ ActiveRecord::Schema.define(version: 2021_08_17_173118) do
     t.string "unique_app"
     t.string "unique_hardware"
     t.datetime "unique_date"
-    t.text "remediation"
     t.datetime "exception_approval_date"
     t.datetime "review_date"
     t.string "review_contact"
-    t.text "justification"
     t.string "local_it_support_group"
-    t.text "notes"
     t.bigint "data_type_id"
     t.bigint "device_id"
     t.datetime "created_at", precision: 6, null: false
@@ -234,11 +222,10 @@ ActiveRecord::Schema.define(version: 2021_08_17_173118) do
     t.string "additional_dept_contact"
     t.string "additional_dept_contact_phone"
     t.string "support_poc"
-    t.text "expected_duration_of_data_retention"
+    t.string "expected_duration_of_data_retention"
     t.string "agreements_related_to_data_types"
     t.datetime "review_date"
     t.string "review_contact"
-    t.text "notes"
     t.bigint "storage_location_id"
     t.bigint "data_type_id"
     t.bigint "device_id"

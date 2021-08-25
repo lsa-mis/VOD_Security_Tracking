@@ -13,13 +13,10 @@
 #  unique_app                    :string(255)
 #  unique_hardware               :string(255)
 #  unique_date                   :datetime
-#  remediation                   :text(65535)
 #  exception_approval_date       :datetime
 #  review_date                   :datetime
 #  review_contact                :string(255)
-#  justification                 :text(65535)
 #  local_it_support_group        :string(255)
-#  notes                         :text(65535)
 #  data_type_id                  :bigint
 #  device_id                     :bigint
 #  created_at                    :datetime         not null

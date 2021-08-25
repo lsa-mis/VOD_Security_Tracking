@@ -36,9 +36,9 @@ class DpaExceptionsController < InheritedResources::Base
     @q.sorts = ["created_at desc"] if @q.sorts.empty?
 
     if session[:items].present?
-      @pagy, @dpa_exceptions = pagy(@q.result, items: session[:items])
+      @pagy, @dpa_exceptions = pagy(@q.result.distinct, items: session[:items])
     else
-      @pagy, @dpa_exceptions = pagy(@q.result)
+      @pagy, @dpa_exceptions = pagy(@q.result.distinct)
     end
 
     @dpa_status = DpaExceptionStatus.where(id: DpaException.pluck(:dpa_exception_status_id).uniq).order(:name)

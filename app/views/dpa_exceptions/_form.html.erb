@@ -44,7 +44,7 @@
 
       <div class="field">
         <%= form.label :third_party_product_service, class: "required"  %>
-        <%= form.text_area :third_party_product_service, required: true %>
+        <%= form.text_field :third_party_product_service, required: true %>
         <p class="help-text">Name of the tool being reviewed</p>
       </div>
 
@@ -62,25 +62,25 @@
 
       <div class="field">
         <%= form.label :review_findings %>
-        <%= form.text_area :review_findings %>
+        <%= form.rich_text_area :review_findings %>
         <p class="help-text">List of all security-related facts found while performing the review</p>
       </div>
 
       <div class="field">
         <%= form.label :review_summary %>
-        <%= form.text_area :review_summary %>
+        <%= form.rich_text_area :review_summary %>
         <p class="help-text"></p>
       </div>
 
       <div class="field">
         <%= form.label :lsa_security_recommendation, "LSA security recommendation" %>
-        <%= form.text_area :lsa_security_recommendation %>
+        <%= form.rich_text_area :lsa_security_recommendation %>
         <p class="help-text"></p>
       </div>
 
       <div class="field">
         <%= form.label :lsa_security_determination, "LSA security determination" %>
-        <%= form.text_area :lsa_security_determination %>
+        <%= form.rich_text_area :lsa_security_determination %>
         <p class="help-text"></p>
       </div>
 
@@ -130,7 +130,7 @@
 
       <div class="field">
         <%= form.label :notes %>
-        <%= form.text_area :notes %>
+        <%= form.rich_text_area :notes %>
         <p class="help-text"></p>
       </div>
 

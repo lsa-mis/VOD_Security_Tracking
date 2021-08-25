@@ -34,16 +34,17 @@ class LegacyOsRecordsController < InheritedResources::Base
       @q = legacy_os_records_all.ransack(params[:q].try(:merge, m: params[:q][:m]))
     end
     @q.sorts = ["created_at desc"] if @q.sorts.empty?
+
     if session[:items].present?
-      @pagy, @legacy_os_records = pagy(@q.result.includes(:device), items: session[:items])
+      @pagy, @legacy_os_records = pagy(@q.result.includes(:device).distinct, items: session[:items])
     else
-      @pagy, @legacy_os_records = pagy(@q.result.includes(:device))
+      @pagy, @legacy_os_records = pagy(@q.result.includes(:device).distinct)
     end
-    @owner_username = @legacy_os_records.pluck(:owner_username).uniq.compact.sort_by(&:downcase)
-    @additional_dept_contact = @legacy_os_records.pluck(:additional_dept_contact).uniq.compact_blank.sort_by(&:downcase)
-    @legacy_os = @legacy_os_records.pluck(:legacy_os).uniq.compact_blank.sort_by(&:downcase) 
-    @review_contact = @legacy_os_records.pluck(:review_contact).uniq.compact_blank.sort_by(&:downcase)
-    @local_it_support_group = @legacy_os_records.pluck(:local_it_support_group).uniq.compact_blank.sort_by(&:downcase)
+    @owner_username = legacy_os_records_all.pluck(:owner_username).uniq.compact.sort_by(&:downcase)
+    @additional_dept_contact = legacy_os_records_all.pluck(:additional_dept_contact).uniq.compact_blank.sort_by(&:downcase)
+    @legacy_os = legacy_os_records_all.pluck(:legacy_os).uniq.compact_blank.sort_by(&:downcase) 
+    @review_contact = legacy_os_records_all.pluck(:review_contact).uniq.compact_blank.sort_by(&:downcase)
+    @local_it_support_group = legacy_os_records_all.pluck(:local_it_support_group).uniq.compact_blank.sort_by(&:downcase)
     @data_type = DataType.where(id: LegacyOsRecord.pluck(:data_type_id).uniq).order(:name)
     
     authorize @legacy_os_records
