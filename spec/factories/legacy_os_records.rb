@@ -27,25 +27,25 @@
 #
 FactoryBot.define do
   factory :legacy_os_record do
-    owner_username { "MyString" }
-    owner_full_name { "MyString" }
-    dept { "MyString" }
-    phone { "MyString" }
-    additional_dept_contact { "MyString" }
-    additional_dept_contact_phone { "MyString" }
-    support_poc { "MyString" }
-    legacy_os { "MyString" }
-    unique_app { "MyString" }
-    unique_hardware { "MyString" }
-    unique_date { "2021-03-19 16:50:16" }
-    remediation { "MyString" }
-    exception_approval_date { "2021-03-19 16:50:16" }
-    review_date { "2021-03-19 16:50:16" }
-    review_contact { "MyString" }
-    justification { "MyString" }
-    local_it_support_group { "MyString" }
-    notes { "MyText" }
+    owner_username { Faker::String.random(length: 6..8) }
+    owner_full_name { Faker::String.random(length: 20..30) }
+    phone { Faker::PhoneNumber.phone_number }
+    additional_dept_contact { Faker::String.random(length: 20..120) }
+    additional_dept_contact_phone { Faker::PhoneNumber.phone_number }
+    support_poc { Faker::String.random(length: 20..120) }
+    legacy_os { Faker::String.random(length: 20..120) }
+    unique_app { Faker::String.random(length: 20..120) }
+    unique_hardware { Faker::String.random(length: 20..120) }
+    unique_date { Faker::Date.in_date_period }
+    remediation { Faker::String.random(length: 20..120)}
+    exception_approval_date { Faker::Date.in_date_period }
+    review_date { Faker::Date.in_date_period }
+    review_contact { Faker::String.random(length: 20..120)}
+    justification { Faker::String.random(length: 20..120) }
+    local_it_support_group { Faker::String.random(length: 10..20) }
+    notes { Faker::String.random(length: 20..120) }
     data_type 
-    device 
+    device
+    department
   end
 end

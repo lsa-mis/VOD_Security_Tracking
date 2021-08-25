@@ -10,7 +10,7 @@
 #
 FactoryBot.define do
   factory :data_classification_level do
-    name { "MyString" }
-    description { "MyText" }
+    name { Faker::String.random(length: 6..12) }
+    description { Faker::String.random(length: 6..12) }
   end
 end
