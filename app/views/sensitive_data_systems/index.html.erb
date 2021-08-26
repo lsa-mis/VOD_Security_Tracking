@@ -1,7 +1,8 @@
 <h1>Sensitive Data Systems<span class="text-sm">
   <% if policy(Infotext).edit? %>
     <%= link_to edit_infotext_path(@sensitive_data_system_index_text) do %>
-      <i class="far fa-edit text-laitan_blue hover:text-um_blue"></i>
+      <i class="far fa-edit text-laitan_blue hover:text-um_blue" aria-hidden="true" title="Edit infotext area"></i>
+        <span class="sr-only">Edit infotext area</span>
     <% end %>
   <% end %>
 </span>
@@ -27,7 +28,7 @@
   Filters
   </button>
   
-  <div data-toggle-target='toggleable' class="filter-selections bg-yellow-50 shadow p-2 m-4 hidden">
+  <div data-toggle-target='toggleable' class="filter-selections bg-gray-50 shadow p-2 m-4 hidden">
     <%= search_form_for @q, class: "filter-form",
       data:{ controller: "filters" } do |f| %>
       <div class="grid grid-cols-2">

@@ -4,7 +4,8 @@
   Device detail instructions.
   <% if policy(Infotext).edit? %>
     <%= link_to edit_infotext_path(@device_show_text) do %>
-      <i class="far fa-edit text-laitan_blue hover:text-um_blue"></i>
+      <i class="far fa-edit text-laitan_blue hover:text-um_blue" aria-hidden="true" title="Edit infotext area"></i>
+        <span class="sr-only">Edit infotext area</span>
     <% end %>
   <% end %>
 </p>
