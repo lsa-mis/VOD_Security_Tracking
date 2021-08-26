@@ -111,6 +111,8 @@ GEM
     childprocess (3.0.0)
     coderay (1.1.3)
     concurrent-ruby (1.1.9)
+    crack (0.4.5)
+      rexml
     crass (1.0.6)
     declarative (0.0.20)
     devise (4.8.0)
@@ -132,6 +134,7 @@ GEM
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
+    fakeldap (0.1.1)
     faker (2.18.0)
       i18n (>= 1.6, < 2)
     faraday (1.5.1)
@@ -194,6 +197,7 @@ GEM
     has_scope (0.8.0)
       actionpack (>= 5.2)
       activesupport (>= 5.2)
+    hashdiff (1.0.1)
     hotwire-rails (0.1.3)
       rails (>= 6.0.0)
       stimulus-rails
@@ -334,6 +338,7 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.10.2)
+    ruby-ldapserver (0.5.3)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     sass-rails (6.0.0)
@@ -380,6 +385,7 @@ GEM
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     uber (0.1.0)
+    vcr (6.0.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.1.0)
@@ -387,6 +393,10 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
+    webmock (3.14.0)
+      addressable (>= 2.8.0)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
     webpacker (5.4.0)
       activesupport (>= 5.2)
       rack-proxy (>= 0.6.1)
@@ -419,6 +429,7 @@ DEPENDENCIES
   devise_ldap_authenticatable
   duo_web (~> 1.0)
   factory_bot_rails
+  fakeldap (~> 0.1.1)
   faker
   google-cloud-storage
   hotwire-rails
@@ -434,6 +445,7 @@ DEPENDENCIES
   ransack (~> 2.4, >= 2.4.2)
   redis (~> 4.0)
   rspec-rails (~> 5.0.0)
+  ruby-ldapserver (~> 0.5.3)
   ruby2_keywords
   sass-rails (>= 6)
   sd_notify (~> 0.1.1)
@@ -441,7 +453,9 @@ DEPENDENCIES
   simple_form (~> 5.1)
   spring
   tzinfo-data
+  vcr (~> 6.0)
   web-console (>= 4.1.0)
+  webmock (~> 3.14)
   webpacker (~> 5.0)
 
 RUBY VERSION

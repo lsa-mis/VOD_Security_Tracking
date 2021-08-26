@@ -51,5 +51,9 @@ end
 group :test do
   gem "capybara", ">= 3.26"
   gem "selenium-webdriver"
+  gem 'fakeldap', '~> 0.1.1'
+  gem 'ruby-ldapserver', '~> 0.5.3'
+  gem 'webmock', '~> 3.14'
+  gem 'vcr', '~> 6.0'
 end
 

@@ -31,13 +31,19 @@ class Users::SessionsController < Devise::SessionsController
    private
 
     def after_login
+      Rails.logger.debug "***************************** after_login"
+
       if user_signed_in?
+        Rails.logger.debug "***************************** Devise::LDAP::Adapter.get_ldap_param #{Devise::LDAP::Adapter.get_ldap_param(current_user.username,'memberOf')}"
+
         membership = []
         groups = Devise::LDAP::Adapter.get_ldap_param(current_user.username,'memberOf')
         groups.each do |group|
           g = group.split(',')
           membership.append(g.first.remove("CN="))
         end
+        Rails.logger.debug "***************************** membership #{membership}"
+
         session[:user_memberships] = membership
       end
     end
