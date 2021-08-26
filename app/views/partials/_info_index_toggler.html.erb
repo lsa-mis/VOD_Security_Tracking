@@ -4,14 +4,16 @@
     <br>
     <button type="button"
       data-action="click->infotoggle#toggle touch->infotoggle#toggle" >
-      <i class="text-laitan_blue hover:text-um_blue far fa-caret-square-down"></i>
+      <i class="text-laitan_blue hover:text-um_blue far fa-caret-square-down" aria-hidden="true" title="Expand infotext area"></i>
+      <span class="sr-only">Expand infotext area</span>
     </button>
   </div>
   <div data-infotoggle-target="info_text_area" class="device-error--hide">
     <%= infotext_resource.content %>
     <button type="button"
       data-action="click->infotoggle#toggle2 touch->infotoggle#toggle2" >
-      <i class="text-laitan_blue hover:text-um_blue far fa-caret-square-up"></i>
+      <i class="text-laitan_blue hover:text-um_blue far fa-caret-square-up" aria-hidden="true" title="Collapse infotext area"></i>
+      <span class="sr-only">Collapse infotext area</span>
     </button>
   </div>
 </div>
