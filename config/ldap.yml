@@ -45,10 +45,9 @@ test:
   port: 3389
   attribute: cn
   base: ou=people,dc=test,dc=com
-  # admin_user: cn=admin,dc=test,dc=com
-  admin_user: admin_user
+  admin_user: cn=admin,dc=test,dc=com
   admin_password: admin_password
-  ssl: false
+  ssl: simple_tls
   # <<: *AUTHORIZATIONS
 
 production:
