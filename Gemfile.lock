@@ -134,7 +134,6 @@ GEM
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
-    fakeldap (0.1.1)
     faker (2.18.0)
       i18n (>= 1.6, < 2)
     faraday (1.5.1)
@@ -338,7 +337,6 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.10.2)
-    ruby-ldapserver (0.5.3)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     sass-rails (6.0.0)
@@ -429,7 +427,6 @@ DEPENDENCIES
   devise_ldap_authenticatable
   duo_web (~> 1.0)
   factory_bot_rails
-  fakeldap (~> 0.1.1)
   faker
   google-cloud-storage
   hotwire-rails
@@ -445,7 +442,6 @@ DEPENDENCIES
   ransack (~> 2.4, >= 2.4.2)
   redis (~> 4.0)
   rspec-rails (~> 5.0.0)
-  ruby-ldapserver (~> 0.5.3)
   ruby2_keywords
   sass-rails (>= 6)
   sd_notify (~> 0.1.1)
