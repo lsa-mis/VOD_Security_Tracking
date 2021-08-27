@@ -1,6 +1,4 @@
-shared_context "before and after methods for controller tests" do
-  before do
-
+shared_context "shared functions" do
     def set_session(key, value)
       Warden.on_next_request do |proxy|
         proxy.raw_session[key] = value
@@ -20,27 +18,5 @@ shared_context "before and after methods for controller tests" do
       script = "document.querySelector('##{id}').flatpickr().setDate('#{with}');"
       page.execute_script(script)
     end
-
-    load "#{Rails.root}/spec/system/test_seeds.rb" 
-
-    allow(Devise::LDAP::Adapter).to receive(:get_ldap_param).with(any_args,"mail").and_return(["test@test.com"])
-    devise_ldap = double(Devise::LDAP::Adapter)
-    allow(devise_ldap).to receive(:get_ldap_param).with(any_args,"memberOf").and_return(["lsa-vod-devs"])
-    # skip duo
-    DpaExceptionsController.new.class.skip_before_action :verify_duo_authentication
-
-    @me = FactoryBot.create(:user)
-    login_as(@me)
-    set_session(:user_memberships, devise_ldap.get_ldap_param(@me.username,'memberOf'))
-
-  end
-
-  after do
-    # Log out is not working
-    # visit root_path
-    # click_link 'Log Out', visible: false
-    Capybara::Session#reset!
-  end
-
 end
   
