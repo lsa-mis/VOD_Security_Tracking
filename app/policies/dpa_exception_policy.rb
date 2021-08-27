@@ -8,9 +8,6 @@ class DpaExceptionPolicy < ApplicationPolicy
 
     def index?
       get_ldap_groups('dpa_exceptions')
-      Rails.logger.debug "***************************** in policy user.membership #{user.membership} "
-      Rails.logger.debug "***************************** in policy @ldap_groups #{@ldap_groups} "
-
       (user.membership & @ldap_groups).any?
     end
   
@@ -21,9 +18,6 @@ class DpaExceptionPolicy < ApplicationPolicy
 
     def new?
       get_ldap_groups('dpa_exceptions', 'newedit')
-      Rails.logger.debug "***************************** in policy user.membership #{user.membership} "
-      Rails.logger.debug "***************************** in policy @ldap_groups #{@ldap_groups} "
-
       (user.membership & @ldap_groups).any?
     end
 

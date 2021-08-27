@@ -38,14 +38,9 @@ class ApplicationController < ActionController::Base
   private
 
     def set_membership
-      Rails.logger.debug "***************************** set_membership after login"
-
       if user_signed_in?
-        Rails.logger.debug "***************************** user_signed_in? "
-
         current_user.membership = session[:user_memberships]
         if current_user.membership.present?
-          Rails.logger.debug "***************************** current_user.membership.present? "
           depts_groups = Department.all.pluck(:active_dir_group).compact_blank
           current_user.dept_membership = current_user.membership & depts_groups
           admins_groups = AccessLookup.where(vod_table: 'admin_interface').pluck(:ldap_group)

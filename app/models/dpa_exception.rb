@@ -148,7 +148,6 @@ class DpaException < ApplicationRecord
           end
         end
         csv << row
-        logger.debug "************** csv #{csv}"
       end
     end
   end

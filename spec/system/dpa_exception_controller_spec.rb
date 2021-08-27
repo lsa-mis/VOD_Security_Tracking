@@ -8,8 +8,6 @@ RSpec.describe "DpaException Controller", type: :system do
 
   scenario 'create record with requered fields' do
 
-    Rails.logger.debug "****** in test @me.membership #{@me.membership}"
-
     visit new_dpa_exception_path
     puts @ldap_groups
     # fill_in_date_with_js('Review date exception first approval date', with: '2021-09-20')
