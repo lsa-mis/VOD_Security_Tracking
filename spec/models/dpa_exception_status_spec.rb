@@ -11,5 +11,18 @@
 require 'rails_helper'
 
 RSpec.describe DpaExceptionStatus, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  it "should have a unique name" do
+    DpaExceptionStatus.create!(name: 'Open')
+    dpa_exception_status = DpaExceptionStatus.new(name: 'Open')
+    expect(dpa_exception_status).to_not be_valid
+    dpa_exception_status.errors[:name].include?("has already be taken")
+  end
+
+  it "is not valid without name" do
+    expect(DpaExceptionStatus.new(description: "description")).to_not be_valid
+  end
+
 end
+
+#  working test

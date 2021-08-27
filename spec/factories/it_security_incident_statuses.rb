@@ -10,7 +10,7 @@
 #
 FactoryBot.define do
   factory :it_security_incident_status do
-    name { "MyString" }
-    description { "MyString" }
+    name { Faker::String.random(length: 6..12) }
+    description { Faker::String.random(length: 6..12) }
   end
 end

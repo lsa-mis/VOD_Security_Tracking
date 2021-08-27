@@ -21,20 +21,21 @@
 #
 FactoryBot.define do
   factory :dpa_exception do
-    review_date { "2021-03-19 16:47:17" }
-    third_party_product_service { "MyText" }
-    department_id { "MyString" }
-    point_of_contact { "MyString" }
-    review_findings { "MyText" }
-    review_summary { "MyText" }
-    lsa_security_recommendation { "MyText" }
-    lsa_security_determination { "MyText" }
-    lsa_security_approval { "MyString" }
-    lsa_technology_services_approval { "MyString" }
-    exception_approval_date { "2021-03-19 16:47:17" }
-    notes { "MyString" }
-    tdx_ticket { "MyString" }
-    sla_agreement { "MyString" }
-    data_type { nil }
+    dpa_exception_status
+    review_date_exception_first_approval_date { Faker::Date.in_date_period }
+    third_party_product_service { Faker::String.random(length: 20..120) }
+    department
+    point_of_contact { Faker::String.random(length: 20..120) }
+    review_findings { Faker::String.random(length: 20..120) }
+    review_summary { Faker::String.random(length: 20..120) }
+    lsa_security_recommendation { Faker::String.random(length: 20..120) }
+    lsa_security_determination { Faker::String.random(length: 20..120) }
+    lsa_security_approval { Faker::String.random(length: 20..120) }
+    lsa_technology_services_approval { Faker::String.random(length: 20..120) }
+    exception_approval_date_exception_renewal_date_due { Faker::Date.in_date_period }
+    review_date_exception_review_date { Faker::Date.in_date_period }
+    notes { Faker::String.random(length: 60..120) }
+    sla_agreement { Faker::String.random(length: 60..120) }
+    data_type
   end
 end

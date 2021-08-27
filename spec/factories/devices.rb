@@ -17,10 +17,7 @@
 #
 FactoryBot.define do
   factory :device do
-    serial { "MyString" }
-    hostname { "MyString" }
-    mac { "MyString" }
-    building { "MyString" }
-    room { "MyString" }
+    serial { Faker::String.random(length: 6..12) }
+    hostname { Faker::String.random(length: 6..12) }
   end
 end

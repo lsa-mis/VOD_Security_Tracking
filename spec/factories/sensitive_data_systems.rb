@@ -25,20 +25,21 @@
 #
 FactoryBot.define do
   factory :sensitive_data_system do
-    owner_username { "MyString" }
-    owner_full_name { "MyString" }
-    dept { "MyString" }
-    phone { "MyString" }
-    additional_dept_contact { "MyString" }
-    additional_dept_contact_phone { "MyString" }
-    support_poc { "MyString" }
-    expected_duration_of_data_retention { "MyText" }
-    agreements_related_to_data_types { "MyString" }
-    review_date { "2021-03-19 17:07:34" }
-    review_contact { "MyString" }
-    notes { "MyString" }
-    storage_location { nil }
-    data_type { nil }
-    device { nil }
+    name { Faker::String.random(length: 10..20) }
+    owner_username { Faker::String.random(length: 6..8)}
+    owner_full_name { Faker::String.random(length: 20..30)}
+    phone { Faker::PhoneNumber.phone_number }
+    additional_dept_contact { Faker::String.random(length: 20..120) }
+    additional_dept_contact_phone { Faker::PhoneNumber.phone_number }
+    support_poc { Faker::String.random(length: 20..120) }
+    expected_duration_of_data_retention { Faker::String.random(length: 20..120) }
+    agreements_related_to_data_types { Faker::String.random(length: 20..120)}
+    review_date { Faker::Date.in_date_period }
+    review_contact { Faker::String.random(length: 6..12) }
+    notes { Faker::String.random(length: 20..120) }
+    storage_location
+    data_type
+    device
+    department
   end
 end

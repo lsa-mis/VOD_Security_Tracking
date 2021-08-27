@@ -10,7 +10,7 @@
 #
 FactoryBot.define do
   factory :dpa_exception_status do
-    name { "MyString" }
-    description { "MyString" }
+    name { Faker::String.random(length: 6..12)}
+    description { "" }
   end
 end

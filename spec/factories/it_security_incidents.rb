@@ -15,13 +15,14 @@
 #
 FactoryBot.define do
   factory :it_security_incident do
-    date { "2021-03-19 17:42:48" }
-    people_involved { "MyText" }
-    equipment_involved { "MyText" }
-    remediation_steps { "MyText" }
-    estimated_financial_cost { 1 }
-    notes { "MyText" }
-    it_security_incident_status { nil }
-    data_type { nil }
+    title { Faker::String.random(length: 10..20) }
+    date { Faker::Date.in_date_period }
+    people_involved { Faker::String.random(length: 20..120) }
+    equipment_involved { Faker::String.random(length: 20..120) }
+    remediation_steps { Faker::String.random(length: 20..120) }
+    estimated_financial_cost { Faker::Number.decimal(l_digits: 2) }
+    notes { Faker::String.random(length: 20..120) }
+    it_security_incident_status
+    data_type
   end
 end
