@@ -44,6 +44,8 @@ RSpec.describe ItSecurityIncident, type: :model do
 
   it "is complete with all attributes" do
     expect(it_security_incident.not_completed?).to be(false)
+    it_security_incident.update(notes: "")
+    expect(it_security_incident.not_completed?).to be(false)
   end
 
   it "is valid with all attributes" do

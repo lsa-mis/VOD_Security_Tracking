@@ -89,6 +89,12 @@ RSpec.describe LegacyOsRecord, type: :model do
 
   it "is complete with all attributes" do
     expect(legacy_os_record.not_completed?).to be(false)
+    legacy_os_record.update(notes: "")
+    expect(legacy_os_record.not_completed?).to be(false)
+    legacy_os_record.update(unique_app: "")
+    expect(legacy_os_record.not_completed?).to be(false)
+    legacy_os_record.update(unique_app: "unique_app", unique_hardware: "")
+    expect(legacy_os_record.not_completed?).to be(false)
   end
 
   it "is valid with all attributes" do

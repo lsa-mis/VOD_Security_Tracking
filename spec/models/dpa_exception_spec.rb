@@ -55,6 +55,10 @@ RSpec.describe DpaException, type: :model do
   it "is complete with all attributes" do
     dpa_exception = FactoryBot.create(:dpa_exception)
     expect(dpa_exception.not_completed?).to be(false)
+    dpa_exception.update(notes: "")
+    expect(dpa_exception.not_completed?).to be(false)
+    dpa_exception.update(sla_agreement: "")
+    expect(dpa_exception.not_completed?).to be(false)
     dpa_exception.destroy
   end
 

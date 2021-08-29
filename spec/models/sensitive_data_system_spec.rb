@@ -53,9 +53,11 @@ RSpec.describe SensitiveDataSystem, type: :model do
     expect(sensitive_data_system.not_completed?).to be(true)
   end
 
-  # not wworking yet
   it "is complete with all attributes" do
     expect(sensitive_data_system.not_completed?).to be(false)
+    sensitive_data_system.update(notes: "")
+    expect(sensitive_data_system.not_completed?).to be(false)
+
   end
 end
 
