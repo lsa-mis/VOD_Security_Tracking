@@ -93,10 +93,12 @@ class ItSecurityIncident < ApplicationRecord
     header = %w{link incomplete title date people_involved equipment_involved remediation_steps
               estimated_financial_cost notes it_security_incident_status data_type}
     header.map! { |e| e.titleize.upcase }
+    key_id = 'id'
     CSV.generate(headers: true) do |csv|
       csv << header
       all.each do |a|
         row = []
+        record_id = a.attributes.values_at(key_id)[0]
         fields.each do |key|
           if key == 'id'
             row << "http://localhost:3000/it_security_incidents/" + a.attributes.values_at(key)[0].to_s
@@ -104,6 +106,9 @@ class ItSecurityIncident < ApplicationRecord
             row << DataType.find(a.attributes.values_at(key)[0]).display_name
           elsif key == 'it_security_incident_status_id'
             row << ItSecurityIncidentStatus.find(a.attributes.values_at(key)[0]).name
+          elsif key == 'people_involved' || key == 'equipment_involved' || key == 'remediation_steps' || key == 'notes'
+            value = ItSecurityIncident.find(record_id).review_findings.body.to_plain_text
+            row << value
           else
             row << a.attributes.values_at(key)[0]
           end

@@ -106,10 +106,12 @@ class SensitiveDataSystem < ApplicationRecord
                 additional_dept_contact_phone support_poc expected_duration_of_data_retention agreements_related_to_data_types
                 review_date review_contact notes storage_location data_type device}
     header.map! { |e| e.titleize.upcase }
+    key_id = 'id'
     CSV.generate(headers: true) do |csv|
       csv << header
       all.each do |a|
         row = []
+        record_id = a.attributes.values_at(key_id)[0]
         fields.each do |key|
           if key == 'id'
             row << "http://localhost:3000/sensitive_data_systems/" + a.attributes.values_at(key)[0].to_s
@@ -121,6 +123,9 @@ class SensitiveDataSystem < ApplicationRecord
             row << Department.find(a.attributes.values_at(key)[0]).name
           elsif key == 'device_id' && a.device_id.present?
             row << Device.find(a.attributes.values_at(key)[0]).display_name
+          elsif key == 'notes'
+            value = DpaException.find(record_id).review_findings.body.to_plain_text
+            row << value
           else
             row << a.attributes.values_at(key)[0]
           end
