@@ -1,5 +1,5 @@
 <% link = pagy_link_proc(pagy) -%>
-<nav aria-label="pager" class="pagy_nav pagination" role="navigation">
+<nav aria-label="pager" class="pagy_nav pagination mb-6" role="navigation">
   <% if pagy.prev                -%>  <span class="page prev"><%== link.call(pagy.prev, pagy_t('pagy.nav.prev'), 'aria-label="previous"') %></span>
   <% else                        -%>  <span class="page prev disabled"><%== pagy_t('pagy.nav.prev') %></span>
   <% end                         -%>
