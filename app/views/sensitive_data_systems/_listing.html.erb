@@ -57,19 +57,18 @@
     </div>
   </div>
   <%= render partial: "partials/pagination", locals: { pagy: @pagy } %>
-</div>
-
-<div class="grid grid-cols-3 gap-4 place-content-start">
-  <div class="">
-    <!-- Display number of item per page -->
-    <%== pagy_items_selector_js(@pagy, item_name: 'Record'.pluralize(@pagy.count)) %>
-  </div>
-  <div class="">
-      Total number of records: <%= "#{@pagy.count}" %>
-  </div>
-  <div class="justify-self-end">
-    <div class="" tabindex="0" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button">
-      <%= link_to 'Export to CSV', sensitive_data_systems_path(params.merge(format: 'csv', q: params[:q]).permit!), class: "export-csv-link" %>
+  <div class="grid grid-cols-3 gap-4 place-content-start">
+    <div class="">
+      <!-- Display number of item per page -->
+      <%== pagy_items_selector_js(@pagy, item_name: 'Record'.pluralize(@pagy.count)) %>
+    </div>
+    <div class="">
+        Total number of records: <%= "#{@pagy.count}" %>
+    </div>
+    <div class="justify-self-end">
+      <div class="" tabindex="0" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button">
+        <%= link_to 'Export to CSV', sensitive_data_systems_path(params.merge(format: 'csv', q: params[:q]).permit!), class: "export-csv-link" %>
+      </div>
     </div>
   </div>
 </div>
