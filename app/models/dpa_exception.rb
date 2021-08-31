@@ -146,20 +146,20 @@ class DpaException < ApplicationRecord
           elsif key == 'dpa_exception_status_id' && a.dpa_exception_status_id.present?
             row << DpaExceptionStatus.find(a.attributes.values_at(key)[0]).name
           elsif key == 'review_findings'
-            value = DpaException.find(record_id).review_findings.body.to_plain_text
-            row << value
+            value = DpaException.find(record_id).review_findings.body
+            row << Html2Text.convert(value)
           elsif key == 'review_summary'
-            value = DpaException.find(record_id).review_summary.body.to_plain_text
-            row << value
+            value = DpaException.find(record_id).review_summary.body
+            row << Html2Text.convert(value)
           elsif key == 'lsa_security_recommendation'
-            value = DpaException.find(record_id).lsa_security_recommendation.body.to_plain_text
-            row << value
+            value = DpaException.find(record_id).lsa_security_recommendation.body
+            row << Html2Text.convert(value)
           elsif key == 'lsa_security_determination'
-            value = DpaException.find(record_id).lsa_security_determination.body.to_plain_text
-            row << value
+            value = DpaException.find(record_id).lsa_security_determination.body
+            row << Html2Text.convert(value)
           elsif key == 'notes'
-            value = DpaException.find(record_id).notes.body.to_plain_text
-            row << value
+            value = DpaException.find(record_id).notes.body
+            row << Html2Text.convert(value)
           else
             row << a.attributes.values_at(key)[0]
           end

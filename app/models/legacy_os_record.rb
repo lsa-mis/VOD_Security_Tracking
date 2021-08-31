@@ -133,14 +133,14 @@ class LegacyOsRecord < ApplicationRecord
           elsif key == 'device_id' && a.device_id.present?
             row << Device.find(a.attributes.values_at(key)[0]).display_name
           elsif key == 'remediation'
-            value = LegacyOsRecord.find(record_id).remediation.body.to_plain_text
-            row << value
+            value = LegacyOsRecord.find(record_id).remediation.body
+            row << Html2Text.convert(value)
           elsif key == 'justification'
-            value = LegacyOsRecord.find(record_id).justification.body.to_plain_text
-            row << value
+            value = LegacyOsRecord.find(record_id).justification.body
+            row << Html2Text.convert(value)
           elsif key == 'notes'
-            value = LegacyOsRecord.find(record_id).notes.body.to_plain_text
-            row << value
+            value = LegacyOsRecord.find(record_id).notes.body
+            row << Html2Text.convert(value)
           else
             row << a.attributes.values_at(key)[0]
           end

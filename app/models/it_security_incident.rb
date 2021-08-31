@@ -107,17 +107,17 @@ class ItSecurityIncident < ApplicationRecord
           elsif key == 'it_security_incident_status_id'
             row << ItSecurityIncidentStatus.find(a.attributes.values_at(key)[0]).name
           elsif key == 'people_involved'
-            value = ItSecurityIncident.find(record_id).people_involved.body.to_plain_text
-            row << value
+            value = ItSecurityIncident.find(record_id).people_involved.body
+            row << Html2Text.convert(value)
           elsif key == 'equipment_involved'
-            value = ItSecurityIncident.find(record_id).equipment_involved.body.to_plain_text
-            row << value
+            value = ItSecurityIncident.find(record_id).equipment_involved.body
+            row << Html2Text.convert(value)
           elsif key == 'remediation_steps'
-            value = ItSecurityIncident.find(record_id).remediation_steps.body.to_plain_text
-            row << value
+            value = ItSecurityIncident.find(record_id).remediation_steps.body
+            row << Html2Text.convert(value)
           elsif key == 'notes'
-            value = ItSecurityIncident.find(record_id).notes.body.to_plain_text
-            row << value
+            value = ItSecurityIncident.find(record_id).notes.body
+            row << Html2Text.convert(value)
           else
             row << a.attributes.values_at(key)[0]
           end
