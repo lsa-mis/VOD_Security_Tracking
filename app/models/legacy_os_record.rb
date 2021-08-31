@@ -132,8 +132,14 @@ class LegacyOsRecord < ApplicationRecord
             row << Department.find(a.attributes.values_at(key)[0]).name
           elsif key == 'device_id' && a.device_id.present?
             row << Device.find(a.attributes.values_at(key)[0]).display_name
-          elsif key == 'remediation' || key == 'justification' || key == 'notes'
-            value = DpaException.find(record_id).review_findings.body.to_plain_text
+          elsif key == 'remediation'
+            value = LegacyOsRecord.find(record_id).remediation.body.to_plain_text
+            row << value
+          elsif key == 'justification'
+            value = LegacyOsRecord.find(record_id).justification.body.to_plain_text
+            row << value
+          elsif key == 'notes'
+            value = LegacyOsRecord.find(record_id).notes.body.to_plain_text
             row << value
           else
             row << a.attributes.values_at(key)[0]

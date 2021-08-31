@@ -124,7 +124,7 @@ class SensitiveDataSystem < ApplicationRecord
           elsif key == 'device_id' && a.device_id.present?
             row << Device.find(a.attributes.values_at(key)[0]).display_name
           elsif key == 'notes'
-            value = DpaException.find(record_id).review_findings.body.to_plain_text
+            value = SensitiveDataSystem.find(record_id).notes.body.to_plain_text
             row << value
           else
             row << a.attributes.values_at(key)[0]

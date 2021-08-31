@@ -106,8 +106,17 @@ class ItSecurityIncident < ApplicationRecord
             row << DataType.find(a.attributes.values_at(key)[0]).display_name
           elsif key == 'it_security_incident_status_id'
             row << ItSecurityIncidentStatus.find(a.attributes.values_at(key)[0]).name
-          elsif key == 'people_involved' || key == 'equipment_involved' || key == 'remediation_steps' || key == 'notes'
-            value = ItSecurityIncident.find(record_id).review_findings.body.to_plain_text
+          elsif key == 'people_involved'
+            value = ItSecurityIncident.find(record_id).people_involved.body.to_plain_text
+            row << value
+          elsif key == 'equipment_involved'
+            value = ItSecurityIncident.find(record_id).equipment_involved.body.to_plain_text
+            row << value
+          elsif key == 'remediation_steps'
+            value = ItSecurityIncident.find(record_id).remediation_steps.body.to_plain_text
+            row << value
+          elsif key == 'notes'
+            value = ItSecurityIncident.find(record_id).notes.body.to_plain_text
             row << value
           else
             row << a.attributes.values_at(key)[0]
