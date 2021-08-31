@@ -138,7 +138,9 @@ class ReportsController < ApplicationController
     end
 
     def isi_query
-      @sql_isi = "SELECT isi.id AS ' ', title, DATE_FORMAT(date, '%m/%d/%Y') AS date, people_involved, 
+      @sql_isi = "SELECT isi.id AS ' ', title, DATE_FORMAT(date, '%m/%d/%Y') AS date, 
+      (SELECT acrt.body FROM `action_text_rich_texts` AS acrt
+      WHERE acrt.`record_type` = 'ItSecurityIncident' AND acrt.`record_id` = isi.`id` AND acrt.name = 'people_involved') AS people_involved, 
       (SELECT data_types.name FROM data_types WHERE isi.data_type_id = data_types.id) AS data_type,
       (SELECT it_security_incident_statuses.name FROM it_security_incident_statuses WHERE isi.it_security_incident_status_id = it_security_incident_statuses.id) AS it_security_incident_status
       FROM it_security_incidents AS isi " +
