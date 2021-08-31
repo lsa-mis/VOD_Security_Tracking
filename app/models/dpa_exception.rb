@@ -130,10 +130,12 @@ class DpaException < ApplicationRecord
               lsa_security_approval lsa_technology_services_approval exception_approval_date_exception_renewal_date_due notes
               sla_agreement data_type review_date_exception_review_date}
     header.map! { |e| e.titleize.upcase }
+    key_id = 'id'
     CSV.generate(headers: true) do |csv|
       csv << header
       all.each do |a|
         row = []
+        record_id = a.attributes.values_at(key_id)[0]
         fields.each do |key|
           if key == 'id'
             row << "http://localhost:3000/dpa_exceptions/" + a.attributes.values_at(key)[0].to_s
@@ -143,12 +145,26 @@ class DpaException < ApplicationRecord
             row << Department.find(a.attributes.values_at(key)[0]).name
           elsif key == 'dpa_exception_status_id' && a.dpa_exception_status_id.present?
             row << DpaExceptionStatus.find(a.attributes.values_at(key)[0]).name
+          elsif key == 'review_findings'
+            value = DpaException.find(record_id).review_findings.body
+            row << Html2Text.convert(value)
+          elsif key == 'review_summary'
+            value = DpaException.find(record_id).review_summary.body
+            row << Html2Text.convert(value)
+          elsif key == 'lsa_security_recommendation'
+            value = DpaException.find(record_id).lsa_security_recommendation.body
+            row << Html2Text.convert(value)
+          elsif key == 'lsa_security_determination'
+            value = DpaException.find(record_id).lsa_security_determination.body
+            row << Html2Text.convert(value)
+          elsif key == 'notes'
+            value = DpaException.find(record_id).notes.body
+            row << Html2Text.convert(value)
           else
             row << a.attributes.values_at(key)[0]
           end
         end
         csv << row
-        logger.debug "************** csv #{csv}"
       end
     end
   end

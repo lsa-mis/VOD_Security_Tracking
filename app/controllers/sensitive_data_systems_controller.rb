@@ -50,7 +50,7 @@ class SensitiveDataSystemsController < InheritedResources::Base
     authorize @sensitive_data_systems
     # Rendering code will go here
     if params[:format] == "csv"
-      sensitive_data_systems = @q.result
+      sensitive_data_systems = @q.result.distinct
       respond_to do |format|
         format.html
         format.csv { send_data sensitive_data_systems.to_csv, filename: "Sensitive Data Systems-#{Date.today}.csv"}

@@ -47,7 +47,7 @@ class DpaExceptionsController < InheritedResources::Base
     authorize @dpa_exceptions
     # Rendering code will go here
     if params[:format] == "csv"
-      dpa_exceptions = @q.result
+      dpa_exceptions = @q.result.distinct
       respond_to do |format|
         format.html
         format.csv { send_data dpa_exceptions.to_csv, filename: "DPA Exceptions-#{Date.today}.csv"}
