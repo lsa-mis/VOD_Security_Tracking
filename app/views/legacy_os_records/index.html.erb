@@ -11,8 +11,8 @@
   <div class="sm:col-span-5">
     <%= render partial: 'partials/info_index_toggler', locals: { infotext_resource: @legacy_os_record_index_text } %>
   </div>
-  <div class="pb-1 sm:col-span-5 flex justify-end sm:mt-0">
-    <span class="ml-4 flex-shrink-0">
+  <div class="pb-2 sm:col-span-5 flex justify-start sm:mt-0">
+    <span class="ml-2 flex-shrink-0">
       <% if policy(@legacy_os_records).new? %>
         <div class="navbtn-link" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="0">
           <%= link_to 'New Legacy OS Record', new_legacy_os_record_path, class: "new-record-link" %>

@@ -3,7 +3,6 @@
   <div class="flex flex-nowrap justify-center">
     <div class="fixed_header_container">
       <table class="fixed_header">
-
         <thead>
           <tr>
             <th scope="col">Actions</th>
@@ -66,7 +65,7 @@
   </div>
   <div class="justify-self-end">
     <div class="" tabindex="0" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button">
-      <%= link_to 'Export to CSV', dpa_exceptions_path(params.merge(format: 'csv', q: params[:q]).permit!), class: "new-record-link" %>
+      <%= link_to 'Export to CSV', dpa_exceptions_path(params.merge(format: 'csv', q: params[:q]).permit!), class: "export-csv-link" %>
     </div>
   </div>
 </div>
