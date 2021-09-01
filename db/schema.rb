@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_24_151817) do
+ActiveRecord::Schema.define(version: 2021_09_01_020123) do
 
   create_table "access_lookups", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "ldap_group"
@@ -213,6 +213,15 @@ ActiveRecord::Schema.define(version: 2021_08_24_151817) do
     t.index ["data_type_id"], name: "index_legacy_os_records_on_data_type_id"
     t.index ["department_id"], name: "index_legacy_os_records_on_department_id"
     t.index ["device_id"], name: "index_legacy_os_records_on_device_id"
+  end
+
+  create_table "notifications", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "note"
+    t.datetime "opendate"
+    t.datetime "closedate"
+    t.string "notetype"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "sensitive_data_systems", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
