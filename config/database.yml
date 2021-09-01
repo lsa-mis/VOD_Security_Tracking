@@ -18,11 +18,11 @@ default: &default
 development:
   <<: *default
   # Comment next two lines if running without docker
-  # host: mysql
-  # password: <%= Rails.application.credentials.mysql[:docker_password] %>
+  host: mysql
+  password: <%= Rails.application.credentials.mysql[:docker_password] %>
   username: root
   # make sure your local MySQL password is in credentials and uncomment this line if running without docker
-  password: <%= Rails.application.credentials.mysql[:local_password] %>
+  # password: <%= Rails.application.credentials.mysql[:local_password] %>
   database: vodst_development
 
 # Warning: The database defined as "test" will be erased and
@@ -31,11 +31,11 @@ development:
 test:
   <<: *default
   # Comment next two lines if running without docker
-  # host: mysql
-  # password: <%= Rails.application.credentials.mysql[:docker_password] %>
+  host: mysql
+  password: <%= Rails.application.credentials.mysql[:docker_password] %>
   username: root
   # make sure your local MySQL password is in credentials and uncomment this line if running without docker
-  password: <%= Rails.application.credentials.mysql[:local_password] %>
+  # password: <%= Rails.application.credentials.mysql[:local_password] %>
   database: vodst_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
