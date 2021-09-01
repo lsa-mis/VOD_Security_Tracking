@@ -1,0 +1,7 @@
+---
+reason: We are accepting applications for the Bear River Program starting in early February.
+allowed_paths: ^/home
+allowed_ips:
+- 141.213.168.0/21
+response_code: 503
+retry_after: 7200
