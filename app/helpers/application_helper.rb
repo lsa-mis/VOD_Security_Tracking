@@ -54,4 +54,11 @@ module ApplicationHelper
     User.find(id).display_name
   end
 
+  def note_types
+    [
+      ['Alert','alert'],
+      ['Notice','notice']
+    ]
+  end
+
 end
