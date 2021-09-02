@@ -20,8 +20,8 @@ ActiveAdmin.register Notification do
     # f.inputs           # builds an input field for every attribute
     f.inputs do
       f.input :note
-      f.input :opendate, as: :datepicker
-      f.input :closedate, as: :datepicker
+      f.input :opendate
+      f.input :closedate
       f.input :notetype, as: :select, collection: note_types
     end
     f.actions         # adds the 'Submit' and 'Cancel' button
