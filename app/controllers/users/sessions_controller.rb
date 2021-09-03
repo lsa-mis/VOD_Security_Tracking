@@ -39,11 +39,6 @@ class Users::SessionsController < Devise::SessionsController
 
         fluff = LdapFluff.new(ldap_config)
         membership = []
-        # groups = Devise::LDAP::Adapter.get_ldap_param(current_user.username,'memberOf')
-        # groups.each do |group|
-        #   g = group.split(',')
-        #   membership.append(g.first.remove("CN="))
-        # end
         access_groups = AccessLookup.pluck(:ldap_group).uniq
         access_groups.each do |group|
           if fluff.is_in_groups?(current_user.username,Array.wrap(group))
