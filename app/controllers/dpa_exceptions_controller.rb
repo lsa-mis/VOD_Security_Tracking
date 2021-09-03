@@ -198,8 +198,8 @@ class DpaExceptionsController < InheritedResources::Base
                     :lsa_security_recommendation, :lsa_security_determination, 
                     :lsa_security_approval, :lsa_technology_services_approval, 
                     :exception_approval_date_exception_renewal_date_due, 
-                    :review_date_exception_review_date, :notes, :sla_agreement,
-                    :sla_attachment, :data_type_id, :incomplete, :m,
+                    :review_date_exception_review_date, :notes,
+                    :data_type_id, :incomplete, :m,
                     :dpa_exception_status_id, :format,
                     attachments: [], tdx_ticket: [:ticket_link]
                   )

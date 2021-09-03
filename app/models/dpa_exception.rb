@@ -35,7 +35,6 @@ class DpaException < ApplicationRecord
   has_rich_text :lsa_security_determination
   has_one :lsa_security_determination, class_name: 'ActionText::RichText', as: :record
   has_many_attached :attachments
-  has_one_attached :sla_attachment
   before_save :if_not_complete
 
   audited
@@ -44,7 +43,6 @@ class DpaException < ApplicationRecord
             :department_id, presence: true
   validates :dpa_exception_status_id, presence: true
   validate :acceptable_attachments
-  validate :acceptable_sla_attachment
 
   scope :active, -> { where(deleted_at: nil) }
   scope :archived, -> { where("#{self.table_name}.deleted_at IS NOT NULL") }
@@ -85,29 +83,6 @@ class DpaException < ApplicationRecord
     end
   end
 
-  def acceptable_sla_attachment
-    return unless sla_attachment.attached?
-  
-    acceptable_types = [
-      "application/pdf", "text/plain" "image/jpg", 
-      "image/jpeg", "image/png", 
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      "application/vnd.apple.pages",
-      "application/vnd.apple.numbers",
-      "application/x-tar"
-    ]
-
-    unless sla_attachment.byte_size <= 20.megabyte
-      errors.add(:sla_attachment, "is too big")
-    end
-
-    unless acceptable_types.include?(sla_attachment.content_type)
-      errors.add(:sla_attachment, "must be an acceptable file type")
-    end
-
-  end
-
   def if_not_complete
     if self.not_completed?
       self.incomplete = true
@@ -124,11 +99,11 @@ class DpaException < ApplicationRecord
     fields = %w{id incomplete dpa_exception_status_id review_date_exception_first_approval_date third_party_product_service
               department_id point_of_contact review_findings review_summary lsa_security_recommendation lsa_security_determination
               lsa_security_approval lsa_technology_services_approval exception_approval_date_exception_renewal_date_due notes
-              sla_agreement data_type_id review_date_exception_review_date}
+              data_type_id review_date_exception_review_date}
     header = %w{link incomplete dpa_exception_status review_date_exception_first_approval_date third_party_product_service
               department_used_by point_of_contact review_findings review_summary lsa_security_recommendation lsa_security_determination
               lsa_security_approval lsa_technology_services_approval exception_approval_date_exception_renewal_date_due notes
-              sla_agreement data_type review_date_exception_review_date}
+              data_type review_date_exception_review_date}
     header.map! { |e| e.titleize.upcase }
     key_id = 'id'
     CSV.generate(headers: true) do |csv|
