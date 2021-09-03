@@ -50,7 +50,6 @@ class Users::SessionsController < Devise::SessionsController
             membership.append(group)
           end
         end
-        Rails.logger.debug "********************* membership #{membership}"
         session[:user_memberships] = membership
       end
     end
