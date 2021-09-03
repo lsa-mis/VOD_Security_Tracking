@@ -59,11 +59,7 @@ class DpaExceptionsController < InheritedResources::Base
         partial: "dpa_exceptions/listing"
       )
       end
-
     end
-
-
-    
   end
 
   def show
