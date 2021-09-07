@@ -2,7 +2,8 @@
   <span class="text-sm">
     <% if policy(Infotext).edit? %>
       <%= link_to edit_infotext_path(@report_text) do %>
-        <i class="far fa-edit text-laitan_blue hover:text-um_blue"></i>
+        <i class="far fa-edit text-laitan_blue hover:text-um_blue" aria-hidden="true" title="Edit infotext area"></i>
+        <span class="sr-only">Edit infotext area</span>
       <% end %>
     <% end %>
   </span>
@@ -24,7 +25,7 @@
         <section class="errors device-error--hide" data-report-target="message">
         </section>
 
-      <div class="bg-yellow-50 shadow p-2 m-4 border">
+      <div class="bg-gray-50 shadow p-2 m-4 border">
         <div class="mx-2 mb-1">
           <div>
             <%= label_tag "Select a table" %>

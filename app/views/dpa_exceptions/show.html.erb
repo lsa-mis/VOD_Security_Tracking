@@ -147,59 +147,6 @@
   </div>
 
   <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-    <dt class="text-sm font-medium text-gray-500">
-      SLA Agreement 
-    </dt>
-    <dd class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-      <span class="flex-grow"><%= @dpa_exception.sla_agreement %></span>
-    </dd>
-  </div>
-
-  <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-    <dt class="text-sm font-medium text-gray-500">
-      SLA Agreement Uploaded File
-    </dt>
-    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-      <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
-        <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-          <% if @dpa_exception.sla_attachment.attached? %>
-            <div class="w-0 flex-1 flex items-center">
-              <i class="fas fa-paperclip text-gray-400"></i>
-              <span class="ml-2 flex-1 w-0 truncate">
-                <%= link_to @dpa_exception.sla_attachment.filename, url_for(@dpa_exception.sla_attachment), target: "_blank" %>
-              </span>
-            </div>
-            <% if policy(@dpa_exception).edit? %>
-              <div class="ml-4 flex-shrink-0 flex space-x-4">
-                <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                  <%= link_to 'Update', edit_dpa_exception_path(@dpa_exception, anchor: "sla_agreement_file") %>
-                </button>
-                <span class="text-gray-300" aria-hidden="true">|</span>
-                <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                  <%= link_to 'Remove', delete_file_path(@dpa_exception.sla_attachment.id), data: { confirm: "Are sure you?"} %>
-                </button>
-              </div>
-            <% end %>
-          <% else %>
-            <div class="w-0 flex-1 flex items-center">
-              <span class="ml-2 flex-1 w-0 truncate">
-                you currently do not have an SLA Agreement attached.
-              </span>
-            </div>
-            <% if policy(@dpa_exception).edit? %>
-              <div class="ml-4 flex-shrink-0 flex space-x-4">
-                <button type="button" class="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                  <%= link_to 'Add', edit_dpa_exception_path(@dpa_exception) %>
-                </button>
-              </div>
-            <% end %>
-          <% end %>
-        </li>
-      </ul>
-    </dd>
-  </div>
-
-  <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
     <%= render partial: "partials/show_attachments", locals: { attached_files_resource: @dpa_exception } %>
   </div>
 </dl>

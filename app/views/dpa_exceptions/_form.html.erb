@@ -8,7 +8,8 @@
           <span class="text-sm">
             <% if policy(Infotext).edit? %>
               <%= link_to edit_infotext_path(@dpa_exception_form_text) do %>
-                <i class="far fa-edit text-laitan_blue hover:text-um_blue"></i>
+                <i class="far fa-edit text-laitan_blue hover:text-um_blue" aria-hidden="true" title="Edit infotext area"></i>
+        <span class="sr-only">Edit infotext area</span>
               <% end %>
             <% end %>
           </span>
@@ -163,37 +164,6 @@
                     </li>
                   <% end %>
                 <% end %>
-              </ul>
-            </dd>
-          </div>
-        <% end %>
-      </div>
-
-      <div id="sla_agreement_file" class="field">
-        <%= form.label :sla_agreement, "SLA Agreement" %>
-        <%= form.text_field :sla_agreement %>
-        <p class="help-text"></p>
-      </div>
-
-      <div class="field">
-        <%= form.label :sla_attachment, "SLA Agreement File" %>
-        <%= form.file_field :sla_attachment %>
-        <p class="help-text">Selecting a file will replace the currently attached file!</p>
-        <% if @dpa_exception.sla_attachment.attached? %>
-          <div class="py-4 pl-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
-            <dt class="text-sm font-medium text-gray-500">
-              SLA Agreement currently connected to this record: 
-            </dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
-                <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-                  <div class="w-0 flex-1 flex items-center">
-                    <i class="fas fa-paperclip text-gray-400"></i>
-                    <span class="ml-2 flex-1 w-0 truncate">
-                      <%= link_to @dpa_exception.sla_attachment.filename, url_for(@dpa_exception.sla_attachment), target: "_blank" %>
-                    </span>
-                  </div>
-                </li>
               </ul>
             </dd>
           </div>

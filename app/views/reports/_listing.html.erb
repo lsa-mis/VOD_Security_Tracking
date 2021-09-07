@@ -27,7 +27,7 @@
                       <td><%= link_to 'Show', link, class: "action-link" %>
                       <% row.shift(1) %>
                       <% row.each do |item| %>
-                        <td><%= item %></td>
+                        <td><%= Html2Text.convert(item) %></td>
                       <% end %>
                     </tr>
                   <% end %>

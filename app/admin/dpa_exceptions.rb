@@ -7,7 +7,7 @@ ActiveAdmin.register DpaException do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :review_date_exception_first_approval_date, :third_party_product_service, :department_id, :point_of_contact, :review_findings, :review_summary, :lsa_security_recommendation, :lsa_security_determination, :lsa_security_approval, :lsa_technology_services_approval, :exception_approval_date_exception_renewal_date_due, :notes, :sla_agreement, :data_type_id, :incomplete, :review_date_exception_review_date, :dpa_exception_status_id, :deleted_at
+  permit_params :review_date_exception_first_approval_date, :third_party_product_service, :department_id, :point_of_contact, :review_findings, :review_summary, :lsa_security_recommendation, :lsa_security_determination, :lsa_security_approval, :lsa_technology_services_approval, :exception_approval_date_exception_renewal_date_due, :notes, :data_type_id, :incomplete, :review_date_exception_review_date, :dpa_exception_status_id, :deleted_at
   #
   # or
   #
@@ -73,13 +73,6 @@ ActiveAdmin.register DpaException do
       row :exception_approval_date_exception_renewal_date_due
       row :review_date_exception_review_date
       row :notes
-      row :sla_agreement
-      row :sla_attachment do |sla|
-        if sla.sla_attachment.attached?
-            sla.sla_attachment.filename
-            link_to sla.sla_attachment.filename, url_for(sla.sla_attachment)
-        end
-      end
       row :data_type.name
     end
     panel "Attachments" do 

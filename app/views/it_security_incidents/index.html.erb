@@ -1,7 +1,8 @@
 <h1>IT Security Incidents<span class="text-sm">
   <% if policy(Infotext).edit? %>
     <%= link_to edit_infotext_path(@it_security_incident_index_text) do %>
-      <i class="far fa-edit text-laitan_blue hover:text-um_blue"></i>
+      <i class="far fa-edit text-laitan_blue hover:text-um_blue" aria-hidden="true" title="Edit infotext area"></i>
+        <span class="sr-only">Edit infotext area</span>
     <% end %>
   <% end %>
 </span>
@@ -10,8 +11,8 @@
   <div class="sm:col-span-5">
     <%= render partial: 'partials/info_index_toggler', locals: { infotext_resource: @it_security_incident_index_text } %>
   </div>
-  <div class="pb-1 sm:col-span-5 flex justify-end sm:mt-0">
-    <span class="ml-4 flex-shrink-0">
+  <div class="pb-2 sm:col-span-5 flex justify-start sm:mt-0">
+    <span class="ml-2 flex-shrink-0">
       <% if policy(@it_security_incidents).new? %>
         <div class="navbtn-link" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="0">
           <%= link_to 'New IT Security Incident', new_it_security_incident_path, class: "new-record-link" %>
@@ -27,7 +28,7 @@
   Filters
   </button>
 
-  <div data-toggle-target='toggleable' class="filter-selections bg-yellow-50 shadow p-2 m-4 hidden">
+  <div data-toggle-target='toggleable' class="filter-selections bg-gray-50 shadow p-2 m-4 hidden">
     <%= search_form_for @q, class: "filter-form",
       data:{ controller: "filters"} do |f| %>
       <div class="grid grid-cols-2">

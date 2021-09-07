@@ -12,6 +12,7 @@ gem 'devise_ldap_authenticatable'
 gem 'duo_web', '~> 1.0'
 gem 'google-cloud-storage', require: false
 gem 'hotwire-rails'
+gem 'html2text', '~> 0.3.1'
 gem 'jbuilder', '~> 2.7'
 gem 'ldap_lookup', '~> 0.1.5'
 # gem install mysql2 -v '0.5.3' -- --with-ldflags=-L/usr/local/opt/openssl/lib --with-cppflags=-I/usr/local/opt/openssl/include
@@ -26,6 +27,7 @@ gem 'sass-rails', '>= 6'
 # Allows puma to use notify in systemd
 gem 'sd_notify', '~> 0.1.1'
 gem 'simple_form', '~> 5.1'
+gem 'turnout', '~> 2.5'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'webpacker', '~> 5.0'
 
