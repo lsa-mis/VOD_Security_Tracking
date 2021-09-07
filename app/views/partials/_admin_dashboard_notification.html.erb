@@ -1,5 +1,5 @@
 <% Notification.all.each do |nt| %>
-    <% if (nt.opendate..nt.closedate).include? DateTime.now %>
+    <% if (nt.opendate..nt.closedate).cover? DateTime.now %>
       <% if nt.notetype == "notice"%>
         <div class="bg-gray-200 border border-yellow-600 mt-4 p-2" >
       <% else %>
