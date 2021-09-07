@@ -35,7 +35,7 @@ FactoryBot.define do
     exception_approval_date_exception_renewal_date_due { Faker::Date.in_date_period }
     review_date_exception_review_date { Faker::Date.in_date_period }
     notes { Faker::String.random(length: 60..120) }
-    sla_agreement { Faker::String.random(length: 60..120) }
+    # sla_agreement { Faker::String.random(length: 60..120) }
     data_type
   end
 end
