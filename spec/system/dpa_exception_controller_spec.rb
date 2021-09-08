@@ -13,12 +13,11 @@ RSpec.describe "DpaException Controller", type: :system do
     allow(Devise::LDAP::Adapter).to receive(:get_ldap_param).with(any_args,"mail").and_return(["test@test.com"])
     devise_ldap = double(Devise::LDAP::Adapter)
     allow(devise_ldap).to receive(:get_ldap_param).with(any_args,"memberOf").and_return(["lsa-vod-devs"])
-    # skip duo
-    DpaExceptionsController.new.class.skip_before_action :verify_duo_authentication
 
     @me = FactoryBot.create(:user)
     login_as(@me)
     set_session(:user_memberships, devise_ldap.get_ldap_param(@me.username,'memberOf'))
+    set_session(:duo_auth, true)
 
   end
 
@@ -47,10 +46,10 @@ RSpec.describe "DpaException Controller", type: :system do
   end
 
   # second test is not running
-  # it 'test browser validation for requered fields' do
-  #   visit new_dpa_exception_path
-  #   click_on 'Create'
-  #   expect(page).to have_content('Please select an item in the list.')
-  # end
+  it 'test browser validation for requered fields' do
+    visit new_dpa_exception_path
+    click_on 'Create'
+    expect(page).to have_content('Please select an item in the list.')
+  end
 
 end
