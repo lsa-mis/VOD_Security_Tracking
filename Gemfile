@@ -14,6 +14,7 @@ gem 'google-cloud-storage', require: false
 gem 'hotwire-rails'
 gem 'html2text', '~> 0.3.1'
 gem 'jbuilder', '~> 2.7'
+gem 'ldap_fluff', '~> 0.6.0'
 gem 'ldap_lookup', '~> 0.1.5'
 # gem install mysql2 -v '0.5.3' -- --with-ldflags=-L/usr/local/opt/openssl/lib --with-cppflags=-I/usr/local/opt/openssl/include
 gem 'mysql2', '~> 0.5'

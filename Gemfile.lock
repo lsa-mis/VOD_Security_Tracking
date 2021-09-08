@@ -232,6 +232,9 @@ GEM
       activerecord
       kaminari-core (= 1.2.1)
     kaminari-core (1.2.1)
+    ldap_fluff (0.6.0)
+      activesupport
+      net-ldap (>= 0.11)
     ldap_lookup (0.1.5)
       net-ldap (~> 0.17.0)
     listen (3.7.0)
@@ -441,6 +444,7 @@ DEPENDENCIES
   hotwire-rails
   html2text (~> 0.3.1)
   jbuilder (~> 2.7)
+  ldap_fluff (~> 0.6.0)
   ldap_lookup (~> 0.1.5)
   listen (~> 3.3)
   mysql2 (~> 0.5)

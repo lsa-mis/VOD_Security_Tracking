@@ -151,7 +151,7 @@ class LegacyOsRecord < ApplicationRecord
   end
 
   def display_name
-    "#{self.owner_username} - #{self.legacy_os}"
+    "#{self.device.display_name}   #{self.legacy_os}"
   end
 
 end
