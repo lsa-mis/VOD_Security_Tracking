@@ -11,6 +11,7 @@ RSpec.describe 'Home Page', type: :system do
     it 'shows the right content' do
       visit root_path
       expect(page).to have_content('VOD TOOLS')
+      sleep(inspection_time=3)
     end
   end
 end

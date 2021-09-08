@@ -45,38 +45,37 @@ RSpec.describe "DpaException Controller", type: :system do
 
   end
 
-  # it 'create record with requered fields' do
+  it 'create record with all fields' do
 
-  #   visit new_dpa_exception_path
-  #   # fill_in_date_with_js('Review date exception first approval date', with: '2021-09-20')
-  #   fill_in_date_with_js_by_id('dpa_exception_review_date_exception_first_approval_date', with: '2021-09-20')
-  #   select 'Approved', from: 'Status'
-  #   fill_in 'Third party product service', with: 'Third party product service'
-  #   select 'Physics', from: 'Department'
-  #   fill_in 'Point of contact', with: 'Point of contact'
-  #   fill_in_trix_editor()
-  #   fill_in 'Review findings', with: 'Review findings'
-  #   fill_in 'Review summary', with: 'Point summary'
-  #   fill_in 'LSA security recommendation', with: 'LSA security recommendation'
-  #   fill_in 'LSA security determination', with: 'LSA security determination'
-  #   fill_in 'LSA security approval', with: 'LSA security approval'
-  #   fill_in_date_with_js_by_id('dpa_exception_exception_approval_date_exception_renewal_date_due', with: '2021-09-20')
-  #   fill_in_date_with_js_by_id('dpa_exception_review_date_exception_review_date', with: '2021-09-20')
-  #   select 'EAR', from: 'Data type'
-  #   click_on 'Create'
-  #   sleep(inspection_time=3)
-
-  #   expect(page).to have_content('DPA Exception record was successfully created.')
-  #   expect(page).to_not have_content('Record Saved, but not complete.')
-  #   expect(DpaException.last.incomplete).to be(false)
-
-  # end
-
-  # second test is not running
-  it 'test browser validation for requered fields' do
     visit new_dpa_exception_path
+    # fill_in_date_with_js('Review date exception first approval date', with: '2021-09-20')
+    fill_in_date_with_js_by_id('dpa_exception_review_date_exception_first_approval_date', with: '2021-09-20')
+    select 'Approved', from: 'Status'
+    fill_in 'Third party product service', with: 'Third party product service'
+    select 'Physics', from: 'Department'
+    fill_in 'Point of contact', with: 'Point of contact'
+    find(:xpath, "//\*[@input='dpa_exception_review_findings_trix_input_dpa_exception']").set('Review findings')
+    find(:xpath, "//\*[@input='dpa_exception_review_summary_trix_input_dpa_exception']").set('Review summary')
+    find(:xpath, "//\*[@input='dpa_exception_lsa_security_recommendation_trix_input_dpa_exception']").set('LSA security recommendation')
+    find(:xpath, "//\*[@input='dpa_exception_lsa_security_determination_trix_input_dpa_exception']").set('LSA security determination')
+    fill_in 'LSA security approval', with: 'LSA security approval'
+    fill_in 'LSA technology services approval', with: 'LSA technology services approval'
+    fill_in_date_with_js_by_id('dpa_exception_exception_approval_date_exception_renewal_date_due', with: '2021-09-20')
+    fill_in_date_with_js_by_id('dpa_exception_review_date_exception_review_date', with: '2021-09-20')
+    select 'EAR', from: 'Data type'
     click_on 'Create'
-    expect(page).to have_content('Please select an item in the list.')
+    sleep(inspection_time=3)
+
+    expect(page).to have_content('DPA Exception record was successfully created.')
+    expect(page).to_not have_content('Record Saved, but not complete.')
+    expect(DpaException.last.incomplete).to be(false)
+
   end
+
+  # it 'test browser validation for requered fields' do
+  #   visit new_dpa_exception_path
+  #   click_on 'Create'
+  #   expect(page).to have_content('Please select an item in the list.')
+  # end
 
 end
