@@ -3,6 +3,10 @@
   </div>
   <div class="col-span-2 justify-self-center">
     <div class="inline-block">
+      <% if user_signed_in? %>
+        <i class="ml-2 inline-block fas fa-book-open" aria-hidden="true""></i>
+        <a class="footer-link" href="https://docs.google.com/document/d/1UKKiF-ymijQf2_NNhx0LzVYKkyq9YzttNO9DDKdtFwc/edit?usp=sharing" target="_blank" >User Documentation</a>
+      <% end %>
       <i class="ml-2 inline-block fa fa-phone" aria-hidden="true""></i>
       <span>734.615.0100</span>
       <i class="ml-2 inline-block fa fa-comments" aria-hidden="true""></i>
