@@ -33,7 +33,7 @@ RSpec.describe SensitiveDataSystem, type: :model do
   let!(:department) { FactoryBot.create(:department) }
   let!(:sensitive_data_system) { FactoryBot.create(:sensitive_data_system) }
 
-  it "is valid with valid attributes" do
+  it "is valid with required attributes" do
     expect(SensitiveDataSystem.new(name: "name", owner_username: "brita", owner_full_name: "Rita Barvinok",
                               department: department)).to be_valid
   end
@@ -60,5 +60,3 @@ RSpec.describe SensitiveDataSystem, type: :model do
 
   end
 end
-
-# worling tests

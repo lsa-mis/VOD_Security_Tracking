@@ -28,5 +28,3 @@ RSpec.describe Device, type: :model do
   end
 
 end
-
-# working test

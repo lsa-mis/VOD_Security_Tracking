@@ -63,5 +63,3 @@ RSpec.describe DpaException, type: :model do
   end
 
 end
-
-# working test

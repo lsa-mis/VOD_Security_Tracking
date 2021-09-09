@@ -36,5 +36,3 @@ RSpec.describe DataType, type: :model do
   end
 
 end
-
-# working test

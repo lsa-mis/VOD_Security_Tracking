@@ -28,5 +28,3 @@ RSpec.describe Department, type: :model do
 
 end
 
-# working test
-

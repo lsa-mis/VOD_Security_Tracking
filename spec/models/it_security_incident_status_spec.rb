@@ -24,5 +24,3 @@ RSpec.describe ItSecurityIncidentStatus, type: :model do
   end
 
 end
-
-#  working example

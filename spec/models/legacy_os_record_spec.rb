@@ -36,21 +36,21 @@ RSpec.describe LegacyOsRecord, type: :model do
   let!(:legacy_os_record) { FactoryBot.create(:legacy_os_record) }
 
 
-  it "is valid with valid attributes (including only unique_app)" do
+  it "is valid with required attributes (including only unique_app)" do
     expect(LegacyOsRecord.new(owner_username: "brita", owner_full_name: "Rita Barvinok",
                               department: department, phone: "123-345-6789",
                               unique_app: "unique_app",
                               device: device)).to be_valid
   end
 
-  it "is valid with valid attributes (including only unique_hardware)" do
+  it "is valid with required attributes (including only unique_hardware)" do
     expect(LegacyOsRecord.new(owner_username: "brita", owner_full_name: "Rita Barvinok",
                               department: department, phone: "123-345-6789",
                               unique_hardware: "unique_hardware",
                               device: device)).to be_valid
   end
 
-  it "is valid with valid attributes (including both unique_app and unique_hardware)" do
+  it "is valid with required attributes (including both unique_app and unique_hardware)" do
     expect(LegacyOsRecord.new(owner_username: "brita", owner_full_name: "Rita Barvinok",
                               department: department, phone: "123-345-6789",
                               unique_hardware: "unique_hardware", unique_app: "unique_app",
@@ -102,5 +102,3 @@ RSpec.describe LegacyOsRecord, type: :model do
   end
 
 end
-
-# working test
