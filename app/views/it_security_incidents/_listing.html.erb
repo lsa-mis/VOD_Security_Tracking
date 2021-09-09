@@ -1,54 +1,51 @@
 <div id="it_security_incidentListing">
 
-  <div class="flex flex-nowrap justify-center">
-    <div class="fixed_header_container">
-      <table class="fixed_header">
-        <thead>
-          <tr>
-            <th scope="col">Actions</th>
-            <th scope="col"><%= sort_link(@q, :title, 'Title') %></th>
-            <th scope="col"><%= sort_link(@q, :date, 'Date') %></th>
-            <th scope="col"><%= sort_link(@q, :people_involved, 'People involved') %></th>
-            <th scope="col"><%= sort_link(@q, :data_type_id, 'Data type', default_order: :desc) %></th>
-            <th scope="col"><%= sort_link(@q, :it_security_incident_status_id, 'IT security incident status') %></th>
-            </tr>
-        </thead>
-
-        <tbody>
-          <% @it_security_incidents.each do |it_security_incident| %>
-            <tr>
-              <td>
-                <ul>
-                  <li class= "listing-action-link"><%= link_to 'Show', it_security_incident %></li>
-                  <% if policy(it_security_incident).edit? %>
-                    <li class= "listing-action-link"><%= link_to 'Edit', edit_it_security_incident_path(it_security_incident) %></li>
-                  <% end %>
-                  <% if policy(it_security_incident).archive? %>
-                    <li class= "listing-action-link"><%= link_to 'Archive', archive_it_security_incident_path(it_security_incident),  method: :post, data: { confirm: 'Are you sure?' } %></li>
-                  <% end %>
-                  <% if policy(it_security_incident).audit_log? %>
-                    <li class= "listing-action-link"><%= link_to 'Audit', it_security_incident_audit_log_path(it_security_incident) %></li>
-                  <% end %>
-                </ul>
-              </td> 
-              <td><%= it_security_incident.title %></td>
-              <td><%= show_date(it_security_incident.date) %></td>
-              <td><%= it_security_incident.people_involved %></td>
-              <td><%= show_data_type_name(it_security_incident) %></td>
-              <td><%= show_it_security_incident_status(it_security_incident) %></td>
-            </tr>
-          <% end %>
-
-          <!-- Blank state -->
-          <% if @it_security_incidents.empty? %>
-          <tr>
-              <td><em>No matching IT Security Incidents</em></td>
-          </tr>
-        <% end %>
-        </tbody>
-      </table>
-    </div>
+<div class="rounded-t-lg shadow">
+  <div class="bg-gray-100 flex overflow-auto px-2 text-xs font-semibold ">
+    <div class="flex-none w-16">Actions</div>
+    <div class="flex-1"><%= sort_link(@q, :title, 'Title') %></div>
+    <div class="flex-none w-24"><%= sort_link(@q, :date, 'Date') %></div>
+    <div class="flex-none w-48"><%= sort_link(@q, :people_involved, 'People involved') %></div>
+    <div class="flex-none w-40"><%= sort_link(@q, :data_type_id, 'Data type', default_order: :desc) %></div>
+    <div class="flex-none w-24"><%= sort_link(@q, :it_security_incident_status_id, 'Status') %></div>
   </div>
+
+  <div class="h-96 overflow-auto">
+    <% @it_security_incidents.each do |it_security_incident| %>
+      <div class="flex px-2 pb-2 divide-y">
+        <div class="self-center flex-none w-16 ">
+          <ul>
+            <li class= "listing-action-link"><%= link_to 'Show', it_security_incident %></li>
+            <% if policy(it_security_incident).edit? %>
+              <li class= "listing-action-link"><%= link_to 'Edit', edit_it_security_incident_path(it_security_incident) %></li>
+            <% end %>
+            <% if policy(it_security_incident).archive? %>
+              <li class= "listing-action-link"><%= link_to 'Archive', archive_it_security_incident_path(it_security_incident),  method: :post, data: { confirm: 'Are you sure?' } %></li>
+            <% end %>
+            <% if policy(it_security_incident).audit_log? %>
+              <li class= "listing-action-link"><%= link_to 'Audit', it_security_incident_audit_log_path(it_security_incident) %></li>
+            <% end %>
+          </ul>
+        </div> 
+        <div class="flex-1 "><%= it_security_incident.title %></div>
+        <div class="flex-none w-24 "><%= show_date(it_security_incident.date) %></div>
+        <div class="flex-none w-48"><%= it_security_incident.people_involved %></div>
+        <div class="flex-none w-40 "><%= show_data_type_name(it_security_incident) %></div>
+        <div class="flex-none w-24 "><%= show_it_security_incident_status(it_security_incident) %></div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Blank state -->
+  <% if @it_security_incidents.empty? %>
+  <div>
+      <div><em>No matching IT Security Incidents</em></div>
+  </div>
+  <% end %>
+</div>
+
+
+<hr>
   <%= render partial: "partials/pagination", locals: { pagy: @pagy } %>
   <div class="grid grid-cols-3 gap-4 place-content-start">
     <div class="">
@@ -64,4 +61,7 @@
       </div>
     </div>
   </div>
+
+
+
 </div>
