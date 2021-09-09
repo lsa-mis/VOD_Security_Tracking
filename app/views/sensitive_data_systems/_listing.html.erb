@@ -1,61 +1,57 @@
 <div id="sensitive_data_systemListing">
 
-  <div class="flex flex-nowrap justify-center">
-    <div class="fixed_header_container">
-      <table class="fixed_header">
-        <thead>
-          <tr>
-            <th scope="col">Actions</th>
-            <th scope="col"><%= sort_link(@q, :owner_full_name, 'Owner full name') %></th>
-            <th scope="col"><%= sort_link(@q, :department_id, 'Department') %></th>
-            <th scope="col"><%= sort_link(@q, :storage_location_id, 'Storage location', default_order: :desc) %></th>
-            <th scope="col">Device</th>
-            <th scope="col"><%= sort_link(@q, :updated_at, 'Last Modified') %></th>
-            <th scope="col"><%= sort_link(@q, :data_type_id, 'Data type', default_order: :desc) %></th> 
-          </tr>
-        </thead>
-
-        <tbody>
-          <% @sensitive_data_systems.each do |sensitive_data_system| %>
-            <tr>
-              <td>
-                <ul>
-                  <li class= "listing-action-link"><%= link_to 'Show', sensitive_data_system %></li>
-                  <% if policy(sensitive_data_system).edit? %>
-                    <li class= "listing-action-link"><%= link_to 'Edit', edit_sensitive_data_system_path(sensitive_data_system) %></li>
-                  <% end %>
-                  <% if policy(sensitive_data_system).archive? %>
-                    <li class= "listing-action-link"><%= link_to 'Archive', archive_sensitive_data_system_path(sensitive_data_system), method: :post, data: { confirm: 'Are you sure?' } %></li>
-                  <% end %>
-                  <% if policy(sensitive_data_system).audit_log? %>
-                    <li class= "listing-action-link"><%= link_to 'Audit', sensitive_data_system_audit_log_path(sensitive_data_system) %></li>
-                  <% end %>
-                  </ul>
-              </td>
-              <td><%= sensitive_data_system.owner_full_name %></td>
-              <td><%= show_department_name(sensitive_data_system) %></td>
-              <td><%= show_storage_location(sensitive_data_system) %></td>
-              <% if sensitive_data_system.device_id.present? %>
-                <td><%= show_device(sensitive_data_system) %></td>
-              <% else %>
-                <td>--------</td>
-              <% end %>
-              <td><%= show_date(sensitive_data_system.updated_at) %></td>
-              <td><%= show_data_type_name(sensitive_data_system) %></td>
-              
-              
-              
-            </tr>
-          <% end %>
-          <% if @sensitive_data_systems.empty? %>
-            <tr>
-              <td><em>No matching Sensitive Data Systems</em></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+  <div class="rounded-t-lg shadow">
+    <div class="bg-gray-100 flex overflow-auto px-2 text-xs font-semibold ">
+      <div class="flex-none w-16">Actions</div>
+      <div class="flex-none w-52"><%= sort_link(@q, :owner_full_name, 'Owner full name') %></div>
+      <div class="flex-none w-32"><%= sort_link(@q, :department_id, 'Department') %></div>
+      <div class="flex-none w-48"><%= sort_link(@q, :storage_location_id, 'Storage location', default_order: :desc) %></div>
+      <div class="flex-1">Device</div>
+      <div class="flex-none w-24"><%= sort_link(@q, :updated_at, 'Last Modified') %></div>
+      <div class="flex-none w-40"><%= sort_link(@q, :data_type_id, 'Data type', default_order: :desc) %></div> 
     </div>
+
+    <div class="h-96 overflow-auto">
+      <% @sensitive_data_systems.each do |sensitive_data_system| %>
+        <div class="flex px-2 pb-2 divide-y">
+          <div class="self-center flex-none w-16 ">
+            <ul>
+              <li class= "listing-action-link"><%= link_to 'Show', sensitive_data_system %></li>
+              <% if policy(sensitive_data_system).edit? %>
+                <li class= "listing-action-link"><%= link_to 'Edit', edit_sensitive_data_system_path(sensitive_data_system) %></li>
+              <% end %>
+              <% if policy(sensitive_data_system).archive? %>
+                <li class= "listing-action-link"><%= link_to 'Archive', archive_sensitive_data_system_path(sensitive_data_system), method: :post, data: { confirm: 'Are you sure?' } %></li>
+              <% end %>
+              <% if policy(sensitive_data_system).audit_log? %>
+                <li class= "listing-action-link"><%= link_to 'Audit', sensitive_data_system_audit_log_path(sensitive_data_system) %></li>
+              <% end %>
+            </ul>
+          </div>
+          <div class="flex-none w-52"><%= sensitive_data_system.owner_full_name %></div>
+          <div class="flex-none w-32"><%= show_department_name(sensitive_data_system) %></div>
+          <div class="flex-none w-48"><%= show_storage_location(sensitive_data_system) %></div>
+          <% if sensitive_data_system.device_id.present? %>
+            <div class="flex-1"><%= show_device(sensitive_data_system) %></div>
+          <% else %>
+            <div class="flex-1">--------</div>
+          <% end %>
+          <div class="flex-none w-24"><%= show_date(sensitive_data_system.updated_at) %></div>
+          <div class="flex-none w-40"><%= show_data_type_name(sensitive_data_system) %></div>
+        </div>   
+      <% end %>
+    </div>
+
+    <!-- Blank state -->
+    <% if @sensitive_data_systems.empty? %>
+      <div>
+        <div class="text-center"><em>No matching Sensitive Data Systems</em></div>
+      </div>
+    <% end %>
   </div>
+
+  <hr>
+
   <%= render partial: "partials/pagination", locals: { pagy: @pagy } %>
   <div class="grid grid-cols-3 gap-4 place-content-start">
     <div class="">
