@@ -30,7 +30,10 @@ class AccessLookup < ApplicationRecord
   }, _prefix: true
 
   validates :ldap_group, presence: true
-  validates :vod_table, presence: true
+  validate :select_vod_table
   validates :vod_action, presence: true
 
+  def select_vod_table
+    errors.add(:vod_table, "select a table") if vod_table == "not_selected"
+  end
 end
