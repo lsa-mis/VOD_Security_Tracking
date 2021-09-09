@@ -3,6 +3,7 @@ AccessLookup.create!([
   {ldap_group: 'lsa-vod-admins', vod_table: 'admin_interface', vod_action: 'all'},
   {ldap_group: 'lsa-vod-devs', vod_table: 'admin_interface', vod_action: 'all'},
   {ldap_group: 'lsa-vod-devs', vod_table: 'dpa_exceptions', vod_action: 'all'},
+  {ldap_group: 'lsa-vod-devs', vod_table: 'it_security_incidents', vod_action: 'all'},
   {ldap_group: 'lsa-vod-devs', vod_table: 'legacy_os_records', vod_action: 'all'},
   {ldap_group: 'lsa-vod-devs', vod_table: 'devices', vod_action: 'all'}
 ])
