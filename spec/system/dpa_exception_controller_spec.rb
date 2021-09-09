@@ -42,7 +42,7 @@ RSpec.describe "DpaException Controller", type: :system do
     expect(page).to have_content('DPA Exception record was successfully created.')
     expect(page).to have_content('Record Saved, but not complete.')
     expect(DpaException.last.incomplete).to be(true)
-
+    DpaException.last.destroy
   end
 
   it 'create record with all fields' do
@@ -69,7 +69,7 @@ RSpec.describe "DpaException Controller", type: :system do
     expect(page).to have_content('DPA Exception record was successfully created.')
     expect(page).to_not have_content('Record Saved, but not complete.')
     expect(DpaException.last.incomplete).to be(false)
-
+    DpaException.last.destroy
   end
 
   # it 'test browser validation for requered fields' do
