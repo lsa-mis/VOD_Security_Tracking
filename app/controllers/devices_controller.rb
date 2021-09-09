@@ -58,7 +58,7 @@ class DevicesController < InheritedResources::Base
     if device_class.update_device
       note ||= device_class.message || ""
       if @device.update(device_class.device_attr)
-        redirect_to @device, notice: 'Device record was successfully updated.' + note
+        redirect_to @device, notice: 'Device record was successfully updated. ' + note
       else
         format.turbo_stream
       end
