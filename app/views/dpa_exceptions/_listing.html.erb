@@ -1,57 +1,55 @@
 <div id="dpa_exceptionListing">
     
-  <div class="flex flex-nowrap justify-center">
-    <div class="fixed_header_container">
-      <table class="fixed_header">
-        <thead>
-          <tr>
-            <th scope="col">Actions</th>
-            <th scope="col"><%= sort_link(@q, :dpa_exception_status_id, 'Status') %></th>
-            <th scope="col"><%= sort_link(@q, :review_date_exception_first_approval_date, 'Initial review date') %></th>
-            <th scope="col"><%= sort_link(@q, :third_party_product_service, 'Third party product service', default_order: :desc) %></th>
-            <th scope="col"><%= sort_link(@q, :department_id, 'Department used by', default_order: :desc) %></th>
-            <th scope="col"><%= sort_link(@q, :data_type_id, 'Data type', default_order: :desc) %></th>
-            <th scope="col"><%= sort_link(@q, :exception_approval_date_exception_renewal_date_due, 'Last Reviewed Date') %></th>
-            <th scope="col"><%= sort_link(@q, :review_date_exception_review_date, 'Next Review Due Date') %></th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <% @dpa_exceptions.each do |dpa_exception| %>
-            <tr>
-              <td>
-                <ul>
-                  <li class= "listing-action-link"><%= link_to 'Show', dpa_exception %></li>
-                  <% if policy(dpa_exception).edit? %>
-                    <li class= "listing-action-link"><%= link_to 'Edit', edit_dpa_exception_path(dpa_exception) %></li>
-                  <% end %>
-                  <% if policy(dpa_exception).archive? %>
-                    <li class= "listing-action-link"><%= link_to 'Archive', archive_dpa_exception_path(dpa_exception),  method: :post, data: { confirm: 'Are you sure?' } %></li>
-                  <% end %>
-                  <% if policy(dpa_exception).audit_log? %>
-                    <li class= "listing-action-link"><%= link_to 'Audit', dpa_exception_audit_log_path(dpa_exception) %></li>
-                  <% end %>
-                </ul>
-              </td> 
-              <td><%= show_dpa_exception_status(dpa_exception) %></td>
-              <td><%= show_date(dpa_exception.review_date_exception_first_approval_date) %></td>
-              <td><%= dpa_exception.third_party_product_service %></td>
-              <td><%= show_department_name(dpa_exception) %></td>
-              <td><%= show_data_type_name(dpa_exception) %></td>
-              <td><%= show_date(dpa_exception.exception_approval_date_exception_renewal_date_due) %></td>
-              <td><%= show_date(dpa_exception.review_date_exception_review_date) %></td>
-            </tr>
-          <% end %>
-          <!-- Blank state -->
-          <% if @dpa_exceptions.empty? %>
-            <tr>
-              <td><em>No matching DPA Exceptions</em></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+  <div class="rounded-t-lg shadow">
+    <div class="bg-gray-100 flex overflow-auto px-2 text-xs font-semibold ">
+      <div class="flex-none w-16">Actions</div>
+      <div class="flex-none w-24"><%= sort_link(@q, :dpa_exception_status_id, 'Status') %></div>
+      <div class="flex-none w-32"><%= sort_link(@q, :review_date_exception_first_approval_date, 'Initial review') %></div>
+      <div class="flex-1"><%= sort_link(@q, :third_party_product_service, 'Third party product service', default_order: :desc) %></div>
+      <div class="flex-none w-48"><%= sort_link(@q, :department_id, 'Department used by', default_order: :desc) %></div>
+      <div class="flex-none w-40"><%= sort_link(@q, :data_type_id, 'Data type', default_order: :desc) %></div>
+      <div class="flex-none w-32"><%= sort_link(@q, :exception_approval_date_exception_renewal_date_due, 'Last Reviewed') %></div>
+      <div class="flex-none w-32"><%= sort_link(@q, :review_date_exception_review_date, 'Next Review Due') %></div>
     </div>
+
+    <div class="h-96 overflow-auto">
+      <% @dpa_exceptions.each do |dpa_exception| %>
+        <div class="flex px-2 pb-2 divide-y">
+          <div class="self-center flex-none w-16 ">
+            <ul>
+              <li class= "listing-action-link"><%= link_to 'Show', dpa_exception %></li>
+              <% if policy(dpa_exception).edit? %>
+                <li class= "listing-action-link"><%= link_to 'Edit', edit_dpa_exception_path(dpa_exception) %></li>
+              <% end %>
+              <% if policy(dpa_exception).archive? %>
+                <li class= "listing-action-link"><%= link_to 'Archive', archive_dpa_exception_path(dpa_exception),  method: :post, data: { confirm: 'Are you sure?' } %></li>
+              <% end %>
+              <% if policy(dpa_exception).audit_log? %>
+                <li class= "listing-action-link"><%= link_to 'Audit', dpa_exception_audit_log_path(dpa_exception) %></li>
+              <% end %>
+            </ul>
+          </div> 
+          <div class="flex-none w-24"><%= show_dpa_exception_status(dpa_exception) %></div>
+          <div class="flex-none w-32"><%= show_date(dpa_exception.review_date_exception_first_approval_date) %></div>
+          <div class="flex-1"><%= dpa_exception.third_party_product_service %></div>
+          <div class="flex-none w-48"><%= show_department_name(dpa_exception) %></div>
+          <div class="flex-none w-40"><%= show_data_type_name(dpa_exception) %></div>
+          <div class="flex-none w-32"><%= show_date(dpa_exception.exception_approval_date_exception_renewal_date_due) %></div>
+          <div class="flex-none w-32"><%= show_date(dpa_exception.review_date_exception_review_date) %></div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Blank state -->
+    <% if @dpa_exceptions.empty? %>
+      <div>
+        <div class="text-center"><em>No matching DPA Exceptions</em></div>
+      </div>
+    <% end %>
   </div>
+
+  <hr>
+
   <%= render partial: "partials/pagination", locals: { pagy: @pagy } %>
   <div class="grid grid-cols-3 gap-4 place-content-start">
     <div class="">
