@@ -1,19 +1,19 @@
 @import "tailwindcss/base"
 @import "tailwindcss/components"
 @import "tailwindcss/utilities"
-@import 'trix/dist/trix.css';
+@import 'trix/dist/trix.css'
 
 @layer base
-  h1 
+  h1
     @apply text-xl font-bold leading-relaxed font-sans uppercase
 
-  h2 
+  h2
     @apply text-lg
 
-  h3 
+  h3
     @apply text-base
 
-  h4 
+  h4
     @apply text-sm
 
   p
@@ -35,7 +35,6 @@
     &.export-csv-link
       @apply p-2 mb-2 w-28 rounded-md shadow-sm py-1 bg-laitan_blue text-sm text-white text-center hover:bg-um_blue
 
-
   li
     &.action-link
       @apply mb-1 w-28 rounded-sm shadow-sm py-1 bg-laitan_blue text-sm text-white text-center hover:bg-um_blue
@@ -46,26 +45,29 @@
 // this is a good candidate for a partial
 .device--display
   @apply block
-  
+
 .device--hide
   @apply hidden
 
 .device-error--display
   @apply block
-  
+
 .device-error--hide
-  @apply hidden 
+  @apply hidden
 /////////////////////////////////////////
-​ 	
+
 main
   @apply bg-white m-4 flex-1
 
 .navbtn-link
-    &:focus
-      @apply ring-2 ring-offset-2 ring-indigo-500
+  &:focus
+    @apply ring-2 ring-offset-2 ring-indigo-500
 
 .btn-login
   @apply inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50
+
+.sysmessage
+  @apply bg-um_yellow text-um_blue p-1 mt-4
 
 .filter-btn
   @apply p-2 mb-2 w-28 rounded-md shadow-sm py-1 bg-laitan_blue text-sm text-white text-center ring-1 ring-black ring-opacity-5 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-um_blue
@@ -85,13 +87,13 @@ main
   thead, tr
     @apply block
 
-  thead 
+  thead
     @apply bg-gray-50
 
   td, th
-    @apply p-5 text-left w-40 
+    @apply p-5 text-left w-40
 
-  th 
+  th
     @apply text-xs
 
 .audit-th
@@ -100,18 +102,17 @@ main
 .audit-td
   @apply px-6 py-4 text-center
 
-
 .flash
   @apply px-2 border rounded-sm text-black
 
   &.notice
     @apply bg-green-100
-  
+
   &.alert
     @apply bg-yellow-100
 // styles for pagy gem
 .pagy-nav,
-.pagy-nav-js 
+.pagy-nav-js
   @apply flex space-x-2
 
 .pagy-nav .page a,
@@ -121,14 +122,13 @@ main
 .pagy-nav-js .page a,
 .pagy-nav-js .page.active,
 .pagy-nav-js .page.prev.disabled,
-.pagy-nav-js .page.next.disabled 
+.pagy-nav-js .page.next.disabled
   @apply block rounded-lg px-3 py-1 text-sm text-gray-500 font-semibold bg-gray-200 shadow-md
   &:hover
     @apply bg-gray-300
-  
+
   &:active
     @apply bg-gray-400 text-white
-
 
 .pagy-nav .page.prev.disabled,
 .pagy-nav .page.next.disabled,
@@ -140,34 +140,29 @@ main
   &:active
     @apply text-gray-400 bg-gray-200
 
-
 .pagy-nav .page.active,
-.pagy-nav-js .page.active 
+.pagy-nav-js .page.active
   @apply text-white cursor-default bg-gray-400
-  &:hover 
+  &:hover
     @apply text-white bg-gray-400
-  
-  &:active 
+
+  &:active
     @apply bg-gray-400 text-white
 
-
-.pagy-combo-nav-js 
+.pagy-combo-nav-js
   @apply flex max-w-max rounded-full px-3 py-1 text-sm text-gray-500 font-semibold bg-gray-200 shadow-md
 
-
-.pagy-combo-nav-js .pagy-combo-input 
+.pagy-combo-nav-js .pagy-combo-input
   @apply bg-white px-2 rounded-sm
 
-
 .pagy-combo-nav-js .page.prev,
-.pagy-combo-nav-js .page.next 
-  &:hover 
-    @apply text-gray-800
-  
-  &:active 
+.pagy-combo-nav-js .page.next
+  &:hover
     @apply text-gray-800
 
+  &:active
+    @apply text-gray-800
 
 .pagy-combo-nav-js .page.prev.disabled,
-.pagy-combo-nav-js .page.next.disabled 
+.pagy-combo-nav-js .page.next.disabled
   @apply text-gray-400 cursor-default
