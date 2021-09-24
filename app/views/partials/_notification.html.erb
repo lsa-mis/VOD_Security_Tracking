@@ -2,7 +2,9 @@
   <% if (nt.opendate..nt.closedate).cover? DateTime.now %>
     <div class="w-full block flex justify-center sysmessage">
       <% if nt.notetype == "alert"%>
-        <i class="fas fa-exclamation-circle" style="padding: 0 5px;font-size: 30px;"></i>
+        <div class="mr-2">
+          <%= render :partial => 'svg/alert' %>
+        </div>
       <% end %>
       <div class="self-center">
         <%= nt.note %>

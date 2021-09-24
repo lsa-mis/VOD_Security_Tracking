@@ -17,9 +17,7 @@ ActiveAdmin.register_page "Dashboard" do
     # end
 
     panel "Active Notification" do
-      div do
         render("/partials/admin_dashboard_notification", model: "dashboard")
-      end
     end
 
     # Here is an example of a simple dashboard with columns and panels.
