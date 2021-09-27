@@ -1,4 +1,4 @@
-<% Notification.all.each do |nt| %>
+<% Notification.active.each do |nt| %>
   <% if (nt.opendate..nt.closedate).cover? DateTime.now %>
     <div>
       Starting: <%= (nt.opendate).strftime("%a, %b %-d, %Y at %l:%M %p") %>
@@ -14,5 +14,6 @@
         <%= nt.note %>
       </div>
     </div>
+    <hr>
   <% end %>
 <% end %>
