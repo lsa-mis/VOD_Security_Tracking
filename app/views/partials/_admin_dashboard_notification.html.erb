@@ -1,18 +1,18 @@
-<% Notification.all.each do |nt| %>
-  <% if (nt.opendate..nt.closedate).cover? DateTime.now %>
-    <div>
-      Starting: <%= (nt.opendate).strftime("%a, %b %-d, %Y at %l:%M %p") %>
-      <br>Ending: <%= (nt.closedate).strftime("%a, %b %-d, %Y at %l:%M %p") %>
-    </div>
-    <div style="display:flex;align-items:center;">
-      <% if nt.notetype == "alert"%>
-        <div style="display: inline-block;white-space: nowrap;margin-right: 4px;padding-top: 4px;">
-          <%= render :partial => 'svg/alert' %>
-        </div>
-      <% end %>
-      <div class="self-center" style="display: inline-block;white-space: nowrap;">
-        <%= nt.note %>
+
+<% Notification.active.each do |nt| %>
+  <div>
+    Starting: <%= (nt.opendate).strftime("%a, %b %-d, %Y at %l:%M %p") %>
+    <br>Ending: <%= (nt.closedate).strftime("%a, %b %-d, %Y at %l:%M %p") %>
+  </div>
+  <div style="display:flex;align-items:center;">
+    <% if nt.notetype == "alert"%>
+      <div style="display: inline-block;white-space: nowrap;margin-right: 4px;padding-top: 4px;">
+        <%= render :partial => 'svg/alert' %>
       </div>
+    <% end %>
+    <div class="self-center" style="display: inline-block;white-space: nowrap;">
+      <%= nt.note %>
     </div>
-  <% end %>
+  </div>
+  <hr>
 <% end %>
