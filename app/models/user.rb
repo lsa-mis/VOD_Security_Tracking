@@ -22,7 +22,7 @@ class User < ApplicationRecord
   attr_accessor :membership, :dept_membership
 
   # Include default devise modules. Others available are:
-  devise :ldap_authenticatable, :rememberable, :trackable, :timeoutable,
+  devise :ldap_authenticatable, :trackable, :timeoutable,
          :lockable
 
   scope :recent, -> { where("current_sign_in_at > ?", 2.days.ago) }
