@@ -18,5 +18,13 @@
 require 'rails_helper'
 
 RSpec.describe Device, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  it "is valid with serial and/or hostname attributes" do
+    device = FactoryBot.create(:device)
+    expect(device).to be_valid
+    device.destroy
+    expect(Device.new(serial: "serial")).to be_valid
+    expect(Device.new(hostname: "hostname")).to be_valid
+  end
+
 end

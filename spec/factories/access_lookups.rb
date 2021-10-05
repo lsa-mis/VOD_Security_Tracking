@@ -11,8 +11,8 @@
 #
 FactoryBot.define do
   factory :access_lookup do
-    ldap_group { "MyString" }
-    table { "MyString" }
-    action { "MyString" }
+    ldap_group { "lsa-vod-devs" }
+    vod_table { "dpa_exceptions" }
+    vod_action { "all" }
   end
 end

@@ -13,5 +13,16 @@
 require 'rails_helper'
 
 RSpec.describe StorageLocation, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  it "should have a unique name" do
+    StorageLocation.create!(name: 'Local')
+    storage_location = StorageLocation.new(name: 'Local')
+    expect(storage_location).to_not be_valid
+    storage_location.errors[:name].include?("has already be taken")
+  end
+
+  it "is not valid without name" do
+    expect(StorageLocation.new(description: "description")).to_not be_valid
+  end
+
 end

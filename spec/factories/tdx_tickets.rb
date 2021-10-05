@@ -11,6 +11,6 @@
 #
 FactoryBot.define do
   factory :tdx_ticket do
-    ticket_link { "MyString" }
+    ticket_link { Faker::Internet.url }
   end
 end

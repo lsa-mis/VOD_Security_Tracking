@@ -28,35 +28,77 @@
 require 'rails_helper'
 
 RSpec.describe LegacyOsRecord, type: :model do
+  
   let!(:device) { FactoryBot.create(:device) }
   let!(:data_classification_level) { FactoryBot.create(:data_classification_level) }
   let!(:data_type) { FactoryBot.create(:data_type, { data_classification_level: data_classification_level }) }
-  # let(:legacy_os_record) {FactoryBot.build :legacy_os_record}
+  let!(:department) { FactoryBot.create(:department) }
+  let!(:legacy_os_record) { FactoryBot.create(:legacy_os_record) }
 
-  it "is valid with valid attributes" do
+
+  it "is valid with required attributes (including only unique_app)" do
     expect(LegacyOsRecord.new(owner_username: "brita", owner_full_name: "Rita Barvinok",
-                              dept: "Department", phone: "123-345-6789",
+                              department: department, phone: "123-345-6789",
                               unique_app: "unique_app",
                               device: device)).to be_valid
-    # legacy_os_record = FactoryBot.build(:legacy_os_record)
-    # expect(legacy_os_record).to be_valid
+  end
+
+  it "is valid with required attributes (including only unique_hardware)" do
+    expect(LegacyOsRecord.new(owner_username: "brita", owner_full_name: "Rita Barvinok",
+                              department: department, phone: "123-345-6789",
+                              unique_hardware: "unique_hardware",
+                              device: device)).to be_valid
+  end
+
+  it "is valid with required attributes (including both unique_app and unique_hardware)" do
+    expect(LegacyOsRecord.new(owner_username: "brita", owner_full_name: "Rita Barvinok",
+                              department: department, phone: "123-345-6789",
+                              unique_hardware: "unique_hardware", unique_app: "unique_app",
+                              device: device)).to be_valid
+  end
+
+  it "is valid without a data_type" do
+    device = Device.new(serial: "C02ZF95GLVDL")
+    expect(LegacyOsRecord.new(owner_username: "brita", owner_full_name: "Rita Barvinok", remediation: "remediation", 
+                              review_contact: "review_contact", department: department, phone: "123-345-6789", support_poc: "support_poc",
+                              unique_date: "2021-03-19 16:50:16", unique_app: "unique_app",
+                              device: device)).to be_valid
   end
   
   it "is not valid without a device" do
-    # legacy_os_record = FactoryBot.build(:legacy_os_record)
-    # legacy_os_record.device_id = nil
-    # expect(legacy_os_record).to_not be_valid
     expect(LegacyOsRecord.new(owner_username: "brita", owner_full_name: "Rita Barvinok", remediation: "remediation", 
-                              review_contact: "review_contact", dept: "Department", phone: "123-345-6789", support_poc: "support_poc",
+                              review_contact: "review_contact", department: department, phone: "123-345-6789", support_poc: "support_poc",
                               unique_date: "2021-03-19 16:50:16", unique_app: "unique_app",
                               data_type: data_type)).to_not be_valid
   end
 
-  # it "is not valid without a data_type" do
-  #   expect(LegacyOsRecord.new(owner_username: "brita", owner_full_name: "Rita Barvinok", remediation: "remediation", 
-  #                             review_contact: "review_contact", dept: "Department", phone: "123-345-6789", support_poc: "support_poc",
-  #                             unique_date: "2021-03-19 16:50:16", unique_app: "unique_app",
-  #                             device: device)).to_not be_valid
-  # end
+  it "is not valid without unique_app and unique_hardware" do
+    expect(LegacyOsRecord.new(owner_username: "brita", owner_full_name: "Rita Barvinok", remediation: "remediation", 
+                              review_contact: "review_contact", department: department, phone: "123-345-6789", support_poc: "support_poc",
+                              unique_date: "2021-03-19 16:50:16",
+                              device: device)).to_not be_valid
+  end
+
+  it "is incomplete with empty attributes" do
+    legacy_os_record = LegacyOsRecord.new(owner_username: "brita", owner_full_name: "Rita Barvinok",
+                              department: department, phone: "123-345-6789",
+                              unique_app: "unique_app",
+                              device: device)
+    expect(legacy_os_record.not_completed?).to be(true)
+  end
+
+  it "is complete with all attributes" do
+    expect(legacy_os_record.not_completed?).to be(false)
+    legacy_os_record.update(notes: "")
+    expect(legacy_os_record.not_completed?).to be(false)
+    legacy_os_record.update(unique_app: "")
+    expect(legacy_os_record.not_completed?).to be(false)
+    legacy_os_record.update(unique_app: "unique_app", unique_hardware: "")
+    expect(legacy_os_record.not_completed?).to be(false)
+  end
+
+  it "is valid with all attributes" do
+    expect(legacy_os_record).to be_valid
+  end
 
 end

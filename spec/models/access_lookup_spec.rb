@@ -12,5 +12,17 @@
 require 'rails_helper'
 
 RSpec.describe AccessLookup, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "is not valid without ldap_group" do
+    expect(AccessLookup.new(vod_table: "dpa_exceptions", vod_action: "all")).to_not be_valid
+  end
+
+  it "is not valid without vod_table" do
+    expect(AccessLookup.new(ldap_group: "lsa-vod-devs", vod_table: "not_selected", vod_action: "all")).to_not be_valid
+  end
+
+  it "is valid with all attributes" do
+    access_lookup = FactoryBot.create(:access_lookup)
+    expect(access_lookup).to be_valid
+  end
+
 end

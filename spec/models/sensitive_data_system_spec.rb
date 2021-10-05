@@ -26,5 +26,37 @@
 require 'rails_helper'
 
 RSpec.describe SensitiveDataSystem, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let!(:device) { FactoryBot.create(:device) }
+  let!(:data_classification_level) { FactoryBot.create(:data_classification_level) }
+  let!(:data_type) { FactoryBot.create(:data_type, { data_classification_level: data_classification_level }) }
+  let!(:storage_location) { FactoryBot.create(:storage_location) }
+  let!(:department) { FactoryBot.create(:department) }
+  let!(:sensitive_data_system) { FactoryBot.create(:sensitive_data_system) }
+
+  it "is valid with required attributes" do
+    expect(SensitiveDataSystem.new(name: "name", owner_username: "brita", owner_full_name: "Rita Barvinok",
+                              department: department)).to be_valid
+  end
+
+  # this test is not working because device validation happens in the stimulus controller
+  # it "is not valid without device if storage location requires device" do
+  #   # storage_location = StorageLocation.new(name: "local", device_is_required: true)
+
+  #   expect(SensitiveDataSystem.new(name: "name", owner_username: "brita", owner_full_name: "Rita Barvinok",
+  #                               department: department, 
+  #                               storage_location: storage_location)).to be_valid
+  # end
+
+  it "is incomplete with empty attributes" do
+    sensitive_data_system = SensitiveDataSystem.new(name: "name", owner_username: "brita", owner_full_name: "Rita Barvinok",
+                            department: department)
+    expect(sensitive_data_system.not_completed?).to be(true)
+  end
+
+  it "is complete with all attributes" do
+    expect(sensitive_data_system.not_completed?).to be(false)
+    sensitive_data_system.update(notes: "")
+    expect(sensitive_data_system.not_completed?).to be(false)
+
+  end
 end

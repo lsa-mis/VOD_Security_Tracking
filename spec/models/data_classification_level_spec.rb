@@ -11,5 +11,15 @@
 require 'rails_helper'
 
 RSpec.describe DataClassificationLevel, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  
+  it "should have a unique name" do
+    DataClassificationLevel.create!(name: 'High')
+    data_classification_level = DataClassificationLevel.new(name: 'High')
+    expect(data_classification_level).to_not be_valid
+    data_classification_level.errors[:name].include?("has already be taken")
+  end
+
+  it "is not valid without name" do
+    expect(DataClassificationLevel.new(description: "description")).to_not be_valid
+  end
 end
