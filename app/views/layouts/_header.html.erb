@@ -1,5 +1,5 @@
-<header class="w-full h-75 bg-um_blue text-white ">
-  <nav class="flex items-center justify-between flex-wrap p-6">
+<header class="w-full h-44px bg-um_blue text-white p-2">
+  <nav class="flex items-center justify-between flex-wrap">
     <div class="flex items-center flex-no-shrink text-white mr-6">
       <%= image_pack_tag "Technology_Services_logo_rgb_reverse.png", alt:"LSATS Logo", size: "323x75" %>
     </div>
@@ -28,7 +28,7 @@
       <div class="w-full block sm:items-center sm:w-auto">
         <div class= "flex justify-end">
           <% if user_signed_in? %>
-            <div class= "text-um_yellow mr-4">
+            <div class= "self-center text-um_yellow mr-4">
               <%= current_user.username %>
             </div>
             <div>
@@ -42,8 +42,6 @@
         </div>
       </div>
     </div>
-    <div class= "w-full block flex justify-center">
-      <%= render 'partials/notification' %>
-    </div>
+    <%= render 'partials/notification' %>
   </nav>
 </header>

@@ -1,16 +1,12 @@
-<% Notification.all.each do |nt| %>
-  <% if (nt.opendate..nt.closedate).cover? DateTime.now %>
-    <% if nt.notetype == "notice"%>
-      <div class="bg-white-200 border border-um_yellow mt-4 p-2" >
-    <% else %>
-      <div class="bg-white-200 border border-um_yellow mt-4 p-2 flex wrap space-between" >
-        <div class="mr-2">
-          <%= render :partial => 'svg/alert' %>
-        </div>
-    <% end %>
-      <div>
-        <%= nt.note %>
+<% Notification.active.each do |nt| %>
+  <div class="w-full flex justify-center sysmessage">
+    <% if nt.notetype == "alert"%>
+      <div class="mr-2">
+        <%= render :partial => 'svg/alert' %>
       </div>
+    <% end %>
+    <div class="self-center">
+      <%= nt.note %>
     </div>
-  <% end %>
+  </div>
 <% end %>

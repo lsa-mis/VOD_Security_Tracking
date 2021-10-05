@@ -1,55 +1,54 @@
 <div id="legacy_os_recordListing">
 
-  <div class="flex flex-nowrap justify-center">
-    <div class="fixed_header_container">
-      <table class="fixed_header">
-        <thead>
-          <tr>
-          <th scope="col">Actions</th>
-          <th scope="col">Owner full name</th>
-          <th scope="col">Device</th>
-          <th scope="col"><%= sort_link(@q, :legacy_os, 'Legacy OS') %></th>
-          <th scope="col"><%= sort_link(@q, :updated_at, 'Last Modified') %></th>
-          <th scope="col"><%= sort_link(@q, :data_type_id, 'Data type', default_order: :desc) %></th>
-          <th scope="col"><%= sort_link(@q, :review_date, 'Review date') %></th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <% @legacy_os_records.each do |legacy_os_record| %>
-            <tr>
-              <td>
-              <ul>
-                <li class= "listing-action-link"><%= link_to 'Show', legacy_os_record %></li>
-                <% if policy(legacy_os_record).edit? %>
-                  <li class= "listing-action-link"><%= link_to 'Edit', edit_legacy_os_record_path(legacy_os_record) %></li>
-                <% end %>
-                <% if policy(legacy_os_record).archive? %>
-                  <li class= "listing-action-link"><%= link_to 'Archive', archive_legacy_os_record_path(legacy_os_record), method: :post, data: { confirm: 'Are you sure?' } %></li>
-                <% end %>
-                <% if policy(legacy_os_record).audit_log? %>
-                  <li class= "listing-action-link"><%= link_to 'Audit', legacy_os_record_audit_log_path(legacy_os_record) %></li>
-                <% end %>
-              </ul>
-              </td>
-              <td><%= legacy_os_record.owner_full_name %></td>
-              <td><%= show_device(legacy_os_record) %></td>
-              <td><%= legacy_os_record.legacy_os %></td>
-              <td><%= show_date(legacy_os_record.updated_at) %></td>
-              <td><%= show_data_type_name(legacy_os_record) %></td>
-              <td><%= show_date(legacy_os_record.review_date) %></td>
-            </tr>
-          <% end %>
-          <!-- Blank state -->
-          <% if @legacy_os_records.empty? %>
-            <tr>
-              <td><em>No matching Legacy OS Records</em></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+  <div class="rounded-t-lg shadow">
+    <div class="bg-gray-100 flex overflow-auto px-2 text-xs font-semibold ">
+      <div class="flex-none w-16">Actions</div>
+      <div class="flex-none w-52">Owner full name</div>
+      <div class="flex-1">Device</div>
+      <div class="flex-none w-24"><%= sort_link(@q, :legacy_os, 'Legacy OS') %></div>
+      <div class="flex-none w-24"><%= sort_link(@q, :updated_at, 'Last Modified') %></div>
+      <div class="flex-none w-60"><%= sort_link(@q, :data_type_id, 'Data type', default_order: :desc) %></div>
+      <div class="flex-none w-24"><%= sort_link(@q, :review_date, 'Review date') %></div>
     </div>
+
+    <div class="h-96 overflow-auto">
+      <% @legacy_os_records.each do |legacy_os_record| %>
+        <div class="flex px-2 pb-2 divide-y">
+          <div class="self-center flex-none w-16 ">
+            <ul>
+              <li class= "listing-action-link"><%= link_to 'Show', legacy_os_record %></li>
+              <% if policy(legacy_os_record).edit? %>
+                <li class= "listing-action-link"><%= link_to 'Edit', edit_legacy_os_record_path(legacy_os_record) %></li>
+              <% end %>
+              <% if policy(legacy_os_record).archive? %>
+                <li class= "listing-action-link"><%= link_to 'Archive', archive_legacy_os_record_path(legacy_os_record), method: :post, data: { confirm: 'Are you sure?' } %></li>
+              <% end %>
+              <% if policy(legacy_os_record).audit_log? %>
+                <li class= "listing-action-link"><%= link_to 'Audit', legacy_os_record_audit_log_path(legacy_os_record) %></li>
+              <% end %>
+            </ul>
+          </div>
+          <div class="flex-none w-52"><%= legacy_os_record.owner_full_name %></div>
+          <div class="flex-1"><%= show_device(legacy_os_record) %></div>
+          <div class="flex-none w-24"><%= legacy_os_record.legacy_os %></div>
+          <div class="flex-none w-24"><%= show_date(legacy_os_record.updated_at) %></div>
+          <div class="flex-none w-60"><%= show_data_type_name(legacy_os_record) %></div>
+          <div class="flex-none w-24"><%= show_date(legacy_os_record.review_date) %></div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Blank state -->
+    <% if @legacy_os_records.empty? %>
+      <div>
+        <div class="text-center"><em>No matching Legacy OS Records</em></div>
+      </div>
+    <% end %>
   </div>
+
+
+  <hr>
+
   <%= render partial: "partials/pagination", locals: { pagy: @pagy } %>
   <div class="grid grid-cols-3 gap-4 place-content-start">
     <div class="">

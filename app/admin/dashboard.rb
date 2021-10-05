@@ -17,9 +17,7 @@ ActiveAdmin.register_page "Dashboard" do
     # end
 
     panel "Active Notification" do
-      div do
         render("/partials/admin_dashboard_notification", model: "dashboard")
-      end
     end
 
     # Here is an example of a simple dashboard with columns and panels.
@@ -36,8 +34,11 @@ ActiveAdmin.register_page "Dashboard" do
       end
 
       column do
-        panel "Info" do
-          para "Welcome to ActiveAdmin."
+        panel "Resources" do
+          ul do
+            li link_to('User Documentation', 'https://docs.google.com/document/d/1UKKiF-ymijQf2_NNhx0LzVYKkyq9YzttNO9DDKdtFwc/edit?usp=sharing', :target => "_blank")
+            li link_to('Admin Documentation', 'https://docs.google.com/document/d/1xpk79I9FVJ1JPn89oFEedoVtljj6IGwB1K3ub8mEyMI/edit?usp=sharing', :target => "_blank")
+          end
         end
       end
     end
