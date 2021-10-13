@@ -50,14 +50,14 @@ class Device < ApplicationRecord
 
   def display_hostname_serial
     if self.hostname.present?
-      name = "#{self.hostname} " # or whatever column you want
+      name = "Hostname: #{self.hostname} " # or whatever column you want
     else
-      name = "none "
+      name = "Hostname: none "
     end
     if self.serial.present?
-      name += "#{self.serial}"
+      name += "Serial: #{self.serial}"
     else 
-      name += "none"
+      name += "Serial: none"
     end
     name
   end
