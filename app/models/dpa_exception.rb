@@ -99,11 +99,11 @@ class DpaException < ApplicationRecord
     fields = %w{id incomplete dpa_exception_status_id review_date_exception_first_approval_date third_party_product_service
               department_id point_of_contact review_findings review_summary lsa_security_recommendation lsa_security_determination
               lsa_security_approval lsa_technology_services_approval exception_approval_date_exception_renewal_date_due notes
-              data_type_id review_date_exception_review_date}
+              data_type_id review_date_exception_review_date tdx_tickets}
     header = %w{link incomplete dpa_exception_status review_date_exception_first_approval_date third_party_product_service
               department_used_by point_of_contact review_findings review_summary lsa_security_recommendation lsa_security_determination
               lsa_security_approval lsa_technology_services_approval exception_approval_date_exception_renewal_date_due notes
-              data_type review_date_exception_review_date}
+              data_type review_date_exception_review_date tdx_tickets}
     header.map! { |e| e.titleize.upcase }
     key_id = 'id'
     CSV.generate(headers: true) do |csv|
@@ -135,6 +135,12 @@ class DpaException < ApplicationRecord
           elsif key == 'notes'
             value = DpaException.find(record_id).notes.body
             row << Html2Text.convert(value)
+          elsif key == 'tdx_tickets' && DpaException.find(record_id).tdx_tickets.present?
+            tickets = ""
+            DpaException.find(record_id).tdx_tickets.each do |ticket|
+              tickets += ticket.ticket_link + " ; "
+            end
+            row << tickets
           else
             row << a.attributes.values_at(key)[0]
           end

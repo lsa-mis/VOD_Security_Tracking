@@ -89,9 +89,9 @@ class ItSecurityIncident < ApplicationRecord
 
   def self.to_csv
     fields = %w{id incomplete title date people_involved equipment_involved remediation_steps
-              estimated_financial_cost notes it_security_incident_status_id data_type_id}
+              estimated_financial_cost notes it_security_incident_status_id data_type_id tdx_tickets}
     header = %w{link incomplete title date people_involved equipment_involved remediation_steps
-              estimated_financial_cost notes it_security_incident_status data_type}
+              estimated_financial_cost notes it_security_incident_status data_type tdx_tickets}
     header.map! { |e| e.titleize.upcase }
     key_id = 'id'
     CSV.generate(headers: true) do |csv|
@@ -118,6 +118,12 @@ class ItSecurityIncident < ApplicationRecord
           elsif key == 'notes'
             value = ItSecurityIncident.find(record_id).notes.body
             row << Html2Text.convert(value)
+          elsif key == 'tdx_tickets' && ItSecurityIncident.find(record_id).tdx_tickets.present?
+            tickets = ""
+            ItSecurityIncident.find(record_id).tdx_tickets.each do |ticket|
+              tickets += ticket.ticket_link + " ; "
+            end
+            row << tickets
           else
             row << a.attributes.values_at(key)[0]
           end

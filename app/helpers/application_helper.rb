@@ -32,9 +32,9 @@ module ApplicationHelper
 
   def show_device(resource)
     if resource.device
-      resource.device.display_name
+      resource.device.display_hostname_serial
     else
-      ""
+      "none"
     end
   end
 

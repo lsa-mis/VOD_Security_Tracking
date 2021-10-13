@@ -101,10 +101,10 @@ class SensitiveDataSystem < ApplicationRecord
   def self.to_csv
     fields = %w{id incomplete name owner_username owner_full_name department_id phone additional_dept_contact
                 additional_dept_contact_phone support_poc expected_duration_of_data_retention agreements_related_to_data_types
-                review_date review_contact notes storage_location_id data_type_id device_id}
+                review_date review_contact notes storage_location_id data_type_id device_id tdx_tickets}
     header = %w{link incomplete name owner_username owner_full_name department phone additional_dept_contact
                 additional_dept_contact_phone support_poc expected_duration_of_data_retention agreements_related_to_data_types
-                review_date review_contact notes storage_location data_type device}
+                review_date review_contact notes storage_location data_type device:_hostname_serial tdx_tickets}
     header.map! { |e| e.titleize.upcase }
     key_id = 'id'
     CSV.generate(headers: true) do |csv|
@@ -122,10 +122,16 @@ class SensitiveDataSystem < ApplicationRecord
           elsif key == 'department_id' && a.department_id.present?
             row << Department.find(a.attributes.values_at(key)[0]).name
           elsif key == 'device_id' && a.device_id.present?
-            row << Device.find(a.attributes.values_at(key)[0]).display_name
+            row << Device.find(a.attributes.values_at(key)[0]).display_hostname_serial
           elsif key == 'notes'
             value = SensitiveDataSystem.find(record_id).notes.body
             row << Html2Text.convert(value)
+          elsif key == 'tdx_tickets' && SensitiveDataSystem.find(record_id).tdx_tickets.present?
+            tickets = ""
+            SensitiveDataSystem.find(record_id).tdx_tickets.each do |ticket|
+              tickets += ticket.ticket_link + " ; "
+            end
+            row << tickets
           else
             row << a.attributes.values_at(key)[0]
           end
