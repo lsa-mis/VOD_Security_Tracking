@@ -123,29 +123,32 @@
       </div>
 
       <div class="field device--hide" data-sensitiveds-target="system_device">
-      <%= form.label 'Device' %>
-      <div class="flex flex-row flex-nowrap justify-items-start items-center" data-sensitiveds-target="system_device">
-        <%= form.fields_for :device, @device do |device_attributes| %>
-          <div class="w-1/3 pr-4">
-            <%= form.label :serial %>
-            <%= device_attributes.text_field :serial, :"data-sensitiveds-target" => "serial" %>
-            <span class="device-error--hide text-red-700" data-sensitiveds-target="serial_error">
-              Add serial number
-            </span>
-            <p class="help-text"></p>
-          </div>
+        <%= form.label 'Device' %>
+        <div class="flex flex-row flex-nowrap justify-items-start items-center" data-sensitiveds-target="system_device">
+          <%= form.fields_for :device, @device do |device_attributes| %>
+            <div class="w-1/3 pr-4">
+              <%= form.label :serial %>
+              <%= device_attributes.text_field :serial, :"data-sensitiveds-target" => "serial" %>
+              <span class="device-error--hide text-red-700" data-sensitiveds-target="serial_error">
+                Add serial number
+              </span>
+              <p class="help-text"></p>
+            </div>
 
-          <div class="w-1/3">
-            <%= form.label :hostname %>
-            <%= device_attributes.text_field :hostname, :"data-sensitiveds-target" => "hostname" %>
-            <span class="device-error--hide text-red-700" data-sensitiveds-target="hostname_error">
-              or hostname
-            </span>
-            <p class="help-text"></p>
-          </div>
-        <% end %>
+            <div class="w-1/3">
+              <%= form.label :hostname %>
+              <%= device_attributes.text_field :hostname, :"data-sensitiveds-target" => "hostname" %>
+              <span class="device-error--hide text-red-700" data-sensitiveds-target="hostname_error">
+                or hostname
+              </span>
+              <p class="help-text"></p>
+            </div>
+          <% end %>
+        </div>
+        <p class="help-text">You are able to enter either Hostname or Serial Number.
+        <br> When you click the [Submit] button the devices information will be 
+        updated from the associated TDX Assets entry.</p>
       </div>
-    </div>
 
       <div class="field">
         <%= form.label :data_type_id%>

@@ -115,7 +115,7 @@ class LegacyOsRecord < ApplicationRecord
     header = %w{link incomplete owner_username owner_full_name department phone additional_dept_contact
               additional_dept_contact_phone support_poc legacy_os unique_app unique_hardware unique_date
               remediation exception_approval_date review_date review_contact justification
-              local_it_support_group notes data_type device:_hostname_serial tdx_tickets}
+              local_it_support_group notes data_type device:_hostname device:_serial tdx_tickets}
     header.map! { |e| e.titleize.upcase }
     key_id = 'id'
     CSV.generate(headers: true) do |csv|
@@ -131,7 +131,8 @@ class LegacyOsRecord < ApplicationRecord
           elsif key == 'department_id' && a.department_id.present?
             row << Department.find(a.attributes.values_at(key)[0]).name
           elsif key == 'device_id' && a.device_id.present?
-            row << Device.find(a.attributes.values_at(key)[0]).display_hostname_serial
+            row << Device.find(a.attributes.values_at(key)[0]).display_hostname
+            row << Device.find(a.attributes.values_at(key)[0]).display_serial
           elsif key == 'remediation'
             value = LegacyOsRecord.find(record_id).remediation.body
             row << Html2Text.convert(value)
