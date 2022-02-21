@@ -19,7 +19,7 @@ gem 'ldap_lookup', '~> 0.1.5'
 # gem install mysql2 -v '0.5.3' -- --with-ldflags=-L/usr/local/opt/openssl/lib --with-cppflags=-I/usr/local/opt/openssl/include
 gem 'mysql2', '~> 0.5'
 gem 'pagy', '~> 4.10', '>= 4.10.1'
-gem 'puma', '~> 5.6'
+gem 'puma', '5.5.1'
 gem 'pundit', '~> 2.1'
 gem 'redis', '~> 4.0'
 gem 'ransack', '~> 2.4', '>= 2.4.2'
@@ -57,4 +57,3 @@ group :test do
   gem 'webmock', '~> 3.14'
   gem 'vcr', '~> 6.0'
 end
-
