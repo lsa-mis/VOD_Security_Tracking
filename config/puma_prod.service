@@ -35,9 +35,9 @@ WorkingDirectory=/home/deployer/apps/vodsecurityproduction/current
 ExecStart=/home/deployer/.rbenv/shims/bundle exec puma -e production -C ./config/puma.rb config.ru
 PIDFile=/home/deployer/apps/vodsecurityproduction/shared/tmp/pids/puma.pid
 
-ExecStop=/home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl -F /home/deployer/apps/vodsecurityproduction/current/config/puma.rb stop
+ExecStop=/home/deployer/.rbenv/shims/bundle exec pumactl -F /home/deployer/apps/vodsecurityproduction/current/config/puma.rb stop
 
-ExecReload=/home/deployer/.rbenv/bin/rbenv exec bundle exec pumactl -F /home/deployer/apps/vodsecurityproduction/current/config/puma.rb phased-restart
+ExecReload=/home/deployer/.rbenv/shims/bundle exec pumactl -F /home/deployer/apps/vodsecurityproduction/current/config/puma.rb phased-restart
 
 Restart=always
 
