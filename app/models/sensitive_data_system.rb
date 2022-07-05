@@ -66,7 +66,12 @@ class SensitiveDataSystem < ApplicationRecord
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       "application/vnd.apple.pages",
       "application/vnd.apple.numbers",
-      "application/x-tar"
+      "application/x-tar",
+      "application/zip",
+      "application/x-bzip",
+      "application/x-bzip2",
+      "application/gzip",
+      "application/x-7z-compressed"
     ]
 
     attachments.each do |att|
@@ -75,7 +80,7 @@ class SensitiveDataSystem < ApplicationRecord
       end
 
       unless acceptable_types.include?(att.content_type)
-        errors.add(:attachments, "must be an acceptable file type (pdf,txt,jpg,png,doc,xls)")
+        errors.add(:attachments, "must be an acceptable file type (pdf,txt,jpg,png,doc,xls,zip)")
       end
     end
   end
