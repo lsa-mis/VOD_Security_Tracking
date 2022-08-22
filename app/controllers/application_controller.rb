@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :set_membership
 
   include Pagy::Backend
-  include Pundit
+  include Pundit::Authorization
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
