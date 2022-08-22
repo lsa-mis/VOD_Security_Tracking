@@ -1,7 +1,6 @@
 require_relative "boot"
-
 require 'csv'
-require "rails"
+
 # Pick the frameworks you want:
 require "active_model/railtie"
 require "active_job/railtie"
@@ -42,5 +41,7 @@ module App
     
     config.eager_load_paths += %W(#{config.root}/lib)
 
+    config.active_record.use_yaml_unsafe_load = true
+  
   end
 end
