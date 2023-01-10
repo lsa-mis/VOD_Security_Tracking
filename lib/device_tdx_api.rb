@@ -5,7 +5,7 @@ class AuthTokenApi
 
   def get_auth_token
     begin
-      url = URI("https://apigw.it.umich.edu/um/it/oauth2/token")
+      url = URI("https://gw.api.it.umich.edu/um/oauth2/token")
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
@@ -33,7 +33,7 @@ class DeviceTdxApi
   end
 
   def get_device_data
-    url = URI("https://apigw.it.umich.edu/um/it/48/assets/search")
+    url = URI("https://gw.api.it.umich.edu/um/it/48/assets/search")
 
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
@@ -63,7 +63,7 @@ class DeviceTdxApi
       asset_id = asset_info[0]['ID']
 
       # get attributes (to get a mac address) by asset_id
-      url = URI("https://apigw.it.umich.edu/um/it/48/assets/#{asset_id}")
+      url = URI("https://gw.api.it.umich.edu/um/it/48/assets/#{asset_id}")
 
       request = Net::HTTP::Get.new(url)
       request["x-ibm-client-id"] = "#{Rails.application.credentials.um_api[:tdx_client_id]}"

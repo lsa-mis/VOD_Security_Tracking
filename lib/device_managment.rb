@@ -5,6 +5,7 @@ class DeviceManagment
   def initialize (s, h)
     self.serial = s
     self.hostname = h
+    self.message = ''
   end
 
   def create_device
