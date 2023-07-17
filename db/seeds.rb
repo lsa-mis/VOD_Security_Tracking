@@ -48,7 +48,6 @@ Department.create!([
   {name: 'Romance Languages and Literatures', shortname: 'rll'},
   {name: 'Residential College', shortname: 'rc'},
   {name: 'Psychology', shortname: 'psych'},
-  {name: 'Psychiatry', shortname: 'psych'},
   {name: 'Political Science', shortname: 'polisci'},
   {name: 'Physics', shortname: 'phys'},
   {name: 'Philosophy', shortname: 'phil'},
