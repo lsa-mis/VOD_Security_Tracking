@@ -1,8 +1,8 @@
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.16.0"
 
-set :rbenv_type, :user # or :system, depends on your rbenv setup
-set :rbenv_ruby, '3.0.1'
+# set :rbenv_type, :user # or :system, depends on your rbenv setup
+# set :rbenv_ruby, '3.0.1'
 
 server 'vodsecurityproduction.miserver.it.umich.edu', roles: [:web, :app, :db], primary: true
 

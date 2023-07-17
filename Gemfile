@@ -44,7 +44,8 @@ group :development do
   gem 'annotate'
   gem 'capistrano', '~> 3.16',         require: false
   gem 'capistrano-rails', '~> 1.6', '>= 1.6.1',   require: false
-  gem 'capistrano-rbenv', '~> 2.2',   require: false
+  # gem 'capistrano-rbenv', '~> 2.2',   require: false
+  gem 'capistrano-asdf',   require: false
   gem 'listen', '~> 3.3'
   gem 'pry-rails'
   gem 'spring'
