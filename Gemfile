@@ -19,7 +19,7 @@ gem 'ldap_lookup', '~> 0.1.5'
 # gem install mysql2 -v '0.5.5' -- --with-ldflags=-L/usr/local/opt/openssl/lib --with-cppflags=-I/usr/local/opt/openssl/include
 gem 'mysql2', '~> 0.5.5'
 gem 'pagy', '~> 4.10', '>= 4.10.1'
-gem 'puma', '5.6.7'
+gem 'puma', '5.6.8'
 gem 'pundit', '~> 2.1'
 gem 'redis', '~> 4.0'
 gem 'ransack', '~> 2.4', '>= 2.4.2'
