@@ -112,6 +112,8 @@ class LegacyOsRecord < ApplicationRecord
     return not_completed
   end
 
+  # require 'nokogiri'
+
   def self.to_csv
     fields = %w{id incomplete owner_username owner_full_name department_id phone additional_dept_contact
               additional_dept_contact_phone support_poc legacy_os unique_app unique_hardware unique_date
@@ -138,15 +140,10 @@ class LegacyOsRecord < ApplicationRecord
           elsif key == 'device_id' && a.device_id.present?
             row << Device.find(a.attributes.values_at(key)[0]).display_hostname
             row << Device.find(a.attributes.values_at(key)[0]).display_serial
-          elsif key == 'remediation'
-            value = LegacyOsRecord.find(record_id).remediation.body
-            row << Html2Text.convert(value)
-          elsif key == 'justification'
-            value = LegacyOsRecord.find(record_id).justification.body
-            row << Html2Text.convert(value)
-          elsif key == 'notes'
-            value = LegacyOsRecord.find(record_id).notes.body
-            row << Html2Text.convert(value)
+          elsif ['remediation', 'justification', 'notes'].include?(key)
+            html_content = LegacyOsRecord.find(record_id).send(key).body
+            text_content = Nokogiri::HTML(html_content).text.strip
+            row << text_content
           elsif key == 'tdx_tickets' && LegacyOsRecord.find(record_id).tdx_tickets.present?
             tickets = ""
             LegacyOsRecord.find(record_id).tdx_tickets.each do |ticket|

@@ -125,21 +125,10 @@ class DpaException < ApplicationRecord
             row << Department.find(a.attributes.values_at(key)[0]).name
           elsif key == 'dpa_exception_status_id' && a.dpa_exception_status_id.present?
             row << DpaExceptionStatus.find(a.attributes.values_at(key)[0]).name
-          elsif key == 'review_findings'
-            value = DpaException.find(record_id).review_findings.body
-            row << Html2Text.convert(value)
-          elsif key == 'review_summary'
-            value = DpaException.find(record_id).review_summary.body
-            row << Html2Text.convert(value)
-          elsif key == 'lsa_security_recommendation'
-            value = DpaException.find(record_id).lsa_security_recommendation.body
-            row << Html2Text.convert(value)
-          elsif key == 'lsa_security_determination'
-            value = DpaException.find(record_id).lsa_security_determination.body
-            row << Html2Text.convert(value)
-          elsif key == 'notes'
-            value = DpaException.find(record_id).notes.body
-            row << Html2Text.convert(value)
+          elsif ['review_findings', 'review_summary', 'lsa_security_recommendation', 'lsa_security_determination', 'notes'].include?(key)
+            html_content = DpaException.find(record_id).send(key).body
+            text_content = Nokogiri::HTML(html_content).text.strip
+            row << text_content
           elsif key == 'tdx_tickets' && DpaException.find(record_id).tdx_tickets.present?
             tickets = ""
             DpaException.find(record_id).tdx_tickets.each do |ticket|

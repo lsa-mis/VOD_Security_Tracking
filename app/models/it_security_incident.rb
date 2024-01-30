@@ -92,6 +92,8 @@ class ItSecurityIncident < ApplicationRecord
     self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete", "notes").all? {|k, v| v.present?} ? false : true
   end
 
+  # require 'nokogiri'
+
   def self.to_csv
     fields = %w{id incomplete title date people_involved equipment_involved remediation_steps
               estimated_financial_cost notes it_security_incident_status_id data_type_id tdx_tickets}
@@ -111,18 +113,10 @@ class ItSecurityIncident < ApplicationRecord
             row << DataType.find(a.attributes.values_at(key)[0]).display_name
           elsif key == 'it_security_incident_status_id'
             row << ItSecurityIncidentStatus.find(a.attributes.values_at(key)[0]).name
-          elsif key == 'people_involved'
-            value = ItSecurityIncident.find(record_id).people_involved.body
-            row << Html2Text.convert(value)
-          elsif key == 'equipment_involved'
-            value = ItSecurityIncident.find(record_id).equipment_involved.body
-            row << Html2Text.convert(value)
-          elsif key == 'remediation_steps'
-            value = ItSecurityIncident.find(record_id).remediation_steps.body
-            row << Html2Text.convert(value)
-          elsif key == 'notes'
-            value = ItSecurityIncident.find(record_id).notes.body
-            row << Html2Text.convert(value)
+          elsif ['people_involved', 'equipment_involved', 'remediation_steps', 'notes'].include?(key)
+            html_content = ItSecurityIncident.find(record_id).send(key).body
+            text_content = Nokogiri::HTML(html_content).text.strip
+            row << text_content
           elsif key == 'tdx_tickets' && ItSecurityIncident.find(record_id).tdx_tickets.present?
             tickets = ""
             ItSecurityIncident.find(record_id).tdx_tickets.each do |ticket|
