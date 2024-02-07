@@ -7,7 +7,7 @@ gem 'rails', '~> 6.1.4'
 gem 'activeadmin', '~> 2.14'
 gem 'audited', '~> 5.3'
 gem 'bootsnap', '>= 1.4.4', require: false
-gem 'devise', '~> 4.7', '>= 4.7.3'
+gem 'devise', '~> 4.7', '>= 4.9.3'
 gem 'devise_ldap_authenticatable'
 gem 'duo_web', '~> 1.0'
 gem 'google-cloud-storage', require: false
@@ -48,6 +48,7 @@ group :development do
   gem 'capistrano-asdf',   require: false
   gem 'listen', '~> 3.3'
   gem 'pry-rails'
+  gem 'pry-byebug'
   gem 'spring'
   gem 'web-console', '>= 4.1.0'
 end
