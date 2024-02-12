@@ -27,7 +27,9 @@
                       <td><%= link_to 'Show', link, class: "action-link" %>
                       <% row.shift(1) %>
                       <% row.each do |item| %>
-                        <td><%= Html2Text.convert(item) %></td>
+                        <td>
+                        <%= Nokogiri::HTML(item).text %>
+                        </td>
                       <% end %>
                     </tr>
                   <% end %>

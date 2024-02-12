@@ -7,17 +7,17 @@ gem 'rails', '~> 6.1.4'
 gem 'activeadmin', '~> 2.14'
 gem 'audited', '~> 5.3'
 gem 'bootsnap', '>= 1.4.4', require: false
-gem 'devise', '~> 4.7', '>= 4.7.3'
+gem 'devise', '~> 4.7', '>= 4.9.3'
 gem 'devise_ldap_authenticatable'
 gem 'duo_web', '~> 1.0'
 gem 'google-cloud-storage', require: false
 gem 'hotwire-rails'
-gem 'html2text', '~> 0.3.1'
 gem 'jbuilder', '~> 2.7'
 gem 'ldap_fluff', '~> 0.6.0'
 gem 'ldap_lookup', '~> 0.1.5'
 # gem install mysql2 -v '0.5.5' -- --with-ldflags=-L/usr/local/opt/openssl/lib --with-cppflags=-I/usr/local/opt/openssl/include
 gem 'mysql2', '~> 0.5.5'
+gem 'nokogiri', '1.16.0'
 gem 'pagy', '~> 4.10', '>= 4.10.1'
 gem 'puma', '5.6.8'
 gem 'pundit', '~> 2.1'
@@ -48,6 +48,7 @@ group :development do
   gem 'capistrano-asdf',   require: false
   gem 'listen', '~> 3.3'
   gem 'pry-rails'
+  gem 'pry-byebug'
   gem 'spring'
   gem 'web-console', '>= 4.1.0'
 end

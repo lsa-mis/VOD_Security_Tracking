@@ -130,8 +130,9 @@ class SensitiveDataSystem < ApplicationRecord
             row << Device.find(a.attributes.values_at(key)[0]).display_hostname
             row << Device.find(a.attributes.values_at(key)[0]).display_serial
           elsif key == 'notes'
-            value = SensitiveDataSystem.find(record_id).notes.body
-            row << Html2Text.convert(value)
+            html_content = SensitiveDataSystem.find(record_id).notes.body
+            text_content = Nokogiri::HTML(html_content).text
+            row << text_content
           elsif key == 'tdx_tickets' && SensitiveDataSystem.find(record_id).tdx_tickets.present?
             tickets = ""
             SensitiveDataSystem.find(record_id).tdx_tickets.each do |ticket|
