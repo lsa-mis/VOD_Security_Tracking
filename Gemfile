@@ -22,7 +22,7 @@ gem 'pagy', '~> 4.10', '>= 4.10.1'
 gem 'puma', '5.6.8'
 gem 'pundit', '~> 2.1'
 gem 'redis', '~> 4.0'
-gem 'ransack', '>= 4.0'
+gem 'ransack', '~> 4.1', '>= 4.1.1'
 gem 'ruby2_keywords'
 gem 'sass-rails', '>= 6'
 # Allows puma to use notify in systemd
