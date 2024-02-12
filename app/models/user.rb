@@ -27,6 +27,11 @@ class User < ApplicationRecord
 
   scope :recent, -> { where("current_sign_in_at > ?", 2.days.ago) }
   
+  def self.ransackable_attributes(auth_object = nil)
+    ["created_at", "current_sign_in_at", "current_sign_in_ip", "email", "failed_attempts", "id", "last_sign_in_at", "last_sign_in_ip", "locked_at", "remember_created_at", "sign_in_count", "unlock_token", "updated_at", "username"]
+  end
+
+  
   def display_name
     "#{self.username} - #{email}"
   end

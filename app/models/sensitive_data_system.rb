@@ -44,6 +44,10 @@ class SensitiveDataSystem < ApplicationRecord
   scope :active, -> { where(deleted_at: nil) }
   scope :archived, -> { where("#{self.table_name}.deleted_at IS NOT NULL") }
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["additional_dept_contact", "additional_dept_contact_phone", "agreements_related_to_data_types", "created_at", "data_type_id", "deleted_at", "department_id", "device_id", "expected_duration_of_data_retention", "id", "incomplete", "name", "owner_full_name", "owner_username", "phone", "review_contact", "review_date", "storage_location_id", "support_poc", "updated_at"]
+  end
+
   def archive
     self.update(deleted_at: DateTime.current)
   end

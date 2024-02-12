@@ -18,6 +18,11 @@ class Notification < ApplicationRecord
 
   scope :active, -> { where('closedate > ?', DateTime.now).order(:opendate) }
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["closedate", "created_at", "id", "note", "notetype", "opendate", "updated_at"]
+  end
+
+  
   private
 
     def end_date_after_start_date

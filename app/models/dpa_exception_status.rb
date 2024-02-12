@@ -14,6 +14,14 @@ class DpaExceptionStatus < ApplicationRecord
 
   validates :name, uniqueness: true, presence: true
   
+  def self.ransackable_associations(auth_object = nil)
+    ["dpa_exception"]
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["created_at", "description", "id", "name", "updated_at"]
+  end
+  
   def display_name
     "#{self.name}"
   end
