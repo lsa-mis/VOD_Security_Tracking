@@ -264,11 +264,11 @@ GEM
       net-protocol
     net-ssh (7.2.1)
     nio4r (2.7.0)
-    nokogiri (1.16.0-arm64-darwin)
+    nokogiri (1.16.2-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.0-x86_64-darwin)
+    nokogiri (1.16.2-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.0-x86_64-linux)
+    nokogiri (1.16.2-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     os (1.1.4)
@@ -472,7 +472,7 @@ DEPENDENCIES
   ldap_lookup (~> 0.1.5)
   listen (~> 3.3)
   mysql2 (~> 0.5.5)
-  nokogiri (= 1.16.0)
+  nokogiri (= 1.16.2)
   pagy (~> 4.10, >= 4.10.1)
   pry-byebug
   pry-rails
