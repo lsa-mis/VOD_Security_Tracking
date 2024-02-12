@@ -54,6 +54,10 @@ class LegacyOsRecord < ApplicationRecord
   def self.ransackable_attributes(auth_object = nil)
     ["additional_dept_contact", "additional_dept_contact_phone", "created_at", "data_type_id", "deleted_at", "department_id", "device_id", "exception_approval_date", "id", "incomplete", "legacy_os", "local_it_support_group", "owner_full_name", "owner_username", "phone", "review_contact", "review_date", "support_poc", "unique_app", "unique_date", "unique_hardware", "updated_at"]
   end
+  
+  def self.ransackable_associations(auth_object = nil)
+    ["attachments_attachments", "attachments_blobs", "audits", "data_type", "department", "device", "justification", "notes", "remediation", "rich_text_justification", "rich_text_notes", "rich_text_remediation", "tdx_tickets"]
+  end
 
   def archive
     self.update(deleted_at: DateTime.current)
