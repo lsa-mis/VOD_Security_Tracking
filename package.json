@@ -24,6 +24,6 @@
     "autoprefixer": "^9.8.6",
     "postcss": "^8.4.31",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.3",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^5.0.1"
   }
 }
