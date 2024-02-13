@@ -16,6 +16,14 @@ class Department < ApplicationRecord
 
   validates :name, :shortname, uniqueness: true, presence: true
 
+  def self.ransackable_associations(auth_object = nil)
+    ["dpa_exceptions", "legacy_os_records", "sensitive_data_systems"]
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["active_dir_group", "created_at", "id", "name", "shortname", "updated_at"]
+  end
+  
   def display_name
     "#{self.name}"
   end

@@ -23,4 +23,13 @@ class DataType < ApplicationRecord
   def display_name
     "#{self.name} - #{DataClassificationLevel.find(data_classification_level_id).name}"
   end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["created_at", "data_classification_level_id", "description", "description_link", "id", "name", "updated_at"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["audits", "data_classification_level", "dpa_exceptions", "it_security_incidents", "legacy_os_records", "sensitive_data_systems"]
+  end
+
 end

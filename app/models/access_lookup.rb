@@ -33,6 +33,14 @@ class AccessLookup < ApplicationRecord
   validates :vod_action, presence: true
   validate :select_vod_table
 
+  def self.ransackable_associations(auth_object = nil)
+    []
+  end
+  
+  def self.ransackable_attributes(auth_object = nil)
+    ["created_at", "id", "ldap_group", "updated_at", "vod_action", "vod_table"]
+  end
+
   def select_vod_table
     errors.add(:vod_table, "select a table") if vod_table == "not_selected"
   end

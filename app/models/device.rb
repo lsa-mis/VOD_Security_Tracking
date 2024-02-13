@@ -28,6 +28,14 @@ class Device < ApplicationRecord
 
   scope :incomplete, -> { Device.where("(serial = '' or serial IS NULL)  AND (mac is null or mac = '' or owner is null or owner = '')").or(Device.where("(hostname = '' or hostname IS NULL)  AND (mac is null or mac = '' or owner is null or owner = '')")) }
 
+  def self.ransackable_associations(auth_object = nil)
+    ["audits", "legacy_os_records", "sensitive_data_systems"]
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["building", "created_at", "department", "hostname", "id", "mac", "manufacturer", "model", "owner", "room", "serial", "updated_at"]
+  end
+
   def serial_or_hostname
     errors.add(:serial, "or hostname needs a value") unless serial.present? || hostname.present?
   end

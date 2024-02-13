@@ -16,6 +16,14 @@ class StorageLocation < ApplicationRecord
 
   validates :name, uniqueness: true, presence: true
 
+  def self.ransackable_associations(auth_object = nil)
+    ["audits", "sensitive_data_systems"]
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["created_at", "description", "description_link", "device_is_required", "id", "name", "updated_at"]
+  end
+  
   def display_name
     if self.device_is_required
       "#{self.name} - device is required"

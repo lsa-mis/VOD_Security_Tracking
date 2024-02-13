@@ -38,6 +38,10 @@ class ItSecurityIncident < ApplicationRecord
   scope :active, -> { where(deleted_at: nil) }
   scope :archived, -> { where("#{self.table_name}.deleted_at IS NOT NULL") }
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["created_at", "data_type_id", "date", "deleted_at", "estimated_financial_cost", "id", "incomplete", "it_security_incident_status_id", "title", "updated_at"]
+  end
+
   def archive
     self.update(deleted_at: DateTime.current)
   end

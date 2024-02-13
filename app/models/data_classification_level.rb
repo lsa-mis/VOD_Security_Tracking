@@ -14,4 +14,11 @@ class DataClassificationLevel < ApplicationRecord
 
   validates :name, uniqueness: true, presence: true
   
+  def self.ransackable_associations(auth_object = nil)
+    ["audits", "data_types"]
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["created_at", "description", "id", "name", "updated_at"]
+  end
 end

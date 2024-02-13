@@ -47,6 +47,14 @@ class DpaException < ApplicationRecord
   scope :active, -> { where(deleted_at: nil) }
   scope :archived, -> { where("#{self.table_name}.deleted_at IS NOT NULL") }
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["created_at", "data_type_id", "deleted_at", "department_id", "dpa_exception_status_id", "exception_approval_date_exception_renewal_date_due", "id", "incomplete", "lsa_security_approval", "lsa_technology_services_approval", "point_of_contact", "review_date_exception_first_approval_date", "review_date_exception_review_date", "sla_agreement", "third_party_product_service", "updated_at"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["attachments_attachments", "attachments_blobs", "audits", "data_type", "department", "dpa_exception_status", "lsa_security_determination", "lsa_security_recommendation", "notes", "review_findings", "review_summary", "rich_text_lsa_security_determination", "rich_text_lsa_security_recommendation", "rich_text_notes", "rich_text_review_findings", "rich_text_review_summary", "tdx_tickets"]
+  end
+
   def archive
     self.update(deleted_at: DateTime.current)
   end

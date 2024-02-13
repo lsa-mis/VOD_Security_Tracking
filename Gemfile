@@ -4,8 +4,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.0.1'
 gem 'rails', '~> 6.1.4'
 
-gem 'activeadmin', '~> 2.14'
-gem 'audited', '~> 5.3'
+gem 'activeadmin', '~> 3.2'
+gem 'audited', '~> 5.4', '>= 5.4.3'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'devise', '~> 4.7', '>= 4.9.3'
 gem 'devise_ldap_authenticatable'
@@ -22,7 +22,7 @@ gem 'pagy', '~> 4.10', '>= 4.10.1'
 gem 'puma', '5.6.8'
 gem 'pundit', '~> 2.1'
 gem 'redis', '~> 4.0'
-gem 'ransack', '~> 2.4', '>= 2.4.2'
+gem 'ransack', '~> 4.1', '>= 4.1.1'
 gem 'ruby2_keywords'
 gem 'sass-rails', '>= 6'
 # Allows puma to use notify in systemd
