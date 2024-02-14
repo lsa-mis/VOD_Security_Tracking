@@ -12,7 +12,10 @@
 
 ActiveRecord::Schema.define(version: 2021_09_01_020123) do
 
-  create_table "access_lookups", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "access_lookups", force: :cascade do |t|
     t.string "ldap_group"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -20,9 +23,9 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.integer "vod_action", default: 0, null: false
   end
 
-  create_table "action_text_rich_texts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
-    t.text "body", size: :long
+    t.text "body"
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -30,7 +33,7 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
-  create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
     t.string "resource_type"
@@ -44,7 +47,7 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource"
   end
 
-  create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
     t.bigint "record_id", null: false
@@ -54,7 +57,7 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "active_storage_blobs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "active_storage_blobs", force: :cascade do |t|
     t.string "key", null: false
     t.string "filename", null: false
     t.string "content_type"
@@ -66,13 +69,13 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "active_storage_variant_records", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "active_storage_variant_records", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "audits", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "audits", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
     t.integer "associated_id"
@@ -94,14 +97,14 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.index ["user_id", "user_type"], name: "user_index"
   end
 
-  create_table "data_classification_levels", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "data_classification_levels", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "data_types", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "data_types", force: :cascade do |t|
     t.string "name"
     t.string "description"
     t.string "description_link"
@@ -111,7 +114,7 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.index ["data_classification_level_id"], name: "index_data_types_on_data_classification_level_id"
   end
 
-  create_table "departments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "departments", force: :cascade do |t|
     t.string "name"
     t.string "shortname"
     t.string "active_dir_group"
@@ -119,7 +122,7 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "devices", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "devices", force: :cascade do |t|
     t.string "serial"
     t.string "hostname"
     t.string "mac"
@@ -133,14 +136,14 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.string "model"
   end
 
-  create_table "dpa_exception_statuses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "dpa_exception_statuses", force: :cascade do |t|
     t.string "name"
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "dpa_exceptions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "dpa_exceptions", force: :cascade do |t|
     t.datetime "review_date_exception_first_approval_date"
     t.string "third_party_product_service", null: false
     t.string "point_of_contact"
@@ -161,20 +164,20 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.index ["dpa_exception_status_id"], name: "index_dpa_exceptions_on_dpa_exception_status_id"
   end
 
-  create_table "infotexts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "infotexts", force: :cascade do |t|
     t.string "location", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "it_security_incident_statuses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "it_security_incident_statuses", force: :cascade do |t|
     t.string "name"
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "it_security_incidents", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "it_security_incidents", force: :cascade do |t|
     t.datetime "date"
     t.integer "estimated_financial_cost"
     t.bigint "it_security_incident_status_id"
@@ -188,7 +191,7 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.index ["it_security_incident_status_id"], name: "index_it_security_incidents_on_it_security_incident_status_id"
   end
 
-  create_table "legacy_os_records", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "legacy_os_records", force: :cascade do |t|
     t.string "owner_username", null: false
     t.string "owner_full_name", null: false
     t.string "phone"
@@ -215,7 +218,7 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.index ["device_id"], name: "index_legacy_os_records_on_device_id"
   end
 
-  create_table "notifications", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "notifications", force: :cascade do |t|
     t.string "note"
     t.datetime "opendate"
     t.datetime "closedate"
@@ -224,7 +227,7 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "sensitive_data_systems", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "sensitive_data_systems", force: :cascade do |t|
     t.string "owner_username", null: false
     t.string "owner_full_name", null: false
     t.string "phone"
@@ -250,7 +253,7 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.index ["storage_location_id"], name: "index_sensitive_data_systems_on_storage_location_id"
   end
 
-  create_table "storage_locations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "storage_locations", force: :cascade do |t|
     t.string "name"
     t.string "description"
     t.string "description_link"
@@ -259,7 +262,7 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.boolean "device_is_required", default: false
   end
 
-  create_table "tdx_tickets", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "tdx_tickets", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "records_to_tdx_type", null: false
@@ -268,7 +271,7 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.index ["records_to_tdx_type", "records_to_tdx_id"], name: "index_tdx_tickets_on_records_to_tdx"
   end
 
-  create_table "users", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "email", default: ""
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
