@@ -1,9 +1,11 @@
 # MySQL. Versions 5.5.8 and up are supported.
 
 default: &default
-  adapter: mysql2
-  encoding: utf8mb4
-  collation: utf8mb4_unicode_ci
+  # adapter: mysql2
+  # encoding: utf8mb4
+  # collation: utf8mb4_unicode_ci
+  adapter: postgresql
+  encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
@@ -11,9 +13,9 @@ development:
   # Comment next two lines if running without docker
   # host: mysql
   # password: <%= Rails.application.credentials.mysql[:docker_password] %>
-  username: root
+  # username: root
   # make sure your local MySQL password is in credentials and uncomment this line if running without docker
-  password: <%= ENV['LOCAL_MYSQL_DATABASE_PASSWORD'] %>
+  # password: <%= ENV['LOCAL_MYSQL_DATABASE_PASSWORD'] %>
   database: vodst_development
 
 # Warning: The database defined as "test" will be erased and
@@ -24,9 +26,9 @@ test:
   # Comment next two lines if running without docker
   # host: mysql
   # password: <%= Rails.application.credentials.mysql[:docker_password] %>
-  username: root
+  # username: root
   # make sure your local MySQL password is in credentials and uncomment this line if running without docker
-  password: <%= ENV['LOCAL_MYSQL_DATABASE_PASSWORD'] %>
+  # password: <%= ENV['LOCAL_MYSQL_DATABASE_PASSWORD'] %>
   database: vodst_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
@@ -52,8 +54,8 @@ test:
 staging:
   <<: *default
   database: vodst_staging
-  username: vodst_staging_user
-  password: <%= ENV['VODST_STAGING_DATABASE_PASSWORD'] %>
+  username: <%= Rails.application.credentials.STAGING_DB_USERNAME %>
+  password: <%= Rails.application.credentials.STAGING_DB_PASSWORD %>
 
 production:
   <<: *default
