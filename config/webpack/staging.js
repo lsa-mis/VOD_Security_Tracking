@@ -6,9 +6,10 @@ module.exports = environment.toWebpackConfig()
 
 const merge = require('webpack-merge');
 
-module.exports = merge(common, {
+module.exports = merge(environment, {
     mode: 'staging',
     performance: {
+        devtool: false,
         hints: false,
         maxEntrypointSize: 512000,
         maxAssetSize: 512000
