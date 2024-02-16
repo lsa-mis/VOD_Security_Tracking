@@ -2,11 +2,9 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'staging'
 
 const environment = require('./environment')
 
-module.exports = environment.toWebpackConfig()
-
 const merge = require('webpack-merge');
 
-module.exports = merge(environment, {
+environment.config.merge({
     mode: 'staging',
     performance: {
         devtool: false,
@@ -15,3 +13,5 @@ module.exports = merge(environment, {
         maxAssetSize: 512000
     }
 });
+
+module.exports = environment.toWebpackConfig()
