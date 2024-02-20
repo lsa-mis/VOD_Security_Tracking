@@ -16,7 +16,8 @@ gem 'jbuilder', '~> 2.7'
 gem 'ldap_fluff', '~> 0.6.0'
 gem 'ldap_lookup', '~> 0.1.5'
 # gem install mysql2 -v '0.5.5' -- --with-ldflags=-L/usr/local/opt/openssl/lib --with-cppflags=-I/usr/local/opt/openssl/include
-gem 'mysql2', '~> 0.5.5'
+# gem 'mysql2', '~> 0.5.5'
+gem "pg", ">= 0.18", "< 2.0"
 gem 'nokogiri', '1.16.2'
 gem 'pagy', '~> 4.10', '>= 4.10.1'
 gem 'puma', '5.6.8'

@@ -38,7 +38,6 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  # config.active_storage.service = :local
   config.active_storage.service = :local
 
   # Mount Action Cable outside main process or domain.
@@ -75,8 +74,6 @@ Rails.application.configure do
   #letter_opener settings
   config.action_mailer.delivery_method = :letter_opener_web
   config.action_mailer.perform_deliveries = true
-
-
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

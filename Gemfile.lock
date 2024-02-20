@@ -254,7 +254,6 @@ GEM
     msgpack (1.7.2)
     multi_json (1.15.0)
     mutex_m (0.2.0)
-    mysql2 (0.5.5)
     net-http (0.4.1)
       uri
     net-imap (0.4.10)
@@ -288,6 +287,7 @@ GEM
     orm_adapter (0.5.0)
     os (1.1.4)
     pagy (4.11.0)
+    pg (1.5.4)
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -490,9 +490,9 @@ DEPENDENCIES
   ldap_lookup (~> 0.1.5)
   letter_opener_web (~> 2.0)
   listen (~> 3.3)
-  mysql2 (~> 0.5.5)
   nokogiri (= 1.16.2)
   pagy (~> 4.10, >= 4.10.1)
+  pg (>= 0.18, < 2.0)
   pry-byebug
   pry-rails
   psych (< 4)
