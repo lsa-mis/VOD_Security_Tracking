@@ -7,9 +7,8 @@ const environment = require('./environment')
 environment.config.merge({
     mode: 'staging',
     performance: {
-        hints: false,
-        maxEntrypointSize: 512000,
-        maxAssetSize: 512000
+        maxEntrypointSize: 900000,
+        maxAssetSize: 900000
     }
 });
 
