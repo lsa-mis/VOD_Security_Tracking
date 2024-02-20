@@ -51,10 +51,7 @@ test:
 #
 staging:
   <<: *default
-  username: root
-  # make sure your local MySQL password is in credentials and uncomment this line if running without docker
-  password: <%= ENV['LOCAL_MYSQL_DATABASE_PASSWORD'] %>
-  database: vodst_development
+  url: <%= ENV['DATABASE_URL'] %>
 
 production:
   <<: *default
