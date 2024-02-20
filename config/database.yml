@@ -49,6 +49,13 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
+staging:
+  <<: *default
+  username: root
+  # make sure your local MySQL password is in credentials and uncomment this line if running without docker
+  password: <%= ENV['LOCAL_MYSQL_DATABASE_PASSWORD'] %>
+  database: vodst_development
+
 production:
   <<: *default
   database: vodsecurityproduction
