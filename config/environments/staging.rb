@@ -39,7 +39,6 @@ Rails.application.configure do
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
-  # config.active_storage.service = :google
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
@@ -63,21 +62,18 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "app_production"
 
-# configure mailer to user Postfix
-  # https://stackoverflow.com/questions/24443920/how-to-setup-postfix-for-ruby-on-rails-to-send-email
-  # config.action_mailer.delivery_method = :sendmail
-  # config.action_mailer.perform_deliveries = true
-  # config.action_mailer.default_options = {from: 'lsats-vod-support@umich.edu'}
+  host = 'http://localhost:3000'
+# on staging use host = 'http://STAGING SERVER NAME'
+  config.action_mailer.default_url_options = { host: host }
 
-  # # Devise setting - Ensure you have defined default url options
-  # config.action_mailer.default_url_options = { host: 'vodsecurityproduction.miserver.it.umich.edu' }
+  # Don't care if the mailer can't send.
+  config.action_mailer.raise_delivery_errors = true
 
-  # config.action_mailer.perform_caching = false
+  config.action_mailer.perform_caching = false
 
-  # # Ignore bad email addresses and do not raise email delivery errors.
-  # # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = true
-
+  #letter_opener settings
+  config.action_mailer.delivery_method = :letter_opener_web
+  config.action_mailer.perform_deliveries = true
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
