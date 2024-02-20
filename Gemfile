@@ -16,8 +16,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'ldap_fluff', '~> 0.6.0'
 gem 'ldap_lookup', '~> 0.1.5'
 # gem install mysql2 -v '0.5.5' -- --with-ldflags=-L/usr/local/opt/openssl/lib --with-cppflags=-I/usr/local/opt/openssl/include
-# gem 'mysql2', '~> 0.5.5'
-gem "pg", ">= 0.18", "< 2.0"
+gem 'mysql2', '~> 0.5.5'
 gem 'nokogiri', '1.16.2'
 gem 'pagy', '~> 4.10', '>= 4.10.1'
 gem 'puma', '5.6.8'
@@ -27,9 +26,9 @@ gem 'ransack', '~> 4.1', '>= 4.1.1'
 gem 'ruby2_keywords'
 gem 'sass-rails', '>= 6'
 # Allows puma to use notify in systemd
-gem 'sd_notify', '~> 0.1.1'
+# gem 'sd_notify', '~> 0.1.1'
 gem 'simple_form', '~> 5.1'
-gem 'turnout', '~> 2.5'
+# gem 'turnout', '~> 2.5'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'webpacker', '~> 5.0'
 
@@ -45,10 +44,10 @@ end
 
 group :development do
   gem 'annotate'
-  gem 'capistrano', '~> 3.16',         require: false
-  gem 'capistrano-rails', '~> 1.6', '>= 1.6.1',   require: false
-  # gem 'capistrano-rbenv', '~> 2.2',   require: false
-  gem 'capistrano-asdf',   require: false
+  # gem 'capistrano', '~> 3.16',         require: false
+  # gem 'capistrano-rails', '~> 1.6', '>= 1.6.1',   require: false
+  # # gem 'capistrano-rbenv', '~> 2.2',   require: false
+  # gem 'capistrano-asdf',   require: false
   gem 'listen', '~> 3.3'
   gem 'pry-rails'
   gem 'pry-byebug'
