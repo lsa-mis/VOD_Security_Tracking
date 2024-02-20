@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  if Rails.env.staging? || Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
+
+
   root to: 'static_pages#home'
   devise_for :users, controllers: {
     sessions: 'users/sessions'

@@ -55,6 +55,10 @@ group :development do
   gem 'web-console', '>= 4.1.0'
 end
 
+group :development, :staging do
+  gem 'letter_opener_web', '~> 2.0'
+end
+
 group :test do
   gem "capybara", ">= 3.26"
   gem "selenium-webdriver"

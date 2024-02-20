@@ -221,11 +221,20 @@ GEM
       activerecord
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
+    launchy (2.5.2)
+      addressable (~> 2.8)
     ldap_fluff (0.6.0)
       activesupport
       net-ldap (>= 0.11)
     ldap_lookup (0.1.8)
       net-ldap (~> 0.18.0)
+    letter_opener (1.9.0)
+      launchy (>= 2.2, < 3)
+    letter_opener_web (2.0.0)
+      actionmailer (>= 5.2)
+      letter_opener (~> 1.7)
+      railties (>= 5.2)
+      rexml
     listen (3.8.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -479,6 +488,7 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   ldap_fluff (~> 0.6.0)
   ldap_lookup (~> 0.1.5)
+  letter_opener_web (~> 2.0)
   listen (~> 3.3)
   mysql2 (~> 0.5.5)
   nokogiri (= 1.16.2)
