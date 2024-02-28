@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.3.0'
-gem 'rails', '~> 6.1.4'
+gem 'rails', '~> 6.1.7'
 
 gem 'activeadmin', '~> 3.2'
 gem 'audited', '~> 5.4', '>= 5.4.3'
