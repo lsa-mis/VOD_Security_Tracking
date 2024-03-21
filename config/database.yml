@@ -8,11 +8,7 @@ default: &default
 
 development:
   <<: *default
-  # Comment next two lines if running without docker
-  # host: mysql
-  # password: <%= Rails.application.credentials.mysql[:docker_password] %>
   username: root
-  # make sure your local MySQL password is in credentials and uncomment this line if running without docker
   password: <%= ENV['LOCAL_MYSQL_DATABASE_PASSWORD'] %>
   database: vodst_development
 
@@ -21,11 +17,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  # Comment next two lines if running without docker
-  # host: mysql
-  # password: <%= Rails.application.credentials.mysql[:docker_password] %>
   username: root
-  # make sure your local MySQL password is in credentials and uncomment this line if running without docker
   password: <%= ENV['LOCAL_MYSQL_DATABASE_PASSWORD'] %>
   database: vodst_test
 
