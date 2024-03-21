@@ -1,7 +1,8 @@
 ---
-reason: VOD TOOLS are temporarily not available 
-allowed_paths: []
+reason: We are currently doing maintenance on the VOD TOOLS <small>(code 240321)</small>
+allowed_paths:
 allowed_ips:
-- 141.213.168.0/21
+# UMVPN - All Traffic or UMVPN - Only U-M Traffic range
+- 35.7.0.0/18
 response_code: 503
-retry_after: 7200
+retry_after: 3600
