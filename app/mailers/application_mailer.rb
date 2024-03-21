@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'from@example.com'
+  default from: 'VOD <lsats-vod-support@umich.edu>'
   layout 'mailer'
 end
