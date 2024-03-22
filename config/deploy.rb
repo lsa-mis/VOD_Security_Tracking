@@ -1,4 +1,4 @@
-lock "~> 3.16.0"
+lock "~> 3.18.1"
 
 set :default_env, {
   'NODE_OPTIONS' => '--openssl-legacy-provider',
