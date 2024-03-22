@@ -19,7 +19,7 @@ set :branch, "master"
 set :pty,             true
 set :stage,           :production
 set :deploy_to,       "/home/#{fetch(:user)}/apps/#{fetch(:application)}"
-set :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ssh/id_ed25519.pub), verbose: :debug }
+set :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ssh/id_ed25519.pub) }
 set :tmp_dir, '/home/deployer/tmp'
 set :keep_releases, 3
 
@@ -70,7 +70,7 @@ namespace :deploy do
      upload! "config/puma_prod.rb",  "#{fetch(:deploy_to)}/shared/config/puma.rb"
      upload! "config/nginx_prod.conf",  "#{fetch(:deploy_to)}/shared/config/nginx.conf"
      upload! "config/puma_prod.service",  "#{fetch(:deploy_to)}/shared/config/puma.service"
-     upload! "config/lsa-was-base-c096c776ead3.json",  "#{fetch(:deploy_to)}/shared/config/lsa-was-base-c096c776ead3.json"
+     upload! "config/lsa-was-base-008e5e92455f.json",  "#{fetch(:deploy_to)}/shared/config/lsa-was-base-008e5e92455f.json"
      upload! "config/InCommon.CA.crt",  "#{fetch(:deploy_to)}/shared/mysql/InCommon.CA.crt"
     end
   end
