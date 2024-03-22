@@ -71,7 +71,7 @@ namespace :deploy do
      upload! "config/nginx_prod.conf",  "#{fetch(:deploy_to)}/shared/config/nginx.conf"
      upload! "config/puma_prod.service",  "#{fetch(:deploy_to)}/shared/config/puma.service"
      upload! "config/lsa-was-base-008e5e92455f.json",  "#{fetch(:deploy_to)}/shared/config/lsa-was-base-008e5e92455f.json"
-     upload! "config/InCommon.CA.crt",  "#{fetch(:deploy_to)}/shared/mysql/InCommon.CA.crt"
+     upload! "config/InCommon.Chain.CA-2.crt",  "#{fetch(:deploy_to)}/shared/mysql/InCommon.Chain.CA-2.crt"
     end
   end
 
