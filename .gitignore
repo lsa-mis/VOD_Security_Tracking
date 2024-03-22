@@ -37,3 +37,7 @@ yarn-debug.log*
 
 /working_documents/*
 
+# Ignore gcpand dbauth
+/config/lsa-was-base-008e5e92455f.json
+/config/InCommon.Chain.CA-2.crt
+
