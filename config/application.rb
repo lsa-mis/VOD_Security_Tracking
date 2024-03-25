@@ -41,5 +41,6 @@ module App
     
     config.eager_load_paths += %W(#{config.root}/lib)
 
+    config.active_record.yaml_column_permitted_classes = [Symbol, Date, Time, ActiveSupport::TimeWithZone, ActiveSupport::TimeZone]
   end
 end
