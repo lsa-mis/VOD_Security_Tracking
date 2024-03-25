@@ -42,6 +42,10 @@ class ItSecurityIncident < ApplicationRecord
     ["created_at", "data_type_id", "date", "deleted_at", "estimated_financial_cost", "id", "incomplete", "it_security_incident_status_id", "title", "updated_at"]
   end
 
+  def self.ransackable_associations(auth_object = nil)
+    ["attachments_attachments", "attachments_blobs", "audits", "data_type", "equipment_involved", "it_security_incident_status", "notes", "people_involved", "remediation_steps", "rich_text_equipment_involved", "rich_text_notes", "rich_text_people_involved", "rich_text_remediation_steps", "tdx_tickets"]
+  end
+
   def archive
     self.update(deleted_at: DateTime.current)
   end
