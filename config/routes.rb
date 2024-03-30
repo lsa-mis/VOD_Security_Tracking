@@ -7,7 +7,9 @@ Rails.application.routes.draw do
     # root to: 'users/sessions#new'
     get 'sign_in', to: 'users/sessions#new'
     get '/users/sign_out', to: 'users/sessions#destroy'
-    post 'registrations/duo_verify', to: 'registrations#duo_verify', as: :duo_verify
+    # post 'registrations/duo_verify', to: 'registrations#duo_verify', as: :duo_verify
+    #temp add rs to pause duo auth use 20240330
+    get 'registrations/duo_verify', to: 'registrations#duo_verify', as: :duo_verify
     get 'registrations/duo', to: 'registrations#duo', as: :duo
     authenticated do
      root :to => "registrations#duo", as: :new_root
