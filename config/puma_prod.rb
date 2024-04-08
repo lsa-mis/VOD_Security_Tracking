@@ -4,6 +4,8 @@ directory '/home/deployer/apps/vodsecurityproduction/current'
 rackup "/home/deployer/apps/vodsecurityproduction/current/config.ru"
 environment 'production'
 
+tag "vodsecurityproduction"
+
 pidfile "/home/deployer/apps/vodsecurityproduction/shared/tmp/pids/puma.pid"
 state_path "/home/deployer/apps/vodsecurityproduction/shared/tmp/pids/puma.state"
 stdout_redirect '/home/deployer/apps/vodsecurityproduction/current/log/puma.error.log', '/home/deployer/apps/vodsecurityproduction/current/log/puma.access.log', true
