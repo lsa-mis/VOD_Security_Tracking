@@ -39,14 +39,14 @@ namespace :puma do
   desc 'Restart the PUMA service'
   task :restart do
     on roles(:app) do
-      execute "cd #{fetch(:deploy_to)}/current; bin/bundle exec pumactl -P ~/apps/#{fetch(:application)}/current/tmp/pids/puma.pid phased-restart"
+      execute "cd #{fetch(:deploy_to)}/current; bin/bundle exec pumactl -P ~/apps/#{fetch(:application)}/current/tmp/pids/puma.pid restart"
     end
   end
 
   desc 'Start the PUMA service'
   task :start do
     on roles(:app) do
-      puts "You must intially start the puma service using sudo on the server"
+      execute "cd #{fetch(:deploy_to)}/current; /home/deployer/.asdf/shims/bundle exec pumactl -F ~/apps/#{fetch(:application)}/current/config/puma.rb start"
     end
   end
 end
@@ -69,7 +69,6 @@ namespace :deploy do
      upload! "config/master.key",  "#{fetch(:deploy_to)}/shared/config/master.key"
      upload! "config/puma_prod.rb",  "#{fetch(:deploy_to)}/shared/config/puma.rb"
      upload! "config/nginx_prod.conf",  "#{fetch(:deploy_to)}/shared/config/nginx.conf"
-     upload! "config/puma_prod.service",  "#{fetch(:deploy_to)}/shared/config/puma.service"
      upload! "config/lsa-was-base-008e5e92455f.json",  "#{fetch(:deploy_to)}/shared/config/lsa-was-base-008e5e92455f.json"
      upload! "config/InCommon.Chain.CA-2.crt",  "#{fetch(:deploy_to)}/shared/mysql/InCommon.Chain.CA-2.crt"
     end
