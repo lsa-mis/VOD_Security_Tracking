@@ -47,4 +47,5 @@ production:
   username: <%= Rails.application.credentials.mysql[:prod_user] %>
   password: <%= Rails.application.credentials.mysql[:prod_password] %>
   host: <%= Rails.application.credentials.mysql[:prod_servername] %>
+  sslmode: require
   sslca: <%= Rails.application.credentials.mysql[:prod_sslca] %>
