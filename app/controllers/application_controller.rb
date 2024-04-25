@@ -38,16 +38,21 @@ class ApplicationController < ActionController::Base
   private
 
     def set_membership
-      if user_signed_in?
-        current_user.membership = session[:user_memberships]
-        if current_user.membership.present?
-          depts_groups = Department.all.pluck(:active_dir_group).compact_blank
-          current_user.dept_membership = current_user.membership & depts_groups
-          admins_groups = AccessLookup.where(vod_table: 'admin_interface').pluck(:ldap_group)
-          @admin_access = (current_user.membership & admins_groups).any?
+      begin
+        if user_signed_in?
+          current_user.membership = session[:user_memberships]
+          if current_user.membership.present?
+            depts_groups = Department.all.pluck(:active_dir_group).compact_blank
+            current_user.dept_membership = current_user.membership & depts_groups
+            admins_groups = AccessLookup.where(vod_table: 'admin_interface').pluck(:ldap_group)
+            @admin_access = (current_user.membership & admins_groups).any?
+          end
+        else
+          new_user_session_path
         end
-      else
-        new_user_session_path
+      rescue StandardError => e
+        flash[:alert] = "There was a problem with your membership. Be sure your VPN is running or you are using a campus IP and try again"
+        redirect_to root_path
       end
     end
 
