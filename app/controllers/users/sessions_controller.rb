@@ -11,9 +11,18 @@ class Users::SessionsController < Devise::SessionsController
    end
 
   # POST /resource/sign_in
-   def create
-     super
-   end
+  def create
+    if params[:user][:username].blank? || params[:user][:password].blank?
+      flash[:alert] = "Username and password can't be blank."
+      redirect_to new_user_session_path and return
+    end
+    super
+  rescue DeviseLdapAuthenticatable::LdapException => e
+    # Log the error and redirect
+    Rails.logger.error "LDAP Error: #{e.message}"
+    flash[:alert] = "Authentication failed. Please check your credentials."
+    redirect_to new_user_session_path
+  end
 
   # DELETE /resource/sign_out
    def destroy
