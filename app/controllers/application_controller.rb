@@ -6,10 +6,7 @@ class ApplicationController < ActionController::Base
   include Pundit::Authorization
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-
-  rescue_from DeviseLdapAuthenticatable::LdapException do |exception|
-    render :text => exception, :status => 500
-  end
+  rescue_from DeviseLdapAuthenticatable::LdapException, with: :ldap_error_handler
 
   def add_breadcrumb(label, path = nil)
     @breadcrumbs << {
@@ -67,5 +64,16 @@ class ApplicationController < ActionController::Base
     def user_not_authorized
       flash[:alert] = "You are not authorized to perform this action."
       redirect_to(request.referrer || root_path)
+    end
+
+    def ldap_error_handler(exception)
+      Rails.logger.error "LDAP Error: #{exception.message}"
+      if exception.message.include?("Not authorized because not authenticated") ||
+         exception.message.include?("Not authorized because of invalid credentials")
+        flash[:alert] = "LDAP authentication failed. Please check your credentials."
+        redirect_to new_user_session_path
+      else
+        raise exception
+      end
     end
 end
