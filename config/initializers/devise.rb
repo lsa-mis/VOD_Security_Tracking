@@ -16,6 +16,7 @@ Devise.setup do |config|
 
   # ==> Warden configuration
   config.warden do |manager|
+    manager.failure_app = CustomFailureApp
   end
 
   # ==> LDAP Configuration
