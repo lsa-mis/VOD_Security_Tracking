@@ -79,17 +79,30 @@ namespace :deploy do
 #     puts "Seeding db with seed file located at db/seeds.rb"
 #     run "cd #{current_path}; bin/rails db:seed RAILS_ENV=production"
 #   end
-  before "bundler:install", "debug:print_ruby_version"
+  before "bundler:install", "debug:print_versions"
   before :starting,     :check_revision
   after  :finishing,    'puma:restart'
 end
 
 namespace :debug do
-  desc "Print Ruby version and which ruby"
-  task :print_ruby_version do
+  desc "Print Ruby version, Ruby path, asdf Ruby list, and Rails version"
+  task :print_versions do
     on roles(:app) do
-      execute "ruby -v"
-      execute "which ruby"
+      within current_path do
+        with rails_env: fetch(:rails_env) do
+          # Capture the output of each command
+          ruby_version = capture(:ruby, '-v')
+          which_ruby = capture(:which, 'ruby')
+          asdf_ruby_list = capture(:asdf, 'list ruby')
+          rails_version = capture(:bundle, 'exec rails -v')
+
+          # Log the captured outputs
+          info "Ruby Version: #{ruby_version.strip}"
+          info "Ruby Path: #{which_ruby.strip}"
+          info "asdf Ruby Versions: #{asdf_ruby_list.strip}"
+          info "Rails Version: #{rails_version.strip}"
+        end
+      end
     end
   end
 end
