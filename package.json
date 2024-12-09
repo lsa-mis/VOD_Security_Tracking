@@ -16,7 +16,7 @@
     "stimulus": "^2.0.0",
     "stimulus-flatpickr": "^1.4.0",
     "tailwindcss-stimulus-components": "^2.2.0",
-    "trix": "^2.1.4",
+    "trix": "^2.1.9",
     "webpack": "^5.94.0",
     "webpack-cli": "^3.3.12"
   },
