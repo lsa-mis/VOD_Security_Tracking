@@ -22,9 +22,18 @@ if (Popover) application.register('popover', Popover)
 if (Toggle) application.register('toggle', Toggle)
 if (Slideover) application.register('slideover', Slideover)
 
-// Eager load all controllers defined in the import map under controllers/**/*_controller
-const controllers = import.meta.glob('./**/*_controller.js', { eager: true })
-for (const path in controllers) {
-  const name = path.match(/\.\/(.+)_controller\.js$/)[1].replaceAll('/', '--')
-  application.register(name, controllers[path].default)
-}
+// Import all controllers
+import InfotoggleController from "./infotoggle_controller"
+import FiltersController from "./filters_controller"
+import LegacyosController from "./legacyos_controller"
+import ReportController from "./report_controller"
+import SensitivedsController from "./sensitiveds_controller"
+import FlatpickrController from "./flatpickr_controller"
+
+// Register them with Stimulus
+application.register("infotoggle", InfotoggleController)
+application.register("filters", FiltersController)
+application.register("legacyos", LegacyosController)
+application.register("report", ReportController)
+application.register("sensitiveds", SensitivedsController)
+application.register("flatpickr", FlatpickrController)
