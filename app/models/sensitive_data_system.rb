@@ -103,13 +103,25 @@ class SensitiveDataSystem < ApplicationRecord
   end
 
   def not_completed?
-    not_completed = self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete", "device_id", "notes").all? {|k, v| v.present?} ? false : true
-    if not_completed
-      if self.storage_location_id.present?
-        not_completed = false unless StorageLocation.find(self.storage_location_id).device_is_required && self.device_id.present?
-      end
+    required_attributes = [
+      "name",
+      "owner_username",
+      "owner_full_name",
+      "department_id",
+      "phone",
+      "support_poc",
+      "expected_duration_of_data_retention"
+    ]
+
+    # Check if any required attributes are missing
+    not_completed = required_attributes.any? { |attr| self[attr].blank? }
+
+    # Special handling for storage location with required device
+    if storage_location_id.present? && !not_completed
+      not_completed = StorageLocation.find(storage_location_id).device_is_required && device_id.blank?
     end
-    return not_completed
+
+    not_completed
   end
 
   def self.to_csv
