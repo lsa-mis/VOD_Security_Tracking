@@ -1,6 +1,6 @@
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 
-export default class LegacyosController extends Controller {
+export default class extends Controller {
     static targets = ["form", "system_device", "serial", "hostname", "serial_error", "hostname_error"]
 
     submitForm(event) {
@@ -20,5 +20,4 @@ export default class LegacyosController extends Controller {
             this.hostname_errorTarget.classList.remove("device-error--display")
         }
     }
-
 }
