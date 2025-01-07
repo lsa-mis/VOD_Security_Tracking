@@ -3,30 +3,30 @@
   "private": true,
   "dependencies": {
     "@activeadmin/activeadmin": "^2.9.0",
-    "@fortawesome/fontawesome-free": "^5.15.3",
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^7.0.0-beta.5",
     "@rails/actioncable": "^6.0.0",
     "@rails/actiontext": "^6.1.4",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
-    "@rails/webpacker": "5.4.4",
-    "@tailwindcss/forms": "^0.3.2",
+    "@tailwindcss/forms": "^0.5.10",
+    "autoprefixer": "^10.4.20",
     "flatpickr": "^4.6.9",
-    "rails-erb-loader": "^5.5.2",
     "stimulus": "^2.0.0",
     "stimulus-flatpickr": "^1.4.0",
-    "tailwindcss-stimulus-components": "^2.2.0",
-    "trix": "^2.1.12",
-    "webpack": "^5.94.0",
-    "webpack-cli": "^3.3.12"
+    "tailwindcss": "^3.4.17",
+    "tailwindcss-stimulus-components": "^6.1.3",
+    "trix": "^2.1.12"
   },
   "version": "0.1.0",
   "devDependencies": {
-    "@tailwindcss/postcss7-compat": "npm:@tailwindcss/postcss7-compat@^2.0.3",
-    "@webpack-cli/serve": "^2.0.5",
-    "autoprefixer": "^9.8.6",
-    "postcss": "^8.4.31",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.3",
-    "webpack-dev-server": "^3"
+    "esbuild": "^0.24.2",
+    "postcss": "^8.4.49",
+    "sass": "^1.83.1"
+  },
+  "scripts": {
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
+    "build:css": "tailwindcss -i ./app/assets/stylesheets/application.scss -o ./app/assets/builds/application.css --minify"
   }
 }
