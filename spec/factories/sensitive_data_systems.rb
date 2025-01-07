@@ -5,7 +5,7 @@
 #  id                                  :bigint           not null, primary key
 #  owner_username                      :string(255)      not null
 #  owner_full_name                     :string(255)      not null
-#  phone                               :string(255)
+#  phone                              :string(255)
 #  additional_dept_contact             :string(255)
 #  additional_dept_contact_phone       :string(255)
 #  support_poc                         :string(255)
@@ -25,21 +25,32 @@
 #
 FactoryBot.define do
   factory :sensitive_data_system do
-    name { Faker::String.random(length: 10..20) }
-    owner_username { Faker::String.random(length: 6..8)}
-    owner_full_name { Faker::String.random(length: 20..30)}
+    name { Faker::App.name }
+    owner_username { Faker::Internet.username }
+    owner_full_name { Faker::Name.name }
     phone { Faker::PhoneNumber.phone_number }
-    additional_dept_contact { Faker::String.random(length: 20..120) }
+    additional_dept_contact { Faker::Name.name }
     additional_dept_contact_phone { Faker::PhoneNumber.phone_number }
-    support_poc { Faker::String.random(length: 20..120) }
-    expected_duration_of_data_retention { Faker::String.random(length: 20..120) }
-    agreements_related_to_data_types { Faker::String.random(length: 20..120)}
-    review_date { Faker::Date.in_date_period }
-    review_contact { Faker::String.random(length: 6..12) }
-    notes { Faker::String.random(length: 20..120) }
-    storage_location
-    data_type
-    device
-    department
+    support_poc { Faker::Name.name }
+    expected_duration_of_data_retention { "#{Faker::Number.number(digits: 2)} months" }
+    agreements_related_to_data_types { Faker::Lorem.sentence }
+    review_date { Faker::Date.forward(days: 90) }
+    review_contact { Faker::Internet.email }
+    association :department
+    storage_location { nil }
+    data_type { nil }
+    device { nil }
+
+    trait :with_device do
+      association :device
+    end
+
+    trait :with_storage_location do
+      association :storage_location
+    end
+
+    trait :with_data_type do
+      association :data_type
+    end
   end
 end

@@ -15,8 +15,27 @@ shared_context "shared functions" do
     # end
 
     def fill_in_date_with_js_by_id(id, with:)
-      script = "document.querySelector('##{id}').flatpickr().setDate('#{with}');"
+      # Updated to work with esbuild
+      script = <<-JS
+        var input = document.querySelector('##{id}');
+        if (input && input._flatpickr) {
+          input._flatpickr.setDate('#{with}');
+        } else {
+          input.value = '#{with}';
+          input.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      JS
+      page.execute_script(script)
+    end
+
+    def fill_in_trix_editor(id, with:)
+      # Direct JavaScript approach for Trix editor
+      script = <<-JS
+        var trixElement = document.querySelector('trix-editor[input="#{id}"]');
+        if (trixElement) {
+          trixElement.editor.loadHTML('#{with}');
+        }
+      JS
       page.execute_script(script)
     end
 end
-  

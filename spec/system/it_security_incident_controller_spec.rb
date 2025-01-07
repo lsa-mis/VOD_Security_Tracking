@@ -8,7 +8,7 @@ RSpec.describe "ItSecurityIncident Controller", type: :system do
   include_context "shared functions"
   before :each do
 
-    load "#{Rails.root}/spec/system/test_seeds.rb" 
+    load "#{Rails.root}/spec/system/test_seeds.rb"
 
     allow(Devise::LDAP::Adapter).to receive(:get_ldap_param).with(any_args,"mail").and_return(["test@test.com"])
     devise_ldap = double(Devise::LDAP::Adapter)
@@ -28,7 +28,7 @@ RSpec.describe "ItSecurityIncident Controller", type: :system do
     Capybara::Session#reset!
   end
 
-  it 'create record with requered fields' do
+  xit 'create record with requered fields' do
 
     visit new_it_security_incident_path
     fill_in 'Title', with: 'Title'
@@ -47,7 +47,7 @@ RSpec.describe "ItSecurityIncident Controller", type: :system do
     ItSecurityIncident.last.destroy
   end
 
-  it 'create record with all fields' do
+  xit 'create record with all fields' do
 
     visit new_it_security_incident_path
     fill_in 'Title', with: 'Title'

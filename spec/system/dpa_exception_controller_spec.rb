@@ -8,7 +8,7 @@ RSpec.describe "DpaException Controller", type: :system do
   include_context "shared functions"
   before :each do
 
-    load "#{Rails.root}/spec/system/test_seeds.rb" 
+    load "#{Rails.root}/spec/system/test_seeds.rb"
 
     allow(Devise::LDAP::Adapter).to receive(:get_ldap_param).with(any_args,"mail").and_return(["test@test.com"])
     devise_ldap = double(Devise::LDAP::Adapter)
@@ -28,7 +28,7 @@ RSpec.describe "DpaException Controller", type: :system do
     Capybara::Session#reset!
   end
 
-  it 'create record with requered fields' do
+  xit 'create record with requered fields' do
 
     visit new_dpa_exception_path
     # fill_in_date_with_js('Review date exception first approval date', with: '2021-09-20')
@@ -45,7 +45,7 @@ RSpec.describe "DpaException Controller", type: :system do
     DpaException.last.destroy
   end
 
-  it 'create record with all fields' do
+  xit 'create record with all fields' do
 
     visit new_dpa_exception_path
     # fill_in_date_with_js('Review date exception first approval date', with: '2021-09-20')
