@@ -5,9 +5,6 @@ import "./controllers"
 import * as ActiveStorage from "@rails/activestorage"
 ActiveStorage.start()
 
-import Rails from "@rails/ujs"
-Rails.start()
-
 // Stimulus setup
 import { Application } from "@hotwired/stimulus"
 const application = Application.start()
@@ -21,5 +18,5 @@ import "trix"
 import "@rails/actiontext"
 
 // Flatpickr
-import "flatpickr"
-import "stimulus-flatpickr"
+import flatpickr from "flatpickr"
+window.flatpickr = flatpickr
