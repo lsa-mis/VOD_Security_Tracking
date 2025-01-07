@@ -51,6 +51,7 @@ group :development do
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'spring'
+  gem 'stringio', '~> 3.1'
   gem 'web-console', '>= 4.1.0'
 end
 
