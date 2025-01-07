@@ -1,7 +1,7 @@
 <%- if controller_name != 'sessions' %>
-  <%= link_to "Log in", new_session_path(resource_name) %><br />
+  <%= link_to "Log in", new_session_path(resource_name), class: "text-sm font-medium text-laitan_blue hover:text-blue-700" %><br />
 <% end %>
 
 <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
-  <%= link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name) %><br />
+  <%= link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name), class: "text-sm font-medium text-laitan_blue hover:text-blue-700" %><br />
 <% end %>

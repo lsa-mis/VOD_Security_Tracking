@@ -1,20 +1,35 @@
-<h2>Log in</h2>
-
-<%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="form-inputs">
-    <%= f.input :username,
-                required: false,
-                autofocus: true,
-                input_html: { autocomplete: "username" } %>
-    <%= f.input :password,
-                required: false,
-                input_html: { autocomplete: "current-password" } %>
-    <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+<div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Log in</h2>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Log in" %>
-  </div>
-<% end %>
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="space-y-6">
+          <%= f.input :username,
+                      required: false,
+                      autofocus: true,
+                      input_html: { autocomplete: "username" } %>
+          <%= f.input :password,
+                      required: false,
+                      input_html: { autocomplete: "current-password" } %>
 
-<%= render "users/shared/links" %>
+          <% if devise_mapping.rememberable? %>
+            <%= f.input :remember_me,
+                        as: :boolean,
+                        wrapper: :vertical_boolean %>
+          <% end %>
+
+          <div>
+            <%= f.button :submit, "Log in", class: "w-full" %>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="mt-6">
+        <%= render "users/shared/links" %>
+      </div>
+    </div>
+  </div>
+</div>
