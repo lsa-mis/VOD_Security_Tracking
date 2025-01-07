@@ -1,9 +1,8 @@
+@import "flatpickr/dist/flatpickr.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Import required styles */
-@import "flatpickr/dist/flatpickr.css";
 @import 'trix/dist/trix.css';
 
 @layer base {
