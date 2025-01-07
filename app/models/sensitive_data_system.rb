@@ -40,6 +40,7 @@ class SensitiveDataSystem < ApplicationRecord
 
   validates :owner_username, :owner_full_name, :department_id, presence: true
   validate :acceptable_attachments
+  validates :name, presence: true
 
   scope :active, -> { where(deleted_at: nil) }
   scope :archived, -> { where("#{self.table_name}.deleted_at IS NOT NULL") }
@@ -51,7 +52,7 @@ class SensitiveDataSystem < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     ["attachments_attachments", "attachments_blobs", "audits", "data_type", "department", "device", "notes", "rich_text_notes", "storage_location", "tdx_tickets"]
   end
-  
+
   def archive
     self.update(deleted_at: DateTime.current)
   end
@@ -59,17 +60,17 @@ class SensitiveDataSystem < ApplicationRecord
   def unarchive
     self.update(deleted_at: nil)
   end
-  
+
   def archived?
     self.deleted_at.present?
   end
 
   def acceptable_attachments
     return unless attachments.attached?
-  
+
     acceptable_types = [
-      "application/pdf", "text/plain", "image/jpg", 
-      "image/jpeg", "image/png", 
+      "application/pdf", "text/plain", "image/jpg",
+      "image/jpeg", "image/png",
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       "application/vnd.apple.pages",
