@@ -13,6 +13,7 @@ gem 'duo_web', '~> 1.0'
 gem 'google-cloud-storage', require: false
 gem 'hotwire-rails'
 gem 'jbuilder', '~> 2.7'
+gem 'jsbundling-rails'
 gem 'ldap_fluff', '~> 0.6.0'
 gem 'ldap_lookup', '~> 0.1.5'
 # gem install mysql2 -v '0.5.6' -- --with-opt-dir=/opt/homebrew/opt/openssl@3:/opt/homebrew/opt/mysql:/opt/homebrew/opt/zstd
@@ -30,7 +31,6 @@ gem 'sd_notify', '~> 0.1.1'
 gem 'simple_form', '~> 5.1'
 gem 'turnout', '~> 2.5'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-gem 'webpacker', '~> 5.0'
 
 gem 'psych', '< 4'
 
