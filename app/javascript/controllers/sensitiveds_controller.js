@@ -1,6 +1,6 @@
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 
-export default class SensitivedsController extends Controller {
+export default class extends Controller {
   static targets = ["storage_location", "system_device", "form", "serial", "hostname", "serial_error", "hostname_error"]
 
   initialize() {
@@ -60,5 +60,4 @@ export default class SensitivedsController extends Controller {
       }
     }
   }
-
 }
