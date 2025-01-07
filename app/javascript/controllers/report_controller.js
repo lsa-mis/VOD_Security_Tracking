@@ -1,5 +1,6 @@
-import { Controller } from "stimulus"
-export default class ReportController extends Controller {
+import { Controller } from "@hotwired/stimulus"
+
+export default class extends Controller {
   static targets = ["form", "data_type", "classification_level", "review_month", "message",
     "table", "end_date", "start_date", "end_date", "listing"]
 
@@ -46,7 +47,6 @@ export default class ReportController extends Controller {
     this.updateTableDropdown(review_month, table)
   }
 
-
   changeClassification() {
     var id = this.classification_levelTarget.value
     if (id) {
@@ -85,7 +85,6 @@ export default class ReportController extends Controller {
   }
 
   submitForm(event) {
-
     var table = this.tableTarget.value
     var review_month = this.review_monthTarget.value
     var classification_level = this.classification_levelTarget.value
@@ -124,5 +123,4 @@ export default class ReportController extends Controller {
     this.messageTarget.innerText = " "
     this.listingTarget.innerText = ""
   }
-
 }
