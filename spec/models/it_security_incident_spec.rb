@@ -75,9 +75,15 @@ RSpec.describe ItSecurityIncident, type: :model do
   end
 
   it "is valid with required attributes" do
-    expect(ItSecurityIncident.new(date: "2021-03-19 16:50:16", people_involved: "people_involved", equipment_involved: "equipment_involved",
-                              remediation_steps: "remediation_steps",
-                              it_security_incident_status: it_security_incident_status, data_type: data_type)).to be_valid
+    expect(ItSecurityIncident.new(
+      title: "Test Incident",
+      date: "2021-03-19 16:50:16",
+      people_involved: "people_involved",
+      equipment_involved: "equipment_involved",
+      remediation_steps: "remediation_steps",
+      it_security_incident_status: it_security_incident_status,
+      data_type: data_type
+    )).to be_valid
   end
 
   it "is not valid without a data_type" do

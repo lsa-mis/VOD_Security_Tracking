@@ -16,7 +16,7 @@
 class ItSecurityIncident < ApplicationRecord
   belongs_to :it_security_incident_status
   belongs_to :data_type
-  has_many :tdx_tickets, as: :records_to_tdx
+  has_many :tdx_tickets, as: :records_to_tdx, dependent: :destroy
   has_rich_text :people_involved
   has_one :people_involved, class_name: 'ActionText::RichText', as: :record
   has_rich_text :equipment_involved
@@ -31,7 +31,8 @@ class ItSecurityIncident < ApplicationRecord
   audited
 
   validates :date, :people_involved, :equipment_involved, :remediation_steps,
-            :data_type_id, :it_security_incident_status_id, presence: true
+            :data_type_id, :it_security_incident_status_id, :title, presence: true
+  validates :estimated_financial_cost, numericality: true, allow_nil: true
   validate :acceptable_attachments
 
 
@@ -53,7 +54,7 @@ class ItSecurityIncident < ApplicationRecord
   def unarchive
     self.update(deleted_at: nil)
   end
-  
+
   def archived?
     self.deleted_at.present?
   end
@@ -61,10 +62,10 @@ class ItSecurityIncident < ApplicationRecord
 
   def acceptable_attachments
     return unless attachments.attached?
-  
+
     acceptable_types = [
-      "application/pdf", "text/plain", "image/jpg", 
-      "image/jpeg", "image/png", 
+      "application/pdf", "text/plain", "image/jpg",
+      "image/jpeg", "image/png",
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       "application/vnd.apple.pages",
@@ -143,5 +144,5 @@ class ItSecurityIncident < ApplicationRecord
   def display_name
     "#{self.title} - #{self.id}"
   end
-  
+
 end
