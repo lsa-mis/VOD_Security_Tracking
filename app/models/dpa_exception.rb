@@ -43,6 +43,7 @@ class DpaException < ApplicationRecord
             :department_id, presence: true
   validates :dpa_exception_status_id, presence: true
   validate :acceptable_attachments
+  validate :review_date_after_first_approval
 
   scope :active, -> { where(deleted_at: nil) }
   scope :archived, -> { where("#{self.table_name}.deleted_at IS NOT NULL") }
@@ -154,6 +155,14 @@ class DpaException < ApplicationRecord
 
   def display_name
     "#{self.third_party_product_service}"
+  end
+
+  def review_date_after_first_approval
+    return unless review_date_exception_review_date.present? && review_date_exception_first_approval_date.present?
+
+    if review_date_exception_review_date.to_date <= review_date_exception_first_approval_date.to_date
+      errors.add(:review_date_exception_review_date, "must be after the first approval date")
+    end
   end
 
 end
