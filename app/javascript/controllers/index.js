@@ -1,27 +1,30 @@
-// Load all the controllers within this directory and all subdirectories. 
-// Controller files must be named *_controller.js.
+import { application } from "./application"
 
-import { Application } from "stimulus"
-import { definitionsFromContext } from "stimulus/webpack-helpers"
+// Import and register all your controllers from the importmap under controllers/*
+import {
+  Alert,
+  Autosave,
+  Dropdown,
+  Modal,
+  Tabs,
+  Popover,
+  Toggle,
+  Slideover
+} from "tailwindcss-stimulus-components"
 
-const application = Application.start()
-const context = require.context("controllers", true, /_controller\.js$/)
-application.load(definitionsFromContext(context))
+// Register Stimulus Components
+if (Alert) application.register('alert', Alert)
+if (Autosave) application.register('autosave', Autosave)
+if (Dropdown) application.register('dropdown', Dropdown)
+if (Modal) application.register('modal', Modal)
+if (Tabs) application.register('tabs', Tabs)
+if (Popover) application.register('popover', Popover)
+if (Toggle) application.register('toggle', Toggle)
+if (Slideover) application.register('slideover', Slideover)
 
-// import Flatpickr
-import Flatpickr from 'stimulus-flatpickr'
-
-// Import style for flatpickr
-require("flatpickr/dist/flatpickr.css")
-
-// Manually register Flatpickr as a stimulus controller
-application.register('flatpickr', Flatpickr)
-
-// Import and register all TailwindCSS Components
-import { Autosave, Dropdown, Modal, Tabs, Popover, Toggle } from "tailwindcss-stimulus-components"
-application.register('autosave', Autosave)
-application.register('dropdown', Dropdown)
-application.register('modal', Modal)
-application.register('tabs', Tabs)
-application.register('popover', Popover)
-application.register('toggle', Toggle)
+// Eager load all controllers defined in the import map under controllers/**/*_controller
+const controllers = import.meta.glob('./**/*_controller.js', { eager: true })
+for (const path in controllers) {
+  const name = path.match(/\.\/(.+)_controller\.js$/)[1].replaceAll('/', '--')
+  application.register(name, controllers[path].default)
+}
