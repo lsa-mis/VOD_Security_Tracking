@@ -15,10 +15,16 @@ require 'rails_helper'
 RSpec.describe StorageLocation, type: :model do
 
   it "should have a unique name" do
+    # Clean up any existing records with this name
+    StorageLocation.where(name: 'Local').destroy_all
+
+    # Create first record
     StorageLocation.create!(name: 'Local')
+
+    # Try to create second record with same name
     storage_location = StorageLocation.new(name: 'Local')
-    expect(storage_location).to_not be_valid
-    storage_location.errors[:name].include?("has already be taken")
+    expect(storage_location).not_to be_valid
+    expect(storage_location.errors[:name]).to include("has already been taken")
   end
 
   it "is not valid without name" do
