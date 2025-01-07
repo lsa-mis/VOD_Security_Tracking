@@ -1,4 +1,4 @@
-<%= form_with(model: @sensitive_data_system, 
+<%= form_with(model: @sensitive_data_system,
               html: {local: true },
               data: {
                 controller: "sensitiveds",
@@ -146,7 +146,7 @@
           <% end %>
         </div>
         <p class="help-text">You are able to enter either Hostname or Serial Number.
-        <br> When you click the [Submit] button the devices information will be 
+        <br> When you click the [Submit] button the devices information will be
         updated from the associated TDX Assets entry.</p>
       </div>
 
@@ -164,7 +164,7 @@
         <% if @sensitive_data_system.tdx_tickets.present? %>
           <div class="py-4 pl-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
             <dt class="text-sm font-medium text-gray-500">
-              TDX tickets connected to this record: 
+              TDX tickets connected to this record:
             </dt>
             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
               <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
@@ -222,8 +222,7 @@
 
   <div class="action-area">
     <div class="actions">
-      <%= form.submit 'Submit', data: { disable_with: false } %>
+      <%= form.submit 'Submit', class: 'inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-laitan_blue hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500', data: { disable_with: false } %>
     </div>
   </div>
 <% end %>
-
