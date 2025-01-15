@@ -2,7 +2,8 @@
 <iframe id="duo_iframe"
         data-host="<%= Rails.application.credentials.duo[:duo_host] %>"
         data-sig-request="<%= @sig_request %>"
-        data-post-action="/registrations/duo_verify">
+        data-post-action="/registrations/duo_verify"
+        data-turbo="false">
 </iframe>
 
 <style>
