@@ -43,6 +43,7 @@ class DpaException < ApplicationRecord
             :department_id, presence: true
   validates :dpa_exception_status_id, presence: true
   validate :acceptable_attachments
+  validate :review_date_after_first_approval
 
   scope :active, -> { where(deleted_at: nil) }
   scope :archived, -> { where("#{self.table_name}.deleted_at IS NOT NULL") }
@@ -69,10 +70,10 @@ class DpaException < ApplicationRecord
 
   def acceptable_attachments
     return unless attachments.attached?
-  
+
     acceptable_types = [
-      "application/pdf", "text/plain", "image/jpg", 
-      "image/jpeg", "image/png", 
+      "application/pdf", "text/plain", "image/jpg",
+      "image/jpeg", "image/png",
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       "application/vnd.apple.pages",
@@ -113,39 +114,36 @@ class DpaException < ApplicationRecord
               department_id point_of_contact review_findings review_summary lsa_security_recommendation lsa_security_determination
               lsa_security_approval lsa_technology_services_approval exception_approval_date_exception_renewal_date_due notes
               data_type_id review_date_exception_review_date tdx_tickets}
+
     header = %w{link incomplete dpa_exception_status review_date_exception_first_approval_date third_party_product_service
               department_used_by point_of_contact review_findings review_summary lsa_security_recommendation lsa_security_determination
               lsa_security_approval lsa_technology_services_approval exception_approval_date_exception_renewal_date_due notes
               data_type review_date_exception_review_date tdx_tickets}
+
     header.map! { |e| e.titleize.upcase }
-    key_id = 'id'
+
     CSV.generate(headers: true) do |csv|
       csv << header
-      all.each do |a|
+      all.each do |record|
         row = []
-        record_id = a.attributes.values_at(key_id)[0]
-        fields.each do |key|
-          if key == 'id'
-            row << "http://localhost:3000/dpa_exceptions/" + a.attributes.values_at(key)[0].to_s
-          elsif key == 'data_type_id' && a.data_type_id.present?
-            row << DataType.find(a.attributes.values_at(key)[0]).display_name
-          elsif key == 'department_id' && a.data_type_id.present?
-            row << Department.find(a.attributes.values_at(key)[0]).name
-          elsif key == 'dpa_exception_status_id' && a.dpa_exception_status_id.present?
-            row << DpaExceptionStatus.find(a.attributes.values_at(key)[0]).name
-          elsif ['review_findings', 'review_summary', 'lsa_security_recommendation', 'lsa_security_determination', 'notes'].include?(key)
-            html_content = DpaException.find(record_id).send(key).body
-            text_content = Nokogiri::HTML(html_content).text.strip
-            row << text_content
-          elsif key == 'tdx_tickets' && DpaException.find(record_id).tdx_tickets.present?
-            tickets = ""
-            DpaException.find(record_id).tdx_tickets.each do |ticket|
-              tickets += ticket.ticket_link + " ; "
-            end
-            row << tickets
+        fields.each do |field|
+          value = case field
+          when 'id'
+            "http://localhost:3000/dpa_exceptions/#{record.id}"
+          when 'data_type_id'
+            record.data_type&.display_name
+          when 'department_id'
+            record.department&.name
+          when 'dpa_exception_status_id'
+            record.dpa_exception_status&.name
+          when 'review_findings', 'review_summary', 'lsa_security_recommendation', 'lsa_security_determination', 'notes'
+            record.send(field)&.to_plain_text
+          when 'tdx_tickets'
+            record.tdx_tickets.map(&:ticket_link).join("; ")
           else
-            row << a.attributes.values_at(key)[0]
+            record.send(field)
           end
+          row << value
         end
         csv << row
       end
@@ -154,6 +152,14 @@ class DpaException < ApplicationRecord
 
   def display_name
     "#{self.third_party_product_service}"
+  end
+
+  def review_date_after_first_approval
+    return unless review_date_exception_review_date.present? && review_date_exception_first_approval_date.present?
+
+    if review_date_exception_review_date.to_date <= review_date_exception_first_approval_date.to_date
+      errors.add(:review_date_exception_review_date, "must be after the first approval date")
+    end
   end
 
 end

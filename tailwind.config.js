@@ -1,22 +1,20 @@
-const defaultTheme = require('tailwindcss/defaultTheme')
-
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-  purge: [],
-  darkMode: false, // or 'media' or 'class'
+  content: [
+    './app/views/**/*.html.erb',
+    './app/helpers/**/*.rb',
+    './app/javascript/**/*.js',
+    './app/components/**/*',
+  ],
   theme: {
     extend: {
       colors: {
-        'um_yellow': '#ffcf01',
-        'laitan_blue': '#2b73b6',
         'um_blue': '#00274C',
-      },
-      fontFamily: {
-        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+        'um_yellow': '#FFCB05',
+        'laitan_blue': '#003366',
+        'laitan_blue_light': '#003366',
       },
     },
-  },
-  variants: {
-    extend: {},
   },
   plugins: [
     require('@tailwindcss/forms'),

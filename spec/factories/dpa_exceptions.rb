@@ -22,7 +22,9 @@
 FactoryBot.define do
   factory :dpa_exception do
     dpa_exception_status
-    review_date_exception_first_approval_date { Faker::Date.in_date_period }
+    first_approval_date = Faker::Date.backward(days: 100)
+    review_date_exception_first_approval_date { first_approval_date }
+    review_date_exception_review_date { first_approval_date + 30.days }
     third_party_product_service { Faker::String.random(length: 20..120) }
     department
     point_of_contact { Faker::String.random(length: 20..120) }
@@ -32,10 +34,8 @@ FactoryBot.define do
     lsa_security_determination { Faker::String.random(length: 20..120) }
     lsa_security_approval { Faker::String.random(length: 20..120) }
     lsa_technology_services_approval { Faker::String.random(length: 20..120) }
-    exception_approval_date_exception_renewal_date_due { Faker::Date.in_date_period }
-    review_date_exception_review_date { Faker::Date.in_date_period }
+    exception_approval_date_exception_renewal_date_due { Faker::Date.forward(days: 90) }
     notes { Faker::String.random(length: 60..120) }
-    # sla_agreement { Faker::String.random(length: 60..120) }
     data_type
   end
 end

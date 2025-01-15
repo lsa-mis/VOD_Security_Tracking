@@ -32,10 +32,54 @@ RSpec.describe SensitiveDataSystem, type: :model do
   let!(:storage_location) { FactoryBot.create(:storage_location) }
   let!(:department) { FactoryBot.create(:department) }
   let!(:sensitive_data_system) { FactoryBot.create(:sensitive_data_system) }
+  let!(:tdx_ticket) { FactoryBot.create(:tdx_ticket, :for_sensitive_data_system, records_to_tdx: sensitive_data_system) }
 
   it "is valid with required attributes" do
     expect(SensitiveDataSystem.new(name: "name", owner_username: "brita", owner_full_name: "Rita Barvinok",
                               department: department)).to be_valid
+  end
+
+  describe "associations" do
+    it "can have multiple TDX tickets" do
+      expect(sensitive_data_system.tdx_tickets).to include(tdx_ticket)
+    end
+
+    it "can have multiple attachments" do
+      sensitive_data_system.attachments.attach(
+        io: File.open(Rails.root.join('spec', 'fixtures', 'files', 'test.pdf')),
+        filename: 'test.pdf',
+        content_type: 'application/pdf'
+      )
+      expect(sensitive_data_system.attachments).to be_attached
+    end
+
+    it "belongs to a device optionally" do
+      expect(sensitive_data_system.device).to be_nil
+      sensitive_data_system.update(device: device)
+      expect(sensitive_data_system.device).to eq(device)
+    end
+  end
+
+  describe "validations" do
+    it "requires a name" do
+      sensitive_data_system.name = nil
+      expect(sensitive_data_system).not_to be_valid
+    end
+
+    it "requires an owner username" do
+      sensitive_data_system.owner_username = nil
+      expect(sensitive_data_system).not_to be_valid
+    end
+
+    it "requires an owner full name" do
+      sensitive_data_system.owner_full_name = nil
+      expect(sensitive_data_system).not_to be_valid
+    end
+
+    it "requires a department" do
+      sensitive_data_system.department = nil
+      expect(sensitive_data_system).not_to be_valid
+    end
   end
 
   # this test is not working because device validation happens in the stimulus controller
@@ -43,20 +87,30 @@ RSpec.describe SensitiveDataSystem, type: :model do
   #   # storage_location = StorageLocation.new(name: "local", device_is_required: true)
 
   #   expect(SensitiveDataSystem.new(name: "name", owner_username: "brita", owner_full_name: "Rita Barvinok",
-  #                               department: department, 
+  #                               department: department,
   #                               storage_location: storage_location)).to be_valid
   # end
 
-  it "is incomplete with empty attributes" do
-    sensitive_data_system = SensitiveDataSystem.new(name: "name", owner_username: "brita", owner_full_name: "Rita Barvinok",
-                            department: department)
-    expect(sensitive_data_system.not_completed?).to be(true)
-  end
+  describe "completeness" do
+    it "is incomplete with empty attributes" do
+      sensitive_data_system = SensitiveDataSystem.new(name: "name", owner_username: "brita", owner_full_name: "Rita Barvinok",
+                              department: department)
+      expect(sensitive_data_system.not_completed?).to be(true)
+    end
 
-  it "is complete with all attributes" do
-    expect(sensitive_data_system.not_completed?).to be(false)
-    sensitive_data_system.update(notes: "")
-    expect(sensitive_data_system.not_completed?).to be(false)
+    it "is complete with all attributes" do
+      expect(sensitive_data_system.not_completed?).to be(false)
+      sensitive_data_system.update(notes: "")
+      expect(sensitive_data_system.not_completed?).to be(false)
+    end
 
+    it "is complete with all required attributes and optional attachments" do
+      sensitive_data_system.attachments.attach(
+        io: File.open(Rails.root.join('spec', 'fixtures', 'files', 'test.pdf')),
+        filename: 'test.pdf',
+        content_type: 'application/pdf'
+      )
+      expect(sensitive_data_system.not_completed?).to be(false)
+    end
   end
 end

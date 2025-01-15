@@ -345,12 +345,8 @@ ActiveAdmin.setup do |config|
   #
   # config.order_clause = MyOrderClause
 
-  # == Webpacker
-  #
-  # By default, Active Admin uses Sprocket's asset pipeline.
-  # You can switch to using Webpacker here.
-  #
-  config.use_webpacker = true
+  # == Asset Pipeline
+  config.use_webpacker = false
 
   def check_duo_auth
     if !session[:duo_auth]

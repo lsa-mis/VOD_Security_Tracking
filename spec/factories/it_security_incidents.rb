@@ -15,14 +15,35 @@
 #
 FactoryBot.define do
   factory :it_security_incident do
-    title { Faker::String.random(length: 10..20) }
-    date { Faker::Date.in_date_period }
-    people_involved { Faker::String.random(length: 20..120) }
-    equipment_involved { Faker::String.random(length: 20..120) }
-    remediation_steps { Faker::String.random(length: 20..120) }
-    estimated_financial_cost { Faker::Number.decimal(l_digits: 2) }
-    notes { Faker::String.random(length: 20..120) }
-    it_security_incident_status
-    data_type
+    title { "Security Incident - #{Faker::Hacker.abbreviation}" }
+    date { Faker::Date.backward(days: 30) }
+    people_involved { Faker::Lorem.paragraph }
+    equipment_involved { "#{Faker::Device.model_name} - #{Faker::Device.serial}" }
+    remediation_steps { Faker::Lorem.paragraph }
+    estimated_financial_cost { Faker::Number.between(from: 0, to: 100000) }
+    association :it_security_incident_status
+    association :data_type
+
+    trait :with_notes do
+      after(:build) do |incident|
+        incident.notes = ActionText::RichText.new(body: Faker::Lorem.paragraph)
+      end
+    end
+
+    trait :with_high_cost do
+      estimated_financial_cost { Faker::Number.between(from: 100001, to: 1000000) }
+    end
+
+    trait :with_no_cost do
+      estimated_financial_cost { nil }
+    end
+
+    trait :invalid_cost do
+      estimated_financial_cost { "not a number" }
+    end
+
+    trait :invalid do
+      title { nil }
+    end
   end
 end

@@ -1,7 +1,7 @@
 <header class="w-full h-44px bg-um_blue text-white p-2">
   <nav class="flex items-center justify-between flex-wrap">
     <div class="flex items-center flex-no-shrink text-white mr-6">
-      <%= image_pack_tag "Technology_Services_logo_rgb_reverse.png", alt:"LSATS Logo", size: "323x75" %>
+      <%= image_tag "Technology_Services_logo_rgb_reverse.png", alt: "LSATS Logo", size: "323x75" %>
     </div>
     <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
       <div class="lg:flex-grow">
@@ -32,11 +32,15 @@
               <%= current_user.username %>
             </div>
             <div>
-              <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: "btn-login" %>
+              <%= link_to destroy_user_session_path, method: :delete, class: "btn-login" do %>
+                <i class="fa-solid fa-right-from-bracket mr-2"></i>Log out
+              <% end %>
             </div>
           <% else %>
             <div class="mt-2">
-              <%= link_to 'Log in', new_user_session_path, class: "btn-login" %>
+              <%= link_to new_user_session_path, class: "btn-login" do %>
+                <i class="fa-solid fa-right-to-bracket mr-2"></i>Log in
+              <% end %>
             </div>
           <% end %>
         </div>

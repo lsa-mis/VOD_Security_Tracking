@@ -1,3 +1,22 @@
+# Clear existing records in the correct order to handle foreign key constraints
+ActiveRecord::Base.connection.execute("SET FOREIGN_KEY_CHECKS = 0")
+
+TdxTicket.delete_all
+DpaException.delete_all
+ItSecurityIncident.delete_all
+LegacyOsRecord.delete_all
+SensitiveDataSystem.delete_all
+Device.delete_all
+DataType.delete_all
+DataClassificationLevel.delete_all
+Department.delete_all
+StorageLocation.delete_all
+DpaExceptionStatus.delete_all
+ItSecurityIncidentStatus.delete_all
+AccessLookup.delete_all
+Infotext.delete_all
+
+ActiveRecord::Base.connection.execute("SET FOREIGN_KEY_CHECKS = 1")
 
 AccessLookup.create!([
   {ldap_group: 'lsa-vod-admins', vod_table: 'admin_interface', vod_action: 'all'},
@@ -13,8 +32,9 @@ DataClassificationLevel.create!([
   {name: 'High', description: 'Disclosure could cause significant harm to individuals and/or the university, including exposure to criminal and civil liability.  Usually subject to legal and regulatory requirements due to data that are individually identifiable, highly sensitive, and/or confidential.'},
   {name: 'Moderate', description: 'Disclosure could cause limited harm to individuals and/or the university with some risk of civil liability.  May be subject to contractual agreements or regulatory compliance, or is individually identifiable, confidential, and/or proprietary.'},
   {name: 'Low', description: 'Encompasses public information and data for which disclosure poses little to no risk to individuals and/or the university.  Anyone regardless of institutional affiliation can access without limitation.'}
-  ])
+])
 
+# Create data types after data classification levels
 DataType.create!([
   {name: 'ITAR', description: 'International Traffic in Arms Regulations', description_link: 'https://safecomputing.umich.edu/dataguide/?q=node/59', data_classification_level_id: DataClassificationLevel.find_by(name: 'High').id},
   {name: 'EAR', description: 'Export Administration Regulations', description_link: 'https://safecomputing.umich.edu/dataguide/?q=node/59', data_classification_level_id: DataClassificationLevel.find_by(name: 'High').id},
@@ -30,7 +50,7 @@ DataType.create!([
   {name: 'HSR', description: 'Sensitive Identifiable Human Subject Research', description_link: 'https://safecomputing.umich.edu/dataguide/?q=node/65', data_classification_level_id: DataClassificationLevel.find_by(name: 'High').id},
   {name: 'PCI', description: 'Credit Card or Payment Card Industry Information', description_link: 'https://safecomputing.umich.edu/dataguide/?q=node/64', data_classification_level_id: DataClassificationLevel.find_by(name: 'Restricted').id},
   {name: 'OSID', description: 'Other Sensitive Institutional Data', description_link: 'https://safecomputing.umich.edu/dataguide/?q=node/150', data_classification_level_id: DataClassificationLevel.find_by(name: 'Moderate').id}
-  ])
+])
 
 Department.create!([
   {name: 'Womens Studies', shortname: 'womstds'},
@@ -47,40 +67,18 @@ Department.create!([
   {name: 'Anthropology', shortname: 'anth'}
 ])
 
-DpaExceptionStatus.create!([ 
+DpaExceptionStatus.create!([
   {name: 'In Process', description: 'pending operations to complete'},
   {name: 'Approved', description: 'approval applied'},
   {name: 'Denied', description: 'declined exception'},
   {name: 'Not Pursued', description: 'will not follow up on processing'}
-  ])
+])
 
-Infotext.create!([ 
-  {location: 'dashboard', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Suspendisse interdum consectetur libero id faucibus nisl tincidunt eget. Penatibus et magnis dis parturient montes nascetur ridiculus mus. Euismod quis viverra nibh cras. Adipiscing elit ut aliquam purus sit amet. A pellentesque sit amet porttitor eget dolor. Ac tortor vitae purus faucibus ornare suspendisse sed nisi. Viverra justo nec ultrices dui. Tincidunt tortor aliquam nulla facilisi cras fermentum odio eu. Leo integer malesuada nunc vel risus commodo.'},
-  {location: 'home', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Suspendisse interdum consectetur libero id faucibus nisl tincidunt eget. Penatibus et magnis dis parturient montes nascetur ridiculus mus. Euismod quis viverra nibh cras. Adipiscing elit ut aliquam purus sit amet. A pellentesque sit amet porttitor eget dolor. Ac tortor vitae purus faucibus ornare suspendisse sed nisi. Viverra justo nec ultrices dui. Tincidunt tortor aliquam nulla facilisi cras fermentum odio eu. Leo integer malesuada nunc vel risus commodo.'},
-  {location: 'dpa_exception_index', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Suspendisse interdum consectetur libero id faucibus nisl tincidunt eget. Penatibus et magnis dis parturient montes nascetur ridiculus mus. Euismod quis viverra nibh cras. Adipiscing elit ut aliquam purus sit amet. A pellentesque sit amet porttitor eget dolor. Ac tortor vitae purus faucibus ornare suspendisse sed nisi. Viverra justo nec ultrices dui. Tincidunt tortor aliquam nulla facilisi cras fermentum odio eu. Leo integer malesuada nunc vel risus commodo.'},
-  {location: 'dpa_exception_form', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Suspendisse interdum consectetur libero id faucibus nisl tincidunt eget. Penatibus et magnis dis parturient montes nascetur ridiculus mus. Euismod quis viverra nibh cras. Adipiscing elit ut aliquam purus sit amet. A pellentesque sit amet porttitor eget dolor. Ac tortor vitae purus faucibus ornare suspendisse sed nisi. Viverra justo nec ultrices dui. Tincidunt tortor aliquam nulla facilisi cras fermentum odio eu. Leo integer malesuada nunc vel risus commodo.'},
-  {location: 'it_security_incident_index', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Suspendisse interdum consectetur libero id faucibus nisl tincidunt eget. Penatibus et magnis dis parturient montes nascetur ridiculus mus. Euismod quis viverra nibh cras. Adipiscing elit ut aliquam purus sit amet. A pellentesque sit amet porttitor eget dolor. Ac tortor vitae purus faucibus ornare suspendisse sed nisi. Viverra justo nec ultrices dui. Tincidunt tortor aliquam nulla facilisi cras fermentum odio eu. Leo integer malesuada nunc vel risus commodo.'},
-  {location: 'it_security_incident_form', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Suspendisse interdum consectetur libero id faucibus nisl tincidunt eget. Penatibus et magnis dis parturient montes nascetur ridiculus mus. Euismod quis viverra nibh cras. Adipiscing elit ut aliquam purus sit amet. A pellentesque sit amet porttitor eget dolor. Ac tortor vitae purus faucibus ornare suspendisse sed nisi. Viverra justo nec ultrices dui. Tincidunt tortor aliquam nulla facilisi cras fermentum odio eu. Leo integer malesuada nunc vel risus commodo.'},
-  {location: 'legacy_os_record_index', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Suspendisse interdum consectetur libero id faucibus nisl tincidunt eget. Penatibus et magnis dis parturient montes nascetur ridiculus mus. Euismod quis viverra nibh cras. Adipiscing elit ut aliquam purus sit amet. A pellentesque sit amet porttitor eget dolor. Ac tortor vitae purus faucibus ornare suspendisse sed nisi. Viverra justo nec ultrices dui. Tincidunt tortor aliquam nulla facilisi cras fermentum odio eu. Leo integer malesuada nunc vel risus commodo.'},
-  {location: 'legacy_os_record_form', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Suspendisse interdum consectetur libero id faucibus nisl tincidunt eget. Penatibus et magnis dis parturient montes nascetur ridiculus mus. Euismod quis viverra nibh cras. Adipiscing elit ut aliquam purus sit amet. A pellentesque sit amet porttitor eget dolor. Ac tortor vitae purus faucibus ornare suspendisse sed nisi. Viverra justo nec ultrices dui. Tincidunt tortor aliquam nulla facilisi cras fermentum odio eu. Leo integer malesuada nunc vel risus commodo.'},
-  {location: 'sensitive_data_system_index', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Suspendisse interdum consectetur libero id faucibus nisl tincidunt eget. Penatibus et magnis dis parturient montes nascetur ridiculus mus. Euismod quis viverra nibh cras. Adipiscing elit ut aliquam purus sit amet. A pellentesque sit amet porttitor eget dolor. Ac tortor vitae purus faucibus ornare suspendisse sed nisi. Viverra justo nec ultrices dui. Tincidunt tortor aliquam nulla facilisi cras fermentum odio eu. Leo integer malesuada nunc vel risus commodo.'},
-  {location: 'sensitive_data_system_form', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Suspendisse interdum consectetur libero id faucibus nisl tincidunt eget. Penatibus et magnis dis parturient montes nascetur ridiculus mus. Euismod quis viverra nibh cras. Adipiscing elit ut aliquam purus sit amet. A pellentesque sit amet porttitor eget dolor. Ac tortor vitae purus faucibus ornare suspendisse sed nisi. Viverra justo nec ultrices dui. Tincidunt tortor aliquam nulla facilisi cras fermentum odio eu. Leo integer malesuada nunc vel risus commodo.'},
-  {location: 'device_index', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Suspendisse interdum consectetur libero id faucibus nisl tincidunt eget. Penatibus et magnis dis parturient montes nascetur ridiculus mus. Euismod quis viverra nibh cras. Adipiscing elit ut aliquam purus sit amet. A pellentesque sit amet porttitor eget dolor. Ac tortor vitae purus faucibus ornare suspendisse sed nisi. Viverra justo nec ultrices dui. Tincidunt tortor aliquam nulla facilisi cras fermentum odio eu. Leo integer malesuada nunc vel risus commodo.'},
-  {location: 'device_show', content: 'Click update to retrieve data about this device from the TDX database.'},
-  {location: 'reports', content: 'Select a table or all tables
-  Select a review month to get all systems with a selected review month
-  OR
-  Select a data classification level or/and data type to get all systems with specified data
-  Check that a review month is not selected
-  Select a date range to limit number of records
-  Select a report type'}
-  ])
-
-ItSecurityIncidentStatus.create!([ 
+ItSecurityIncidentStatus.create!([
   {name: 'Open', description: 'currently being reviewed'},
   {name: 'On Hold', description: 'processing has been paused'},
   {name: 'Resolved', description: 'incident has been fixed'}
-  ])
+])
 
 StorageLocation.create!([
   {name: 'ACS', description: 'Adobe Cloud Storage', description_link: 'https://safecomputing.umich.edu/dataguide/?q=node/247'},
@@ -98,4 +96,20 @@ StorageLocation.create!([
   {name: 'Exch', description: 'ITS Exchange Email and Calendar', description_link: 'https://safecomputing.umich.edu/dataguide/?q=node/193'},
   {name: 'LastPass', description: 'LastPass at Michigan Medicine', description_link: 'https://safecomputing.umich.edu/dataguide/?q=node/245'},
   {name: 'Local', description: 'Local Storage Device'}
-  ])
+])
+
+Infotext.create!([
+  {location: 'dashboard', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
+  {location: 'home', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
+  {location: 'dpa_exception_index', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
+  {location: 'dpa_exception_form', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
+  {location: 'it_security_incident_index', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
+  {location: 'it_security_incident_form', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
+  {location: 'legacy_os_record_index', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
+  {location: 'legacy_os_record_form', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
+  {location: 'sensitive_data_system_index', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
+  {location: 'sensitive_data_system_form', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
+  {location: 'device_index', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
+  {location: 'device_show', content: 'Click update to retrieve data about this device from the TDX database.'},
+  {location: 'reports', content: 'Select a table or all tables to generate a report based on your criteria.'}
+])
