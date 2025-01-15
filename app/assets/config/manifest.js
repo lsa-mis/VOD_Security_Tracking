@@ -3,3 +3,5 @@
 //= link Technology_Services_logo_rgb_reverse.png
 //= link trix/dist/trix.js
 //= link trix/dist/trix.css
+//= link instructions.css
+//= link forms.css
