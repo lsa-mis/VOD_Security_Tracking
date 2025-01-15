@@ -1,5 +1,7 @@
 @import "flatpickr/dist/flatpickr.css";
 @import "trix/dist/trix.css";
+@import "instructions.scss";
+@import "forms.scss";
 
 @tailwind base;
 @tailwind components;
