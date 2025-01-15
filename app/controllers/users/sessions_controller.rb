@@ -16,7 +16,17 @@ class Users::SessionsController < Devise::SessionsController
       flash[:alert] = "Username and password can't be blank."
       redirect_to new_user_session_path and return
     end
-    super
+
+    respond_to do |format|
+      format.html do
+        super
+      end
+      format.turbo_stream do
+        self.resource = warden.authenticate!(auth_options)
+        sign_in(resource_name, resource)
+        redirect_to after_sign_in_path_for(resource)
+      end
+    end
   rescue DeviseLdapAuthenticatable::LdapException => e
     # Log the error and redirect
     Rails.logger.error "LDAP Error: #{e.message}"
