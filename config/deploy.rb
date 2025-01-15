@@ -1,6 +1,6 @@
 require 'stringio'
 
-lock "~> 3.18.1"
+lock "~> 3.19.1"
 
 set :default_env, {
   'NODE_OPTIONS' => '--openssl-legacy-provider',
