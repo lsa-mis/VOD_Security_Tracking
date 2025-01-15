@@ -6,19 +6,22 @@ class RegistrationsController < Devise::RegistrationsController
 
   def duo
     if current_user
-      @sig_request =  Duo.sign_request(Rails.application.credentials.duo[:duo_ikey], 
-                      Rails.application.credentials.duo[:duo_skey], 
-                      Rails.application.credentials.duo[:duo_akey], 
+      @sig_request = Duo.sign_request(Rails.application.credentials.duo[:duo_ikey],
+                      Rails.application.credentials.duo[:duo_skey],
+                      Rails.application.credentials.duo[:duo_akey],
                       current_user.username)
-      else 
-        redirect_to root_path
+      respond_to do |format|
+        format.html
       end
+    else
+      redirect_to root_path
+    end
   end
 
   def duo_verify
-    @authenticated_user = Duo.verify_response(Rails.application.credentials.duo[:duo_ikey], 
-                          Rails.application.credentials.duo[:duo_skey], 
-                          Rails.application.credentials.duo[:duo_akey], 
+    @authenticated_user = Duo.verify_response(Rails.application.credentials.duo[:duo_ikey],
+                          Rails.application.credentials.duo[:duo_skey],
+                          Rails.application.credentials.duo[:duo_akey],
                           params['sig_response'])
     if @authenticated_user
       session[:duo_auth] = true
