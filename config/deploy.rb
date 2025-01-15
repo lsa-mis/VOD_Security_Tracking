@@ -84,6 +84,21 @@ namespace :deploy do
   before "bundler:install", "debug:print_versions"
   before :starting,     :check_revision
   after  :finishing,    'puma:restart'
+
+  namespace :assets do
+    task :precompile do
+      on roles(:web) do
+        within release_path do
+          with rails_env: fetch(:rails_env) do
+            execute :yarn, 'install'
+            execute :yarn, 'build'
+            execute :yarn, 'build:css'
+            execute :bundle, 'exec', 'rails', 'assets:precompile'
+          end
+        end
+      end
+    end
+  end
 end
 
 namespace :debug do
