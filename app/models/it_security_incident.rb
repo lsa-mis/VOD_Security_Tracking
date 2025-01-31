@@ -101,48 +101,68 @@ class ItSecurityIncident < ApplicationRecord
     self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete", "notes").all? {|k, v| v.present?} ? false : true
   end
 
-  # require 'nokogiri'
+  def display_name
+    "#{self.title} - #{self.id}"
+  end
 
   def self.to_csv
-    fields = %w{id incomplete title date people_involved equipment_involved remediation_steps
-              estimated_financial_cost notes it_security_incident_status_id data_type_id tdx_tickets}
-    header = %w{link incomplete title date people_involved equipment_involved remediation_steps
-              estimated_financial_cost notes it_security_incident_status data_type tdx_tickets}
-    header.map! { |e| e.titleize.upcase }
-    key_id = 'id'
     CSV.generate(headers: true) do |csv|
-      csv << header
-      all.each do |a|
-        row = []
-        record_id = a.attributes.values_at(key_id)[0]
-        fields.each do |key|
-          if key == 'id'
-            row << "http://localhost:3000/it_security_incidents/" + a.attributes.values_at(key)[0].to_s
-          elsif key == 'data_type_id' && a.data_type_id.present?
-            row << DataType.find(a.attributes.values_at(key)[0]).display_name
-          elsif key == 'it_security_incident_status_id'
-            row << ItSecurityIncidentStatus.find(a.attributes.values_at(key)[0]).name
-          elsif ['people_involved', 'equipment_involved', 'remediation_steps', 'notes'].include?(key)
-            html_content = ItSecurityIncident.find(record_id).send(key).body
-            text_content = Nokogiri::HTML(html_content).text.strip
-            row << text_content
-          elsif key == 'tdx_tickets' && ItSecurityIncident.find(record_id).tdx_tickets.present?
-            tickets = ""
-            ItSecurityIncident.find(record_id).tdx_tickets.each do |ticket|
-              tickets += ticket.ticket_link + " ; "
-            end
-            row << tickets
-          else
-            row << a.attributes.values_at(key)[0]
-          end
-        end
-        csv << row
-      end
+      csv << csv_headers
+      csv_records.each { |record| csv << build_row(record) }
     end
   end
 
-  def display_name
-    "#{self.title} - #{self.id}"
+  private
+
+  def self.csv_fields
+    %w[
+      id incomplete title date people_involved equipment_involved remediation_steps
+      estimated_financial_cost notes it_security_incident_status_id data_type_id
+      tdx_tickets
+    ]
+  end
+
+  def self.csv_headers
+    %w[
+      link incomplete title date people_involved equipment_involved remediation_steps
+      estimated_financial_cost notes it_security_incident_status data_type
+      tdx_tickets
+    ].map(&:titleize).map(&:upcase)
+  end
+
+  def self.csv_records
+    includes(:data_type, :it_security_incident_status, :tdx_tickets,
+            :people_involved, :equipment_involved, :remediation_steps, :notes)
+  end
+
+  def self.build_row(record)
+    csv_fields.each_with_object([]) do |field, row|
+      row << format_field(record, field)
+    end
+  end
+
+  def self.format_field(record, field)
+    case field
+    when 'id'
+      generate_url(record)
+    when 'data_type_id'
+      record.data_type&.display_name
+    when 'it_security_incident_status_id'
+      record.it_security_incident_status&.name
+    when 'people_involved', 'equipment_involved', 'remediation_steps', 'notes'
+      record.send(field)&.to_plain_text || ''
+    when 'tdx_tickets'
+      record.tdx_tickets.map(&:ticket_link).join(' ; ')
+    else
+      record.attributes[field]
+    end
+  end
+
+  def self.generate_url(record)
+    Rails.application.routes.url_helpers.it_security_incident_url(
+      record,
+      host: Rails.application.config.action_mailer.default_url_options[:host]
+    )
   end
 
 end

@@ -109,48 +109,7 @@ class DpaException < ApplicationRecord
     not_completed = self.attributes.except("id", "created_at", "updated_at", "deleted_at", "incomplete", "notes", "sla_agreement").all? {|k, v| v.present?} ? false : true
   end
 
-  def self.to_csv
-    fields = %w{id incomplete dpa_exception_status_id review_date_exception_first_approval_date third_party_product_service
-              department_id point_of_contact review_findings review_summary lsa_security_recommendation lsa_security_determination
-              lsa_security_approval lsa_technology_services_approval exception_approval_date_exception_renewal_date_due notes
-              data_type_id review_date_exception_review_date tdx_tickets}
-
-    header = %w{link incomplete dpa_exception_status review_date_exception_first_approval_date third_party_product_service
-              department_used_by point_of_contact review_findings review_summary lsa_security_recommendation lsa_security_determination
-              lsa_security_approval lsa_technology_services_approval exception_approval_date_exception_renewal_date_due notes
-              data_type review_date_exception_review_date tdx_tickets}
-
-    header.map! { |e| e.titleize.upcase }
-
-    CSV.generate(headers: true) do |csv|
-      csv << header
-      all.each do |record|
-        row = []
-        fields.each do |field|
-          value = case field
-          when 'id'
-            "http://localhost:3000/dpa_exceptions/#{record.id}"
-          when 'data_type_id'
-            record.data_type&.display_name
-          when 'department_id'
-            record.department&.name
-          when 'dpa_exception_status_id'
-            record.dpa_exception_status&.name
-          when 'review_findings', 'review_summary', 'lsa_security_recommendation', 'lsa_security_determination', 'notes'
-            record.send(field)&.to_plain_text
-          when 'tdx_tickets'
-            record.tdx_tickets.map(&:ticket_link).join("; ")
-          else
-            record.send(field)
-          end
-          row << value
-        end
-        csv << row
-      end
-    end
-  end
-
-  def display_name
+    def display_name
     "#{self.third_party_product_service}"
   end
 
@@ -160,6 +119,75 @@ class DpaException < ApplicationRecord
     if review_date_exception_review_date.to_date <= review_date_exception_first_approval_date.to_date
       errors.add(:review_date_exception_review_date, "must be after the first approval date")
     end
+  end
+
+  def self.to_csv
+    CSV.generate(headers: true) do |csv|
+      csv << csv_headers
+      csv_records.each { |record| csv << build_row(record) }
+    end
+  end
+
+  private
+
+  def self.csv_fields
+    %w[
+      id incomplete dpa_exception_status_id review_date_exception_first_approval_date
+      third_party_product_service department_id point_of_contact review_findings
+      review_summary lsa_security_recommendation lsa_security_determination
+      lsa_security_approval lsa_technology_services_approval
+      exception_approval_date_exception_renewal_date_due notes data_type_id
+      review_date_exception_review_date tdx_tickets
+    ]
+  end
+
+  def self.csv_headers
+    %w[
+      link incomplete dpa_exception_status review_date_exception_first_approval_date
+      third_party_product_service department_used_by point_of_contact review_findings
+      review_summary lsa_security_recommendation lsa_security_determination
+      lsa_security_approval lsa_technology_services_approval
+      exception_approval_date_exception_renewal_date_due notes data_type
+      review_date_exception_review_date tdx_tickets
+    ].map(&:titleize).map(&:upcase)
+  end
+
+  def self.csv_records
+    includes(:data_type, :department, :dpa_exception_status, :tdx_tickets,
+            :review_findings, :review_summary, :lsa_security_recommendation,
+            :lsa_security_determination, :notes)
+  end
+
+  def self.build_row(record)
+    csv_fields.each_with_object([]) do |field, row|
+      row << format_field(record, field)
+    end
+  end
+
+  def self.format_field(record, field)
+    case field
+    when 'id'
+      generate_url(record)
+    when 'data_type_id'
+      record.data_type&.display_name
+    when 'department_id'
+      record.department&.name
+    when 'dpa_exception_status_id'
+      record.dpa_exception_status&.name
+    when 'review_findings', 'review_summary', 'lsa_security_recommendation', 'lsa_security_determination', 'notes'
+      record.send(field)&.to_plain_text || ''
+    when 'tdx_tickets'
+      record.tdx_tickets.map(&:ticket_link).join('; ')
+    else
+      record.attributes[field]
+    end
+  end
+
+  def self.generate_url(record)
+    Rails.application.routes.url_helpers.dpa_exception_url(
+      record,
+      host: Rails.application.config.action_mailer.default_url_options[:host]
+    )
   end
 
 end
