@@ -120,55 +120,80 @@ class LegacyOsRecord < ApplicationRecord
     return not_completed
   end
 
-  # require 'nokogiri'
+  def display_name
+    "#{self.legacy_os} - #{self.id}"
+  end
 
   def self.to_csv
-    fields = %w{id incomplete owner_username owner_full_name department_id phone additional_dept_contact
-              additional_dept_contact_phone support_poc legacy_os unique_app unique_hardware unique_date
-              remediation exception_approval_date review_date review_contact justification
-              local_it_support_group notes data_type_id device_id tdx_tickets}
-    header = %w{link incomplete owner_username owner_full_name department phone additional_dept_contact
-              additional_dept_contact_phone support_poc legacy_os unique_app unique_hardware unique_date
-              remediation exception_approval_date review_date review_contact justification
-              local_it_support_group notes data_type device:_hostname device:_serial tdx_tickets}
-    header.map! { |e| e.titleize.upcase }
-    key_id = 'id'
     CSV.generate(headers: true) do |csv|
-      csv << header
-      all.each do |a|
-        row = []
-        record_id = a.attributes.values_at(key_id)[0]
-        fields.each do |key|
-          if key == 'id'
-            row << "http://localhost:3000/legacy_os_records/" + a.attributes.values_at(key)[0].to_s
-          elsif key == 'data_type_id' && a.data_type_id.present?
-            row << DataType.find(a.attributes.values_at(key)[0]).display_name
-          elsif key == 'department_id' && a.department_id.present?
-            row << Department.find(a.attributes.values_at(key)[0]).name
-          elsif key == 'device_id' && a.device_id.present?
-            row << Device.find(a.attributes.values_at(key)[0]).display_hostname
-            row << Device.find(a.attributes.values_at(key)[0]).display_serial
-          elsif ['remediation', 'justification', 'notes'].include?(key)
-            rich_text_content = LegacyOsRecord.find(record_id).send(key)
-            text_content = rich_text_content&.to_plain_text || ''
-            row << text_content
-          elsif key == 'tdx_tickets' && LegacyOsRecord.find(record_id).tdx_tickets.present?
-            tickets = ""
-            LegacyOsRecord.find(record_id).tdx_tickets.each do |ticket|
-              tickets += ticket.ticket_link + " ; "
-            end
-            row << tickets
-          else
-            row << a.attributes.values_at(key)[0]
-          end
-        end
-        csv << row
-      end
+      csv << csv_headers
+      csv_records.each { |record| csv << build_row(record) }
     end
   end
 
-  def display_name
-    "#{self.device.display_name}   #{self.legacy_os}"
+  private
+
+  def self.csv_fields
+    %w[
+      id incomplete owner_username owner_full_name department_id phone
+      additional_dept_contact additional_dept_contact_phone support_poc
+      legacy_os unique_app unique_hardware unique_date remediation
+      exception_approval_date review_date review_contact justification
+      local_it_support_group notes data_type_id device_id tdx_tickets
+    ]
+  end
+
+  def self.csv_headers
+    %w[
+      link incomplete owner_username owner_full_name department phone
+      additional_dept_contact additional_dept_contact_phone support_poc
+      legacy_os unique_app unique_hardware unique_date remediation
+      exception_approval_date review_date review_contact justification
+      local_it_support_group notes data_type device:_hostname device:_serial
+      tdx_tickets
+    ].map(&:titleize).map(&:upcase)
+  end
+
+  def self.csv_records
+    includes(:data_type, :department, :device, :tdx_tickets,
+            :remediation, :justification, :notes)
+  end
+
+  def self.build_row(record)
+    csv_fields.each_with_object([]) do |field, row|
+      row << format_field(record, field)
+    end
+  end
+
+  def self.format_field(record, field)
+    case field
+    when 'id'
+      generate_url(record)
+    when 'data_type_id'
+      record.data_type&.display_name
+    when 'department_id'
+      record.department&.name
+    when 'device_id'
+      format_device(record.device)
+    when 'remediation', 'justification', 'notes'
+      record.send(field)&.to_plain_text || ''
+    when 'tdx_tickets'
+      record.tdx_tickets.map(&:ticket_link).join(' ; ')
+    else
+      record.attributes[field]
+    end
+  end
+
+  def self.generate_url(record)
+    Rails.application.routes.url_helpers.legacy_os_record_url(
+      record,
+      host: Rails.application.config.action_mailer.default_url_options[:host]
+    )
+  end
+
+  def self.format_device(device)
+    return unless device
+    [device.display_hostname, device.display_serial]
   end
 
 end
