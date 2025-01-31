@@ -129,7 +129,7 @@ class DpaException < ApplicationRecord
         fields.each do |field|
           value = case field
           when 'id'
-            "http://localhost:3000/dpa_exceptions/#{record.id}"
+            record.id
           when 'data_type_id'
             record.data_type&.display_name
           when 'department_id'
