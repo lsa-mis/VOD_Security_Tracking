@@ -137,7 +137,8 @@ class DpaException < ApplicationRecord
           when 'dpa_exception_status_id'
             record.dpa_exception_status&.name
           when 'review_findings', 'review_summary', 'lsa_security_recommendation', 'lsa_security_determination', 'notes'
-            record.send(field)&.to_plain_text
+            rich_text = record.send(field)
+            rich_text.present? ? rich_text.to_plain_text : ''
           when 'tdx_tickets'
             record.tdx_tickets.map(&:ticket_link).join("; ")
           else
