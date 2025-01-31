@@ -149,8 +149,8 @@ class LegacyOsRecord < ApplicationRecord
             row << Device.find(a.attributes.values_at(key)[0]).display_hostname
             row << Device.find(a.attributes.values_at(key)[0]).display_serial
           elsif ['remediation', 'justification', 'notes'].include?(key)
-            html_content = LegacyOsRecord.find(record_id).send(key).body
-            text_content = Nokogiri::HTML(html_content).text.strip
+            rich_text_content = LegacyOsRecord.find(record_id).send(key)
+            text_content = rich_text_content&.to_plain_text || ''
             row << text_content
           elsif key == 'tdx_tickets' && LegacyOsRecord.find(record_id).tdx_tickets.present?
             tickets = ""

@@ -123,8 +123,8 @@ class ItSecurityIncident < ApplicationRecord
           elsif key == 'it_security_incident_status_id'
             row << ItSecurityIncidentStatus.find(a.attributes.values_at(key)[0]).name
           elsif ['people_involved', 'equipment_involved', 'remediation_steps', 'notes'].include?(key)
-            html_content = ItSecurityIncident.find(record_id).send(key).body
-            text_content = Nokogiri::HTML(html_content).text.strip
+            rich_text_content = ItSecurityIncident.find(record_id).send(key)
+            text_content = rich_text_content&.to_plain_text || ''
             row << text_content
           elsif key == 'tdx_tickets' && ItSecurityIncident.find(record_id).tdx_tickets.present?
             tickets = ""
