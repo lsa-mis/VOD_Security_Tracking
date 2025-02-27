@@ -5,6 +5,14 @@ import "./controllers"
 import * as ActiveStorage from "@rails/activestorage"
 ActiveStorage.start()
 
+// Import Trix and ActionText directly
+import "trix"
+import "@rails/actiontext"
+
+// Make Trix available globally
+import Trix from "trix"
+window.Trix = Trix
+
 // Stimulus setup
 import { Application } from "@hotwired/stimulus"
 const application = Application.start()
@@ -12,15 +20,6 @@ const application = Application.start()
 // Configure Stimulus development experience
 application.debug = false
 window.Stimulus = application
-
-// Trix editor setup - make sure this runs before requiring trix
-if (typeof window.customElements.get('trix-editor') === 'undefined') {
-  let Trix = require("trix")
-  require("@rails/actiontext")
-
-  // Make Trix available globally
-  window.Trix = Trix
-}
 
 document.addEventListener('trix-file-accept', function(event) {
   // Configure file upload restrictions if needed
