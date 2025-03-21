@@ -18,7 +18,7 @@ gem 'ldap_fluff', '~> 0.6.0'
 gem 'ldap_lookup', '~> 0.1.5'
 # gem install mysql2 -v '0.5.6' -- --with-opt-dir=/opt/homebrew/opt/openssl@3:/opt/homebrew/opt/mysql:/opt/homebrew/opt/zstd
 gem 'mysql2', '~> 0.5.6'
-gem 'nokogiri', '1.18.3'
+gem 'nokogiri', '1.18.4'
 gem 'pagy', '~> 4.10', '>= 4.10.1'
 gem 'puma', '5.6.9'
 gem 'pundit', '~> 2.1'
