@@ -24,7 +24,7 @@ class AuthTokenApi
       if parsed_response['access_token']
         return @access_token = parsed_response['access_token']
       else
-        puts "Error: No access_token in response. Full response: #{parsed_response}"
+        puts "Error: No access_token in response."
         return false
       end
     rescue => @error
