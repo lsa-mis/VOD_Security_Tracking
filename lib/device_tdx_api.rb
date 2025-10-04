@@ -1,6 +1,6 @@
+require 'net/http'
+
 class AuthTokenApi
-  require 'net/http'
-  require 'uri'
 
   def initialize()
     @access_token = nil
