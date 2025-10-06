@@ -32,7 +32,7 @@ class DevicesController < InheritedResources::Base
     # serial ||= params[:serial] || device_params[:serial]
     # hostname = params[:hostname] || device_params[:hostname]
     serial = params[:device][:serial]
-    hostname = params[:device][:hostname] 
+    hostname = params[:device][:hostname]
     device_class = DeviceManagment.new(serial, hostname)
     if device_class.create_device
       @note ||= device_class.message || ""
@@ -60,14 +60,15 @@ class DevicesController < InheritedResources::Base
       if @device.update(device_class.device_attr)
         redirect_to @device, notice: 'Device record was successfully updated. ' + note
       else
-        format.turbo_stream
+        flash.now[:alert] = @device.errors.full_messages.to_sentence.presence || 'Unable to update device.'
+        render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
       end
     else
       flash.now[:alert] = device_class.message
         render turbo_stream: turbo_stream.update("flash", partial: "layouts/notification")
     end
   end
-  
+
   private
 
     def set_device
@@ -79,8 +80,8 @@ class DevicesController < InheritedResources::Base
     end
 
     def device_params
-      params.require(:device).permit( :serial, :hostname, :mac, :building, 
-                                      :room, :manufacturer, :model, :owner, 
+      params.require(:device).permit( :serial, :hostname, :mac, :building,
+                                      :room, :manufacturer, :model, :owner,
                                       :department).each { |key, value| value.strip! }
     end
 
