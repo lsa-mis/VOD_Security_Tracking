@@ -84,7 +84,7 @@ class DeviceManagment
     get_access_token
     if @access_token
       # auth_token exists - call TDX
-      get_device_tdx_info(search_field, @access_token)    
+      get_device_tdx_info(search_field, @access_token)
       if @device_tdx_info['result']['success']
         self.save_with_tdx = true
         self.data = @device_tdx_info['data']

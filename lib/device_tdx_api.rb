@@ -1,4 +1,7 @@
+require 'net/http'
+
 class AuthTokenApi
+
   def initialize()
     @access_token = nil
   end
@@ -16,7 +19,14 @@ class AuthTokenApi
       request.body = "grant_type=client_credentials&client_id=#{Rails.application.credentials.um_api[:tdx_client_id]}&client_secret=#{Rails.application.credentials.um_api[:tdx_client_secret]}&scope=tdxticket"
 
       response = http.request(request)
-      return @access_token = JSON.parse(response.read_body)['access_token']
+      parsed_response = JSON.parse(response.read_body)
+      
+      if parsed_response['access_token']
+        return @access_token = parsed_response['access_token']
+      else
+        puts "Error: No access_token in response."
+        return false
+      end
     rescue => @error
       puts @error.inspect
       return false
