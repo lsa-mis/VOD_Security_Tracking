@@ -195,6 +195,10 @@ GEM
       rails (>= 6.0.0)
       stimulus-rails
       turbo-rails
+    httparty (0.23.2)
+      csv
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
     httpclient (2.8.3)
     i18n (1.14.6)
       concurrent-ruby (~> 1.0)
@@ -237,6 +241,10 @@ GEM
     loofah (2.24.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
+    lsa_tdx_feedback (1.0.2)
+      httparty (~> 0.22)
+      rails (>= 6.0)
+      redis (>= 4.0)
     mail (2.8.1)
       mini_mime (>= 0.1.1)
       net-imap
@@ -250,6 +258,8 @@ GEM
     minitest (5.25.1)
     msgpack (1.7.2)
     multi_json (1.15.0)
+    multi_xml (0.7.2)
+      bigdecimal (~> 3.1)
     mutex_m (0.2.0)
     mysql2 (0.5.6)
     net-http (0.4.1)
@@ -480,6 +490,7 @@ DEPENDENCIES
   ldap_fluff (~> 0.6.0)
   ldap_lookup (~> 0.1.5)
   listen (~> 3.3)
+  lsa_tdx_feedback
   mysql2 (~> 0.5.6)
   nokogiri (= 1.18.9)
   pagy (~> 4.10, >= 4.10.1)

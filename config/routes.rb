@@ -42,12 +42,12 @@ Rails.application.routes.draw do
   get 'dpa_exceptions/audit_log', to: 'dpa_exceptions#audit_log'
   get 'application/delete_file_attachment/:id', to: 'application#delete_file_attachment', as: :delete_file
 
-  
+
   post 'archive_it_security_incident/:id', to: 'it_security_incidents#archive', as: :archive_it_security_incident
   post 'archive_sensitive_data_system/:id', to: 'sensitive_data_systems#archive', as: :archive_sensitive_data_system
   post 'archive_legacy_os_record/:id', to: 'legacy_os_records#archive', as: :archive_legacy_os_record
   post 'archive_dpa_exception/:id', to: 'dpa_exceptions#archive', as: :archive_dpa_exception
-  
+
   post 'unarchive_it_security_incident/:id', to: 'it_security_incidents#unarchive', as: :unarchive_it_security_incident
   post 'unarchive_sensitive_data_system/:id', to: 'sensitive_data_systems#unarchive', as: :unarchive_sensitive_data_system
   post 'unarchive_legacy_os_record/:id', to: 'legacy_os_records#unarchive', as: :unarchive_legacy_os_record
@@ -65,5 +65,8 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
   get '/dashboard', to: 'static_pages#dashboard'
+
+  # Mount the feedback gem engine
+  mount LsaTdxFeedback::Engine => "/lsa_tdx_feedback", as: "lsa_tdx_feedback"
 
 end

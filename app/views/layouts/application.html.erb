@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html class='h-full'>
   <head>
+    <%= lsa_tdx_feedback_css %>
     <title>VOD</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
@@ -28,5 +29,7 @@
       <%= yield %>
     </main>
     <%= render 'layouts/footer' %>
+    <%= lsa_tdx_feedback_modal %>
+    <%= lsa_tdx_feedback_js %>
   </body>
 </html>
