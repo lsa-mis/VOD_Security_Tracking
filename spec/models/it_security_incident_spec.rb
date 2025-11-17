@@ -108,4 +108,117 @@ RSpec.describe ItSecurityIncident, type: :model do
   it "is valid with all attributes" do
     expect(it_security_incident).to be_valid
   end
+
+  describe "scopes" do
+    describe ".active" do
+      it "returns non-archived records" do
+        active = FactoryBot.create(:it_security_incident, deleted_at: nil)
+        archived = FactoryBot.create(:it_security_incident, deleted_at: DateTime.current)
+
+        expect(ItSecurityIncident.active).to include(active)
+        expect(ItSecurityIncident.active).not_to include(archived)
+      end
+    end
+
+    describe ".archived" do
+      it "returns archived records" do
+        active = FactoryBot.create(:it_security_incident, deleted_at: nil)
+        archived = FactoryBot.create(:it_security_incident, deleted_at: DateTime.current)
+
+        expect(ItSecurityIncident.archived).to include(archived)
+        expect(ItSecurityIncident.archived).not_to include(active)
+      end
+    end
+  end
+
+  describe "#archive" do
+    it "sets deleted_at timestamp" do
+      incident = FactoryBot.create(:it_security_incident, deleted_at: nil)
+      incident.archive
+      expect(incident.deleted_at).to be_present
+    end
+  end
+
+  describe "#unarchive" do
+    it "clears deleted_at timestamp" do
+      incident = FactoryBot.create(:it_security_incident, deleted_at: DateTime.current)
+      incident.unarchive
+      expect(incident.deleted_at).to be_nil
+    end
+  end
+
+  describe "#archived?" do
+    it "returns true when deleted_at is present" do
+      incident = FactoryBot.create(:it_security_incident, deleted_at: DateTime.current)
+      expect(incident.archived?).to be true
+    end
+
+    it "returns false when deleted_at is nil" do
+      incident = FactoryBot.create(:it_security_incident, deleted_at: nil)
+      expect(incident.archived?).to be false
+    end
+  end
+
+  describe "attachment validations" do
+    it "validates attachment file size" do
+      incident = FactoryBot.create(:it_security_incident)
+      large_file = StringIO.new("x" * 21.megabytes)
+
+      incident.attachments.attach(
+        io: large_file,
+        filename: 'large.pdf',
+        content_type: 'application/pdf'
+      )
+
+      expect(incident).not_to be_valid
+      expect(incident.errors[:attachments]).to include("is too big")
+    end
+
+    it "validates attachment file types" do
+      incident = FactoryBot.create(:it_security_incident)
+      invalid_file = StringIO.new("invalid content")
+
+      incident.attachments.attach(
+        io: invalid_file,
+        filename: 'invalid.exe',
+        content_type: 'application/x-msdownload'
+      )
+
+      expect(incident).not_to be_valid
+      expect(incident.errors[:attachments]).to be_present
+    end
+  end
+
+  describe ".to_csv" do
+    it "generates CSV with headers" do
+      incident = FactoryBot.create(:it_security_incident)
+      csv = ItSecurityIncident.to_csv
+
+      expect(csv).to be_a(String)
+      expect(csv).to include("LINK")
+      expect(csv).to include("TITLE")
+    end
+
+    it "includes record data in CSV" do
+      incident = FactoryBot.create(:it_security_incident)
+      csv = ItSecurityIncident.to_csv
+
+      expect(csv).to include(incident.title)
+    end
+  end
+
+  describe "#display_name" do
+    it "returns title and id" do
+      incident = FactoryBot.create(:it_security_incident, title: "Test Incident")
+      expect(incident.display_name).to include("Test Incident")
+      expect(incident.display_name).to include(incident.id.to_s)
+    end
+  end
+
+  describe ".ransackable_attributes" do
+    it "returns an array of searchable attributes" do
+      expect(ItSecurityIncident.ransackable_attributes).to be_an(Array)
+      expect(ItSecurityIncident.ransackable_attributes).to include("title", "date")
+    end
+  end
 end

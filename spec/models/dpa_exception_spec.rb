@@ -139,4 +139,141 @@ RSpec.describe DpaException, type: :model do
     expect(dpa_exception.not_completed?).to be(false)
     dpa_exception.destroy
   end
+
+  describe "scopes" do
+    describe ".active" do
+      it "returns non-archived records" do
+        active = FactoryBot.create(:dpa_exception)
+        archived = FactoryBot.create(:dpa_exception)
+        archived.update_column(:deleted_at, DateTime.current)
+
+        expect(DpaException.active).to include(active)
+        expect(DpaException.active).not_to include(archived)
+      end
+    end
+
+    describe ".archived" do
+      it "returns archived records" do
+        active = FactoryBot.create(:dpa_exception)
+        archived = FactoryBot.create(:dpa_exception)
+        archived.update_column(:deleted_at, DateTime.current)
+
+        expect(DpaException.archived).to include(archived)
+        expect(DpaException.archived).not_to include(active)
+      end
+    end
+  end
+
+  describe "#archive" do
+    it "sets deleted_at timestamp" do
+      dpa_exception = FactoryBot.create(:dpa_exception)
+      dpa_exception.archive
+      expect(dpa_exception.deleted_at).to be_present
+    end
+  end
+
+  describe "#unarchive" do
+    it "clears deleted_at timestamp" do
+      dpa_exception = FactoryBot.create(:dpa_exception)
+      dpa_exception.update_column(:deleted_at, DateTime.current)
+      dpa_exception.unarchive
+      expect(dpa_exception.deleted_at).to be_nil
+    end
+  end
+
+  describe "#archived?" do
+    it "returns true when deleted_at is present" do
+      dpa_exception = FactoryBot.create(:dpa_exception)
+      dpa_exception.update_column(:deleted_at, DateTime.current)
+      expect(dpa_exception.archived?).to be true
+    end
+
+    it "returns false when deleted_at is nil" do
+      dpa_exception = FactoryBot.create(:dpa_exception)
+      expect(dpa_exception.archived?).to be false
+    end
+  end
+
+  describe "attachment validations" do
+    it "validates attachment file size" do
+      dpa_exception = FactoryBot.create(:dpa_exception)
+      large_file = StringIO.new("x" * 21.megabytes)
+
+      dpa_exception.attachments.attach(
+        io: large_file,
+        filename: 'large.pdf',
+        content_type: 'application/pdf'
+      )
+
+      expect(dpa_exception).not_to be_valid
+      expect(dpa_exception.errors[:attachments]).to include("is too big")
+    end
+
+    it "validates attachment file types" do
+      dpa_exception = FactoryBot.create(:dpa_exception)
+      invalid_file = StringIO.new("invalid content")
+
+      dpa_exception.attachments.attach(
+        io: invalid_file,
+        filename: 'invalid.exe',
+        content_type: 'application/x-msdownload'
+      )
+
+      expect(dpa_exception).not_to be_valid
+      expect(dpa_exception.errors[:attachments]).to be_present
+    end
+
+    it "accepts valid attachment types" do
+      dpa_exception = FactoryBot.create(:dpa_exception)
+      pdf_file = File.open(Rails.root.join('spec', 'fixtures', 'files', 'test.pdf'))
+
+      dpa_exception.attachments.attach(
+        io: pdf_file,
+        filename: 'test.pdf',
+        content_type: 'application/pdf'
+      )
+
+      expect(dpa_exception).to be_valid
+    end
+  end
+
+  describe ".to_csv" do
+    it "generates CSV with headers" do
+      FactoryBot.create(:dpa_exception)
+      csv = DpaException.to_csv
+
+      expect(csv).to be_a(String)
+      expect(csv).to include("LINK")
+      expect(csv).to include("THIRD PARTY PRODUCT SERVICE")
+    end
+
+    it "includes record data in CSV" do
+      FactoryBot.create(:dpa_exception, third_party_product_service: "Test Service Name")
+      csv = DpaException.to_csv
+
+      # CSV should contain the record
+      expect(csv).to include("Test Service Name")
+    end
+  end
+
+  describe ".ransackable_attributes" do
+    it "returns an array of searchable attributes" do
+      expect(DpaException.ransackable_attributes).to be_an(Array)
+      expect(DpaException.ransackable_attributes).to include("third_party_product_service", "department_id")
+    end
+  end
+
+  describe ".ransackable_associations" do
+    it "returns an array of searchable associations" do
+      expect(DpaException.ransackable_associations).to be_an(Array)
+      expect(DpaException.ransackable_associations).to include("department", "data_type")
+    end
+  end
+
+  describe "#display_name" do
+    it "returns third party product service name" do
+      dpa_exception = FactoryBot.create(:dpa_exception, third_party_product_service: "Test Service")
+      expect(dpa_exception.display_name).to eq("Test Service")
+    end
+  end
 end

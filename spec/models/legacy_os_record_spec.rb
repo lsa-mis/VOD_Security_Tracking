@@ -154,4 +154,95 @@ RSpec.describe LegacyOsRecord, type: :model do
     expect(legacy_os_record).to be_valid
   end
 
+  describe "scopes" do
+    describe ".active" do
+      it "returns non-archived records" do
+        active = FactoryBot.create(:legacy_os_record, deleted_at: nil)
+        archived = FactoryBot.create(:legacy_os_record, deleted_at: DateTime.current)
+
+        expect(LegacyOsRecord.active).to include(active)
+        expect(LegacyOsRecord.active).not_to include(archived)
+      end
+    end
+
+    describe ".archived" do
+      it "returns archived records" do
+        active = FactoryBot.create(:legacy_os_record, deleted_at: nil)
+        archived = FactoryBot.create(:legacy_os_record, deleted_at: DateTime.current)
+
+        expect(LegacyOsRecord.archived).to include(archived)
+        expect(LegacyOsRecord.archived).not_to include(active)
+      end
+    end
+  end
+
+  describe "#archive" do
+    it "sets deleted_at timestamp" do
+      record = FactoryBot.create(:legacy_os_record, deleted_at: nil)
+      record.archive
+      expect(record.deleted_at).to be_present
+    end
+  end
+
+  describe "#unarchive" do
+    it "clears deleted_at timestamp" do
+      record = FactoryBot.create(:legacy_os_record, deleted_at: DateTime.current)
+      record.unarchive
+      expect(record.deleted_at).to be_nil
+    end
+  end
+
+  describe "#archived?" do
+    it "returns true when deleted_at is present" do
+      record = FactoryBot.create(:legacy_os_record, deleted_at: DateTime.current)
+      expect(record.archived?).to be true
+    end
+
+    it "returns false when deleted_at is nil" do
+      record = FactoryBot.create(:legacy_os_record, deleted_at: nil)
+      expect(record.archived?).to be false
+    end
+  end
+
+  describe "attachment validations" do
+    it "validates attachment file size" do
+      record = FactoryBot.create(:legacy_os_record)
+      large_file = StringIO.new("x" * 21.megabytes)
+
+      record.attachments.attach(
+        io: large_file,
+        filename: 'large.pdf',
+        content_type: 'application/pdf'
+      )
+
+      expect(record).not_to be_valid
+      expect(record.errors[:attachments]).to include("is too big")
+    end
+  end
+
+  describe ".to_csv" do
+    it "generates CSV with headers" do
+      record = FactoryBot.create(:legacy_os_record)
+      csv = LegacyOsRecord.to_csv
+
+      expect(csv).to be_a(String)
+      expect(csv).to include("LINK")
+      expect(csv).to include("OWNER USERNAME")
+    end
+  end
+
+  describe "#display_name" do
+    it "returns legacy OS and id" do
+      record = FactoryBot.create(:legacy_os_record, legacy_os: "Windows XP")
+      expect(record.display_name).to include("Windows XP")
+      expect(record.display_name).to include(record.id.to_s)
+    end
+  end
+
+  describe ".ransackable_attributes" do
+    it "returns an array of searchable attributes" do
+      expect(LegacyOsRecord.ransackable_attributes).to be_an(Array)
+      expect(LegacyOsRecord.ransackable_attributes).to include("legacy_os", "owner_username")
+    end
+  end
 end

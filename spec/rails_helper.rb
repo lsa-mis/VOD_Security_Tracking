@@ -23,6 +23,7 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
 
   config.include Devise::Test::IntegrationHelpers, type: :system
+  config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Warden::Test::Helpers
 
   config.mock_with :rspec do |mocks|
@@ -59,7 +60,8 @@ end
 # Configure test environment
 Rails.application.configure do
   config.assets.enabled = true
-  config.assets.compile = true
+  # Only compile assets for system tests, not request specs
+  config.assets.compile = false
   config.assets.css_compressor = nil
   config.assets.js_compressor = nil
 end

@@ -20,6 +20,10 @@ Rails.application.configure do
     'Cache-Control' => "public, max-age=#{1.hour.to_i}"
   }
 
+  # Disable asset compilation for request specs to avoid CSS errors
+  config.assets.compile = false
+  config.assets.digest = false
+
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
@@ -40,6 +44,7 @@ Rails.application.configure do
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
