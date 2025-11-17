@@ -9,7 +9,7 @@ class DpaExceptionsController < InheritedResources::Base
   before_action :set_departments_list, only: [:new, :create, :edit, :update]
 
   def index
-    
+
     @dpa_exception_index_text = Infotext.find_by(location: "dpa_exception_index")
 
     if current_user.dept_membership.any?
@@ -43,14 +43,14 @@ class DpaExceptionsController < InheritedResources::Base
 
     @dpa_status = DpaExceptionStatus.where(id: DpaException.pluck(:dpa_exception_status_id).uniq).order(:name)
     @data_type = DataType.where(id: DpaException.pluck(:data_type_id).uniq).order(:name)
-    
+
     authorize @dpa_exceptions
     # Rendering code will go here
     if params[:format] == "csv"
       dpa_exceptions = @q.result.distinct
       respond_to do |format|
         format.html
-        format.csv { send_data dpa_exceptions.to_csv, filename: "DPA Exceptions-#{Date.today}.csv"}
+        format.csv { send_data dpa_exceptions.to_csv, filename: "DSA Exceptions-#{Date.today}.csv"}
       end
     else
       unless params[:q].nil?
@@ -73,7 +73,7 @@ class DpaExceptionsController < InheritedResources::Base
     authorize @dpa_exception
   end
 
-  def create 
+  def create
     @dpa_exception = DpaException.new(dpa_exception_params.except(:tdx_ticket))
     if dpa_exception_params[:tdx_ticket][:ticket_link].present?
       @dpa_exception.tdx_tickets.new(
@@ -81,9 +81,9 @@ class DpaExceptionsController < InheritedResources::Base
         )
     end
     respond_to do |format|
-      if @dpa_exception.save 
-        format.html { redirect_to dpa_exception_path(@dpa_exception), 
-          notice: 'DPA Exception record was successfully created.' 
+      if @dpa_exception.save
+        format.html { redirect_to dpa_exception_path(@dpa_exception),
+          notice: 'DSA Exception record was successfully created.'
         }
       else
         format.html { render :new }
@@ -92,7 +92,7 @@ class DpaExceptionsController < InheritedResources::Base
   end
 
   def edit
-    add_breadcrumb(@dpa_exception.display_name, 
+    add_breadcrumb(@dpa_exception.display_name,
                     dpa_exception_path(@dpa_exception)
                   )
     add_breadcrumb('Edit')
@@ -108,8 +108,8 @@ class DpaExceptionsController < InheritedResources::Base
     end
     respond_to do |format|
       if @dpa_exception.update(dpa_exception_params.except(:tdx_ticket))
-        format.html { redirect_to @dpa_exception, 
-                      notice: 'DPA Exception record was successfully updated.'
+        format.html { redirect_to @dpa_exception,
+                      notice: 'DSA Exception record was successfully updated.'
                     }
       else
         format.html { render :edit }
@@ -121,12 +121,12 @@ class DpaExceptionsController < InheritedResources::Base
     authorize @dpa_exception
     respond_to do |format|
       if @dpa_exception.archive
-        format.html { redirect_to dpa_exceptions_path, 
-                      notice: 'DPA Exception record was successfully archived.' 
+        format.html { redirect_to dpa_exceptions_path,
+                      notice: 'DSA Exception record was successfully archived.'
                     }
       else
-        format.html { redirect_to dpa_exceptions_path, 
-                      alert: 'Error archiving DPA Exception record.' 
+        format.html { redirect_to dpa_exceptions_path,
+                      alert: 'Error archiving DSA Exception record.'
                     }
       end
     end
@@ -135,8 +135,8 @@ class DpaExceptionsController < InheritedResources::Base
   def unarchive
     respond_to do |format|
       if @dpa_exception.unarchive
-        format.html { redirect_to admin_dpa_exception_path, 
-                      notice: 'Record was unarchived.' 
+        format.html { redirect_to admin_dpa_exception_path,
+                      notice: 'Record was unarchived.'
                     }
       end
     end
@@ -144,7 +144,7 @@ class DpaExceptionsController < InheritedResources::Base
 
   def audit_log
     authorize @dpa_exception
-    add_breadcrumb(@dpa_exception.third_party_product_service, 
+    add_breadcrumb(@dpa_exception.third_party_product_service,
       dpa_exception_path(@dpa_exception)
                   )
     add_breadcrumb('Audit')
@@ -157,7 +157,7 @@ class DpaExceptionsController < InheritedResources::Base
   end
 
   private
-  
+
     def set_dpa_exception
       @dpa_exception = DpaException.find(params[:id])
     end
@@ -173,7 +173,7 @@ class DpaExceptionsController < InheritedResources::Base
 
     def add_index_breadcrumb
       # add_breadcrumb(controller_name.titleize, dpa_exceptions_path)
-      add_breadcrumb("DPA Exceptions", dpa_exceptions_path)
+      add_breadcrumb("DSA Exceptions", dpa_exceptions_path)
     end
 
     def set_form_infotext
@@ -188,12 +188,12 @@ class DpaExceptionsController < InheritedResources::Base
 
     def dpa_exception_params
       params.require(:dpa_exception).permit(
-                    :review_date_exception_first_approval_date, 
-                    :third_party_product_service, :department_id, 
-                    :point_of_contact, :review_findings, :review_summary, 
-                    :lsa_security_recommendation, :lsa_security_determination, 
-                    :lsa_security_approval, :lsa_technology_services_approval, 
-                    :exception_approval_date_exception_renewal_date_due, 
+                    :review_date_exception_first_approval_date,
+                    :third_party_product_service, :department_id,
+                    :point_of_contact, :review_findings, :review_summary,
+                    :lsa_security_recommendation, :lsa_security_determination,
+                    :lsa_security_approval, :lsa_technology_services_approval,
+                    :exception_approval_date_exception_renewal_date_due,
                     :review_date_exception_review_date, :notes,
                     :data_type_id, :incomplete, :m,
                     :dpa_exception_status_id, :format,

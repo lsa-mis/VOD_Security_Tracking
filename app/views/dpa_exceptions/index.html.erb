@@ -1,4 +1,4 @@
-<h1>DPA Exceptions
+<h1>DSA Exceptions
   <span class="text-sm">
     <% if policy(Infotext).edit? %>
       <%= link_to edit_infotext_path(@dpa_exception_index_text) do %>
@@ -16,7 +16,7 @@
     <span class="ml-2 flex-shrink-0">
       <% if policy(@dpa_exceptions).new?  %>
         <div class="navbtn-link" role="menu" aria-orientation="vertical" aria-labelledby="mobile-menu-button" tabindex="0" >
-          <%= link_to 'New DPA Exception', new_dpa_exception_path, class: "new-record-link" %>
+          <%= link_to 'New DSA Exception', new_dpa_exception_path, class: "new-record-link" %>
         </div>
       <% end %>
     </span>
@@ -28,7 +28,7 @@
     data-action='click->toggle#toggle touch->toggle#toggle' >
   Filters
   </button>
-  
+
   <div data-toggle-target='toggleable' class="filter-selections bg-gray-50 shadow p-2 m-4 hidden">
     <%= search_form_for @q, class: "filter-form",
       data:{ controller: "filters"} do |f| %>
@@ -109,7 +109,7 @@
                     flatpickr_date_format: "Y-m-d"
                   } %>
               </div>
-              <div class="ml-1 flex-1 w-1/2">               
+              <div class="ml-1 flex-1 w-1/2">
                 <%= f.text_field :review_date_exception_review_date_lteq, placeholder: "To",
                   data: {
                     controller: "flatpickr",

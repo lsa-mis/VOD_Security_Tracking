@@ -21,10 +21,10 @@ export default class extends Controller {
     dropdown.length = 0;
     var defaultOption = document.createElement('option');
     if (review_month) {
-      var data = { "dpa": "DPA exceptions", "lor": "Legacy OS records", "sds": "Sensitive data systems" }
+      var data = { "dpa": "DSA exceptions", "lor": "Legacy OS records", "sds": "Sensitive data systems" }
     }
     else {
-      var data = { "dpa": "DPA exceptions", "isi": "IT security incidents", "lor": "Legacy OS records", "sds": "Sensitive data systems" }
+      var data = { "dpa": "DSA exceptions", "isi": "IT security incidents", "lor": "Legacy OS records", "sds": "Sensitive data systems" }
     }
     defaultOption.value = 'all';
     defaultOption.text = "All";

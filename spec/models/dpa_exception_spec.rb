@@ -83,7 +83,7 @@ RSpec.describe DpaException, type: :model do
       # Set first approval date to a specific date
       first_approval_date = Date.new(2024, 1, 1)
 
-      # Create a new DPA exception with review date before first approval
+      # Create a new DSA exception with review date before first approval
       dpa_exception = FactoryBot.build(:dpa_exception,
         review_date_exception_first_approval_date: first_approval_date,
         review_date_exception_review_date: first_approval_date - 1.day,

@@ -6,7 +6,7 @@
   <div class="text-lg leading-6 font-medium text-gray-900">
     <%= @dpa_exception.display_name %>
       <p class="mt-1 max-w-2xl text-sm text-gray-500">
-        DPA Exception details.
+        DSA Exception details.
       </p>
   </div>
   <div class="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
@@ -141,7 +141,7 @@
       <span class="flex-grow"><%= show_data_type_name(@dpa_exception) %></span>
     </dd>
   </div>
-  
+
   <div class="py-4 sm:grid sm:py-5 sm:grid-cols-3 sm:gap-4">
     <%= render partial: "tdx_tickets/tdx_tickets", locals: { tdx_ticket_resource: @dpa_exception } %>
   </div>
