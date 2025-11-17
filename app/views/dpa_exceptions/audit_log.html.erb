@@ -1,4 +1,4 @@
-<h1>DPA Exceptions Audit Log for: <span class="bg-blue-50 px-2 rounded-sm"> <%= @dpa_exception.display_name %></span></h1>
+<h1>DSA Exceptions Audit Log for: <span class="bg-blue-50 px-2 rounded-sm"> <%= @dpa_exception.display_name %></span></h1>
 
 <div class="flex flex-col h-2/3">
   <br>
@@ -28,7 +28,7 @@
               <td class="audit-td"><%= audit.created_at.strftime('%c - %Z') %></td>
               <% if User.find_by(id: audit.user_id).present? %>
                 <td><%= user_name_email(audit.user_id) %></td>
-              <% else %> 
+              <% else %>
                 <td class="audit-td"><%= audit.user_id %></td>
               <% end %>
               <td class="audit-td"><%= audit.remote_address %></td>

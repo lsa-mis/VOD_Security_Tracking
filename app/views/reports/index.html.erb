@@ -29,7 +29,7 @@
         <div class="mx-2 mb-1">
           <div>
             <%= label_tag "Select a table" %>
-            <%= select_tag :table, options_for_select({"All" => "all", "DPA exceptions" => "dpa", "IT security incidents" => 'isi', "Legacy OS records" => "lor", "Sensitive data systems" => "sds"}, "All"), 
+            <%= select_tag :table, options_for_select({"All" => "all", "DSA exceptions" => "dpa", "IT security incidents" => 'isi', "Legacy OS records" => "lor", "Sensitive data systems" => "sds"}, "All"),
                         :"data-report-target" => "table", :"data-action" => "change->report#checkReviewMonth", required: true %>
           </div>
           <div class="mt-2">
@@ -42,7 +42,7 @@
             <div class="flex items-end">
               <div class="flex-1 w-1/2">
                 <%= label_tag "Select data classification level" %>
-                <%= select_tag :data_classification_level_id, options_from_collection_for_select(DataClassificationLevel.all, 'id', 'name'), include_blank: "Select ...", 
+                <%= select_tag :data_classification_level_id, options_from_collection_for_select(DataClassificationLevel.all, 'id', 'name'), include_blank: "Select ...",
                   :"data-report-target" => "classification_level", :"data-action" => "change->report#changeClassification" %>
               </div>
               <div class="ml-1 flex-1 w-1/2">
@@ -85,7 +85,7 @@
 
       <div class="mt-2 flex justify-start border-none ">
         <div>
-          <button type="button" class="filter-clear-btn" 
+          <button type="button" class="filter-clear-btn"
           data-action='click->report#clearFilters'>
             Clear filters
           </button>

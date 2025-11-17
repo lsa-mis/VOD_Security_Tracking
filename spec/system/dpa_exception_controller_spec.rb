@@ -39,7 +39,7 @@ RSpec.describe "DpaException Controller", type: :system do
     click_on 'Create'
     sleep(inspection_time=3)
 
-    expect(page).to have_content('DPA Exception record was successfully created.')
+    expect(page).to have_content('DSA Exception record was successfully created.')
     expect(page).to have_content('Record Saved, but not complete.')
     expect(DpaException.last.incomplete).to be(true)
     DpaException.last.destroy
@@ -66,7 +66,7 @@ RSpec.describe "DpaException Controller", type: :system do
     click_on 'Create'
     sleep(inspection_time=3)
 
-    expect(page).to have_content('DPA Exception record was successfully created.')
+    expect(page).to have_content('DSA Exception record was successfully created.')
     expect(page).to_not have_content('Record Saved, but not complete.')
     expect(DpaException.last.incomplete).to be(false)
     DpaException.last.destroy
