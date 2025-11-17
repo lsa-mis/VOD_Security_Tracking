@@ -1,5 +1,16 @@
 ActiveAdmin.register DpaExceptionStatus do
-  menu parent: 'Complementary Tables', priority: 1
+  menu parent: 'Complementary Tables', priority: 1, label: 'DSA Exception Statuses'
+
+  controller do
+    before_action :set_page_title
+
+    private
+
+    def set_page_title
+      @page_title = 'DSA Exception Statuses'
+    end
+  end
+
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
@@ -14,5 +25,5 @@ ActiveAdmin.register DpaExceptionStatus do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
-  
+
 end

@@ -43,3 +43,21 @@ en:
     sensitivedatasystem:
       create: "Create"
       update: "Update"
+
+  activerecord:
+    models:
+      dpa_exception_status:
+        one: "DSA Exception Status"
+        other: "DSA Exception Statuses"
+      dpa_exception:
+        one: "DSA Exception"
+        other: "DSA Exceptions"
+
+  active_admin:
+    resources:
+      dpa_exception_status:
+        one: "DSA Exception Status"
+        other: "DSA Exception Statuses"
+      dpa_exception:
+        one: "DSA Exception"
+        other: "DSA Exceptions"

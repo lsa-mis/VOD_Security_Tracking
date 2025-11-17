@@ -1,5 +1,15 @@
 ActiveAdmin.register DpaException do
-  menu parent: 'Main Tables', priority: 1
+  menu parent: 'Main Tables', priority: 1, label: 'DSA Exceptions'
+
+  controller do
+    before_action :set_page_title
+
+    private
+
+    def set_page_title
+      @page_title = 'DSA Exceptions'
+    end
+  end
 
   before_action :skip_sidebar!, only: :index
   # See permitted parameters documentation:
@@ -19,7 +29,7 @@ ActiveAdmin.register DpaException do
 
   scope :archived
   scope :active, :default => true
-  
+
   actions :index, :show
 
   action_item :unarchive, only: :show do
@@ -75,9 +85,9 @@ ActiveAdmin.register DpaException do
       row :notes
       row :data_type.name
     end
-    panel "Attachments" do 
+    panel "Attachments" do
       if dpa_exception.attachments.attached?
-         table_for dpa_exception.attachments do 
+         table_for dpa_exception.attachments do
           column(:filename) { |item| link_to item.filename, url_for(item)}
         end
       end
