@@ -16,6 +16,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'jsbundling-rails'
 gem 'ldap_fluff', '~> 0.6.0'
 gem 'ldap_lookup', '~> 0.1.5'
+gem 'lsa_tdx_feedback'
 # gem install mysql2 -v '0.5.6' -- --with-opt-dir=/opt/homebrew/opt/openssl@3:/opt/homebrew/opt/mysql:/opt/homebrew/opt/zstd
 gem 'mysql2', '~> 0.5.6'
 gem 'nokogiri', '1.18.9'

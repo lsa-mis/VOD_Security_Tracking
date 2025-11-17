@@ -9,8 +9,6 @@
       <% end %>
       <i class="ml-2 inline-block fa fa-phone" aria-hidden="true""></i>
       <span>734.615.0100</span>
-      <i class="ml-2 inline-block fa fa-comments" aria-hidden="true""></i>
-      <a id="myCustomTrigger" class="footer-link" href="#">Report an Issue</a> 
     </div>
   </div>
   <% if @admin_access && session[:duo_auth] %>
@@ -25,18 +23,4 @@
       Copyright <%= Time.now.year %> | <%= link_to 'The Regents of the University of Michigan', 'https://regents.umich.edu', class: "footer-link" %>
     </div>
   </div>
-  <script type="text/javascript" src="https://umlsait.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e-T/r5gghz/b/3/bc54840da492f9ca037209037ef0522a/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=en-US&collectorId=51ecac03"></script>
-
-  <script type="text/javascript">window.ATL_JQ_PAGE_PROPS =  {
-    "triggerFunction": function(showCollectorDialog) {
-      document.getElementById("myCustomTrigger").addEventListener("click", function(e) {
-      e.preventDefault();
-      showCollectorDialog();
-      });
-    },
-    "fieldValues" : {
-      components : ['15318']
-    }
-  };
-  </script>
 </footer>
