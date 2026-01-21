@@ -1,3 +1,73 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@config "../../../tailwind-active_admin.config.js";
+/* Fix Active Admin table sorting indicators - target multiple possible selectors */
+table th a,
+table th.sortable a,
+.index_table th a,
+.index_table th.sortable a,
+[data-test-index-table] th a,
+[data-test-index-table] th.sortable a {
+  @apply flex items-center gap-1 no-underline;
+  position: relative;
+}
+
+/* Hide or style existing sorting icons */
+table th a svg,
+table th.sortable a svg,
+.index_table th a svg,
+.index_table th.sortable a svg,
+[data-test-index-table] th a svg,
+[data-test-index-table] th.sortable a svg {
+  @apply w-3 h-3 shrink-0;
+  max-width: 12px;
+  max-height: 12px;
+}
+
+/* Style sorting indicators */
+table th.sortable a::after,
+.index_table th.sortable a::after,
+[data-test-index-table] th.sortable a::after {
+  content: '';
+  @apply inline-block w-3 h-3 opacity-50 ml-1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: none; /* Hide by default, show only if no SVG exists */
+}
+
+table th.sortable.sorted-asc a::after,
+.index_table th.sortable.sorted-asc a::after,
+[data-test-index-table] th.sortable.sorted-asc a::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 15l7-7 7 7'/%3E%3C/svg%3E");
+}
+
+table th.sortable.sorted-desc a::after,
+.index_table th.sortable.sorted-desc a::after,
+[data-test-index-table] th.sortable.sorted-desc a::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+}
+
+/* Ensure table headers display correctly */
+table thead th,
+.index_table thead th,
+[data-test-index-table] thead th {
+  @apply text-left font-semibold text-sm text-gray-700 dark:text-gray-300;
+}
+
+table thead th a,
+.index_table thead th a,
+[data-test-index-table] thead th a {
+  @apply text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-400;
+}
+
+/* Active Admin menu toggle styles */
+#main-menu li.group ul[role="list"] {
+  @apply hidden;
+}
+
+#main-menu li.group[data-open] ul[role="list"] {
+  @apply block;
+}

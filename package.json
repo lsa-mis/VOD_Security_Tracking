@@ -27,6 +27,6 @@
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --outdir=app/assets/builds --public-path=/assets",
     "build:css": "tailwindcss -i ./app/assets/stylesheets/application.css -o ./app/assets/builds/application.css --minify",
-    "build:css:admin": "npx @tailwindcss/cli -i ./app/assets/stylesheets/active_admin.css -o ./app/assets/builds/active_admin.css --minify"
+    "build:css:admin": "tailwindcss -i ./app/assets/stylesheets/active_admin.css -o ./app/assets/builds/active_admin.css --config ./tailwind-active_admin.config.js --minify"
   }
 }

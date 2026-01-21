@@ -1,9 +1,8 @@
-import { execSync } from "child_process";
-import activeAdminPlugin from "@activeadmin/activeadmin/plugin";
+const { execSync } = require("child_process");
 
 const activeAdminPath = execSync("bundle show activeadmin", { encoding: "utf-8" }).trim();
 
-export default {
+module.exports = {
   content: [
     `${activeAdminPath}/vendor/javascript/flowbite.js`,
     `${activeAdminPath}/plugin.js`,
@@ -16,6 +15,7 @@ export default {
   ],
   darkMode: "selector",
   plugins: [
-    activeAdminPlugin
+    // Temporarily commented out due to Tailwind v3/v4 compatibility
+    // require("@activeadmin/activeadmin/plugin")
   ]
 }

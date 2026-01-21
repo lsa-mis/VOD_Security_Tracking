@@ -20,10 +20,9 @@ ActiveAdmin.register_page "Dashboard" do
         render("/partials/admin_dashboard_notification", model: "dashboard")
     end
 
-    # Here is an example of a simple dashboard with columns and panels.
-    #
-    columns do
-      column do
+    # Dashboard columns using div elements for Active Admin 4.0 compatibility
+    div class: "grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4" do
+      div do
         panel "Recent Logins" do
           ul do
             User.recent.map do |u|
@@ -33,7 +32,7 @@ ActiveAdmin.register_page "Dashboard" do
         end
       end
 
-      column do
+      div do
         panel "Resources" do
           ul do
             li link_to('User Documentation', 'https://docs.google.com/document/d/1UKKiF-ymijQf2_NNhx0LzVYKkyq9YzttNO9DDKdtFwc/edit?usp=sharing', :target => "_blank")

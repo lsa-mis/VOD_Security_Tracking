@@ -14,4 +14,8 @@ class TdxTicket < ApplicationRecord
     audited
 
     validates :ticket_link, presence: true
+
+    def self.ransackable_attributes(auth_object = nil)
+      ["created_at", "id", "records_to_tdx_id", "records_to_tdx_type", "ticket_link", "updated_at"]
+    end
 end
