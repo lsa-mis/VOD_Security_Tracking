@@ -23,7 +23,7 @@ Bundler.require(*Rails.groups)
 module VOD
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.1
+    config.load_defaults 8.1
     config.time_zone = 'Eastern Time (US & Canada)'
     # Configuration for the application, engines, and railties goes here.
     #
@@ -39,7 +39,7 @@ module VOD
     # Need this setting so Active Storage doesn't overwrite files.
     config.active_storage.replace_on_assign_to_many = false
 
-    config.eager_load_paths += %W(#{config.root}/lib)
+    config.eager_load_paths = config.eager_load_paths + %W(#{config.root}/lib)
 
     config.active_record.yaml_column_permitted_classes = [Symbol, Date, Time, ActiveSupport::TimeWithZone, ActiveSupport::TimeZone]
   end

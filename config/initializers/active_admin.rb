@@ -9,7 +9,7 @@ ActiveAdmin.setup do |config|
   # Set the link url for the title. For example, to take
   # users to your main site. Defaults to no link.
   #
-  config.site_title_link = "/"
+  # config.site_title_link = "/"
 
   # Set an optional image to be displayed for the header
   # instead of a string (overrides :site_title)
@@ -222,18 +222,9 @@ ActiveAdmin.setup do |config|
 
   # == Register Stylesheets & Javascripts
   #
-  # We recommend using the built in Active Admin layout and loading
-  # up your own stylesheets / javascripts to customize the look
-  # and feel.
-  #
-  # To load a stylesheet:
-  #   config.register_stylesheet 'my_stylesheet.css'
-  #
-  # You can provide an options hash for more control, which is passed along to stylesheet_link_tag():
-  #   config.register_stylesheet 'my_print_stylesheet.css', media: :print
-  #
-  # To load a javascript file:
-  #   config.register_javascript 'my_javascript.js'
+  # NOTE: ActiveAdmin 4 removes register_stylesheet/register_javascript.
+  # Asset tags are now handled via layout partials (see
+  # app/views/active_admin/_html_head.html.erb).
 
   # == CSV options
   #
@@ -346,7 +337,7 @@ ActiveAdmin.setup do |config|
   # config.order_clause = MyOrderClause
 
   # == Asset Pipeline
-  config.use_webpacker = false
+  # config.use_webpacker = false
 
   def check_duo_auth
     if !session[:duo_auth]

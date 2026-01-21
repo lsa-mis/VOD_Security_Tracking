@@ -15,6 +15,7 @@ test:
   username: root
   password: <%= ENV['LOCAL_MYSQL_DATABASE_PASSWORD'] %>
   database: vodst_test
+  socket: /tmp/mysql.sock
 
 production:
   <<: *default

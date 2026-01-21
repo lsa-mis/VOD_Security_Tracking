@@ -252,7 +252,7 @@ class ReportsController < ApplicationController
           line << res['table'].titleize.upcase
           line << "Total number of records: " + res['total'].to_s
           csv << line
-          header = res['header'].map! { |e| e.titleize.upcase }
+          header = Array(res['header']).map { |e| e.to_s.titleize.upcase }
           csv << header
           res['rows'].each do |h|
             h[0] = "http://localhost:3000/" + res['table'] + "/" + h[0].to_s
