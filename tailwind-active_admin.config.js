@@ -17,5 +17,6 @@ module.exports = {
   plugins: [
     // Temporarily commented out due to Tailwind v3/v4 compatibility
     // require("@activeadmin/activeadmin/plugin")
+    require("@tailwindcss/forms")
   ]
 }

@@ -22,7 +22,7 @@ ActiveAdmin.register ItSecurityIncident do
   actions :index, :show
 
   action_item :unarchive, only: :show do
-    text_node link_to("Unarchive record", unarchive_it_security_incident_path(it_security_incident), method: :post) unless it_security_incident.deleted_at.nil?
+    text_node link_to("Unarchive record", unarchive_it_security_incident_path(resource), method: :post) unless resource.deleted_at.nil?
   end
 
   index do

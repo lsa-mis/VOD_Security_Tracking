@@ -83,12 +83,22 @@ const toggleCheckboxChange = function(event) {
 Rails.delegate(document, ".batch-actions-resource-selection", "change", toggleCheckboxChange)
 
 const tableRowClick = function(event) {
-  const type = event.target.type;
-  if (typeof type === "undefined" || (type !== "checkbox" && type !== "button" && type !== "")) {
-    const checkbox = event.target.closest("tr").querySelector("input[type=checkbox]")
-    if (checkbox) {
-      checkbox.click()
-    }
+  // Don't interfere with expand/collapse functionality, links, buttons, or interactive elements
+  const target = event.target;
+  const type = target.type;
+  const tagName = target.tagName.toLowerCase();
+  
+  // Skip if clicked element is interactive
+  if (tagName === 'a' || tagName === 'button' || 
+      type === 'checkbox' || type === 'button' || 
+      target.closest('a') || target.closest('button') ||
+      target.hasAttribute('data-action') || target.closest('[data-action]')) {
+    return;
+  }
+  
+  const checkbox = target.closest("tr").querySelector("input[type=checkbox]")
+  if (checkbox) {
+    checkbox.click()
   }
 }
 

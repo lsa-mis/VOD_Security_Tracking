@@ -71,3 +71,286 @@ table thead th a,
 #main-menu li.group[data-open] ul[role="list"] {
   @apply block;
 }
+
+/* Filters Sidebar Styles */
+@layer components {
+  /* Filters container */
+  [data-test-page-content] > *:last-child,
+  .sidebar,
+  #sidebar {
+    @apply bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 shadow-sm;
+  }
+
+  /* Filters form */
+  .filters-form,
+  form[data-controller="filters"] {
+    @apply space-y-4;
+  }
+
+  /* Filter field groups */
+  .filters-form-field,
+  .filter_form_field,
+  .filter_form_field label {
+    @apply block mb-2;
+  }
+
+  .filters-form-field label,
+  .filter_form_field label {
+    @apply text-sm font-medium text-gray-700 dark:text-gray-300 mb-1;
+  }
+
+  /* Filter inputs */
+  .filters-form-field select,
+  .filters-form-field input[type="text"],
+  .filters-form-field input[type="date"],
+  .filters-form-field input[type="datetime-local"],
+  .filters-form-field textarea,
+  .filter_form_field select,
+  .filter_form_field input[type="text"],
+  .filter_form_field input[type="date"],
+  .filter_form_field input[type="datetime-local"],
+  .filter_form_field textarea {
+    @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+  }
+
+  /* Filter buttons */
+  .filters-form input[type="submit"],
+  .filters-form button[type="submit"],
+  input[name="commit"][type="submit"] {
+    @apply px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-sm font-medium transition-colors;
+  }
+
+  .filters-form-clear,
+  a[href*="clear_filters"] {
+    @apply inline-block px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 text-sm font-medium transition-colors no-underline;
+  }
+
+  /* Sidebar sections */
+  .sidebar_section {
+    @apply mb-6 pb-6 border-b border-gray-200 dark:border-gray-700 last:border-b-0 last:pb-0 last:mb-0;
+  }
+
+  .sidebar_section h3 {
+    @apply text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3 uppercase tracking-wide;
+  }
+}
+
+/* Page Content Styles */
+@layer components {
+  /* Main content area */
+  [data-test-page-content] > *:first-child {
+    @apply min-w-0;
+  }
+
+  /* Page header */
+  .page-header,
+  h1,
+  h2.page_title {
+    @apply text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4;
+  }
+
+  /* Action links */
+  .action_items,
+  .action_items a {
+    @apply mb-4;
+  }
+
+  .action_items a,
+  a.new_link,
+  a[href$="/new"] {
+    @apply inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-sm font-medium transition-colors no-underline;
+  }
+
+  /* Tables */
+  table,
+  .index_table,
+  [data-test-index-table] {
+    @apply w-full border-collapse bg-white dark:bg-gray-800 rounded-lg shadow-sm;
+  }
+
+  table thead,
+  .index_table thead,
+  [data-test-index-table] thead {
+    @apply bg-gray-50 dark:bg-gray-900;
+  }
+
+  table thead th,
+  .index_table thead th,
+  [data-test-index-table] thead th {
+    @apply px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700;
+  }
+
+  table tbody tr,
+  .index_table tbody tr,
+  [data-test-index-table] tbody tr {
+    @apply border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors;
+  }
+
+  table tbody tr:last-child,
+  .index_table tbody tr:last-child,
+  [data-test-index-table] tbody tr:last-child {
+    @apply border-b-0;
+  }
+
+  table td,
+  .index_table td,
+  [data-test-index-table] td {
+    @apply px-4 py-3 text-sm text-gray-900 dark:text-gray-100;
+  }
+
+  /* Action links in tables */
+  table td a,
+  .index_table td a,
+  [data-test-index-table] td a,
+  .action_items a {
+    @apply text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 no-underline mr-2;
+  }
+
+  table td a:hover,
+  .index_table td a:hover,
+  [data-test-index-table] td a:hover {
+    @apply underline;
+  }
+
+  /* Batch actions */
+  .batch_actions_selector {
+    @apply mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-700;
+  }
+
+  /* Pagination */
+  .pagination,
+  .pagination_information {
+    @apply mt-4 pt-4 border-t border-gray-200 dark:border-gray-700;
+  }
+
+  .pagination a,
+  .pagination span {
+    @apply px-3 py-2 mx-1 text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 no-underline;
+  }
+
+  .pagination .current {
+    @apply bg-blue-600 text-white border-blue-600;
+  }
+
+  .pagination .disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  /* Download links */
+  .download_links,
+  .download_links a {
+    @apply mt-4 text-sm;
+  }
+
+  .download_links a {
+    @apply text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 mr-3 no-underline;
+  }
+
+  .download_links a:hover {
+    @apply underline;
+  }
+
+  /* Forms */
+  .formtastic {
+    @apply space-y-4;
+  }
+
+  .formtastic .input {
+    @apply mb-4;
+  }
+
+  .formtastic label {
+    @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1;
+  }
+
+  .formtastic input[type="text"],
+  .formtastic input[type="email"],
+  .formtastic input[type="password"],
+  .formtastic input[type="number"],
+  .formtastic input[type="date"],
+  .formtastic input[type="datetime-local"],
+  .formtastic select,
+  .formtastic textarea {
+    @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+  }
+
+  .formtastic .actions {
+    @apply mt-6 pt-6 border-t border-gray-200 dark:border-gray-700;
+  }
+
+  .formtastic .actions input[type="submit"],
+  .formtastic .actions button {
+    @apply px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-sm font-medium transition-colors mr-2;
+  }
+
+  .formtastic .actions a {
+    @apply px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 text-sm font-medium transition-colors no-underline;
+  }
+
+  /* Status tags */
+  .status_tag {
+    @apply inline-block px-2 py-1 text-xs font-semibold rounded-full;
+  }
+
+  .status_tag.ok,
+  .status_tag.complete,
+  .status_tag.active {
+    @apply bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100;
+  }
+
+  .status_tag.warning,
+  .status_tag.pending {
+    @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100;
+  }
+
+  .status_tag.error,
+  .status_tag.failed {
+    @apply bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100;
+  }
+
+  /* Checkboxes */
+  input[type="checkbox"] {
+    @apply w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500;
+  }
+
+  /* General links */
+  a {
+    @apply text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300;
+  }
+
+  a:hover {
+    @apply underline;
+  }
+
+  /* Generic sidebar content styling - catch any unstyled elements */
+  [data-test-page-content] > *:last-child form,
+  [data-test-page-content] > *:last-child > div {
+    @apply space-y-3;
+  }
+
+  [data-test-page-content] > *:last-child h3,
+  [data-test-page-content] > *:last-child h4,
+  [data-test-page-content] > *:last-child strong {
+    @apply text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2 block;
+  }
+
+  [data-test-page-content] > *:last-child label {
+    @apply text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 block;
+  }
+
+  [data-test-page-content] > *:last-child select,
+  [data-test-page-content] > *:last-child input[type="text"],
+  [data-test-page-content] > *:last-child input[type="date"],
+  [data-test-page-content] > *:last-child input[type="datetime-local"] {
+    @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+  }
+
+  /* Generic page content styling */
+  [data-test-page-content] > *:first-child {
+    @apply space-y-4;
+  }
+
+  [data-test-page-content] > *:first-child > div {
+    @apply bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 shadow-sm;
+  }
+}
