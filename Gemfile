@@ -45,7 +45,7 @@ end
 
 group :development do
   gem 'annotate'
-  gem 'capistrano', '~> 3.16',         require: false
+  gem 'capistrano', '~> 3.20.0',         require: false
   gem 'capistrano-rails', '~> 1.6', '>= 1.6.1',   require: false
   gem 'capistrano-asdf',   require: false
   gem 'listen', '~> 3.3'
