@@ -31,13 +31,16 @@ authorizations: &AUTHORIZATIONS
 ## Environment
 
 development:
-  host: adsroot.itcs.umich.edu
+  host: adsroot.itcs.umich.edu 
   port: 389
   attribute: sAMAccountName
   base: OU=UMICH,DC=adsroot,DC=itcs,DC=umich,DC=edu
-  admin_user: <%= Rails.application.credentials.ldap_admin[:user] %>
+  admin_user: <%= Rails.application.credentials.ldap_admin[:user] %> 
   admin_password: <%= Rails.application.credentials.ldap_admin[:password] %>
-  ssl: start_tls
+  ssl:
+    method: start_tls
+    tls_options:
+      ca_file: /etc/ssl/certs/ca-certificates.crt
   <<: *AUTHORIZATIONS
 
 test:
@@ -51,11 +54,14 @@ test:
   # <<: *AUTHORIZATIONS
 
 production:
-  host: adsroot.itcs.umich.edu
+  host: adsroot.itcs.umich.edu 
   port: 389
   attribute: sAMAccountName
   base: OU=UMICH,DC=adsroot,DC=itcs,DC=umich,DC=edu
-  admin_user: <%= Rails.application.credentials.ldap_admin[:user] %>
+  admin_user: <%= Rails.application.credentials.ldap_admin[:user] %> 
   admin_password: <%= Rails.application.credentials.ldap_admin[:password] %>
-  ssl: start_tls
+  ssl:
+    method: start_tls
+    tls_options:
+      ca_file: /etc/ssl/certs/ca-certificates.crt
   <<: *AUTHORIZATIONS
