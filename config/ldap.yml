@@ -37,10 +37,7 @@ development:
   base: OU=UMICH,DC=adsroot,DC=itcs,DC=umich,DC=edu
   admin_user: <%= Rails.application.credentials.ldap_admin[:user] %> 
   admin_password: <%= Rails.application.credentials.ldap_admin[:password] %>
-  ssl:
-    method: start_tls
-    tls_options:
-      ca_file: /etc/ssl/certs/ca-certificates.crt
+  ssl: start_tls
   <<: *AUTHORIZATIONS
 
 test:
@@ -60,8 +57,5 @@ production:
   base: OU=UMICH,DC=adsroot,DC=itcs,DC=umich,DC=edu
   admin_user: <%= Rails.application.credentials.ldap_admin[:user] %> 
   admin_password: <%= Rails.application.credentials.ldap_admin[:password] %>
-  ssl:
-    method: start_tls
-    tls_options:
-      ca_file: /etc/ssl/certs/ca-certificates.crt
+  ssl: start_tls
   <<: *AUTHORIZATIONS
