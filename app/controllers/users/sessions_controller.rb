@@ -51,7 +51,7 @@ class Users::SessionsController < Devise::SessionsController
 
     def after_login
       if user_signed_in?
-        ldap_config = { :host => "adsroot.itcs.umich.edu", :port => 389, :encryption => nil, :base_dn => "OU=UMICH,DC=adsroot,DC=itcs,DC=umich,DC=edu",
+        ldap_config = { :host => "adsroot.itcs.umich.edu", :port => 389, :encryption => :start_tls, :base_dn => "OU=UMICH,DC=adsroot,DC=itcs,DC=umich,DC=edu",
                 :group_base => "OU=UMICH,DC=adsroot,DC=itcs,DC=umich,DC=edu", :attr_login => "sAMAccountName", :server_type => :active_directory,
                 :service_user => Rails.application.credentials.ldap_admin[:user], :search_filter => "(objectClass=*)", :service_pass => Rails.application.credentials.ldap_admin[:password],
                 :anon_queries => false }
