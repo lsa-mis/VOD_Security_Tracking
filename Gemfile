@@ -19,7 +19,7 @@ gem 'ldap_lookup', '~> 0.1.5'
 gem 'lsa_tdx_feedback'
 # gem install mysql2 -v '0.5.6' -- --with-opt-dir=/opt/homebrew/opt/openssl@3:/opt/homebrew/opt/mysql:/opt/homebrew/opt/zstd
 gem 'mysql2', '~> 0.5.6'
-gem 'nokogiri', '1.18.9'
+gem 'nokogiri', '1.19.1'
 gem 'pagy', '~> 4.10', '>= 4.10.1'
 gem 'puma', '5.6.9'
 gem 'pundit', '~> 2.1'
