@@ -38,6 +38,7 @@ class ApplicationController < ActionController::Base
       begin
         if user_signed_in?
           current_user.membership = session[:user_memberships]
+          @lsa_vod_admins = Array(current_user.membership).include?("lsa-vod-admins")
           if current_user.membership.present?
             depts_groups = Department.all.pluck(:active_dir_group).compact_blank
             current_user.dept_membership = current_user.membership & depts_groups
@@ -45,6 +46,7 @@ class ApplicationController < ActionController::Base
             @admin_access = (current_user.membership & admins_groups).any?
           end
         else
+          @lsa_vod_admins = false
           new_user_session_path
         end
       rescue StandardError => e
