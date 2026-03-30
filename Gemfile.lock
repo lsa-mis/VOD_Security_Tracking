@@ -264,6 +264,7 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.8.0)
       bigdecimal (>= 3.1, < 5)
+    mutex_m (0.3.0)
     mysql2 (0.5.6)
     net-http (0.9.1)
       uri (>= 0.11.1)
@@ -497,6 +498,7 @@ DEPENDENCIES
   ldap_lookup (~> 0.1.5)
   listen (~> 3.3)
   lsa_tdx_feedback
+  mutex_m
   mysql2 (~> 0.5.6)
   nokogiri (= 1.19.1)
   pagy (~> 4.10, >= 4.10.1)
