@@ -85,6 +85,7 @@ GEM
       request_store (~> 1.2)
     base64 (0.2.0)
     bcrypt (3.1.20)
+    bcrypt_pbkdf (1.1.2)
     benchmark (0.5.0)
     bigdecimal (4.0.1)
     bindex (0.8.1)
@@ -137,6 +138,7 @@ GEM
       rake (>= 12.0.0, < 14.0.0)
     drb (2.2.3)
     duo_web (1.0.3)
+    ed25519 (1.4.0)
     erubi (1.13.0)
     factory_bot (6.4.6)
       activesupport (>= 5.0.0)
@@ -481,6 +483,7 @@ DEPENDENCIES
   activeadmin (~> 3.2)
   annotate
   audited (~> 5.4, >= 5.4.3)
+  bcrypt_pbkdf
   benchmark
   bootsnap (>= 1.4.4)
   byebug
@@ -492,6 +495,7 @@ DEPENDENCIES
   devise_ldap_authenticatable
   drb
   duo_web (~> 1.0)
+  ed25519
   factory_bot_rails
   faker
   google-cloud-storage

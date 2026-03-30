@@ -6,10 +6,12 @@ gem 'rails', '~> 6.1.7'
 
 gem 'activeadmin', '~> 3.2'
 gem 'audited', '~> 5.4', '>= 5.4.3'
+gem 'bcrypt_pbkdf'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'devise', '~> 4.7', '>= 4.9.3'
 gem 'devise_ldap_authenticatable'
 gem 'duo_web', '~> 1.0'
+gem 'ed25519'
 gem 'google-cloud-storage', require: false
 gem 'hotwire-rails'
 gem 'jbuilder', '~> 2.7'
