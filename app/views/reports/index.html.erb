@@ -1,6 +1,6 @@
 <h1>Reports
   <span class="text-sm">
-    <% if policy(Infotext).edit? %>
+    <% if policy(Infotext).edit? && @report_text.present? %>
       <%= link_to edit_infotext_path(@report_text) do %>
         <i class="far fa-edit text-laitan_blue hover:text-um_blue" aria-hidden="true" title="Edit infotext area"></i>
         <span class="sr-only">Edit infotext area</span>
