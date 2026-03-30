@@ -35,6 +35,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'psych', '< 4'
 gem 'mutex_m'
+gem 'drb'
+gem 'benchmark'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
