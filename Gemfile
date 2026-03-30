@@ -13,7 +13,8 @@ gem 'devise_ldap_authenticatable'
 gem 'duo_web', '~> 1.0'
 gem 'ed25519'
 gem 'google-cloud-storage', require: false
-gem 'hotwire-rails'
+gem 'stimulus-rails', '~> 1.3'
+gem 'turbo-rails', '~> 2.0'
 gem 'jbuilder', '~> 2.7'
 gem 'jsbundling-rails'
 gem 'ldap_fluff', '~> 0.6.0'
@@ -47,14 +48,12 @@ group :development, :test do
 end
 
 group :development do
-  gem 'annotate'
   gem 'capistrano', '~> 3.20.0',         require: false
   gem 'capistrano-rails', '~> 1.6', '>= 1.6.1',   require: false
   gem 'capistrano-asdf',   require: false
   gem 'listen', '~> 3.3'
   gem 'pry-rails'
   gem 'pry-byebug'
-  gem 'spring'
   gem 'stringio', '~> 3.1'
   gem 'web-console', '>= 4.1.0'
 end
