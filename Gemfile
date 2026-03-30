@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.3.4'
+ruby '3.4.9'
 gem 'rails', '~> 6.1.7'
 
 gem 'activeadmin', '~> 3.2'
