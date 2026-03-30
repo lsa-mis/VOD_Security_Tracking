@@ -31,6 +31,8 @@ gem 'ruby2_keywords'
 gem 'sass-rails', '>= 6'
 # Allows puma to use notify in systemd
 gem 'sd_notify', '~> 0.1.1'
+gem "sentry-ruby"
+gem "sentry-rails"
 gem 'simple_form', '~> 5.1'
 gem 'turnout', '~> 2.5'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
