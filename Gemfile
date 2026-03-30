@@ -35,9 +35,8 @@ gem 'simple_form', '~> 5.1'
 gem 'turnout', '~> 2.5'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
+# Ruby 3.4+: stdlib mutex_m removed; httpclient (google-apis / GCS) needs the gem for correct load order with WebMock.
 gem 'mutex_m'
-gem 'drb'
-gem 'benchmark'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -61,6 +60,6 @@ end
 group :test do
   gem "capybara", ">= 3.26"
   gem "selenium-webdriver"
-  gem 'webmock', '~> 3.14'
+  gem 'webmock', '~> 3.26'
   gem 'vcr', '~> 6.0'
 end
