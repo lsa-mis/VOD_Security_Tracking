@@ -10,12 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_01_020123) do
-
+ActiveRecord::Schema[7.2].define(version: 2026_03_30_144837) do
   create_table "access_lookups", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "ldap_group"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "vod_table", default: 0, null: false
     t.integer "vod_action", default: 0, null: false
   end
@@ -25,8 +24,8 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.text "body", size: :long
     t.string "record_type", null: false
     t.bigint "record_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
@@ -37,8 +36,8 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.bigint "resource_id"
     t.string "author_type"
     t.bigint "author_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author"
     t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource"
@@ -49,7 +48,7 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -61,8 +60,8 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.text "metadata"
     t.string "service_name", null: false
     t.bigint "byte_size", null: false
-    t.string "checksum", null: false
-    t.datetime "created_at", null: false
+    t.string "checksum"
+    t.datetime "created_at", precision: nil, null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -86,7 +85,7 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.string "comment"
     t.string "remote_address"
     t.string "request_uuid"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.index ["associated_type", "associated_id"], name: "associated_index"
     t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
     t.index ["created_at"], name: "index_audits_on_created_at"
@@ -97,8 +96,8 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
   create_table "data_classification_levels", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "data_types", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -106,8 +105,8 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.string "description"
     t.string "description_link"
     t.bigint "data_classification_level_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["data_classification_level_id"], name: "index_data_types_on_data_classification_level_id"
   end
 
@@ -115,8 +114,8 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.string "name"
     t.string "shortname"
     t.string "active_dir_group"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "devices", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -125,8 +124,8 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.string "mac"
     t.string "building"
     t.string "room"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "owner"
     t.string "department"
     t.string "manufacturer"
@@ -136,24 +135,24 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
   create_table "dpa_exception_statuses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "dpa_exceptions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.datetime "review_date_exception_first_approval_date"
+    t.datetime "review_date_exception_first_approval_date", precision: nil
     t.string "third_party_product_service", null: false
     t.string "point_of_contact"
     t.string "lsa_security_approval"
     t.string "lsa_technology_services_approval"
-    t.datetime "exception_approval_date_exception_renewal_date_due"
+    t.datetime "exception_approval_date_exception_renewal_date_due", precision: nil
     t.string "sla_agreement"
     t.bigint "data_type_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at", precision: nil
     t.boolean "incomplete", default: false
-    t.datetime "review_date_exception_review_date"
+    t.datetime "review_date_exception_review_date", precision: nil
     t.bigint "dpa_exception_status_id", null: false
     t.bigint "department_id", null: false
     t.index ["data_type_id"], name: "index_dpa_exceptions_on_data_type_id"
@@ -163,25 +162,25 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
 
   create_table "infotexts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "location", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "it_security_incident_statuses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "it_security_incidents", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.datetime "date"
+    t.datetime "date", precision: nil
     t.integer "estimated_financial_cost"
     t.bigint "it_security_incident_status_id"
     t.bigint "data_type_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at", precision: nil
     t.boolean "incomplete", default: false
     t.string "title", null: false
     t.index ["data_type_id"], name: "index_it_security_incidents_on_data_type_id"
@@ -198,16 +197,16 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.string "legacy_os"
     t.string "unique_app"
     t.string "unique_hardware"
-    t.datetime "unique_date"
-    t.datetime "exception_approval_date"
-    t.datetime "review_date"
+    t.datetime "unique_date", precision: nil
+    t.datetime "exception_approval_date", precision: nil
+    t.datetime "review_date", precision: nil
     t.string "review_contact"
     t.string "local_it_support_group"
     t.bigint "data_type_id"
     t.bigint "device_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at", precision: nil
     t.boolean "incomplete", default: false
     t.bigint "department_id", null: false
     t.index ["data_type_id"], name: "index_legacy_os_records_on_data_type_id"
@@ -217,11 +216,11 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
 
   create_table "notifications", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "note"
-    t.datetime "opendate"
-    t.datetime "closedate"
+    t.datetime "opendate", precision: nil
+    t.datetime "closedate", precision: nil
     t.string "notetype"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "sensitive_data_systems", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -233,14 +232,14 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.string "support_poc"
     t.string "expected_duration_of_data_retention"
     t.string "agreements_related_to_data_types"
-    t.datetime "review_date"
+    t.datetime "review_date", precision: nil
     t.string "review_contact"
     t.bigint "storage_location_id"
     t.bigint "data_type_id"
     t.bigint "device_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at", precision: nil
     t.boolean "incomplete", default: false
     t.string "name", null: false
     t.bigint "department_id", null: false
@@ -254,14 +253,14 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
     t.string "name"
     t.string "description"
     t.string "description_link"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "device_is_required", default: false
   end
 
   create_table "tdx_tickets", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "records_to_tdx_type", null: false
     t.bigint "records_to_tdx_id", null: false
     t.string "ticket_link"
@@ -270,17 +269,17 @@ ActiveRecord::Schema.define(version: 2021_09_01_020123) do
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "email", default: ""
-    t.datetime "remember_created_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "remember_created_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
+    t.datetime "current_sign_in_at", precision: nil
+    t.datetime "last_sign_in_at", precision: nil
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
-    t.datetime "locked_at"
+    t.datetime "locked_at", precision: nil
     t.string "username", default: "", null: false
     t.index ["username"], name: "index_users_on_username", unique: true
   end

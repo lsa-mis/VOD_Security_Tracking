@@ -2,10 +2,10 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.4.9'
-gem 'rails', '~> 6.1.7'
+gem 'rails', '~> 7.2.3', '>= 7.2.3.1'
 
 gem 'activeadmin', '~> 3.2'
-gem 'audited', '~> 5.4', '>= 5.4.3'
+gem 'audited', '>= 5.7'
 gem 'bcrypt_pbkdf'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'devise', '~> 4.7', '>= 4.9.3'
@@ -23,10 +23,10 @@ gem 'lsa_tdx_feedback'
 gem 'mysql2', '~> 0.5.6'
 gem 'nokogiri', '1.19.1'
 gem 'pagy', '~> 4.10', '>= 4.10.1'
-gem 'puma', '5.6.9'
+gem 'puma', '~> 6.4'
 gem 'pundit', '~> 2.1'
 gem 'redis', '~> 4.0'
-gem 'ransack', '~> 4.1', '>= 4.1.1'
+gem 'ransack', '~> 4.3'
 gem 'ruby2_keywords'
 gem 'sass-rails', '>= 6'
 # Allows puma to use notify in systemd
@@ -45,7 +45,7 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'factory_bot_rails'
   gem 'faker'
-  gem 'rspec-rails', '~> 5.0.0'
+  gem 'rspec-rails', '~> 7.1'
 end
 
 group :development do

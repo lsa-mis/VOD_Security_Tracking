@@ -1,6 +1,6 @@
 <div class="index-instructions" data-controller="infotoggle">
   <div data-infotoggle-target="info_text_short_area" class="device-error--display">
-    <%= infotext_resource.content.to_plain_text.truncate(150) %>
+    <%= infotext_resource&.content&.to_plain_text.to_s.truncate(150) %>
     <br>
     <button type="button"
       data-action="click->infotoggle#toggle touch->infotoggle#toggle" >
@@ -9,7 +9,7 @@
     </button>
   </div>
   <div data-infotoggle-target="info_text_area" class="device-error--hide">
-    <%= infotext_resource.content %>
+    <%= infotext_resource&.content %>
     <button type="button"
       data-action="click->infotoggle#toggle2 touch->infotoggle#toggle2" >
       <i class="text-laitan_blue hover:text-um_blue far fa-caret-square-up" aria-hidden="true" title="Collapse infotext area"></i>
