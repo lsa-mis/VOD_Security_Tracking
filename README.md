@@ -1,128 +1,133 @@
-# VOD_Security_Tracking
+# VOD Security Tracking
 
-<!-- <p align="center"><img width=12.5% src="https://github.com/anfederico/Clairvoyant/blob/master/media/Logo.png"></p>
-<p align="center"><img width=60% src="https://github.com/anfederico/Clairvoyant/blob/master/media/Clairvoyant.png"></p> -->
+VOD Security Tracking is an internal Rails application used to track systems and resources involving sensitive data, document exceptions/incidents, and generate reporting for operational and security review.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-![Ruby](https://img.shields.io/badge/ruby-3.0.1-red)
-[![Build Status](https://travis-ci.org/anfederico/Clairvoyant.svg?branch=master)](https://travis-ci.org/anfederico/Clairvoyant)
-![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+## Tech Stack
 
-A way to track resources or systems involving sensitive data. Increase the ability to monitor, track and act on items that are in the scope of this project. System reports will be available to support the goal of providing a secure computing environment. 
+- Ruby `3.4.9`
+- Rails `7.2.3.1`
+- MySQL (`mysql2`)
+- RSpec for test coverage
+- Hotwire + Stimulus
+- ActiveAdmin for administrative interfaces
+- esbuild + Tailwind for frontend assets
 
+## Key Domain Areas
 
+- DSA exceptions
+- IT security incidents
+- Legacy OS records
+- Sensitive data systems
+- Reporting and CSV exports
+- Auditing/version history via `audited`
 
-## Getting Started
-
-These instructions will get a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+## Local Setup
 
 ### Prerequisites
 
-What things you need to run this containerized application.
-* [Docker Desktop](https://www.docker.com/products/docker-desktop)
-* [Git](https://github.com/git-guides/install-git)
+- Ruby `3.4.9` (asdf recommended)
+- Bundler
+- MySQL (local instance)
+- Node.js + Yarn
 
-### Installing
-
-* clone the repo 
-
-```
-git clone git@github.com:lsa-mis/VOD_Security_Tracking.git
-```
-
-* navigate to the local instance and build the application initially
-
-```
-cd VOD_Security_Tracking && docker-compose build app
-```
----
-
-* To start the container's bash shell _(this will leave you in `/home/app#` prompting for a command)_
-
-```
-docker-compose run --rm --service-ports app bash
-```
-
-* If you have not previously created and migrated the database || if you ```docker system prune -a``` || if you ```docker volume prune``` then in the shell run 
-
-```
-/home/app# bin/rails db:setup
-``` 
-
-* or if the tables existed you would run
-
-```
-/home/app# bin/rails db:reset
-```
-
-* to test the application initially you can run the server
-
-```
-/home/app# bin/rails s -b 0.0.0.0
-```
-
-* Ctrl-C to stop the application execution then type exit to exit the shell
-
----
-
-* stop the container and associated containers with their networks 
-
-```
-docker-compose down
-```
-
-* to run the full application with all the containers the application depends on
-
-```
-docker-compose up
-```
-
-* Open the application by pointing your browser to localhost:3000
-* if you want to log into the _Admin Dashboard_ use the credentials 
-    * Userid: *admin@example.com* Pwd: *password* _(this should be changed immediately)_
-
-## Running the tests
-
-This application uses RSpec to manage and run the automated test. to run the fullsuite:
-
-```
-docker-compose run --rm --service-ports app bash
-```
+### 1) Clone and install dependencies
 
 ```sh
-cd /home/app bundle exec rspec 
+git clone git@github.com:lsa-mis/VOD_Security_Tracking.git
+cd VOD_Security_Tracking
+bundle install
+yarn install
 ```
 
-## Deployment
+### 2) Configure database access
 
-Add additional notes about how to deploy this on a live system
+`config/database.yml` expects:
 
-## Built With
+- MySQL user: `root`
+- password from env var: `LOCAL_MYSQL_DATABASE_PASSWORD`
 
-* [Ruby](http://www.ruby.org) - The web framework used
-* [Rails](https://www.rails.org/) - Dependency Management
+Example:
+
+```sh
+export LOCAL_MYSQL_DATABASE_PASSWORD='your-local-password'
+```
+
+### 3) Prepare the database
+
+```sh
+bin/rails db:prepare
+```
+
+### 4) Build frontend assets
+
+```sh
+yarn build
+yarn build:css
+```
+
+### 5) Start the app
+
+```sh
+bin/rails server
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+## Development Workflow
+
+If you want Rails + JS + CSS watchers in one session:
+
+```sh
+bin/dev
+```
+
+`Procfile.dev` starts:
+
+- Rails server
+- `yarn build --watch`
+- `yarn build:css --watch`
+
+## Running Tests
+
+Run the full suite:
+
+```sh
+bundle exec rspec
+```
+
+Run a single file:
+
+```sh
+bundle exec rspec spec/requests/reports_spec.rb
+```
+
+## Deployment Notes
+
+Deployment is configured with Capistrano (`config/deploy.rb`).
+
+- Production stage: `config/deploy/production.rb`
+- Uses asdf shims for Ruby/Bundler on deploy hosts
+- Runs asset build/precompile during deploy
+- Restarts Puma after deploy
+
+Coordinate with the maintainers before changing deploy settings, linked files, or credentials handling.
+
+## Security and Credentials
+
+- Production credentials are stored via Rails encrypted credentials.
+- Never commit secrets, keys, or credential files.
+- LDAP/Duo/SendGrid/Google Cloud integration settings are environment or credential driven.
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us. 
+1. Create a feature branch from `master`
+2. Make focused changes
+3. Run tests (`bundle exec rspec`)
+4. Open a pull request with:
+   - summary
+   - risk/impact notes
+   - test plan
 
-## Developers/Designers/JIRA Managers: 
-[eMail address](security-track-devs@umich.edu)
+## Contact
 
-Rick Smoke - project’s lead & developer, Rita Barvinok - developer, Ananta Saple - developer,  Dave Chmura - developer,
-Maria Laitin - UI designer, Jessica Santos Kowalewski - JIRA manager, QA testing 
-
-
-
-See also the list of [contributors](https://github.com/lsa-mis/VOD_Security_Tracking/graphs/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
----------------
-## configurations
-*set noscript support info
-
-tailwindsCSS is in compatablity mode. After things are updated across the ecosystem update the npm module https://tailwindcss.com/docs/installation#post-css-7-compatibility-build
+Project group: `security-track-devs@umich.edu`
