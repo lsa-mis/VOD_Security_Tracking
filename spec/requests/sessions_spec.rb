@@ -15,5 +15,22 @@ RSpec.describe "Sessions", type: :request do
       expect(response).to redirect_to(new_user_session_path)
       expect(flash[:alert]).to eq("Cannot reach LDAP right now. Connect to VPN or campus network and try again.")
     end
+
+    it "redirects with credential message when LDAP auth fails" do
+      allow(Devise::LDAP::Adapter).to receive(:valid_credentials?).and_raise(
+        DeviseLdapAuthenticatable::LdapException,
+        "Not authorized because of invalid credentials"
+      )
+
+      post user_session_path, params: {
+        user: {
+          username: "rsmoke",
+          password: "wrong-password"
+        }
+      }
+
+      expect(response).to redirect_to(new_user_session_path)
+      expect(flash[:alert]).to eq("LDAP authentication failed. Please check your credentials.")
+    end
   end
 end
