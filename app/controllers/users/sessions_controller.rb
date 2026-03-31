@@ -27,10 +27,14 @@ class Users::SessionsController < Devise::SessionsController
         redirect_to after_sign_in_path_for(resource)
       end
     end
-  rescue DeviseLdapAuthenticatable::LdapException => e
+  rescue DeviseLdapAuthenticatable::LdapException, Net::LDAP::Error => e
     # Log the error and redirect
     Rails.logger.error "LDAP Error: #{e.message}"
-    flash[:alert] = "Authentication failed. Please check your credentials."
+    flash[:alert] = if e.message.to_s.downcase.include?("timed out")
+                      "Cannot reach LDAP right now. Connect to VPN or campus network and try again."
+                    else
+                      "Authentication failed. Please check your credentials."
+                    end
     redirect_to new_user_session_path
   end
 

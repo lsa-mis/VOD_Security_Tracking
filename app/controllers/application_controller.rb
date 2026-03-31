@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   rescue_from DeviseLdapAuthenticatable::LdapException, with: :ldap_error_handler
+  rescue_from Net::LDAP::Error, with: :ldap_error_handler
 
   def add_breadcrumb(label, path = nil)
     @breadcrumbs << {
@@ -76,13 +77,30 @@ class ApplicationController < ActionController::Base
     end
 
     def ldap_error_handler(exception)
-      Rails.logger.error "LDAP Error: #{exception.message}"
-      if exception.message.include?("Not authorized because not authenticated") ||
-         exception.message.include?("Not authorized because of invalid credentials")
+      message = exception.message.to_s
+      Rails.logger.error "LDAP Error: #{message}"
+
+      if ldap_invalid_credentials?(message)
         flash[:alert] = "LDAP authentication failed. Please check your credentials."
+        redirect_to new_user_session_path
+      elsif ldap_service_unavailable?(message)
+        flash[:alert] = "Cannot reach LDAP right now. Connect to VPN or campus network and try again."
         redirect_to new_user_session_path
       else
         raise exception
       end
+    end
+
+    def ldap_invalid_credentials?(message)
+      message.include?("Not authorized because not authenticated") ||
+        message.include?("Not authorized because of invalid credentials")
+    end
+
+    def ldap_service_unavailable?(message)
+      normalized = message.downcase
+      normalized.include?("timed out") ||
+        normalized.include?("connection refused") ||
+        normalized.include?("network is unreachable") ||
+        normalized.include?("no route to host")
     end
 end
