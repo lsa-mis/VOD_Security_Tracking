@@ -43,6 +43,8 @@ class ApplicationController < ActionController::Base
 
     def set_membership
       begin
+        @admin_access = false
+
         if user_signed_in?
           current_user.membership = session[:user_memberships]
           if current_user.membership.present?
