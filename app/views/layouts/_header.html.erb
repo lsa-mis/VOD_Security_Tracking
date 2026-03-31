@@ -22,8 +22,8 @@
             <% if @admin_access %>
               <%= link_to "Reports", reports_path, class: "mr-4" %>
             <% end %>
-            <% if @lsa_vod_admins %>
-              <%= link_to "[Admin_dashboard]", admin_dashboard_path, class: "mr-4 text-sky-200 hover:text-white" %>
+            <% if @admin_access %>
+              <%= link_to "Admin dashboard", admin_root_path, class: "mr-4 text-sky-200 hover:text-white" %>
             <% end %>
         <% end %>
       </div>
