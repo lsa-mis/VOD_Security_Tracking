@@ -27,7 +27,7 @@ if dsn.present?
     config.breadcrumbs_logger = %i[active_support_logger]
     config.traces_sample_rate = ENV.fetch("SENTRY_TRACES_SAMPLE_RATE", "0.1").to_f.clamp(0.0, 1.0)
     # Profiling is optional; enable with SENTRY_PROFILES_SAMPLE_RATE (e.g. 0.1), relative to traced transactions.
-    config.profiles_sample_rate = ENV.fetch("SENTRY_PROFILES_SAMPLE_RATE", "0.0").to_f.clamp(0.0, 1.0)
+    config.profiles_sample_rate = ENV.fetch("SENTRY_PROFILES_SAMPLE_RATE", "0.1").to_f.clamp(0.0, 1.0)
 
     # Privacy: do not send IP/cookies by default; user id is set in ApplicationController when signed in
     config.send_default_pii = false
