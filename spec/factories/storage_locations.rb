@@ -12,9 +12,9 @@
 #
 FactoryBot.define do
   factory :storage_location do
-    name { Faker::String.random(length: 6..12) }
-    description { Faker::String.random(length: 6..12) }
-    description_link { Faker::String.random(length: 6..12) }
+    sequence(:name) { |n| "Storage Location #{n}" }
+    description { Faker::Lorem.sentence(word_count: 4) }
+    description_link { "" }
     device_is_required { "false" }
   end
 end

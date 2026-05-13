@@ -12,8 +12,8 @@
 #
 FactoryBot.define do
   factory :data_type do
-    name { Faker::String.random(length: 6..12) }
-    description { Faker::String.random(length: 6..12) }
+    sequence(:name) { |n| "Data Type #{n}" }
+    description { Faker::Lorem.sentence(word_count: 4) }
     description_link { "" }
     data_classification_level 
   end

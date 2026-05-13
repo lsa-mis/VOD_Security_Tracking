@@ -11,8 +11,8 @@
 #
 FactoryBot.define do
   factory :department do
-    name { Faker::String.random(length: 6..50) }
-    shortname { Faker::String.random(length: 6..12) }
+    sequence(:name) { |n| "Department #{n}" }
+    sequence(:shortname) { |n| "dept#{n}" }
     active_dir_group { "" }
   end
 end

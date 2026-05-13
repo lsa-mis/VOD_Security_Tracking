@@ -10,7 +10,7 @@
 #
 FactoryBot.define do
   factory :data_classification_level do
-    name { Faker::String.random(length: 6..12) }
-    description { Faker::String.random(length: 6..12) }
+    sequence(:name) { |n| "Classification Level #{n}" }
+    description { Faker::Lorem.paragraph(sentence_count: 2) }
   end
 end
