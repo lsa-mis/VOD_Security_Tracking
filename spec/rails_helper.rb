@@ -57,11 +57,5 @@ Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
 
-# Configure test environment
-Rails.application.configure do
-  config.assets.enabled = true
-  # Only compile assets for system tests, not request specs
-  config.assets.compile = false
-  config.assets.css_compressor = nil
-  config.assets.js_compressor = nil
-end
+# Asset behavior (on-demand compilation) is configured in config/environments/test.rb;
+# it cannot be changed here because Sprockets is already initialized by this point.

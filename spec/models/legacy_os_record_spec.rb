@@ -140,14 +140,17 @@ RSpec.describe LegacyOsRecord, type: :model do
     expect(legacy_os_record.not_completed?).to be(true)
   end
 
-  xit "is complete with all attributes" do
-    expect(legacy_os_record.not_completed?).to be(false)
-    legacy_os_record.update(notes: "")
-    expect(legacy_os_record.not_completed?).to be(false)
-    legacy_os_record.update(unique_app: "")
-    expect(legacy_os_record.not_completed?).to be(false)
-    legacy_os_record.update(unique_app: "unique_app", unique_hardware: "")
-    expect(legacy_os_record.not_completed?).to be(false)
+  it "is complete with all attributes" do
+    # The shared legacy_os_record has no data_type, so build a complete one here.
+    complete_record = FactoryBot.create(:legacy_os_record, :with_data_type, department: department)
+
+    expect(complete_record.not_completed?).to be(false)
+    complete_record.update(notes: "")
+    expect(complete_record.not_completed?).to be(false)
+    complete_record.update(unique_app: "")
+    expect(complete_record.not_completed?).to be(false)
+    complete_record.update(unique_app: "unique_app", unique_hardware: "")
+    expect(complete_record.not_completed?).to be(false)
   end
 
   it "is valid with all attributes" do

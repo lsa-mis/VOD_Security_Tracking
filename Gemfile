@@ -35,14 +35,14 @@ gem "sentry-ruby"
 gem "sentry-rails"
 gem 'simple_form', '~> 5.1'
 gem 'turnout', '~> 2.5'
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: [:windows, :jruby]
 
 # Ruby 3.4+: stdlib mutex_m removed; httpclient (google-apis / GCS) needs the gem for correct load order with WebMock.
 gem 'mutex_m'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: [:mri, :windows]
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'rspec-rails', '~> 7.1'

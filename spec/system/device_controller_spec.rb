@@ -13,47 +13,78 @@ RSpec.describe "Device Controller", type: :system do
     login_as(@me)
     set_session(:user_memberships, devise_ldap.get_ldap_param(@me.username,'memberOf'))
     set_session(:duo_auth, true)
-
   end
 
   after :each do
-    # Log out is not working
-    # visit root_path
-    # click_link 'Log Out', visible: false
-    Capybara::Session#reset!
+    Warden.test_reset!
   end
 
-  xit 'not authorized to create a new device' do
+  # Stub the TDX API so no live calls are made from these tests.
+  def stub_tdx(auth_token: "fake-token", response: nil)
+    allow_any_instance_of(AuthTokenApi).to receive(:get_auth_token).and_return(auth_token)
+    allow_any_instance_of(DeviceTdxApi).to receive(:get_device_data).and_return(response) if response
+  end
+
+  def tdx_success_response(serial)
+    {
+      'result' => { 'success' => true },
+      'data' => {
+        'serial' => serial,
+        'hostname' => 'TEST-HOSTNAME',
+        'building' => 'East Hall',
+        'room' => '100',
+        'owner' => 'Test Owner',
+        'department' => 'Physics',
+        'manufacturer' => 'Apple Inc.',
+        'model' => 'MacBook Pro',
+        'mac' => 'a4:83:e7:bb:68:5a'
+      }
+    }
+  end
+
+  def tdx_not_found_response
+    {
+      'result' => { 'device_not_in_tdx' => 'This device is not present in the TDX Assets database.' },
+      'data' => {}
+    }
+  end
+
+  it 'not authorized to create a new device' do
     visit new_device_path
     expect(page).to have_content('You are not authorized to perform this action.')
   end
 
-  xit 'update a device' do
+  it 'update a device' do
+    stub_tdx(response: tdx_success_response("C02ZF95GLVDL"))
+
     device = Device.create(serial: "C02ZF95GLVDL")
     visit device_path(device)
     expect(page).to have_content('Click update to')
     click_on "Update"
-    sleep(inspection_time=5)
+
     expect(page).to have_content('Device record was successfully updated.')
     expect(page).to have_content('a4:83:e7:bb:68:5a')
   end
 
-  xit 'update a device: devise does not exist in TDX' do
+  it 'update a device: device does not exist in TDX' do
+    stub_tdx(response: tdx_not_found_response)
+
     device = Device.create(serial: "1q2w3e4r5t")
     visit device_path(device)
     click_on "Update"
-    sleep(inspection_time=5)
-    expect(page).to have_content('Device record was successfully updated.This device is not present in the TDX Assets database.')
+
+    expect(page).to have_content('Device record was successfully updated.')
+    expect(page).to have_content('This device is not present in the TDX Assets database.')
   end
 
-  xit 'update a device: get no auth token from AuthTokenApi class', skip: "Skipped due to TDX API auth token issues" do
+  it 'update a device: get no auth token from AuthTokenApi class' do
     # mock false return from get_auth_token method
-    allow_any_instance_of(AuthTokenApi).to receive(:get_auth_token).and_return(false)
+    stub_tdx(auth_token: false)
 
     device = Device.create(serial: "1q2w3e4r5t")
     visit device_path(device)
     click_on "Update"
-    sleep(inspection_time=5)
+
     expect(page).to have_content('No access to TDX API.')
   end
 

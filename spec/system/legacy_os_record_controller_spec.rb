@@ -1,8 +1,5 @@
-# correct version of chromedriver should be installed
-# update chromedriver from here: https://chromedriver.chromium.org/downloads
 require 'rails_helper'
 require 'system/support/shared_file'
-# require 'system/support/before_and_after_tests'
 
 RSpec.describe "LegacyOsRecord Controller", type: :system do
   include_context "shared functions"
@@ -22,13 +19,30 @@ RSpec.describe "LegacyOsRecord Controller", type: :system do
   end
 
   after :each do
-    # Log out is not working
-    # visit root_path
-    # click_link 'Log Out', visible: false
-    Capybara::Session#reset!
+    Warden.test_reset!
   end
 
-  xit 'create record with requered fields and device (which is in the TDX assets database)' do
+  # Stub the TDX API so no live calls are made from these tests.
+  def stub_tdx(response)
+    allow_any_instance_of(AuthTokenApi).to receive(:get_auth_token).and_return("fake-token")
+    allow_any_instance_of(DeviceTdxApi).to receive(:get_device_data).and_return(response)
+  end
+
+  it 'create record with requered fields and device (which is in the TDX assets database)' do
+    stub_tdx(
+      'result' => { 'success' => true },
+      'data' => {
+        'serial' => 'C02ZF95GLVDL',
+        'hostname' => 'TEST-HOSTNAME',
+        'building' => 'East Hall',
+        'room' => '100',
+        'owner' => 'Test Owner',
+        'department' => 'Physics',
+        'manufacturer' => 'Apple Inc.',
+        'model' => 'MacBook Pro',
+        'mac' => 'a4:83:e7:bb:68:5a'
+      }
+    )
 
     visit new_legacy_os_record_path
     fill_in 'Owner username', with: 'brita'
@@ -39,15 +53,17 @@ RSpec.describe "LegacyOsRecord Controller", type: :system do
     fill_in 'legacy_os_record_device_attributes_serial', with: 'C02ZF95GLVDL'
 
     click_on 'Submit'
-    sleep(inspection_time=3)
 
     expect(page).to have_content('Legacy OS record was successfully created.')
     expect(page).to have_content('Record Saved, but not complete.')
     expect(LegacyOsRecord.last.incomplete).to be(true)
-    LegacyOsRecord.last.destroy
   end
 
-  xit 'create record with requered fields with device device that is not present in the TDX Assets database' do
+  it 'create record with requered fields with device device that is not present in the TDX Assets database' do
+    stub_tdx(
+      'result' => { 'device_not_in_tdx' => 'This device is not present in the TDX Assets database.' },
+      'data' => {}
+    )
 
     visit new_legacy_os_record_path
     fill_in 'Owner username', with: 'brita'
@@ -58,16 +74,18 @@ RSpec.describe "LegacyOsRecord Controller", type: :system do
     fill_in 'legacy_os_record_device_attributes_serial', with: '12345ertyuhgfda'
 
     click_on 'Submit'
-    sleep(inspection_time=3)
 
     expect(page).to have_content('Legacy OS record was successfully created.')
     expect(page).to have_content('This device is not present in the TDX Assets database.')
     expect(page).to have_content('Record Saved, but not complete.')
     expect(LegacyOsRecord.last.incomplete).to be(true)
-    LegacyOsRecord.last.destroy
   end
 
-  xit 'create record with requered fields with device with a serial that returned more then one result from the TDX assets database search', skip: 'Temporarily skipped due to Sass/Tailwind CSS compilation issues in test environment' do
+  it 'create record with requered fields with device with a serial that returned more then one result from the TDX assets database search' do
+    stub_tdx(
+      'result' => { 'more-then_one_result' => 'More than one result returned for serial or hostname [Serial].' },
+      'data' => {}
+    )
 
     visit new_legacy_os_record_path
     fill_in 'Owner username', with: 'brita'
@@ -78,43 +96,9 @@ RSpec.describe "LegacyOsRecord Controller", type: :system do
     fill_in 'legacy_os_record_device_attributes_serial', with: 'Serial'
 
     click_on 'Submit'
-    sleep(inspection_time=3)
 
     expect(page).to have_content('More than one result returned for serial or hostname')
 
   end
-
-  # it 'create record with all fields' do
-
-  #   visit new_legacy_os_record_path
-  #   fill_in 'Owner username', with: 'brita'
-  #   fill_in 'Owner full name', with: 'Margarita Barvinok'
-  #   select 'Physics', from: 'Department'
-  #   fill_in 'Phone', :with => Faker::PhoneNumber.phone_number
-  #   fill_in 'Additional department contact', with: 'rsmoke'
-  #   fill_in 'Additional department contact phone', :with => Faker::PhoneNumber.phone_number
-  #   fill_in 'Support poc', with: 'Support poc'
-  #   fill_in 'Legacy OS', with: 'Windows XP'
-  #   fill_in 'Unique app', with: 'Unique app'
-  #   fill_in_date_with_js_by_id('legacy_os_record_unique_date', with: '2021-09-20')
-  #   fill_in_trix_editor('legacy_os_record_remediation_trix_input_legacy_os_record', with: 'Remediation')
-  #   fill_in_date_with_js_by_id('legacy_os_record_exception_approval_date', with: '2021-09-20')
-  #   fill_in_date_with_js_by_id('legacy_os_record_review_date', with: '2021-09-20')
-  #   fill_in 'Review contact', with: 'brita'
-  #   fill_in_trix_editor('legacy_os_record_justification_trix_input_legacy_os_record', with: 'Justification')
-  #   fill_in 'Local IT support group', with: 'East Hall'
-  #   select 'ITAR', from: 'Data type'
-  #   fill_in 'legacy_os_record_device_attributes_serial', with: 'Serial'
-
-  #   click_on 'Submit'
-  #   sleep(inspection_time=3)
-
-  #   expect(page).to have_content('Legacy OS record was successfully created.')
-  #   expect(page).to_not have_content('Record Saved, but not complete.')
-  #   expect(LegacyOsRecord.last.incomplete).to be(false)
-
-  #   LegacyOsRecord.last.destroy
-
-  # end
 
 end

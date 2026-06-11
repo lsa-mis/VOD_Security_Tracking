@@ -11,15 +11,15 @@
 #
 class AccessLookup < ApplicationRecord
 
-  enum vod_action: {
+  enum :vod_action, {
     show: 0,
     newedit: 1,
     archive: 2,
     audit: 3,
     all: 4
-  }, _prefix: true
+  }, prefix: true
 
-  enum vod_table: {
+  enum :vod_table, {
     not_selected: 0,
     dpa_exceptions: 1,
     it_security_incidents: 2,
@@ -27,7 +27,7 @@ class AccessLookup < ApplicationRecord
     sensitive_data_systems: 4,
     devices: 5,
     admin_interface: 6
-  }, _prefix: true
+  }, prefix: true
 
   validates :ldap_group, presence: true
   validates :vod_action, presence: true

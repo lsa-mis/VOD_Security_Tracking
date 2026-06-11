@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<%# Layout used only by system specs (see spec/rails_helper.rb). %>
+<%# Identical to the application layout minus Tailwind CSS and external %>
+<%# assets, which are not needed headless and break test compilation. %>
+<html class='h-full'>
+  <head>
+    <title>VOD</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+  </head>
+  <body class='flex flex-col h-full'>
+    <%= render 'layouts/header' %>
+    <%= render 'layouts/breadcrumbs' %>
+    <main class="container mx-auto px-4">
+      <turbo-frame id="flash">
+        <%= render 'layouts/notification' %>
+      </turbo-frame>
+      <%= yield %>
+    </main>
+    <%= render 'layouts/footer' %>
+  </body>
+</html>

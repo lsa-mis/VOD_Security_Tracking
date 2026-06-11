@@ -20,9 +20,13 @@ Rails.application.configure do
     'Cache-Control' => "public, max-age=#{1.hour.to_i}"
   }
 
-  # Disable asset compilation for request specs to avoid CSS errors
-  config.assets.compile = false
+  # Compile assets on demand. System tests only request the esbuild-built
+  # application.js (app/assets/builds), so no Sass/Tailwind compilation occurs.
+  config.assets.compile = true
   config.assets.digest = false
+  # sassc-rails registers itself as the default CSS compressor, but libsass
+  # cannot parse the modern CSS emitted by Tailwind (e.g. rgb(r g b / a)).
+  config.assets.css_compressor = nil
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true

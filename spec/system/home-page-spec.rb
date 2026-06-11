@@ -10,8 +10,9 @@ RSpec.describe 'Home Page', type: :system do
   describe 'home page' do
     it 'shows the right content' do
       visit root_path
-      expect(page).to have_content('VOD TOOLS')
-      sleep(inspection_time=3)
+      # CSS (text-transform: uppercase) is not applied in the test layout,
+      # so match the heading case-insensitively.
+      expect(page.text).to match(/VOD Tools/i)
     end
   end
 end
