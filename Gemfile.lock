@@ -239,7 +239,7 @@ GEM
     jsbundling-rails (1.3.1)
       railties (>= 6.0.0)
     json (2.19.5)
-    jwt (2.8.1)
+    jwt (2.10.3)
       base64
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
@@ -289,7 +289,7 @@ GEM
     mysql2 (0.5.6)
     net-http (0.9.1)
       uri (>= 0.11.1)
-    net-imap (0.6.4)
+    net-imap (0.6.4.1)
       date
       net-protocol
     net-ldap (0.18.0)
@@ -338,7 +338,7 @@ GEM
       date
       stringio
     public_suffix (7.0.5)
-    puma (7.2.0)
+    puma (7.2.1)
       nio4r (~> 2.0)
     pundit (2.3.1)
       activesupport (>= 3.0.0)
@@ -558,7 +558,7 @@ DEPENDENCIES
   pagy (~> 4.10, >= 4.10.1)
   pry-byebug
   pry-rails
-  puma (~> 7.0)
+  puma (~> 7.2)
   pundit (~> 2.1)
   rails (~> 7.2.3, >= 7.2.3.1)
   ransack (~> 4.3)
