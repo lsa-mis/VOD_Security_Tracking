@@ -53,6 +53,15 @@ namespace :puma do
   end
 end
 
+namespace :solid_queue do
+  desc 'Restart the Solid Queue systemd service'
+  task :restart do
+    on roles(:app) do
+      execute :sudo, :systemctl, :restart, 'solid_queue_vodsecurityproduction.service'
+    end
+  end
+end
+
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do
@@ -84,6 +93,7 @@ namespace :deploy do
   before "bundler:install", "debug:print_versions"
   before :starting,     :check_revision
   after  :finishing,    'puma:restart'
+  after  :finishing,    'solid_queue:restart'
 
   namespace :assets do
     task :precompile do

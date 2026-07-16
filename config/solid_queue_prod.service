@@ -1,0 +1,37 @@
+# =====================================================================================================
+# Install on the production application server at:
+#   /etc/systemd/system/solid_queue_vodsecurityproduction.service
+#
+#   sudo cp config/solid_queue_prod.service /etc/systemd/system/solid_queue_vodsecurityproduction.service
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now solid_queue_vodsecurityproduction.service
+#
+# Capistrano restarts this after deploy as the deployer user, so allow passwordless sudo for that only:
+#   /etc/sudoers.d/vodsecurity-solid-queue
+#
+#   deployer ALL=(root) NOPASSWD: /bin/systemctl restart solid_queue_vodsecurityproduction.service, /bin/systemctl status solid_queue_vodsecurityproduction.service
+# =====================================================================================================
+
+[Unit]
+Description=Solid Queue job supervisor for vodsecurityproduction
+After=network.target
+
+[Service]
+Type=simple
+User=deployer
+Group=www-data
+WorkingDirectory=/home/deployer/apps/vodsecurityproduction/current
+
+Environment=RAILS_ENV=production
+Environment=PATH=/home/deployer/.asdf/shims:/home/deployer/.asdf/bin:/usr/local/bin:/usr/bin:/bin
+Environment=BUNDLE_GEMFILE=/home/deployer/apps/vodsecurityproduction/current/Gemfile
+
+ExecStart=/home/deployer/.asdf/shims/bundle exec bin/jobs
+
+Restart=always
+RestartSec=5
+TimeoutStopSec=30
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target
