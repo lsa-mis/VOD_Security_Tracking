@@ -153,7 +153,8 @@ class ReportsController < ApplicationController
       @sql_lor = "SELECT lor.id AS ' ', owner_full_name, 
             (SELECT CONCAT(serial, ' - ', hostname) FROM devices WHERE lor.device_id = devices.id) AS device,
             legacy_os, DATE_FORMAT(lor.updated_at, '%m/%d/%Y') AS last_modified,
-            (SELECT data_types.name FROM data_types WHERE lor.data_type_id = data_types.id)AS data_type, review_date
+            (SELECT data_types.name FROM data_types WHERE lor.data_type_id = data_types.id)AS data_type,
+            DATE_FORMAT(review_date, '%m/%d/%Y') AS review_date
             FROM legacy_os_records AS lor " +
             @join_tables +
             "WHERE lor.deleted_at IS NULL " + @and_review_month + @and_data_type + @and_data_classification_level + @and_created_at +

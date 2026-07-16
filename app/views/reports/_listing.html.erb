@@ -28,7 +28,7 @@
                       <% row.shift(1) %>
                       <% row.each do |item| %>
                         <td>
-                        <%= Nokogiri::HTML(item).text %>
+                        <%= Nokogiri::HTML(item.to_s).text %>
                         </td>
                       <% end %>
                     </tr>
