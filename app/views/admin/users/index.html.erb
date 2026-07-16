@@ -1,0 +1,50 @@
+<%= render "admin/shared/page_header", title: "Users", new_path: new_admin_user_path, csv_path: admin_users_path(format: :csv, q: params[:q]&.permit!.to_h) %>
+
+<%= search_form_for @q, url: admin_users_path, html: { class: "mb-4 flex flex-wrap gap-2 items-end" } do |f| %>
+  <div><%= f.label :username_cont, "Username", class: "block text-xs text-slate-500" %><%= f.search_field :username_cont, class: "rounded border-slate-300 text-sm" %></div>
+  <div><%= f.label :email_cont, "Email", class: "block text-xs text-slate-500" %><%= f.search_field :email_cont, class: "rounded border-slate-300 text-sm" %></div>
+  <div><%= f.label :current_sign_in_at_cont, "Current sign in at", class: "block text-xs text-slate-500" %><%= f.search_field :current_sign_in_at_cont, class: "rounded border-slate-300 text-sm" %></div>
+  <%= f.submit "Filter", class: "rounded bg-slate-700 px-3 py-2 text-sm text-white" %>
+  <%= link_to "Clear", admin_users_path, class: "text-sm text-sky-700" %>
+<% end %>
+
+<% content = capture do %>
+  <div class="overflow-x-auto rounded border border-slate-200 bg-white">
+    <table class="min-w-full text-sm">
+      <thead class="bg-slate-50 border-b">
+        <tr>
+      <th class="px-3 py-2"></th>
+      <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Actions</th>
+      <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Username</th>
+      <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Email</th>
+      <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Current sign in at</th>
+      <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Sign in count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @resources.each do |resource| %>
+          <tr class="border-b border-slate-100 hover:bg-slate-50">
+        <td class="px-3 py-2"><input type="checkbox" name="ids[]" value="<%= resource.id %>"></td>
+        <td class="px-3 py-2 whitespace-nowrap">
+              <%= render "admin/shared/table_actions", resource: resource %>
+            </td>
+        <td class="px-3 py-2"><%= resource.username %></td>
+        <td class="px-3 py-2"><%= resource.email %></td>
+        <td class="px-3 py-2"><%= resource.current_sign_in_at %></td>
+        <td class="px-3 py-2"><%= resource.sign_in_count %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
+
+<% if true %>
+  <%= render layout: "admin/shared/batch_form", locals: { batch_path: batch_destroy_admin_users_path } do %>
+    <%= content %>
+  <% end %>
+<% else %>
+  <%= content %>
+<% end %>
+
+<%= render "admin/shared/pagination" %>

@@ -29,6 +29,7 @@ import LegacyosController from "./legacyos_controller"
 import ReportController from "./report_controller"
 import SensitivedsController from "./sensitiveds_controller"
 import FlatpickrController from "./flatpickr_controller"
+import AdminBatchController from "./admin_batch_controller"
 
 // Register them with Stimulus
 application.register("infotoggle", InfotoggleController)
@@ -37,3 +38,4 @@ application.register("legacyos", LegacyosController)
 application.register("report", ReportController)
 application.register("sensitiveds", SensitivedsController)
 application.register("flatpickr", FlatpickrController)
+application.register("admin-batch", AdminBatchController)

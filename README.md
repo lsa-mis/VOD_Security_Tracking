@@ -4,13 +4,14 @@ VOD Security Tracking is an internal Rails application used to track systems and
 
 ## Tech Stack
 
-- Ruby `3.4.9`
-- Rails `7.2.3.1`
+- Ruby `4.0.6`
+- Rails `8.1.3`
 - MySQL (`mysql2`)
 - RSpec for test coverage
 - Hotwire + Stimulus
-- ActiveAdmin for administrative interfaces
-- esbuild + Tailwind for frontend assets
+- Custom `/admin` MVC (Tailwind/Hotwire) replacing ActiveAdmin
+- Propshaft + esbuild + Tailwind for frontend assets
+- Solid Queue / Cache / Cable in production
 
 ## Key Domain Areas
 
@@ -25,7 +26,7 @@ VOD Security Tracking is an internal Rails application used to track systems and
 
 ### Prerequisites
 
-- Ruby `3.4.9` (asdf recommended)
+- Ruby `4.0.6` (asdf recommended)
 - Bundler
 - MySQL (local instance)
 - Node.js + Yarn

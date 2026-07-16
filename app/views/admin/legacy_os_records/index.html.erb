@@ -1,0 +1,36 @@
+<%= render "admin/shared/page_header", title: "Legacy OS Records", csv_path: admin_legacy_os_records_path(format: :csv, scope: @current_scope) %>
+<%= admin_scope_tabs(%i[active archived], @current_scope || :active) %>
+
+<div class="overflow-x-auto rounded border border-slate-200 bg-white">
+  <table class="min-w-full text-sm">
+    <thead class="bg-slate-50 border-b">
+      <tr>
+        <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Actions</th>
+        <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Incomplete</th>
+        <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Owner</th>
+        <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Device</th>
+        <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Legacy OS</th>
+        <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Updated</th>
+        <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Data Type</th>
+        <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Review Date</th>
+        <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Archived at</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @resources.each do |resource| %>
+        <tr class="border-b border-slate-100">
+          <td class="px-3 py-2"><%= link_to "View", admin_legacy_os_record_path(resource), class: "text-sky-700 hover:underline" %></td>
+          <td class="px-3 py-2"><%= resource.incomplete %></td>
+          <td class="px-3 py-2"><%= resource.owner_full_name %></td>
+          <td class="px-3 py-2"><%= resource.device ? link_to(show_device(resource), admin_device_path(resource.device), class: "text-sky-700 hover:underline") : "none" %></td>
+          <td class="px-3 py-2"><%= resource.legacy_os %></td>
+          <td class="px-3 py-2"><%= resource.updated_at %></td>
+          <td class="px-3 py-2"><%= show_data_type_name(resource) %></td>
+          <td class="px-3 py-2"><%= resource.review_date %></td>
+          <td class="px-3 py-2"><%= resource.deleted_at %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<%= render "admin/shared/pagination" %>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html class="h-full">
+  <head>
+    <title>VOD Admin</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+  </head>
+  <body class="min-h-full bg-slate-100">
+    <div class="flex min-h-screen">
+      <aside class="w-64 shrink-0 bg-sky-900 text-white p-4 space-y-4">
+        <div>
+          <%= link_to "VOD", root_path, class: "text-xl font-semibold tracking-wide" %>
+          <p class="text-xs text-sky-200 mt-1">Admin</p>
+        </div>
+
+        <nav class="space-y-4 text-sm">
+          <div>
+            <%= admin_nav_link "Dashboard", admin_root_path, active: request.path == admin_root_path %>
+          </div>
+
+          <div>
+            <p class="px-3 text-xs uppercase tracking-wide text-sky-300 mb-1">Main Tables</p>
+            <%= admin_nav_link "IT Security Incidents", admin_it_security_incidents_path, active: admin_current_section?("/admin/it_security_incidents") %>
+            <%= admin_nav_link "Sensitive Data Systems", admin_sensitive_data_systems_path, active: admin_current_section?("/admin/sensitive_data_systems") %>
+            <%= admin_nav_link "Legacy OS Records", admin_legacy_os_records_path, active: admin_current_section?("/admin/legacy_os_records") %>
+            <%= admin_nav_link "DSA Exceptions", admin_dpa_exceptions_path, active: admin_current_section?("/admin/dpa_exceptions") %>
+          </div>
+
+          <div>
+            <p class="px-3 text-xs uppercase tracking-wide text-sky-300 mb-1">Complementary Tables</p>
+            <%= admin_nav_link "Devices", admin_devices_path, active: admin_current_section?("/admin/devices") %>
+            <%= admin_nav_link "Departments", admin_departments_path, active: admin_current_section?("/admin/departments") %>
+            <%= admin_nav_link "Data Types", admin_data_types_path, active: admin_current_section?("/admin/data_types") %>
+            <%= admin_nav_link "Data Classification Levels", admin_data_classification_levels_path, active: admin_current_section?("/admin/data_classification_levels") %>
+            <%= admin_nav_link "Storage Locations", admin_storage_locations_path, active: admin_current_section?("/admin/storage_locations") %>
+            <%= admin_nav_link "IT Security Incident Statuses", admin_it_security_incident_statuses_path, active: admin_current_section?("/admin/it_security_incident_statuses") %>
+            <%= admin_nav_link "DSA Exception Statuses", admin_dpa_exception_statuses_path, active: admin_current_section?("/admin/dpa_exception_statuses") %>
+          </div>
+
+          <div>
+            <p class="px-3 text-xs uppercase tracking-wide text-sky-300 mb-1">Logins Info</p>
+            <%= admin_nav_link "Users", admin_users_path, active: admin_current_section?("/admin/users") %>
+          </div>
+
+          <div>
+            <p class="px-3 text-xs uppercase tracking-wide text-sky-300 mb-1">Other</p>
+            <%= admin_nav_link "Access Lookups", admin_access_lookups_path, active: admin_current_section?("/admin/access_lookups") %>
+            <%= admin_nav_link "Notifications", admin_notifications_path, active: admin_current_section?("/admin/notifications") %>
+            <%= admin_nav_link "Comments", admin_comments_path, active: admin_current_section?("/admin/comments") %>
+          </div>
+        </nav>
+
+        <div class="pt-4 border-t border-sky-800 text-sm">
+          <%= link_to "Back to app", root_path, class: "text-sky-200 hover:text-white" %>
+          <% if user_signed_in? %>
+            <div class="mt-2">
+              <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "text-sky-200 hover:text-white" %>
+            </div>
+          <% end %>
+        </div>
+      </aside>
+
+      <main class="flex-1 p-6">
+        <% if notice.present? %>
+          <div class="mb-4 rounded border border-green-200 bg-green-50 px-4 py-3 text-green-800"><%= notice %></div>
+        <% end %>
+        <% if alert.present? %>
+          <div class="mb-4 rounded border border-red-200 bg-red-50 px-4 py-3 text-red-800"><%= alert %></div>
+        <% end %>
+        <%= yield %>
+      </main>
+    </div>
+  </body>
+</html>

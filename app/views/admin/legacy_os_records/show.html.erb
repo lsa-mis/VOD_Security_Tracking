@@ -1,0 +1,22 @@
+<%= render "admin/shared/page_header", title: "Legacy OS Record ##{@resource.id}" %>
+<div class="mb-4 flex gap-2">
+  <% if @resource.deleted_at.present? %>
+    <%= button_to "Unarchive record", unarchive_legacy_os_record_path(@resource), method: :post, class: "rounded bg-amber-600 px-3 py-2 text-sm text-white" %>
+  <% end %>
+  <%= link_to "Back", admin_legacy_os_records_path, class: "rounded border px-3 py-2 text-sm" %>
+</div>
+<div class="rounded border border-slate-200 bg-white p-4 mb-6">
+  <%= admin_attr_rows(@resource, [
+    ["Archived at", @resource.deleted_at],
+    :incomplete, :owner_username, :owner_full_name,
+    ["Department", (@resource.department ? show_department_name(@resource) : nil)],
+    :phone, :additional_dept_contact, :additional_dept_contact_phone, :support_poc,
+    :legacy_os, :unique_app, :unique_hardware, :unique_date, :remediation,
+    :exception_approval_date, :review_date, :review_contact, :justification,
+    :local_it_support_group, :notes,
+    ["Data Type", show_data_type_name(@resource)],
+    ["Device", show_device(@resource)]
+  ]) %>
+</div>
+<%= render "admin/shared/attachments_and_tickets", resource: @resource %>
+<%= render "admin/shared/comments", resource: @resource %>

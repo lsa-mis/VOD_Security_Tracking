@@ -151,7 +151,9 @@ Pagy::VARS[:max_items]   = 100
 # Rails: extras assets path required by the helpers that use javascript
 # (pagy*_nav_js, pagy*_combo_nav_js, and pagy_items_selector_js)
 # See https://ddnexus.github.io/pagy/extras#javascript
-Rails.application.config.assets.paths << Pagy.root.join('javascripts')
+if Rails.application.config.respond_to?(:assets) && Rails.application.config.assets.respond_to?(:paths)
+  Rails.application.config.assets.paths << Pagy.root.join('javascripts')
+end
 
 
 # I18n

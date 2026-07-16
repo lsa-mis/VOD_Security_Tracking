@@ -1,0 +1,49 @@
+<%= render "admin/shared/page_header", title: "Devices", csv_path: admin_devices_path(format: :csv, scope: @current_scope, q: params[:q]&.permit!.to_h) %>
+<%= admin_scope_tabs(%i[all incomplete], @current_scope || :all) %>
+
+<% content = capture do %>
+  <div class="overflow-x-auto rounded border border-slate-200 bg-white">
+    <table class="min-w-full text-sm">
+      <thead class="bg-slate-50 border-b">
+        <tr>
+          <th class="px-3 py-2"></th>
+          <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Actions</th>
+          <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Update link</th>
+          <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Serial</th>
+          <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Hostname</th>
+          <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">MAC</th>
+          <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Building</th>
+          <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Room</th>
+          <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Owner</th>
+          <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Department</th>
+          <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Manufacturer</th>
+          <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Model</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @resources.each do |resource| %>
+          <tr class="border-b border-slate-100">
+            <td class="px-3 py-2"><input type="checkbox" name="ids[]" value="<%= resource.id %>"></td>
+            <td class="px-3 py-2"><%= link_to "View", admin_device_path(resource), class: "text-sky-700 hover:underline" %></td>
+            <td class="px-3 py-2"><%= link_to resource.id, device_path(resource), class: "text-sky-700 hover:underline" %></td>
+            <td class="px-3 py-2"><%= resource.serial %></td>
+            <td class="px-3 py-2"><%= resource.hostname %></td>
+            <td class="px-3 py-2"><%= resource.mac %></td>
+            <td class="px-3 py-2"><%= resource.building %></td>
+            <td class="px-3 py-2"><%= resource.room %></td>
+            <td class="px-3 py-2"><%= resource.owner %></td>
+            <td class="px-3 py-2"><%= resource.department %></td>
+            <td class="px-3 py-2"><%= resource.manufacturer %></td>
+            <td class="px-3 py-2"><%= resource.model %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
+
+<%= render layout: "admin/shared/batch_form", locals: { batch_path: batch_destroy_admin_devices_path } do %>
+  <%= content %>
+<% end %>
+
+<%= render "admin/shared/pagination" %>

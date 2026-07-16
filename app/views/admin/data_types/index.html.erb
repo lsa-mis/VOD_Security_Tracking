@@ -1,0 +1,50 @@
+<%= render "admin/shared/page_header", title: "Data Types", new_path: new_admin_data_type_path, csv_path: admin_data_types_path(format: :csv, q: params[:q]&.permit!.to_h) %>
+
+<%= search_form_for @q, url: admin_data_types_path, html: { class: "mb-4 flex flex-wrap gap-2 items-end" } do |f| %>
+  <div><%= f.label :name_cont, "Name", class: "block text-xs text-slate-500" %><%= f.search_field :name_cont, class: "rounded border-slate-300 text-sm" %></div>
+  <div><%= f.label :description_cont, "Description", class: "block text-xs text-slate-500" %><%= f.search_field :description_cont, class: "rounded border-slate-300 text-sm" %></div>
+  <div><%= f.label :description_link_cont, "Description link", class: "block text-xs text-slate-500" %><%= f.search_field :description_link_cont, class: "rounded border-slate-300 text-sm" %></div>
+  <%= f.submit "Filter", class: "rounded bg-slate-700 px-3 py-2 text-sm text-white" %>
+  <%= link_to "Clear", admin_data_types_path, class: "text-sm text-sky-700" %>
+<% end %>
+
+<% content = capture do %>
+  <div class="overflow-x-auto rounded border border-slate-200 bg-white">
+    <table class="min-w-full text-sm">
+      <thead class="bg-slate-50 border-b">
+        <tr>
+      <th class="px-3 py-2"></th>
+      <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Actions</th>
+      <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Name</th>
+      <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Description</th>
+      <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Description link</th>
+      <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Data classification level</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @resources.each do |resource| %>
+          <tr class="border-b border-slate-100 hover:bg-slate-50">
+        <td class="px-3 py-2"><input type="checkbox" name="ids[]" value="<%= resource.id %>"></td>
+        <td class="px-3 py-2 whitespace-nowrap">
+              <%= render "admin/shared/table_actions", resource: resource %>
+            </td>
+        <td class="px-3 py-2"><%= resource.name %></td>
+        <td class="px-3 py-2"><%= resource.description %></td>
+        <td class="px-3 py-2"><%= resource.description_link %></td>
+        <td class="px-3 py-2"><%= resource.data_classification_level_id %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
+
+<% if true %>
+  <%= render layout: "admin/shared/batch_form", locals: { batch_path: batch_destroy_admin_data_types_path } do %>
+    <%= content %>
+  <% end %>
+<% else %>
+  <%= content %>
+<% end %>
+
+<%= render "admin/shared/pagination" %>

@@ -61,8 +61,46 @@ Rails.application.routes.draw do
   resources :reports
   get 'run_report', to: 'reports#run_report', as: :run_report
 
-  ActiveAdmin.routes(self)
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  namespace :admin do
+    root to: "dashboard#show"
+    resources :access_lookups do
+      collection { delete :batch_destroy }
+    end
+    resources :notifications do
+      collection { delete :batch_destroy }
+    end
+    resources :users do
+      collection { delete :batch_destroy }
+    end
+    resources :departments do
+      collection { delete :batch_destroy }
+    end
+    resources :data_types do
+      collection { delete :batch_destroy }
+    end
+    resources :data_classification_levels do
+      collection { delete :batch_destroy }
+    end
+    resources :storage_locations do
+      collection { delete :batch_destroy }
+    end
+    resources :it_security_incident_statuses do
+      collection { delete :batch_destroy }
+    end
+    resources :dpa_exception_statuses do
+      collection { delete :batch_destroy }
+    end
+    resources :devices, only: %i[index show] do
+      collection { delete :batch_destroy }
+    end
+    resources :it_security_incidents, only: %i[index show]
+    resources :sensitive_data_systems, only: %i[index show]
+    resources :legacy_os_records, only: %i[index show]
+    resources :dpa_exceptions, only: %i[index show]
+    resources :comments do
+      collection { delete :batch_destroy }
+    end
+  end
 
   get '/dashboard', to: 'static_pages#dashboard'
 

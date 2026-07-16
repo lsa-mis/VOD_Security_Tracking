@@ -1,0 +1,5 @@
+<% if defined?(@pagy) && @pagy %>
+  <div class="mt-4">
+    <%= render partial: "partials/pagination", locals: { pagy: @pagy } %>
+  </div>
+<% end %>

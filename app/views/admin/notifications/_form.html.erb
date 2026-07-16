@@ -1,0 +1,13 @@
+<%= form_with model: [:admin, @resource], class: "max-w-xl rounded border border-slate-200 bg-white p-4" do |f| %>
+  <% if @resource.errors.any? %>
+    <div class="mb-3 text-sm text-red-700"><%= @resource.errors.full_messages.to_sentence %></div>
+  <% end %>
+  <div class="mb-3"><%= f.label :note, class: "block text-sm text-slate-600" %><%= f.text_area :note, rows: 4, class: "rounded border-slate-300 w-full" %></div>
+  <div class="mb-3"><%= f.label :opendate, class: "block text-sm text-slate-600" %><%= f.datetime_field :opendate, class: "rounded border-slate-300 w-full" %></div>
+  <div class="mb-3"><%= f.label :closedate, class: "block text-sm text-slate-600" %><%= f.datetime_field :closedate, class: "rounded border-slate-300 w-full" %></div>
+  <div class="mb-3"><%= f.label :notetype, class: "block text-sm text-slate-600" %><%= f.select :notetype, note_types, {}, class: "rounded border-slate-300 w-full" %></div>
+  <div class="flex gap-2 mt-4">
+    <%= f.submit class: "rounded bg-sky-700 px-3 py-2 text-sm text-white" %>
+    <%= link_to "Cancel", admin_notifications_path, class: "rounded border px-3 py-2 text-sm" %>
+  </div>
+<% end %>

@@ -1,0 +1,22 @@
+<%# locals: resource %>
+<div class="inline-flex items-center gap-1.5 whitespace-nowrap">
+  <%= link_to [:admin, resource],
+              class: "inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50",
+              title: "View" do %>
+    <i class="fa-solid fa-eye text-[10px] text-slate-400" aria-hidden="true"></i>
+    View
+  <% end %>
+  <%= link_to [:edit, :admin, resource],
+              class: "inline-flex items-center gap-1 rounded-md border border-sky-200 bg-sky-50 px-2 py-1 text-xs font-medium text-sky-800 transition hover:border-sky-300 hover:bg-sky-100",
+              title: "Edit" do %>
+    <i class="fa-solid fa-pen text-[10px] text-sky-500" aria-hidden="true"></i>
+    Edit
+  <% end %>
+  <%= link_to [:admin, resource],
+              data: { turbo_method: :delete, turbo_confirm: "Delete this record?" },
+              class: "inline-flex items-center gap-1 rounded-md border border-red-200 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 transition hover:border-red-300 hover:bg-red-100",
+              title: "Delete" do %>
+    <i class="fa-solid fa-trash text-[10px] text-red-500" aria-hidden="true"></i>
+    Delete
+  <% end %>
+</div>

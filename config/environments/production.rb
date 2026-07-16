@@ -24,12 +24,6 @@ Rails.application.configure do
   # Apache or NGINX already handles this.
   config.public_file_server.enabled = true
 
-  # Compress CSS using a preprocessor.
-  config.assets.css_compressor = nil
-
-  # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = true
-
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = 'http://assets.example.com'
 
@@ -60,10 +54,10 @@ Rails.application.configure do
   config.log_tags = [ :request_id ]
 
   # Use a different cache store in production.
-  # config.cache_store = :mem_cache_store
+  config.cache_store = :solid_cache_store
 
-  # Use a real queuing backend for Active Job (and separate queues per environment).
-  # config.active_job.queue_adapter     = :resque
+  # Use a real queuing backend for Active Job.
+  config.active_job.queue_adapter = :solid_queue
   # config.active_job.queue_name_prefix = "app_production"
 
   # The `perform_caching` option determines whether or not Action Mailer will
