@@ -41,6 +41,7 @@ gem 'tzinfo-data', platforms: [:windows, :jruby]
 # Ruby 3.4+/4.0: stdlib gems extracted from default set
 gem 'mutex_m'
 gem 'cgi'
+gem 'ostruct' # required by net-ldap (devise_ldap_authenticatable) on Ruby 4.0+
 
 group :development, :test do
   gem 'debug', '~> 1.9'
