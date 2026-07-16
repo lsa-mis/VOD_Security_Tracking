@@ -54,10 +54,14 @@ namespace :puma do
 end
 
 namespace :solid_queue do
-  desc 'Restart the Solid Queue systemd service'
+  # Restarts without sudo: the systemd unit runs as deployer with Restart=always,
+  # so terminating bin/jobs causes systemd to start a fresh supervisor.
+  # Boot after reboot still requires the unit to be enabled once by server admins:
+  #   sudo systemctl enable --now solid_queue_vodsecurityproduction.service
+  desc 'Restart the Solid Queue supervisor (no sudo)'
   task :restart do
     on roles(:app) do
-      execute :sudo, :systemctl, :restart, 'solid_queue_vodsecurityproduction.service'
+      execute "pkill -TERM -u deployer -f 'bin/jobs' || true"
     end
   end
 end

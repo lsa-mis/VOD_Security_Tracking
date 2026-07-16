@@ -2,13 +2,14 @@
 # Install on the production application server at:
 #   /etc/systemd/system/solid_queue_vodsecurityproduction.service
 #
+# One-time setup by server admins (root/sudo). This also covers reboots via WantedBy=multi-user.target:
 #   sudo cp config/solid_queue_prod.service /etc/systemd/system/solid_queue_vodsecurityproduction.service
 #   sudo systemctl daemon-reload
 #   sudo systemctl enable --now solid_queue_vodsecurityproduction.service
 #
-# Capistrano restarts this after deploy as the deployer user, so allow passwordless sudo for that only:
+# Capistrano restarts without sudo by sending TERM to bin/jobs; Restart=always brings it back.
+# Optional: passwordless sudo if you prefer `systemctl restart` from deploy instead of pkill:
 #   /etc/sudoers.d/vodsecurity-solid-queue
-#
 #   deployer ALL=(root) NOPASSWD: /bin/systemctl restart solid_queue_vodsecurityproduction.service, /bin/systemctl status solid_queue_vodsecurityproduction.service
 # =====================================================================================================
 
