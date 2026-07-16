@@ -63,6 +63,10 @@ namespace :solid_queue do
     on roles(:app) do
       execute "pkill -TERM -u deployer -f 'bin/jobs' || true"
     end
+    puts
+    puts "Hey there — check that Solid Queue restarted:"
+    puts "  sudo systemctl status solid_queue_vodsecurityproduction.service"
+    puts
   end
 end
 
