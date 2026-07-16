@@ -1,10 +1,9 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.4.9'
-gem 'rails', '~> 7.2.3', '>= 7.2.3.1'
+ruby '4.0.6'
+gem 'rails', '~> 8.1.0'
 
-gem 'activeadmin', '~> 3.2'
 gem 'audited', '>= 5.7'
 gem 'bcrypt_pbkdf'
 gem 'bootsnap', '>= 1.4.4', require: false
@@ -24,28 +23,30 @@ gem 'lsa_tdx_feedback'
 gem 'mysql2', '~> 0.5.6'
 gem 'nokogiri', '~> 1.19'
 gem 'pagy', '~> 4.10', '>= 4.10.1'
+gem 'propshaft'
 gem 'puma', '~> 7.2'
 gem 'pundit', '~> 2.1'
 gem 'ransack', '~> 4.3'
-gem 'ruby2_keywords'
-gem 'sass-rails', '>= 6'
+gem 'solid_cable'
+gem 'solid_cache'
+gem 'solid_queue'
 # Allows puma to use notify in systemd
 gem 'sd_notify', '~> 0.1.1'
 gem "sentry-ruby"
 gem "sentry-rails"
 gem 'simple_form', '~> 5.1'
-gem 'turnout', '~> 2.5'
+gem 'turnout2024', '~> 3.0'
 gem 'tzinfo-data', platforms: [:windows, :jruby]
 
-# Ruby 3.4+: stdlib mutex_m removed; httpclient (google-apis / GCS) needs the gem for correct load order with WebMock.
+# Ruby 3.4+/4.0: stdlib gems extracted from default set
 gem 'mutex_m'
+gem 'cgi'
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :windows]
+  gem 'debug', '~> 1.9'
   gem 'factory_bot_rails'
   gem 'faker'
-  gem 'rspec-rails', '~> 7.1'
+  gem 'rspec-rails', '~> 8.0'
 end
 
 group :development do
@@ -54,7 +55,6 @@ group :development do
   gem 'capistrano-asdf',   require: false
   gem 'listen', '~> 3.3'
   gem 'pry-rails'
-  gem 'pry-byebug'
   gem 'stringio', '~> 3.1'
   gem 'web-console', '>= 4.1.0'
 end

@@ -1,0 +1,25 @@
+<%= render "admin/shared/page_header", title: "DSA Exception ##{@resource.id}" %>
+<div class="mb-4 flex gap-2">
+  <% if @resource.deleted_at.present? %>
+    <%= button_to "Unarchive record", unarchive_dpa_exception_path(@resource), method: :post, class: "rounded bg-amber-600 px-3 py-2 text-sm text-white" %>
+  <% end %>
+  <%= link_to "Back", admin_dpa_exceptions_path, class: "rounded border px-3 py-2 text-sm" %>
+</div>
+<div class="rounded border border-slate-200 bg-white p-4 mb-6">
+  <%= admin_attr_rows(@resource, [
+    ["Status", show_dpa_exception_status(@resource)],
+    ["Archived at", @resource.deleted_at],
+    :incomplete,
+    :review_date_exception_first_approval_date,
+    :third_party_product_service,
+    ["Department", (@resource.department ? show_department_name(@resource) : nil)],
+    :point_of_contact, :review_findings, :review_summary,
+    :lsa_security_recommendation, :lsa_security_determination,
+    :lsa_security_approval, :lsa_technology_services_approval,
+    :exception_approval_date_exception_renewal_date_due,
+    :review_date_exception_review_date, :notes,
+    ["Data Type", show_data_type_name(@resource)]
+  ]) %>
+</div>
+<%= render "admin/shared/attachments_and_tickets", resource: @resource %>
+<%= render "admin/shared/comments", resource: @resource %>

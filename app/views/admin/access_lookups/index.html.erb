@@ -1,0 +1,54 @@
+<%= render "admin/shared/page_header", title: "Access Lookups", new_path: new_admin_access_lookup_path, csv_path: admin_access_lookups_path(format: :csv, q: params[:q]&.permit!.to_h) %>
+
+<%= search_form_for @q, url: admin_access_lookups_path, html: { class: "mb-4 flex flex-wrap gap-2 items-end" } do |f| %>
+  <div><%= f.label :ldap_group_cont, "Ldap group", class: "block text-xs text-slate-500" %><%= f.search_field :ldap_group_cont, class: "rounded border-slate-300 text-sm" %></div>
+  <div><%= f.label :vod_table_cont, "Vod table", class: "block text-xs text-slate-500" %><%= f.search_field :vod_table_cont, class: "rounded border-slate-300 text-sm" %></div>
+  <div><%= f.label :vod_action_cont, "Vod action", class: "block text-xs text-slate-500" %><%= f.search_field :vod_action_cont, class: "rounded border-slate-300 text-sm" %></div>
+  <%= f.submit "Filter", class: "rounded bg-slate-700 px-3 py-2 text-sm text-white" %>
+  <%= link_to "Clear", admin_access_lookups_path, class: "text-sm text-sky-700" %>
+<% end %>
+
+<% content = capture do %>
+  <div class="overflow-x-auto rounded border border-slate-200 bg-white">
+    <table class="min-w-full text-sm">
+      <thead class="bg-slate-50 border-b">
+        <tr>
+      <th class="px-3 py-2"></th>
+      <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Actions</th>
+      <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Ldap group</th>
+      <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Vod table</th>
+      <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Vod action</th>
+      <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Created at</th>
+      <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Updated at</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @resources.each do |resource| %>
+          <tr class="border-b border-slate-100 hover:bg-slate-50">
+        <td class="px-3 py-2"><input type="checkbox" name="ids[]" value="<%= resource.id %>"></td>
+        <td class="px-3 py-2 whitespace-nowrap">
+              <%= link_to "View", [:admin, resource], class: "text-sky-700 hover:underline mr-2" %>
+              <%= link_to "Edit", [:edit, :admin, resource], class: "text-sky-700 hover:underline mr-2" %>
+              <%= button_to "Delete", [:admin, resource], method: :delete, form: { data: { turbo_confirm: "Delete this record?" } }, class: "inline text-red-700 hover:underline" %>
+            </td>
+        <td class="px-3 py-2"><%= resource.ldap_group %></td>
+        <td class="px-3 py-2"><%= resource.vod_table %></td>
+        <td class="px-3 py-2"><%= resource.vod_action %></td>
+        <td class="px-3 py-2"><%= resource.created_at %></td>
+        <td class="px-3 py-2"><%= resource.updated_at %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
+
+<% if true %>
+  <%= render layout: "admin/shared/batch_form", locals: { batch_path: batch_destroy_admin_access_lookups_path } do %>
+    <%= content %>
+  <% end %>
+<% else %>
+  <%= content %>
+<% end %>
+
+<%= render "admin/shared/pagination" %>

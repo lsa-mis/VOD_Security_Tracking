@@ -1,0 +1,9 @@
+<%= form_with url: batch_path, method: :delete, data: { controller: "admin-batch", admin_batch_target: "form" } do %>
+  <div class="mb-3 flex items-center gap-3">
+    <button type="submit" class="rounded bg-red-700 px-3 py-1.5 text-sm text-white hover:bg-red-800" data-admin-batch-target="submit" disabled>
+      Delete selected
+    </button>
+    <span class="text-sm text-slate-500" data-admin-batch-target="count">0 selected</span>
+  </div>
+  <%= yield %>
+<% end %>

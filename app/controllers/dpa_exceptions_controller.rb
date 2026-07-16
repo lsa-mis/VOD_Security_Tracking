@@ -1,4 +1,4 @@
-class DpaExceptionsController < InheritedResources::Base
+class DpaExceptionsController < ApplicationController
   before_action :verify_duo_authentication
   devise_group :logged_in, contains: [:user]
   before_action :authenticate_logged_in!

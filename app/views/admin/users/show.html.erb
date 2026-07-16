@@ -1,0 +1,14 @@
+<%= render "admin/shared/page_header", title: "Users ##{@resource.id}" %>
+<div class="mb-4 flex gap-2">
+  <%= link_to "Edit", [:edit, :admin, @resource], class: "rounded bg-sky-700 px-3 py-2 text-sm text-white" %>
+  <%= link_to "Back", admin_users_path, class: "rounded border px-3 py-2 text-sm" %>
+  <%= button_to "Delete", [:admin, @resource], method: :delete, form: { data: { turbo_confirm: "Delete?" }, class: "inline" }, class: "rounded bg-red-700 px-3 py-2 text-sm text-white" %>
+</div>
+<div class="rounded border border-slate-200 bg-white p-4 mb-6">
+  <%= admin_attr_rows(@resource, [
+    ["Username", @resource.username],
+    ["Email", @resource.email],
+    ["Remember created at", @resource.remember_created_at],
+  ]) %>
+</div>
+<%= render "admin/shared/comments", resource: @resource %>

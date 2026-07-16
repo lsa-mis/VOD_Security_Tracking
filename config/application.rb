@@ -14,7 +14,6 @@ require "action_mailbox/engine"
 require "action_text/engine"
 require "action_view/railtie"
 require "action_cable/engine"
-require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -24,7 +23,7 @@ Bundler.require(*Rails.groups)
 module VOD
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.1
+    config.load_defaults 8.1
     config.time_zone = "Eastern Time (US & Canada)"
 
     # Configuration for the application, engines, and railties goes here.
@@ -40,6 +39,7 @@ module VOD
 
     # Need this setting so Active Storage doesn't overwrite files.
     config.active_storage.replace_on_assign_to_many = false
+    config.active_storage.variant_processor = :disabled
 
     config.eager_load_paths += %W(#{config.root}/lib)
 

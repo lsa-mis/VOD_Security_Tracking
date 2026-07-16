@@ -1,0 +1,28 @@
+<%= render "admin/shared/page_header", title: "Dashboard" %>
+
+<section class="mb-6 rounded border border-slate-200 bg-white p-4">
+  <h2 class="text-lg font-semibold text-slate-800 mb-3">Active Notification</h2>
+  <%= render "/partials/admin_dashboard_notification", model: "dashboard" %>
+</section>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <section class="rounded border border-slate-200 bg-white p-4">
+    <h2 class="text-lg font-semibold text-slate-800 mb-3">Recent Logins</h2>
+    <ul class="space-y-2 text-sm">
+      <% @recent_users.each do |user| %>
+        <li><%= link_to user.display_login_info, admin_user_path(user), class: "text-sky-700 hover:underline" %></li>
+      <% end %>
+      <% if @recent_users.blank? %>
+        <li class="text-slate-500">No recent logins.</li>
+      <% end %>
+    </ul>
+  </section>
+
+  <section class="rounded border border-slate-200 bg-white p-4">
+    <h2 class="text-lg font-semibold text-slate-800 mb-3">Resources</h2>
+    <ul class="space-y-2 text-sm">
+      <li><%= link_to "User Documentation", "https://docs.google.com/document/d/1UKKiF-ymijQf2_NNhx0LzVYKkyq9YzttNO9DDKdtFwc/edit?usp=sharing", target: "_blank", class: "text-sky-700 hover:underline" %></li>
+      <li><%= link_to "Admin Documentation", "https://docs.google.com/document/d/1xpk79I9FVJ1JPn89oFEedoVtljj6IGwB1K3ub8mEyMI/edit?usp=sharing", target: "_blank", class: "text-sky-700 hover:underline" %></li>
+    </ul>
+  </section>
+</div>

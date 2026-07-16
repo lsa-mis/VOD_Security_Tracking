@@ -1,0 +1,11 @@
+<div class="flex items-center justify-between mb-4 gap-4 flex-wrap">
+  <h1 class="text-2xl font-semibold text-slate-800"><%= title %></h1>
+  <div class="flex gap-2 flex-wrap">
+    <% if local_assigns[:new_path] %>
+      <%= link_to "New", new_path, class: "inline-flex items-center rounded bg-sky-700 px-3 py-2 text-sm text-white hover:bg-sky-800" %>
+    <% end %>
+    <% if local_assigns[:csv_path] %>
+      <%= link_to "CSV", csv_path, class: "inline-flex items-center rounded border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 hover:bg-slate-50" %>
+    <% end %>
+  </div>
+</div>

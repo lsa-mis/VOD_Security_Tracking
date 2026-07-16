@@ -1,0 +1,50 @@
+<%= render "admin/shared/page_header", title: "Departments", new_path: new_admin_department_path, csv_path: admin_departments_path(format: :csv, q: params[:q]&.permit!.to_h) %>
+
+<%= search_form_for @q, url: admin_departments_path, html: { class: "mb-4 flex flex-wrap gap-2 items-end" } do |f| %>
+  <div><%= f.label :name_cont, "Name", class: "block text-xs text-slate-500" %><%= f.search_field :name_cont, class: "rounded border-slate-300 text-sm" %></div>
+  <div><%= f.label :shortname_cont, "Shortname", class: "block text-xs text-slate-500" %><%= f.search_field :shortname_cont, class: "rounded border-slate-300 text-sm" %></div>
+  <div><%= f.label :active_dir_group_cont, "Active dir group", class: "block text-xs text-slate-500" %><%= f.search_field :active_dir_group_cont, class: "rounded border-slate-300 text-sm" %></div>
+  <%= f.submit "Filter", class: "rounded bg-slate-700 px-3 py-2 text-sm text-white" %>
+  <%= link_to "Clear", admin_departments_path, class: "text-sm text-sky-700" %>
+<% end %>
+
+<% content = capture do %>
+  <div class="overflow-x-auto rounded border border-slate-200 bg-white">
+    <table class="min-w-full text-sm">
+      <thead class="bg-slate-50 border-b">
+        <tr>
+      <th class="px-3 py-2"></th>
+      <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Actions</th>
+      <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Name</th>
+      <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Shortname</th>
+      <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Active dir group</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @resources.each do |resource| %>
+          <tr class="border-b border-slate-100 hover:bg-slate-50">
+        <td class="px-3 py-2"><input type="checkbox" name="ids[]" value="<%= resource.id %>"></td>
+        <td class="px-3 py-2 whitespace-nowrap">
+              <%= link_to "View", [:admin, resource], class: "text-sky-700 hover:underline mr-2" %>
+              <%= link_to "Edit", [:edit, :admin, resource], class: "text-sky-700 hover:underline mr-2" %>
+              <%= button_to "Delete", [:admin, resource], method: :delete, form: { data: { turbo_confirm: "Delete this record?" } }, class: "inline text-red-700 hover:underline" %>
+            </td>
+        <td class="px-3 py-2"><%= resource.name %></td>
+        <td class="px-3 py-2"><%= resource.shortname %></td>
+        <td class="px-3 py-2"><%= resource.active_dir_group %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
+
+<% if true %>
+  <%= render layout: "admin/shared/batch_form", locals: { batch_path: batch_destroy_admin_departments_path } do %>
+    <%= content %>
+  <% end %>
+<% else %>
+  <%= content %>
+<% end %>
+
+<%= render "admin/shared/pagination" %>

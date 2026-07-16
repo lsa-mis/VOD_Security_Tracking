@@ -1,0 +1,34 @@
+<%= render "admin/shared/page_header", title: "IT Security Incidents", csv_path: admin_it_security_incidents_path(format: :csv, scope: @current_scope) %>
+<%= admin_scope_tabs(%i[active archived], @current_scope || :active) %>
+
+<div class="overflow-x-auto rounded border border-slate-200 bg-white">
+  <table class="min-w-full text-sm">
+    <thead class="bg-slate-50 border-b">
+      <tr>
+        <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Actions</th>
+        <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Status</th>
+        <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Incomplete</th>
+        <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Title</th>
+        <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Date of Incident</th>
+        <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">People Involved</th>
+        <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Data Type</th>
+        <th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">Archived at</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @resources.each do |resource| %>
+        <tr class="border-b border-slate-100">
+          <td class="px-3 py-2"><%= link_to "View", admin_it_security_incident_path(resource), class: "text-sky-700 hover:underline" %></td>
+          <td class="px-3 py-2"><%= show_it_security_incident_status(resource) %></td>
+          <td class="px-3 py-2"><%= resource.incomplete %></td>
+          <td class="px-3 py-2"><%= resource.title %></td>
+          <td class="px-3 py-2"><%= resource.date %></td>
+          <td class="px-3 py-2"><%= resource.people_involved %></td>
+          <td class="px-3 py-2"><%= show_data_type_name(resource) %></td>
+          <td class="px-3 py-2"><%= resource.deleted_at %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<%= render "admin/shared/pagination" %>
