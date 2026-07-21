@@ -6,7 +6,7 @@ gem 'rails', '~> 8.1.0'
 
 gem 'audited', '>= 5.7'
 gem 'bcrypt_pbkdf'
-gem 'bootsnap', '>= 1.4.4', require: false
+gem 'bootsnap', '>= 1.24.4', require: false
 gem 'devise', '~> 5.0'
 gem 'devise_ldap_authenticatable'
 gem 'duo_web', '~> 1.0'
@@ -63,6 +63,7 @@ end
 group :test do
   gem "capybara", ">= 3.26"
   gem "selenium-webdriver"
+  gem 'simplecov', require: false
   gem 'webmock', '~> 3.26'
   gem 'vcr', '~> 6.0'
 end

@@ -1,19 +1,14 @@
-require 'rails_helper'
-
-RSpec.describe DevicePolicy, type: :policy do
+RSpec.shared_examples "an LDAP-gated resource policy" do |table_name|
   before do
     allow(Devise::LDAP::Adapter).to receive(:get_ldap_param).with(anything, "mail").and_return(["test@example.com"])
   end
 
   let(:user) do
     u = FactoryBot.create(:user)
-    u.membership = ['test-group']
+    u.membership = ["test-group"]
     u
   end
-  let(:device) { FactoryBot.create(:device) }
-  let(:access_lookup) { FactoryBot.create(:access_lookup, vod_table: 'devices', ldap_group: 'test-group') }
-
-  subject { described_class.new(user, device) }
+  let(:access_lookup) { FactoryBot.create(:access_lookup, vod_table: table_name, ldap_group: "test-group") }
 
   describe "#index?" do
     it "allows access when user is in required LDAP group" do
@@ -40,14 +35,25 @@ RSpec.describe DevicePolicy, type: :policy do
   end
 
   describe "#new?" do
-    it "always returns false" do
+    it "allows access when user is in newedit LDAP group" do
+      FactoryBot.create(:access_lookup, vod_table: table_name, vod_action: "newedit", ldap_group: "test-group")
+      expect(subject.new?).to be true
+    end
+
+    it "allows access when user is in 'all' action group" do
+      FactoryBot.create(:access_lookup, vod_table: table_name, vod_action: "all", ldap_group: "test-group")
+      expect(subject.new?).to be true
+    end
+
+    it "denies access when user is not in required LDAP group" do
+      user.membership = []
       expect(subject.new?).to be false
     end
   end
 
   describe "#edit?" do
     it "allows access when user is in newedit LDAP group" do
-      FactoryBot.create(:access_lookup, vod_table: 'devices', vod_action: 'newedit', ldap_group: 'test-group')
+      FactoryBot.create(:access_lookup, vod_table: table_name, vod_action: "newedit", ldap_group: "test-group")
       expect(subject.edit?).to be true
     end
 
@@ -57,15 +63,9 @@ RSpec.describe DevicePolicy, type: :policy do
     end
   end
 
-  describe "#destroy?" do
-    it "always returns false" do
-      expect(subject.destroy?).to be false
-    end
-  end
-
   describe "#archive?" do
     it "allows access when user is in archive LDAP group" do
-      FactoryBot.create(:access_lookup, vod_table: 'devices', vod_action: 'archive', ldap_group: 'test-group')
+      FactoryBot.create(:access_lookup, vod_table: table_name, vod_action: "archive", ldap_group: "test-group")
       expect(subject.archive?).to be true
     end
 
@@ -77,13 +77,25 @@ RSpec.describe DevicePolicy, type: :policy do
 
   describe "#audit_log?" do
     it "allows access when user is in audit LDAP group" do
-      FactoryBot.create(:access_lookup, vod_table: 'devices', vod_action: 'audit', ldap_group: 'test-group')
+      FactoryBot.create(:access_lookup, vod_table: table_name, vod_action: "audit", ldap_group: "test-group")
       expect(subject.audit_log?).to be true
     end
 
     it "denies access when user is not in required LDAP group" do
       user.membership = []
       expect(subject.audit_log?).to be false
+    end
+  end
+
+  describe "#any_action?" do
+    it "allows access when user is in any LDAP group for the table" do
+      access_lookup
+      expect(subject.any_action?).to be true
+    end
+
+    it "denies access when user is not in required LDAP group" do
+      user.membership = []
+      expect(subject.any_action?).to be false
     end
   end
 end

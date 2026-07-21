@@ -87,7 +87,7 @@ GEM
     bcrypt_pbkdf (1.1.2)
     bigdecimal (4.1.2)
     bindex (0.8.1)
-    bootsnap (1.18.3)
+    bootsnap (1.24.6)
       msgpack (~> 1.2)
     builder (3.3.0)
     capistrano (3.20.0)
@@ -248,7 +248,7 @@ GEM
     mini_mime (1.1.5)
     mini_portile2 (2.8.9)
     minitest (5.27.0)
-    msgpack (1.7.2)
+    msgpack (1.8.3)
     multi_json (1.15.0)
     multi_xml (0.8.0)
       bigdecimal (>= 3.1, < 5)
@@ -420,6 +420,7 @@ GEM
     simple_form (5.3.0)
       actionpack (>= 5.2)
       activemodel (>= 5.2)
+    simplecov (1.0.1)
     solid_cable (4.0.0)
       actioncable (>= 7.2)
       activejob (>= 7.2)
@@ -496,7 +497,7 @@ PLATFORMS
 DEPENDENCIES
   audited (>= 5.7)
   bcrypt_pbkdf
-  bootsnap (>= 1.4.4)
+  bootsnap (>= 1.24.4)
   capistrano (~> 3.20.0)
   capistrano-asdf
   capistrano-rails (~> 1.6, >= 1.6.1)
@@ -533,6 +534,7 @@ DEPENDENCIES
   sentry-rails
   sentry-ruby
   simple_form (~> 5.1)
+  simplecov
   solid_cable
   solid_cache
   solid_queue

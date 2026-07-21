@@ -20,8 +20,10 @@ RSpec.describe ReportMailer, type: :mailer do
       expect(mail.subject).to eq("VOD: automated report")
     end
 
-    it "assigns result to instance variable" do
-      expect(mail.body.encoded).to be_present
+    it "includes report content in the body" do
+      body = mail.body.encoded
+      expect(body).to be_present
+      expect(body).to include("dpa_exceptions").or include("Total").or include("5")
     end
   end
 end

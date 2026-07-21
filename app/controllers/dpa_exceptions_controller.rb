@@ -135,7 +135,7 @@ class DpaExceptionsController < ApplicationController
   def unarchive
     respond_to do |format|
       if @dpa_exception.unarchive
-        format.html { redirect_to admin_dpa_exception_path,
+        format.html { redirect_to admin_dpa_exception_path(@dpa_exception),
                       notice: 'Record was unarchived.'
                     }
       end

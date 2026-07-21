@@ -174,8 +174,8 @@ class LegacyOsRecordsController < ApplicationController
   def unarchive
     respond_to do |format|
       if @legacy_os_record.unarchive
-        format.html { redirect_to admin_legacy_os_record_path, 
-                      notice: 'Record was unarchived.' 
+        format.html { redirect_to admin_legacy_os_record_path(@legacy_os_record),
+                      notice: 'Record was unarchived.'
                     }
       end
     end

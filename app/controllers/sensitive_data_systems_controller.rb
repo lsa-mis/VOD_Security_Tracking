@@ -181,8 +181,8 @@ class SensitiveDataSystemsController < ApplicationController
   def unarchive
     respond_to do |format|
       if @sensitive_data_system.unarchive
-        format.html { redirect_to admin_sensitive_data_system_path, 
-                      notice: 'Record was unarchived.' 
+        format.html { redirect_to admin_sensitive_data_system_path(@sensitive_data_system),
+                      notice: 'Record was unarchived.'
                     }
       end
     end

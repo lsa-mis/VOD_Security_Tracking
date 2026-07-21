@@ -24,6 +24,12 @@ RSpec.describe "Reports", type: :request do
       get reports_path
       expect(response).to have_http_status(:success)
     end
+
+    it "redirects unauthorized user" do
+      set_session(:user_memberships, ['other-group'])
+      get reports_path
+      expect(response).to redirect_to(root_path)
+    end
   end
 
   describe "GET /run_report" do

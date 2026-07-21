@@ -45,6 +45,41 @@ RSpec.describe Notification, type: :model do
     expect(notification.errors[:closedate]).to include("must be after the start date")
   end
 
+  describe "availability overlap validation" do
+    it "rejects notifications whose dates overlap an existing notification" do
+      FactoryBot.create(
+        :notification,
+        opendate: 1.day.from_now,
+        closedate: 10.days.from_now
+      )
+
+      overlapping = FactoryBot.build(
+        :notification,
+        opendate: 5.days.from_now,
+        closedate: 15.days.from_now
+      )
+
+      expect(overlapping).not_to be_valid
+      expect(overlapping.errors[:opendate]).to include("not available")
+    end
+
+    it "allows notifications outside existing date ranges" do
+      FactoryBot.create(
+        :notification,
+        opendate: 1.day.from_now,
+        closedate: 3.days.from_now
+      )
+
+      non_overlapping = FactoryBot.build(
+        :notification,
+        opendate: 5.days.from_now,
+        closedate: 8.days.from_now
+      )
+
+      expect(non_overlapping).to be_valid
+    end
+  end
+
   describe "scopes" do
     describe ".active" do
       it "returns notifications with closedate in the future" do

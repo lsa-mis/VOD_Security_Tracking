@@ -60,6 +60,42 @@ RSpec.describe "Admin access", type: :request do
       expect(response.content_type).to include("text/csv")
     end
 
+    it "creates and updates notifications" do
+      get new_admin_notification_path
+      expect(response).to have_http_status(:ok)
+
+      expect {
+        post admin_notifications_path, params: {
+          notification: {
+            note: "Maintenance window",
+            notetype: "notice",
+            opendate: 2.days.from_now,
+            closedate: 4.days.from_now
+          }
+        }
+      }.to change(Notification, :count).by(1)
+
+      notification = Notification.last
+      patch admin_notification_path(notification), params: {
+        notification: { note: "Updated maintenance window" }
+      }
+      expect(notification.reload.note).to eq("Updated maintenance window")
+    end
+
+    it "creates storage locations and data classification levels" do
+      expect {
+        post admin_storage_locations_path, params: {
+          storage_location: { name: "Local Disk", description: "On device", device_is_required: true }
+        }
+      }.to change(StorageLocation, :count).by(1)
+
+      expect {
+        post admin_data_classification_levels_path, params: {
+          data_classification_level: { name: "Restricted", description: "Highest" }
+        }
+      }.to change(DataClassificationLevel, :count).by(1)
+    end
+
     it "batch destroys access lookups" do
       a = FactoryBot.create(:access_lookup, ldap_group: "g1", vod_table: :devices, vod_action: :show)
       b = FactoryBot.create(:access_lookup, ldap_group: "g2", vod_table: :devices, vod_action: :show)
@@ -87,6 +123,26 @@ RSpec.describe "Admin access", type: :request do
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("DSA Exceptions")
     end
+
+    it "lists legacy OS records and sensitive data systems" do
+      FactoryBot.create(:legacy_os_record)
+      FactoryBot.create(:sensitive_data_system)
+
+      get admin_legacy_os_records_path
+      expect(response).to have_http_status(:ok)
+
+      get admin_sensitive_data_systems_path
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "lists devices and supports incomplete scope" do
+      FactoryBot.create(:device)
+      get admin_devices_path
+      expect(response).to have_http_status(:ok)
+
+      get admin_devices_path(scope: "incomplete")
+      expect(response).to have_http_status(:ok)
+    end
   end
 
   describe "comments" do
@@ -99,6 +155,15 @@ RSpec.describe "Admin access", type: :request do
           comment: { body: "Note", resource_type: "Department", resource_id: department.id, namespace: "admin" }
         }
       }.to change(Comment, :count).by(1)
+    end
+
+    it "does not create a comment without a body" do
+      department = FactoryBot.create(:department)
+      expect {
+        post admin_comments_path, params: {
+          comment: { body: "", resource_type: "Department", resource_id: department.id, namespace: "admin" }
+        }
+      }.not_to change(Comment, :count)
     end
   end
 end

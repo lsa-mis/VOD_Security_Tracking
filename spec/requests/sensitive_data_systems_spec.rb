@@ -26,6 +26,12 @@ RSpec.describe "SensitiveDataSystems", type: :request do
       expect(response).to have_http_status(:success)
     end
 
+    it "redirects unauthorized user" do
+      set_session(:user_memberships, ['other-group'])
+      get sensitive_data_systems_path
+      expect(response).to redirect_to(root_path)
+    end
+
     it "returns CSV format" do
       access_lookup
       FactoryBot.create(:sensitive_data_system)
@@ -45,14 +51,38 @@ RSpec.describe "SensitiveDataSystems", type: :request do
     end
   end
 
+  describe "GET /sensitive_data_systems/new" do
+    it "shows new form for authorized user" do
+      FactoryBot.create(:access_lookup, vod_table: 'sensitive_data_systems', vod_action: 'newedit', ldap_group: 'test-group')
+      get new_sensitive_data_system_path
+      expect(response).to have_http_status(:success)
+    end
+
+    it "redirects unauthorized user" do
+      get new_sensitive_data_system_path
+      expect(response).to redirect_to(root_path)
+    end
+  end
+
   describe "POST /archive_sensitive_data_system/:id" do
     let(:sds) { FactoryBot.create(:sensitive_data_system) }
 
     it "archives the sensitive data system" do
-      access_lookup
+      FactoryBot.create(:access_lookup, vod_table: 'sensitive_data_systems', vod_action: 'archive', ldap_group: 'test-group')
       post archive_sensitive_data_system_path(sds)
       expect(sds.reload.deleted_at).to be_present
       expect(response).to redirect_to(sensitive_data_systems_path)
+    end
+  end
+
+  describe "POST /unarchive_sensitive_data_system/:id" do
+    let(:sds) { FactoryBot.create(:sensitive_data_system, deleted_at: DateTime.current) }
+
+    it "unarchives the sensitive data system" do
+      FactoryBot.create(:access_lookup, vod_table: 'sensitive_data_systems', vod_action: 'archive', ldap_group: 'test-group')
+      post unarchive_sensitive_data_system_path(sds)
+      expect(sds.reload.deleted_at).to be_nil
+      expect(response).to redirect_to(admin_sensitive_data_system_path(sds))
     end
   end
 
@@ -60,7 +90,7 @@ RSpec.describe "SensitiveDataSystems", type: :request do
     let(:sds) { FactoryBot.create(:sensitive_data_system) }
 
     it "shows audit log" do
-      access_lookup
+      FactoryBot.create(:access_lookup, vod_table: 'sensitive_data_systems', vod_action: 'audit', ldap_group: 'test-group')
       get sensitive_data_system_audit_log_path(sds)
       expect(response).to have_http_status(:success)
     end

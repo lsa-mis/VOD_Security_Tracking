@@ -134,6 +134,24 @@ RSpec.describe "DpaExceptions", type: :request do
       expect(dpa_exception.reload.deleted_at).to be_present
       expect(response).to redirect_to(dpa_exceptions_path)
     end
+
+    it "redirects unauthorized users" do
+      set_session(:user_memberships, ['other-group'])
+      post archive_dpa_exception_path(dpa_exception)
+      expect(response).to redirect_to(root_path)
+      expect(dpa_exception.reload.deleted_at).to be_nil
+    end
+  end
+
+  describe "POST /unarchive_dpa_exception/:id" do
+    let(:dpa_exception) { FactoryBot.create(:dpa_exception, deleted_at: DateTime.current) }
+
+    it "unarchives the dpa exception" do
+      FactoryBot.create(:access_lookup, vod_table: 'dpa_exceptions', vod_action: 'archive', ldap_group: 'test-group')
+      post unarchive_dpa_exception_path(dpa_exception)
+      expect(dpa_exception.reload.deleted_at).to be_nil
+      expect(response).to redirect_to(admin_dpa_exception_path(dpa_exception))
+    end
   end
 
   describe "GET /dpa_exceptions/audit_log/:id" do
@@ -143,6 +161,12 @@ RSpec.describe "DpaExceptions", type: :request do
       FactoryBot.create(:access_lookup, vod_table: 'dpa_exceptions', vod_action: 'audit', ldap_group: 'test-group')
       get dpa_exception_audit_log_path(dpa_exception)
       expect(response).to have_http_status(:success)
+    end
+
+    it "redirects unauthorized users" do
+      set_session(:user_memberships, ['other-group'])
+      get dpa_exception_audit_log_path(dpa_exception)
+      expect(response).to redirect_to(root_path)
     end
   end
 end

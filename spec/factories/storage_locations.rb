@@ -15,6 +15,6 @@ FactoryBot.define do
     sequence(:name) { |n| "Storage Location #{n}" }
     description { Faker::Lorem.sentence(word_count: 4) }
     description_link { "" }
-    device_is_required { "false" }
+    device_is_required { false }
   end
 end

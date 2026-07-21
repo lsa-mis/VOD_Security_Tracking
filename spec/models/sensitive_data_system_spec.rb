@@ -112,6 +112,26 @@ RSpec.describe SensitiveDataSystem, type: :model do
       )
       expect(sensitive_data_system.not_completed?).to be(false)
     end
+
+    it "is incomplete when storage location requires a device and none is set" do
+      required_location = FactoryBot.create(:storage_location, device_is_required: true)
+      sds = FactoryBot.create(
+        :sensitive_data_system,
+        storage_location: required_location,
+        device: nil
+      )
+      expect(sds.not_completed?).to be(true)
+    end
+
+    it "is complete when storage location requires a device and one is set" do
+      required_location = FactoryBot.create(:storage_location, device_is_required: true)
+      sds = FactoryBot.create(
+        :sensitive_data_system,
+        storage_location: required_location,
+        device: device
+      )
+      expect(sds.not_completed?).to be(false)
+    end
   end
 
   describe "scopes" do

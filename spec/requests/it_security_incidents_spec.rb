@@ -27,6 +27,12 @@ RSpec.describe "ItSecurityIncidents", type: :request do
       expect(response).to have_http_status(:success)
     end
 
+    it "redirects unauthorized user" do
+      set_session(:user_memberships, ['other-group'])
+      get it_security_incidents_path
+      expect(response).to redirect_to(root_path)
+    end
+
     it "returns CSV format" do
       access_lookup
       FactoryBot.create(:it_security_incident)
@@ -48,9 +54,14 @@ RSpec.describe "ItSecurityIncidents", type: :request do
 
   describe "GET /it_security_incidents/new" do
     it "shows new form for authorized user" do
-      access_lookup
+      FactoryBot.create(:access_lookup, vod_table: 'it_security_incidents', vod_action: 'newedit', ldap_group: 'test-group')
       get new_it_security_incident_path
       expect(response).to have_http_status(:success)
+    end
+
+    it "redirects unauthorized user" do
+      get new_it_security_incident_path
+      expect(response).to redirect_to(root_path)
     end
   end
 
@@ -71,7 +82,7 @@ RSpec.describe "ItSecurityIncidents", type: :request do
     end
 
     it "creates a new incident" do
-      access_lookup
+      FactoryBot.create(:access_lookup, vod_table: 'it_security_incidents', vod_action: 'newedit', ldap_group: 'test-group')
       expect {
         post it_security_incidents_path, params: valid_params
       }.to change(ItSecurityIncident, :count).by(1)
@@ -83,10 +94,21 @@ RSpec.describe "ItSecurityIncidents", type: :request do
     let(:incident) { FactoryBot.create(:it_security_incident) }
 
     it "archives the incident" do
-      access_lookup
+      FactoryBot.create(:access_lookup, vod_table: 'it_security_incidents', vod_action: 'archive', ldap_group: 'test-group')
       post archive_it_security_incident_path(incident)
       expect(incident.reload.deleted_at).to be_present
       expect(response).to redirect_to(it_security_incidents_path)
+    end
+  end
+
+  describe "POST /unarchive_it_security_incident/:id" do
+    let(:incident) { FactoryBot.create(:it_security_incident, deleted_at: DateTime.current) }
+
+    it "unarchives the incident" do
+      FactoryBot.create(:access_lookup, vod_table: 'it_security_incidents', vod_action: 'archive', ldap_group: 'test-group')
+      post unarchive_it_security_incident_path(incident)
+      expect(incident.reload.deleted_at).to be_nil
+      expect(response).to redirect_to(admin_it_security_incident_path(incident))
     end
   end
 
@@ -94,7 +116,7 @@ RSpec.describe "ItSecurityIncidents", type: :request do
     let(:incident) { FactoryBot.create(:it_security_incident) }
 
     it "shows audit log" do
-      access_lookup
+      FactoryBot.create(:access_lookup, vod_table: 'it_security_incidents', vod_action: 'audit', ldap_group: 'test-group')
       get it_security_incident_audit_log_path(incident)
       expect(response).to have_http_status(:success)
     end

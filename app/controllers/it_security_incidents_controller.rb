@@ -119,8 +119,8 @@ class ItSecurityIncidentsController < ApplicationController
   def unarchive
     respond_to do |format|
       if @it_security_incident.unarchive
-        format.html { redirect_to admin_it_security_incident_path, 
-                      notice: 'Record was unarchived.' 
+        format.html { redirect_to admin_it_security_incident_path(@it_security_incident),
+                      notice: 'Record was unarchived.'
                     }
       end
     end

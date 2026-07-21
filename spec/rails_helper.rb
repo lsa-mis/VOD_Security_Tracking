@@ -2,6 +2,23 @@
 require 'spec_helper'
 
 ENV['RAILS_ENV'] ||= 'test'
+ENV['COVERAGE_MINIMUM'] ||= '1'
+
+require 'simplecov'
+SimpleCov.start 'rails' do
+  skip '/spec/'
+  skip '/config/'
+  skip '/vendor/'
+  group 'Models', 'app/models'
+  group 'Controllers', 'app/controllers'
+  group 'Policies', 'app/policies'
+  group 'Helpers', 'app/helpers'
+  group 'Mailers', 'app/mailers'
+  group 'Lib', 'lib'
+  enable_coverage :branch
+  minimum_coverage line: 60 if ENV['COVERAGE_MINIMUM'] == '1'
+end
+
 require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
